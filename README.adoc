@@ -1,0 +1,17 @@
+:sectanchors:
+:toc: macro
+:toclevels: 2
+:toc-title: Table of Content
+:numbered:
+
+= fuse_integration_advanced
+
+toc::[]
+
+== Introduction
+
+This GitHub repository contains the lab instructions and code for the use cases to be implemented by students of the fuse_integration_advanced course. The use cases include:
+
+- Use REST DSL to populate and search articles in Elasticsearch and analyze using Kibana
+- Secure REST services created in scenario 1 using APIMan for different types of authentication
+- Implement, test and deploy a REST client and REST server as microservices
