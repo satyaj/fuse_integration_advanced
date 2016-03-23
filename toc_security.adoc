@@ -1,0 +1,108 @@
+[source,text]
+----
+Version 0.1 : Charles Moulliard (29 Feb 2016) : initial version of the Security Module TOC
+        0.2 : ...
+----
+
+= 1. Security
+
+== Prerequisites
+
+http://www.javaworld.com/article/2073287/soa/secure-web-services.html
+
+== Security approaches
+
+* Secure endpoint
+* Encrypt/decrypt payload
+* Policy based
+* Externalize
+
+== Endpoint securization
+
+* SSL/TLS with Basic Authentication
+
+.References
+* http://www.eaipatterns.com/Messaging.html
+
+== Encrypt payload
+
+* Crypto Dataformat
+
+== Policy based
+
+* CXF Interceptor
+* Camel Policy
+
+== JAAS Delegation
+
+* JBoss Fuse & Karaf implmentation
+* RBAC - Role Base Access List
+* LDAP, JDBC
+* Secure your application
+
+== WS-Security and WS-Trust
+
+1. WS-Security
+2. Extension - STS
+
+.References
+- https://en.wikipedia.org/wiki/SAML_2.0
+- https://en.wikipedia.org/wiki/WS-Trust
+- http://cxf.apache.org/docs/ws-trust.html
+
+== WS-Federation
+
+* Do we need it ?
+
+== SAML2
+
+* Principe
+
+.References
+- https://en.wikipedia.org/wiki/SAML_2.0
+- http://saml.xml.org/differences-between-saml-2-0-and-1-1
+
+== XACML
+
+* Principe
+* Picketlink & Keycloak
+* CXF implementation with OpenAz
+
+.References
+- http://coheigea.blogspot.be/2015/09/authorization-for-web-services-using.html
+
+== Authorization
+
+* Introduction about Authorization principe
+* Specs available
+
+== Oauth2
+
+* Support for non-browser based applications.
+* OAuth 2.0 no longer requires client applications to have cryptography.
+* OAuth 2.0 signatures are much less complicated.
+* OAuth 2.0 Access tokens are "short-lived".
+* OAuth 2.0 is meant to have a clean separation of roles between the server responsible for handling OAuth requests and the server handling user authorization
+
+.References
+- http://stackoverflow.com/questions/4113934/how-is-oauth-2-different-from-oauth-1
+- https://aaronparecki.com/2012/07/29/2/oauth2-simplified
+
+== OpenId Connect
+
+.References
+- http://openid.net/connect/
+
+== JWT
+
+* JSon Web Token
+
+.References
+- https://jwt.io/
+
+== Externalize Security endpoint enforcement
+
+* Apiman & Keycloak
+
+.References
+- http://apiman.io
