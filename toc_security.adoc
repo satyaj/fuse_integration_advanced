@@ -1,7 +1,7 @@
 [source,text]
 ----
 Version 0.1 : Charles Moulliard (29 Feb 2016) : initial version of the Security Module TOC
-        0.2 : ...
+        0.2 : Add tuto link
 ----
 
 = 1. Security
@@ -22,7 +22,9 @@ http://www.javaworld.com/article/2073287/soa/secure-web-services.html
 * SSL/TLS with Basic Authentication
 
 .References
-* http://www.eaipatterns.com/Messaging.html
+- http://www.eaipatterns.com/Messaging.html
+- https://www.javacodegeeks.com/2013/04/understanding-transport-layer-security-secure-socket-layer.html
+- https://computing.ece.vt.edu/~jkh/Understanding_SSL_TLS.pdf
 
 == Encrypt payload
 
@@ -61,6 +63,7 @@ http://www.javaworld.com/article/2073287/soa/secure-web-services.html
 .References
 - https://en.wikipedia.org/wiki/SAML_2.0
 - http://saml.xml.org/differences-between-saml-2-0-and-1-1
+- http://wso2.com/library/articles/2014/02/introduction-to-security-assertion-markup-language-2.0/
 
 == XACML
 
