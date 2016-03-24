@@ -1,0 +1,30 @@
+:noaudio:
+
+ifdef::revealjs_slideshow[] 
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"] 
+== &nbsp;
+
+[#cover-h1] 
+Advanced Enterprise Integration using JBoss Fuse
+
+[#cover-h2] 
+Service Activity Monitoring
+
+[#cover-logo] 
+image::{revealjs_cover_image}[] 
+
+endif::[]
+
+
+
+ifdef::showScript[]
+
+endif::showScript[]
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+:data-uri:
+:scrollbar:
+:noaudio:
+:tocs2:
+
+= Encrypt / Decrypt Lab
+
+*Goal:*
+. Encrypt/Decrypt Camel Exchanges
+
+== Overview
+
+
+== Key Setup
+
+== Encryption
+
+== Decryption
+
+
+ifdef::showScript[]
+
+
+endif::showScript[]
