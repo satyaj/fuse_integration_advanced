@@ -2,6 +2,8 @@
 :scrollbar:
 
 include::title.adoc[]
+include::01_1_Endpoint_Security_Lab.adoc[]
+include::01_2_Encrypt_Decrypt_Lab.adoc[]
 
 ifdef::showScript[]
 
