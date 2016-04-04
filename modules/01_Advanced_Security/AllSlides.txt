@@ -1,10 +1,10 @@
-:data-uri:
-:scrollbar:
+include::m01p01_cover.adoc[]
+include::m01p02_prerequisites.adoc[]
+include::m01p03_topics.adoc[]
+include::m01p04_endpoint-security.adoc[]
+include::m01p05_encrypt_payload.adoc[]
+include::m01p06_policy.adoc[]
+include::m01p07_jaas.adoc[]
+include::m01p08_ws-security.adoc[]
+include::m01p09_ws-federation.adoc[]
 
-include::title.adoc[]
-include::01_1_Endpoint_Security_Lab.adoc[]
-include::01_2_Encrypt_Decrypt_Lab.adoc[]
-
-ifdef::showScript[]
-
-endif::showScript[]

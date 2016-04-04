@@ -1,6 +1,4 @@
-:scrollbar:
 :noaudio:
-:tocs2:
 
 = Enpoint Security Lab
 

@@ -1,0 +1,12 @@
+:noaudio:
+
+== Prerequisites
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Prerequisites
+
+****
+endif::showscript[]

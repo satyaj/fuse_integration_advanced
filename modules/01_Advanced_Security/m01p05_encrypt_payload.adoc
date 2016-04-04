@@ -1,0 +1,12 @@
+:noaudio:
+
+== Encrypt Payload
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Encrypt Payload
+
+****
+endif::showscript[]

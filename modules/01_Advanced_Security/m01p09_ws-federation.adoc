@@ -1,0 +1,12 @@
+:noaudio:
+
+== WS Federation
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Federation
+
+****
+endif::showscript[]

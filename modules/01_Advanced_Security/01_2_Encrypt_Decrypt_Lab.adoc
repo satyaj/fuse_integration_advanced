@@ -1,7 +1,4 @@
-:data-uri:
-:scrollbar:
 :noaudio:
-:tocs2:
 
 = Encrypt / Decrypt Lab
 
@@ -9,7 +6,6 @@
 . Encrypt/Decrypt Camel Exchanges
 
 == Overview
-
 
 == Key Setup
 
