@@ -3,6 +3,7 @@
 == Prerequisites
 
 * http://www.javaworld.com/article/2073287/soa/secure-web-services.html
+* http://concentricsky.com/blog/2012/dec/implementing-ws-security-cxf-wsdl-first-web-service[Cxf & WS Security]
 
 ifdef::showscript[]
 [.notes]
