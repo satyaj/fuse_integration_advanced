@@ -86,7 +86,9 @@ public class WSSecurityTest extends AbstractSecurityTest {
     public void testUsernameToken() throws Exception {
         String actions = WSHandlerConstants.TIMESTAMP + " " + WSHandlerConstants.USERNAME_TOKEN;
 
+        // Server Side
         wsIn.setProperty(WSHandlerConstants.ACTION, actions);
+        // Client Side
         wsOut.setProperty(WSHandlerConstants.ACTION, actions);
 
         assertEquals("test", echo.echo("test"));
@@ -105,10 +107,12 @@ public class WSSecurityTest extends AbstractSecurityTest {
         String BODY_PART = "{}{" + WSSConstants.NS_SOAP11 + "}Body;";
         String TIMESTAMP_PART = "{}{" + WSSConstants.NS_WSU10 + "}Timestamp;";
 
+        // Server Side
         wsIn.setProperty(WSHandlerConstants.ACTION, actions);
         wsIn.setProperty(WSHandlerConstants.SIG_DIGEST_ALGO, WSConstants.SHA256);
         wsIn.setProperty(WSHandlerConstants.SIG_ALGO, WSConstants.RSA_SHA1);
 
+        // Client Side
         wsOut.setProperty(WSHandlerConstants.ACTION, actions);
         wsOut.setProperty(WSHandlerConstants.SIG_DIGEST_ALGO, WSConstants.SHA256);
         wsOut.setProperty(WSHandlerConstants.SIG_ALGO, WSConstants.RSA_SHA1);
