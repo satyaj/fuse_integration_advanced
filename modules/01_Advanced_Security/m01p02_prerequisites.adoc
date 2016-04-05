@@ -2,6 +2,8 @@
 
 == Prerequisites
 
+* http://www.javaworld.com/article/2073287/soa/secure-web-services.html
+
 ifdef::showscript[]
 [.notes]
 ****
