@@ -12,6 +12,7 @@
 
     <properties>
         <version.fabric8>1.2.0.redhat-621084</version.fabric8>
+        <version.cxf>3.0.4.redhat-621084</version.cxf>
     </properties>
 
     <!-- Deps -->
@@ -26,6 +27,18 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${version.cxf}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <!-- Labs -->
     <modules>

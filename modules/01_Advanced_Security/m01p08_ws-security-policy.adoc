@@ -1,0 +1,12 @@
+:noaudio:
+
+== WS Security Policy
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Security Policy
+
+****
+endif::showscript[]
