@@ -27,16 +27,21 @@ import static org.junit.Assert.assertEquals;
 
 public class WSSecurityTest extends AbstractSecurityTest {
 
-    private WSS4JInInterceptor wsIn;
-    private WSS4JOutInterceptor wsOut;
+    protected WSS4JInInterceptor wsIn;
+    protected WSS4JOutInterceptor wsOut;
     private Echo echo;
     private Client client;
+    private JaxWsServerFactoryBean factory;
 
-    @Before public void setUpService() throws Exception {
-        JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+    public void setUpWSEndpoint(String PORT) {
+        factory = new JaxWsServerFactoryBean();
         factory.setServiceBean(new EchoImpl());
-        factory.setAddress("local://Echo");
-        factory.setTransportId(LocalTransportFactory.TRANSPORT_ID);
+        if(PORT!= null) {
+            factory.setAddress("http://localhost:" + PORT + "/Echo");
+        } else {
+            factory.setAddress("local://Echo");
+            factory.setTransportId(LocalTransportFactory.TRANSPORT_ID);
+        }
         Server server = factory.create();
         Service service = server.getEndpoint().getService();
 
@@ -56,8 +61,9 @@ public class WSSecurityTest extends AbstractSecurityTest {
         wsOut.setProperty(WSHandlerConstants.SIG_PROP_FILE, "outsecurity.properties");
         wsOut.setProperty(WSHandlerConstants.ENC_PROP_FILE, "outsecurity.properties");
         service.getOutInterceptors().add(wsOut);
+    }
 
-        // Create the client
+    public void setupClient() {
         JaxWsProxyFactoryBean proxyFac = new JaxWsProxyFactoryBean();
         proxyFac.setServiceClass(Echo.class);
         proxyFac.setAddress("local://Echo");
@@ -72,6 +78,14 @@ public class WSSecurityTest extends AbstractSecurityTest {
         client.getOutInterceptors().add(new LoggingOutInterceptor());
         client.getOutInterceptors().add(wsOut);
         client.getOutInterceptors().add(new SAAJOutInterceptor());
+    }
+
+    @Before public void setUpService() throws Exception {
+        // Create the Web Service endpoint exposing the Echo Service locally without HTTP Transport
+        setUpWSEndpoint(null);
+
+        // Create the client
+        setupClient();
     }
 
     /**
@@ -105,6 +119,7 @@ public class WSSecurityTest extends AbstractSecurityTest {
 
         // Server Side
         wsIn.setProperty(WSHandlerConstants.ACTION, actions);
+
         // Client Side
         wsOut.setProperty(WSHandlerConstants.ACTION, actions);
         wsOut.setProperty(WSHandlerConstants.USER, "cmoulliard");
