@@ -62,7 +62,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
                 service.getPort(portQName, Greeter.class);
 
         String response = greeter.greetMe("Hello");
-        assertEquals(response,"hello");
+        assertEquals(response,"Hello");
 
         ((java.io.Closeable)greeter).close();
         bus.shutdown(true);
