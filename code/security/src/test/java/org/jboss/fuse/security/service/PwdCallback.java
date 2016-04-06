@@ -9,14 +9,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestPwdCallback implements CallbackHandler {
+public class PwdCallback implements CallbackHandler {
 
     private static Map<String, String> passwords = new HashMap<String, String>();
 
     static {
-        passwords.put("myalias", "myAliasPassword");
-        passwords.put("alice", "alicePassword");
-        passwords.put("username", "myAliasPassword");
+        passwords.put("cmoulliard", "drailluomc");
+        passwords.put("integration", "secUr1t8"); // Alias of the certificate created within the keystore integration.jks file
+        passwords.put("alice", "ecilla");
+        passwords.put("jbride", "edirbj");
     }
 
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
@@ -26,6 +27,7 @@ public class TestPwdCallback implements CallbackHandler {
             String pass = passwords.get(pc.getIdentifier());
             if (pass != null) {
                 pc.setPassword(pass);
+                return;
             }
         }
     }

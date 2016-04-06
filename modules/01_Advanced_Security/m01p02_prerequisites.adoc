@@ -8,6 +8,7 @@
 * http://cxf.apache.org/docs/ws-trust.html[WS-Trust & CXF]
 * http://concentricsky.com/blog/2012/dec/implementing-ws-security-cxf-wsdl-first-web-service[Example of CXF & WS Security]
 * http://concentricsky.com/blog/2012/dec/implementing-ws-security-cxf-wsdl-first-web-service[Cxf & WS Security]
+* https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores[Keytool & Keystore]
 
 ifdef::showscript[]
 [.notes]
