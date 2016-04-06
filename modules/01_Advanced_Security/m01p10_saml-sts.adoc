@@ -1,12 +1,12 @@
 :noaudio:
 
-== WS Federation
+== SAML & STS
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== WS Federation
+== SAML & STS
 
 ****
 endif::showscript[]
