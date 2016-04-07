@@ -24,11 +24,12 @@
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.PwdCallBack"/>
-            <entry key="ws-security.must-understand" value="false"/>
+<!--            <entry key="ws-security.must-understand" value="false"/>-->
+            <entry key="ws-security.enable.timestamp.cache" value="true"/>
         </jaxws:properties>
-        <jaxws:inInterceptors>
+<!--        <jaxws:inInterceptors>
             <ref bean="removeMustUnderstandHeader"/>
-        </jaxws:inInterceptors>
+        </jaxws:inInterceptors>-->
     </jaxws:endpoint>
 
     <bean id="removeMustUnderstandHeader" class="org.jboss.fuse.security.RemoveMustUnderstandHeader"/>
