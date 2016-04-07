@@ -73,12 +73,12 @@
                                 <sp:Strict/>
                             </wsp:Policy>
                         </sp:Layout>
+                        <sp:IncludeTimestamp/>
                         <sp:AlgorithmSuite>
                             <wsp:Policy>
                                 <sp:Basic128/>
                             </wsp:Policy>
                         </sp:AlgorithmSuite>
-                        <sp:IncludeTimestamp/>
                     </wsp:Policy>
                 </sp:TransportBinding>
                 <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
