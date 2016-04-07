@@ -2,6 +2,8 @@
 
 == WS Trust
 
+* http://cxf.apache.org/docs/ws-trust.html[Cxf & WS-Trust]
+
 ifdef::showscript[]
 [.notes]
 ****
