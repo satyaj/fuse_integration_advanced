@@ -89,6 +89,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/test/resources/hello_world.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/test/resources/hello_world_sign_encrypt.wsdl</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
