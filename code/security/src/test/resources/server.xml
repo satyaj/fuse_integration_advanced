@@ -19,12 +19,11 @@
     </cxf:bus>
     <jaxws:endpoint xmlns:s="http://jboss.org/HelloWorld" id="server"
                     endpointName="s:GreeterPort"
-                    serviceName="s:HelloService" implementor="org.jboss.fuse.security.service.GreeterImpl"
+                    serviceName="s:GreeterService" implementor="org.jboss.fuse.security.service.GreeterImpl"
                     address="http://localhost:9001/ws/Hello">
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.PwdCallBack"/>
-<!--            <entry key="ws-security.must-understand" value="false"/>-->
             <entry key="ws-security.enable.timestamp.cache" value="true"/>
         </jaxws:properties>
 <!--        <jaxws:inInterceptors>

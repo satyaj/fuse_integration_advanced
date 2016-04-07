@@ -21,7 +21,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
 
     private static final String PORT = allocatePort(Server.class);
     private static final String NAMESPACE = "http://jboss.org/HelloWorld";
-    private static final QName SERVICE_QNAME = new QName(NAMESPACE, "HelloService");
+    private static final QName SERVICE_QNAME = new QName(NAMESPACE, "GreeterService");
 
     protected WSS4JInInterceptor wsIn;
     protected WSS4JOutInterceptor wsOut;
