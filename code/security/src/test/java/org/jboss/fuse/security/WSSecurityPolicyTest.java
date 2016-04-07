@@ -50,21 +50,29 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
      */
     @Test public void testUsernameToken() throws Exception {
         URL busFile = WSSecurityPolicyTest.class.getResource("/client.xml");
-        runandValidate(busFile,"Hello Charles");
+        runandValidate(busFile, "GreeterPort", "Hello Charles");
     }
 
+    /**
+     * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username, wrong password and timestamp to authenticate the JAXWS Client
+     */
     @Test public void testUsernameTokenWrongPassword() throws Exception {
         URL busFile = WSSecurityPolicyTest.class.getResource("/client-wrongpassword.xml");
 
         try {
-            runandValidate(busFile,"Hello Charles");
+            runandValidate(busFile,"GreeterPort","Hello Charles");
             fail("Exception expected");
         } catch(Exception ex) {
             assertEquals("A security error was encountered when verifying the message", ex.getMessage());
         }
     }
 
-    private void runandValidate(URL busFile, String assertString) throws IOException {
+    @Test public void testSignature() throws Exception {
+        URL busFile = WSSecurityPolicyTest.class.getResource("/client-signed.xml");
+        runandValidate(busFile,"GreeterSignedPort","Hello Charles");
+    }
+
+    private void runandValidate(URL busFile, String portName, String assertString) throws IOException {
         SpringBusFactory bf = new SpringBusFactory();
 
         Bus bus = bf.createBus(busFile.toString());
@@ -73,7 +81,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
 
         URL wsdl = WSSecurityPolicyTest.class.getResource("/hello_world.wsdl");
         Service service = Service.create(wsdl, SERVICE_QNAME);
-        QName portQName = new QName(NAMESPACE, "GreeterPort");
+        QName portQName = new QName(NAMESPACE, portName);
         Greeter greeter =
                 service.getPort(portQName, Greeter.class);
 
