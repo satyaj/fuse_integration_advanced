@@ -2,6 +2,10 @@
 
 == WS Security Policy
 
+* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/errata01/ws-securitypolicy-1.3-errata01.html[WS Security Spec]
+* http://docs.oasis-open.org/ws-sx/security-policy/examples/ws-sp-usecases-examples.html[WS Security Policy Examples]
+* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
+
 ifdef::showscript[]
 [.notes]
 ****
