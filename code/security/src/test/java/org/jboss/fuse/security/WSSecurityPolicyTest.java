@@ -45,7 +45,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
 
 
     /**
-     * Create a SOAP Message where the SOAP Header includes a wsse section with a username and timestamp to authenticate the JAXWS Client
+     * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username and timestamp to authenticate the JAXWS Client
      */
     @Test public void testUsernameToken() throws Exception {
         SpringBusFactory bf = new SpringBusFactory();
