@@ -43,7 +43,7 @@
             <wsdl:output message="tns:greetMeResponse" name="greetMeResponse"/>
         </wsdl:operation>
     </wsdl:portType>
-    <wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">
+    <wsdl:binding name="GreeterBinding" type="tns:Greeter">
         <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#GreetMePolicy"/>
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <wsdl:operation name="greetMe">
@@ -61,7 +61,7 @@
         </wsdl:operation>
     </wsdl:binding>
     <wsdl:service name="HelloService">
-        <wsdl:port binding="tns:Greeter_SOAPBinding" name="HelloWorldPort">
+        <wsdl:port binding="tns:GreeterBinding" name="GreeterPort">
             <soap:address location="http://localhost:9001/ws/Hello"/>
         </wsdl:port>
     </wsdl:service>
@@ -123,20 +123,20 @@
     -->
 
 
-        <!--
-        <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-                    wsu:Id="GreetMePartsPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
-            <wsp:ExactlyOne>
-                <wsp:All>
-                    <sp:EncryptedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-                        <sp:Body/>
-                    </sp:EncryptedParts>
-                    <sp:SignedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-                        <sp:Body/>
-                    </sp:SignedParts>
-                </wsp:All>
-            </wsp:ExactlyOne>
-        </wsp:Policy>
-        -->
+    <!--
+    <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                wsu:Id="GreetMePartsPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:EncryptedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                    <sp:Body/>
+                </sp:EncryptedParts>
+                <sp:SignedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                    <sp:Body/>
+                </sp:SignedParts>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    -->
 
-        </wsdl:definitions>
+</wsdl:definitions>

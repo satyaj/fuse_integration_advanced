@@ -57,12 +57,12 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
 
         URL wsdl = WSSecurityPolicyTest.class.getResource("/hello_world.wsdl");
         Service service = Service.create(wsdl, SERVICE_QNAME);
-        QName portQName = new QName(NAMESPACE, "HelloWorldPort");
+        QName portQName = new QName(NAMESPACE, "GreeterPort");
         Greeter greeter =
                 service.getPort(portQName, Greeter.class);
 
-        String response = greeter.greetMe("Hello");
-        assertEquals(response,"Hello");
+        String response = greeter.greetMe("Charles");
+        assertEquals(response,"Hello Charles");
 
         ((java.io.Closeable)greeter).close();
         bus.shutdown(true);

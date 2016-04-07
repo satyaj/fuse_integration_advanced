@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:cxf="http://cxf.apache.org/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://cxf.apache.org/policy" xmlns:sec="http://cxf.apache.org/configuration/security" xmlns:http="http://cxf.apache.org/transports/http/configuration" xmlns:jaxws="http://cxf.apache.org/jaxws" xsi:schemaLocation="            http://cxf.apache.org/core            http://cxf.apache.org/schemas/core.xsd            http://cxf.apache.org/configuration/security            http://cxf.apache.org/schemas/configuration/security.xsd            http://cxf.apache.org/jaxws            http://cxf.apache.org/schemas/jaxws.xsd            http://cxf.apache.org/transports/http/configuration            http://cxf.apache.org/schemas/configuration/http-conf.xsd            http://www.springframework.org/schema/beans            http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://cxf.apache.org/policy"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="            http://cxf.apache.org/core            http://cxf.apache.org/schemas/core.xsd            http://cxf.apache.org/configuration/security            http://cxf.apache.org/schemas/configuration/security.xsd            http://cxf.apache.org/jaxws            http://cxf.apache.org/schemas/jaxws.xsd            http://cxf.apache.org/transports/http/configuration            http://cxf.apache.org/schemas/configuration/http-conf.xsd            http://www.springframework.org/schema/beans            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <cxf:bus>
         <cxf:features>
-            <p:policies/>
             <cxf:logging/>
         </cxf:features>
     </cxf:bus>
-    <jaxws:client name="{http://jboss.org/HelloWorld}HelloWorldPort" createdFromAPI="true">
+    <jaxws:client name="{http://jboss.org/HelloWorld}GreeterPort" createdFromAPI="true">
         <jaxws:properties>
             <entry key="ws-security.username" value="cmoulliard"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
             <entry key="ws-security.must-understand" value="false"/>
         </jaxws:properties>
+<!--        <jaxws:outInterceptors>
+            <ref bean="outbound-security"/>
+        </jaxws:outInterceptors>-->
     </jaxws:client>
-    <http:conduit name="{http://jboss.org/HelloWorld}HelloWorldPort.http-conduit">
+    <http:conduit name="{http://jboss.org/HelloWorld}GreeterPort.http-conduit">
         <http:tlsClientParameters>
             <sec:keyManagers keyPassword="secUr1t8">
                 <sec:keyStore file="src/test/resources/integrationstore.jks" password="secUr1t8" type="JKS"/>
@@ -23,4 +30,18 @@
             </sec:trustManagers>
         </http:tlsClientParameters>
     </http:conduit>
+
+<!--    <bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor" id="outbound-security">
+        <constructor-arg>
+            <map>
+                <entry key="action" value="Timestamp Signature"/>
+                <entry key="mustUnderstand" value="false"/>
+                <entry key="user" value="cmoulliard"/>
+                <entry key="passwordCallbackClass" value="org.jboss.fuse.security.service.PwdCallback"/>
+                <entry key="encryptionPropFile" value="insecurity.properties"/>
+                <entry key="signaturePropFile" value="insecurity.properties"/>
+            </map>
+        </constructor-arg>
+    </bean>-->
+
 </beans>
