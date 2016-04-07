@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import java.io.IOException;
 import java.net.URL;
 
 public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
@@ -48,8 +49,23 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
      * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username and timestamp to authenticate the JAXWS Client
      */
     @Test public void testUsernameToken() throws Exception {
-        SpringBusFactory bf = new SpringBusFactory();
         URL busFile = WSSecurityPolicyTest.class.getResource("/client.xml");
+        runandValidate(busFile,"Hello Charles");
+    }
+
+    @Test public void testUsernameTokenWrongPassword() throws Exception {
+        URL busFile = WSSecurityPolicyTest.class.getResource("/client-wrongpassword.xml");
+
+        try {
+            runandValidate(busFile,"Hello Charles");
+            fail("Exception expected");
+        } catch(Exception ex) {
+            assertEquals("A security error was encountered when verifying the message", ex.getMessage());
+        }
+    }
+
+    private void runandValidate(URL busFile, String assertString) throws IOException {
+        SpringBusFactory bf = new SpringBusFactory();
 
         Bus bus = bf.createBus(busFile.toString());
         SpringBusFactory.setDefaultBus(bus);
@@ -62,10 +78,9 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
                 service.getPort(portQName, Greeter.class);
 
         String response = greeter.greetMe("Charles");
-        assertEquals(response,"Hello Charles");
+        assertEquals(response,assertString);
 
         ((java.io.Closeable)greeter).close();
         bus.shutdown(true);
     }
-
 }
