@@ -60,7 +60,7 @@
             </wsdl:output>
         </wsdl:operation>
     </wsdl:binding>
-    <wsdl:service name="HelloService">
+    <wsdl:service name="GreeterService">
         <wsdl:port binding="tns:GreeterBinding" name="GreeterPort">
             <soap:address location="http://localhost:9001/ws/Hello"/>
         </wsdl:port>
@@ -79,7 +79,7 @@
                         <sp:Basic128/>
                     </wsp:Policy>
                 </sp:AlgorithmSuite>
-               <!-- <sp:IncludeTimestamp/>-->
+               <sp:IncludeTimestamp/>
             </wsp:Policy>
         </sp:TransportBinding>
         <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
