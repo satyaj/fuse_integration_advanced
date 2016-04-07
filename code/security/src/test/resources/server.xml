@@ -3,10 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:http="http://cxf.apache.org/transports/http/configuration"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
        xsi:schemaLocation="
          http://cxf.apache.org/core  http://cxf.apache.org/schemas/core.xsd
          http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+         http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
          http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+         http://cxf.apache.org/transports/http-jetty/configuration http://cxf.apache.org/schemas/configuration/http-jetty.xsd
          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <cxf:bus>
         <cxf:features>
@@ -17,11 +21,24 @@
                     endpointName="s:GreeterPort"
                     serviceName="s:GreeterService" implementor="org.jboss.fuse.security.service.GreeterImpl"
                     wsdlLocation="src/test/resources/hello_world.wsdl"
-                    address="http://localhost:9001/ws/Hello">
+                    address="https://localhost:9001/ws/Hello"
+                    depends-on="ClientAuthHttpsSettings">
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
-            <entry key="ws-security.enable.timestamp.cache" value="true"/>
         </jaxws:properties>
     </jaxws:endpoint>
+    <httpj:engine-factory id="ClientAuthHttpsSettings">
+        <httpj:engine port="9001">
+            <httpj:tlsServerParameters>
+                <sec:keyManagers keyPassword="secUr1t8">
+                    <sec:keyStore file="src/test/resources/integrationstore.jks" password="secUr1t8" type="JKS"/>
+                </sec:keyManagers>
+                <sec:trustManagers>
+                    <sec:keyStore file="src/test/resources/integrationstore.jks" password="secUr1t8" type="JKS"/>
+                </sec:trustManagers>
+                <sec:clientAuthentication want="true" required="true"/>
+            </httpj:tlsServerParameters>
+        </httpj:engine>
+    </httpj:engine-factory>
 </beans>

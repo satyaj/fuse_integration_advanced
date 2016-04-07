@@ -16,9 +16,6 @@
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
             <entry key="ws-security.must-understand" value="false"/>
         </jaxws:properties>
-<!--        <jaxws:outInterceptors>
-            <ref bean="outbound-security"/>
-        </jaxws:outInterceptors>-->
     </jaxws:client>
     <http:conduit name="{http://jboss.org/HelloWorld}GreeterPort.http-conduit">
         <http:tlsClientParameters>
@@ -30,18 +27,5 @@
             </sec:trustManagers>
         </http:tlsClientParameters>
     </http:conduit>
-
-<!--    <bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor" id="outbound-security">
-        <constructor-arg>
-            <map>
-                <entry key="action" value="Timestamp Signature"/>
-                <entry key="mustUnderstand" value="false"/>
-                <entry key="user" value="cmoulliard"/>
-                <entry key="passwordCallbackClass" value="org.jboss.fuse.security.service.PwdCallback"/>
-                <entry key="encryptionPropFile" value="insecurity.properties"/>
-                <entry key="signaturePropFile" value="insecurity.properties"/>
-            </map>
-        </constructor-arg>
-    </bean>-->
 
 </beans>

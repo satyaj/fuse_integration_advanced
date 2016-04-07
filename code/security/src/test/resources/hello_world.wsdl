@@ -59,7 +59,7 @@
         <wsdl:port binding="tns:GreeterBinding" name="GreeterPort">
             <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
                                  URI="#GreetMeAuthenticationPolicy"/>
-            <soap:address location="http://localhost:9001/ws/Hello"/>
+            <soap:address location="https://localhost:9001/ws/Hello"/>
         </wsdl:port>
     </wsdl:service>
     <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
