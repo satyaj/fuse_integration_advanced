@@ -57,37 +57,42 @@
     </wsdl:binding>
     <wsdl:service name="GreeterService">
         <wsdl:port binding="tns:GreeterBinding" name="GreeterPort">
-            <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#GreetMeAuthenticationPolicy"/>
+            <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                                 URI="#GreetMeAuthenticationPolicy"/>
             <soap:address location="http://localhost:9001/ws/Hello"/>
         </wsdl:port>
     </wsdl:service>
     <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
                 wsu:Id="GreetMeAuthenticationPolicy" xmlns:wsp="http://www.w3.org/ns/ws-policy">
-        <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-            <wsp:Policy>
-                <sp:Layout>
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                     <wsp:Policy>
-                        <sp:Strict/>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Strict/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic128/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:IncludeTimestamp/>
                     </wsp:Policy>
-                </sp:Layout>
-                <sp:AlgorithmSuite>
+                </sp:TransportBinding>
+                <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                     <wsp:Policy>
-                        <sp:Basic128/>
+                        <sp:UsernameToken
+                                sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                            <wsp:Policy>
+                                <sp:HashPassword/>
+                            </wsp:Policy>
+                        </sp:UsernameToken>
                     </wsp:Policy>
-                </sp:AlgorithmSuite>
-               <sp:IncludeTimestamp/>
-            </wsp:Policy>
-        </sp:TransportBinding>
-        <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-            <wsp:Policy>
-                <sp:UsernameToken
-                        sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-                    <wsp:Policy>
-                        <sp:HashPassword/>
-                    </wsp:Policy>
-                </sp:UsernameToken>
-            </wsp:Policy>
-        </sp:SupportingTokens>
+                </sp:SupportingTokens>
+            </wsp:All>
+        </wsp:ExactlyOne>
     </wsp:Policy>
 
     <!--
