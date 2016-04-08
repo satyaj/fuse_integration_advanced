@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.wssecuritypolicy;
+package org.jboss.fuse.security.wstrust;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBusFactory;
@@ -9,10 +9,11 @@ import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.jboss.fuse.security.SecurityTestUtil;
 import org.jboss.fuse.security.Server;
-import org.jboss.helloworld.Greeter;
 import org.jboss.fuse.security.service.Echo;
+import org.jboss.helloworld.Greeter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.xml.namespace.QName;
@@ -20,7 +21,7 @@ import javax.xml.ws.Service;
 import java.io.IOException;
 import java.net.URL;
 
-public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
+public class WSSecurityTrustTest extends AbstractBusClientServerTestBase {
 
     private static final String PORT = allocatePort(Server.class);
     private static final String NAMESPACE = "http://jboss.org/HelloWorld";
@@ -50,16 +51,18 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
     /**
      * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username and timestamp to authenticate the JAXWS Client
      */
+    @Ignore
     @Test public void testUsernameToken() throws Exception {
-        URL busFile = WSSecurityPolicyTest.class.getResource("client.xml");
+        URL busFile = WSSecurityTrustTest.class.getResource("client.xml");
         runandValidate(busFile, "GreeterPort", "Hello Charles", "hello_world.wsdl");
     }
 
     /**
      * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username, wrong password and timestamp to authenticate the JAXWS Client
      */
+    @Ignore
     @Test public void testUsernameTokenWrongPassword() throws Exception {
-        URL busFile = WSSecurityPolicyTest.class.getResource("client-wrongpassword.xml");
+        URL busFile = WSSecurityTrustTest.class.getResource("client-wrongpassword.xml");
 
         try {
             runandValidate(busFile,"GreeterPort","Hello Charles","hello_world.wsdl");
@@ -73,8 +76,9 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
      *
      * Sign Algorithm - Basic128Sha256
      */
+    @Ignore
     @Test public void testSignature() throws Exception {
-        URL busFile = WSSecurityPolicyTest.class.getResource("client-signed.xml");
+        URL busFile = WSSecurityTrustTest.class.getResource("client-signed.xml");
         runandValidate(busFile,"GreeterSignedPort","Hello Charles","hello_world.wsdl");
     }
 
@@ -85,7 +89,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
         SpringBusFactory.setDefaultBus(bus);
         SpringBusFactory.setThreadDefaultBus(bus);
 
-        URL wsdl = WSSecurityPolicyTest.class.getResource("/" + wsdlFile);
+        URL wsdl = WSSecurityTrustTest.class.getResource("/" + wsdlFile);
         Service service = Service.create(wsdl, SERVICE_QNAME);
         QName portQName = new QName(NAMESPACE, portName);
         Greeter greeter =

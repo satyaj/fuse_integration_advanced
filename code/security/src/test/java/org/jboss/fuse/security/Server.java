@@ -18,7 +18,7 @@ public class Server extends AbstractBusTestServerBase {
     }
 
     protected void run() {
-        URL busFile = Server.class.getResource("/" + this.configFile);
+        URL busFile = Server.class.getResource(this.configFile);
         Bus busLocal = new SpringBusFactory().createBus(busFile);
         BusFactory.setDefaultBus(busLocal);
         setBus(busLocal);

@@ -37,7 +37,7 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
         assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
-                launchServer(Server.class, null, new String[] { "server-sign-encrypt.xml" }, true));
+                launchServer(Server.class, null, new String[] { "org/jboss/fuse/security/deployment/server-sign-encrypt.xml" }, true));
     }
 
     @AfterClass
@@ -48,7 +48,7 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
 
 
     @Test public void testEncryptionPlusSig() throws Exception {
-        URL busFile = WSSecurityPolicyEncryptTest.class.getResource("/client-signencrypt.xml");
+        URL busFile = WSSecurityPolicyEncryptTest.class.getResource("client-signencrypt.xml");
         runandValidate(busFile,"GreeterSignEncryptPort","Hello Charles", "hello_world_sign_encrypt.wsdl");
     }
 
