@@ -13,6 +13,7 @@
 
     <dependencies>
         <!-- CXF -->
+        <!-- Security & Policy -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
@@ -23,6 +24,13 @@
             <artifactId>cxf-rt-ws-policy</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Security Token Service -->
+        <dependency>
+            <groupId>org.apache.cxf.services.sts</groupId>
+            <artifactId>cxf-services-sts-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Transport -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-local</artifactId>
@@ -32,6 +40,7 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
         </dependency>
+        <!-- Jaxws Client -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -89,7 +98,12 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/test/resources/hello_world.wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
                                     <wsdl>${basedir}/src/test/resources/hello_world_sign_encrypt.wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/test/resources/org/jboss/fuse/security/wstrust/hello_world.wsdl</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
