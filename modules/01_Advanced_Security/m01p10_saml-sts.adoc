@@ -2,6 +2,11 @@
 
 == SAML & STS
 
+* https://developer.jboss.org/wiki/WS-TrustWithJBossWS-CXFOnJBossAS71[SAML & CXF]
+* http://coheigea.blogspot.be/2012/06/simplified-apache-cxf-sts-configuration.html[STS Server simplified]
+* http://www.oasis-open.org/committees/download.php/16768/wss-v1.1-spec-os-SAMLTokenProfile.pdf[SAML Token Profile]
+* http://saml.xml.org/saml-specifications[SAML v2 spec]
+
 ifdef::showscript[]
 [.notes]
 ****

@@ -3,6 +3,8 @@
 == WS Security
 
 * http://cxf.apache.org/docs/ws-security.html[CXF & WS-Security]
+* http://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf[Username Token Profile]
+* http://www.oasis-open.org/committees/download.php/16785/wss-v1.1-spec-os-x509TokenProfile.pdf[X.509 Token Profile]
 
 ifdef::showscript[]
 [.notes]
