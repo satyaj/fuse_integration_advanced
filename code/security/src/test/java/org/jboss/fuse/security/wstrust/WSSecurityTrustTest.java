@@ -38,7 +38,7 @@ public class WSSecurityTrustTest extends AbstractBusClientServerTestBase {
         assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
-                launchServer(Server.class, null, new String[] { "org/jboss/fuse/security/deployment/server.xml" }, true));
+                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/deployment/server.xml" }, true));
     }
 
     @AfterClass
