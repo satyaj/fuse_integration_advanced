@@ -1,4 +1,4 @@
-package org.jboss.fuse.security;
+package org.jboss.fuse.security.wssecurity;
 
 import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
@@ -17,6 +17,7 @@ import org.apache.wss4j.dom.WSConstants;
 import org.apache.wss4j.dom.handler.WSHandlerConstants;
 
 import org.apache.wss4j.stax.ext.WSSConstants;
+import org.jboss.fuse.security.AbstractSecurityTest;
 import org.jboss.fuse.security.service.Echo;
 import org.jboss.fuse.security.service.EchoImpl;
 import org.jboss.fuse.security.service.PwdCallback;
