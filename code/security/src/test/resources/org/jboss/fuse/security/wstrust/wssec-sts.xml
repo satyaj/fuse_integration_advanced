@@ -44,9 +44,9 @@
                     address="http://localhost:8080/SecurityTokenService/UT"
                     wsdlLocation="src/test/resources/org/jboss/fuse/security/wstrust/ws-trust-1.4-service.wsdl"
                     serviceName="ns1:SecurityTokenService"
-                    endpointName="ns1:Transport_Port">
+                    endpointName="ns1:UT_Port">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.STSCallbackHandler"/>
+            <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.wstrust.STSCallbackHandler"/>
             <entry key="ws-security.signature.properties" value="stsKeystore.properties"/>
             <entry key="ws-security.signature.username" value="mystskey"/>
         </jaxws:properties>
