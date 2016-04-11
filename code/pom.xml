@@ -12,6 +12,7 @@
 
     <properties>
         <version.fabric8>1.2.0.redhat-621084</version.fabric8>
+        <version.camel>2.15.1.redhat-621084</version.camel>
         <version.cxf>3.0.4.redhat-621084</version.cxf>
     </properties>
 
@@ -22,6 +23,14 @@
                 <groupId>io.fabric8.bom</groupId>
                 <artifactId>fabric8-bom</artifactId>
                 <version>${version.fabric8}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <!-- Camel -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-parent</artifactId>
+                <version>${version.camel}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
