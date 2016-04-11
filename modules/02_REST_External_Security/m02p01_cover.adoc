@@ -6,10 +6,10 @@ ifdef::revealjs_slideshow[]
 == &nbsp;
 
 [#cover-h1]
-Advanced Enterprise Integration using JBoss Fuse
+Advanced Enterprise Integration
 
 [#cover-h2]
-Advanced Security
+REST Security & external enforcement
 
 [#cover-logo]
 image::{revealjs_cover_image}[]
