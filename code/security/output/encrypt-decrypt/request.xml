@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:cheesesites xmlns:ns1="http://cheese.xmlsecurity.camel.apache.org/">
+    <netherlands>
+        <source>cow</source>
+        <cheese>gouda</cheese>
+    </netherlands>
+    <italy>
+        <source>cow</source>
+        <cheese>gorgonzola</cheese>
+    </italy>
+    <france>
+        <source>goat</source>
+        <cheese>brie</cheese>
+    </france>
+</ns1:cheesesites>

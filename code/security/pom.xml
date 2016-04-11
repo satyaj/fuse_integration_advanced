@@ -18,6 +18,19 @@
             <artifactId>camel-test-spring3</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-xmlsecurity</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- XMLUnit -->
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- CXF -->
         <!-- Security & Policy -->
         <dependency>

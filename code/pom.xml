@@ -14,6 +14,7 @@
         <version.fabric8>1.2.0.redhat-621084</version.fabric8>
         <version.camel>2.15.1.redhat-621084</version.camel>
         <version.cxf>3.0.4.redhat-621084</version.cxf>
+        <version.xmlunit>1.5</version.xmlunit>
     </properties>
 
     <!-- Deps -->
@@ -33,6 +34,13 @@
                 <version>${version.camel}</version>
                 <scope>import</scope>
                 <type>pom</type>
+            </dependency>
+
+            <!-- Dep not declared within the BOM -->
+            <dependency>
+                <groupId>xmlunit</groupId>
+                <artifactId>xmlunit</artifactId>
+                <version>${version.xmlunit}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

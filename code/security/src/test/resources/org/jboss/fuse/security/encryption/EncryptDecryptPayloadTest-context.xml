@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--  key store configuration -->
+    <camel:keyStoreParameters id="keyStoreParams" resource="keys/recipient.ks" password="password"/>
+
+    <!--  trust store configuration -->
+    <camel:keyStoreParameters id="trustStoreParams" resource="keys/sender.ts" password="password"/>
+
+    <bean id="marshallSecuredXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
+        <property name="secureTag" value=""/>
+        <property name="secureTagContents" value="true"/>
+        <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+        <property name="keyCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
+        <property name="recipientKeyAlias" value="recipient"/>
+        <property name="keyOrTrustStoreParametersId" value="trustStoreParams"/>
+        <property name="namespaces">
+            <map>
+                <entry key="cheese" value="http://cheese.xmlsecurity.camel.apache.org/"/>
+            </map>
+        </property>
+
+    </bean>
+
+    <bean id="unmarshallSecuredXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
+        <property name="secureTag" value=""/>
+        <property name="secureTagContents" value="true"/>
+        <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+        <property name="keyCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
+        <property name="recipientKeyAlias" value="recipient"/>
+        <property name="keyOrTrustStoreParametersId" value="keyStoreParams"/>
+        <property name="namespaces">
+            <map>
+                <entry key="cheese" value="http://cheese.xmlsecurity.camel.apache.org/"/>
+            </map>
+        </property>
+    </bean>
+
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <route>
+            <from uri="direct://start"/>
+            <log message="Clear XML Payload : ${body}"/>
+            <marshal ref="marshallSecuredXML"/>
+            <log message="XML Encrypted Payload : ${body}"/>
+            <to uri="mock:encrypted"/>
+            <to uri="direct://encrypted"/>
+        </route>
+        <route>
+            <from uri="direct://encrypted"/>
+            <log message="XML Payload : ${body}"/>
+            <unmarshal ref="unmarshallSecuredXML"/>
+            <to uri="mock://decrypted"/>
+        </route>
+    </camelContext>
+
+</beans>
