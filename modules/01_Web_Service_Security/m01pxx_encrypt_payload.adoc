@@ -2,6 +2,8 @@
 
 == Encrypt Payload
 
+* http://camel.apache.org/xmlsecurity-dataformat.html[Camel XMLSecurity encryption]
+
 ifdef::showscript[]
 [.notes]
 ****
