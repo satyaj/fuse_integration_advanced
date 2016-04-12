@@ -15,7 +15,12 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
     }
 
     @Test
-    public void testPayloadAsymmetricKeyDecryption() throws Exception {
-        testHelper.testDecryption(TestHelper.NS_XML_FRAGMENT, context());
+    public void testPayloadEncrypt() throws Exception {
+        testHelper.testEncryption(TestHelper.XML_REQUEST, context());
+    }
+
+   @Test
+    public void testPayloadDecryption() throws Exception {
+        testHelper.testDecryption(TestHelper.XML_REQUEST, context());
     }
 }

@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:enc="http://encryption.security.fuse.jboss.org">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <enc:processCheese>
+            <arg0>parmezan</arg0>
+        </enc:processCheese>
+    </soapenv:Body>
+</soapenv:Envelope>
