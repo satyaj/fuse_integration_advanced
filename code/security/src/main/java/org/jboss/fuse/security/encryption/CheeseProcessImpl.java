@@ -1,5 +1,7 @@
 package org.jboss.fuse.security.encryption;
 
+import org.apache.camel.Body;
+
 import javax.jws.WebService;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +39,7 @@ public class CheeseProcessImpl implements CheeseProcess {
         c3.setRating("6/10");
 
         Country c4 = new Country();
-        c4.setId("Italy)");
+        c4.setId("Italy");
         c4.setSource("cow");
         c4.setCheese("Parmezan");
         c4.setRating("9/10");
@@ -48,9 +50,9 @@ public class CheeseProcessImpl implements CheeseProcess {
         Set<Country> set4 = new HashSet<Country>();
 
         set1.add(c1);
-        set1.add(c1);
-        set1.add(c1);
-        set1.add(c1);
+        set2.add(c2);
+        set3.add(c3);
+        set4.add(c4);
 
         map.put("s1", set1);
         map.put("s2", set2);
@@ -63,15 +65,21 @@ public class CheeseProcessImpl implements CheeseProcess {
         return found;
     }
 
-    private static Country search(Map<String, Set<Country>> map, String string) {
+    private static Country search(Map<String, Set<Country>> map, String cheese) {
         for(Set<Country> s: map.values()){
             for(Country country:s){
-                if(country.id.equals(string)){
+                if(country.cheese.equalsIgnoreCase(cheese)){
                     return country;
                 }
             }
         }
         return null;
+    }
+
+    public String populateSoapResponse(@Body String msg) {
+        final String PREFIX = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" + "<soap:Body>\n";
+        final String SUFFIX = "\n</soap:Body>\n" + "</soap:Envelope>";
+        return PREFIX + msg + SUFFIX;
     }
 
 }

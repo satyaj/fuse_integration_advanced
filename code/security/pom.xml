@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jaxb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
             <artifactId>camel-test-spring3</artifactId>
             <scope>test</scope>
         </dependency>
@@ -140,6 +144,9 @@
                                     <wsdl>
                                         ${basedir}/src/test/resources/org/jboss/fuse/security/encryption/CheeseProcess.wsdl
                                     </wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${basedir}/src/test/resources/org/jboss/fuse/security/encryption/xjb-binding.xml</bindingFile>
+                                    </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>

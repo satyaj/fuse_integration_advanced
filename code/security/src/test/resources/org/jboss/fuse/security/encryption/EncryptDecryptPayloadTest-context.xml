@@ -16,7 +16,7 @@
     <camel:keyStoreParameters id="trustStoreParams" type="jks"
                               resource="src/test/resources/org/jboss/fuse/security/encryption/sender.ts" password="password"/>
 
-    <bean id="marshallSecuredXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
+    <bean id="marshallPayloadXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
         <property name="secureTag" value=""/>
         <property name="secureTagContents" value="true"/>
         <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
@@ -26,13 +26,30 @@
         <property name="namespaces">
             <map>
                 <entry key="cheese" value="http://cheese.xmlsecurity.camel.apache.org/"/>
+                <entry key="soap" value="http://schemas.xmlsoap.org/soap/envelope/"/>
+            </map>
+        </property>
+
+    </bean>
+
+    <bean id="marshallSecuredXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
+        <property name="secureTag" value="//soapenv:Body"/>
+        <property name="secureTagContents" value="true"/>
+        <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+        <property name="keyCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
+        <property name="recipientKeyAlias" value="recipient"/>
+        <property name="keyOrTrustStoreParametersId" value="trustStoreParams"/>
+        <property name="namespaces">
+            <map>
+                <entry key="cheese" value="http://cheese.xmlsecurity.camel.apache.org/"/>
+                <entry key="soapenv" value="http://schemas.xmlsoap.org/soap/envelope/"/>
             </map>
         </property>
 
     </bean>
 
     <bean id="unmarshallSecuredXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
-        <property name="secureTag" value=""/>
+        <property name="secureTag" value="//soapenv:Body"/>
         <property name="secureTagContents" value="true"/>
         <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
         <property name="keyCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
@@ -41,6 +58,7 @@
         <property name="namespaces">
             <map>
                 <entry key="cheese" value="http://cheese.security.fuse.jboss.org/"/>
+                <entry key="soapenv" value="http://schemas.xmlsoap.org/soap/envelope/"/>
             </map>
         </property>
     </bean>
@@ -58,8 +76,9 @@
         </cxf:properties>
     </cxf:cxfEndpoint>
 
-    <camelContext id="camel-encrypt" xmlns="http://camel.apache.org/schema/spring">
-
+    <camelContext id="camel-encrypt" xmlns="http://camel.apache.org/schema/spring"
+                  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ns4="http://encryption.security.fuse.jboss.org">
         <route>
             <from uri="direct://encrypt"/>
             <marshal ref="marshallSecuredXML"/>
@@ -75,8 +94,24 @@
         <route streamCache="true">
             <from uri="cxf:bean:cheeseServiceBean"/>
             <log loggingLevel="DEBUG" message="XML Payload : ${body}"/>
-            <to uri="direct://encrypt"/>
-            <log message=">> Encrypted : ${body}"/>
+            <setHeader headerName="arg">
+                <xpath logNamespaces="true">/soap:Envelope/soap:Body/ns4:processCheese/arg0/text()</xpath>
+            </setHeader>
+            <log message="Cheese to be processed : ${header.arg}"/>
+            <setBody>
+                <simple>${header.arg}</simple>
+            </setBody>
+            <bean ref="service" method="processCheese"/>
+            <marshal>
+                <jaxb contextPath="org.jboss.fuse.security.encryption"
+                      partClass="org.jboss.fuse.security.encryption.Country"
+                      fragment="true"
+                      prettyPrint="false"/>
+            </marshal>
+            <log message="Response to be encrypted : ${body}"/>
+            <marshal ref="marshallPayloadXML"/>
+            <bean ref="service" method="populateSoapResponse"/>
+            <log message=">> SOAP Response Encrypted : ${body}"/>
         </route>
     </camelContext>
 

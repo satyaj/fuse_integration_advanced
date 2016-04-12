@@ -8,6 +8,8 @@
     <wsdl:types>
         <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
             <xs:import namespace="http://encryption.security.fuse.jboss.org" schemaLocation="cheese.xsd"/>
+            <!--            <xs:import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="https://www.w3.org/TR/2002/REC-xmlenc-core-20021210/xenc-schema.xsd"/>
+                        <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>-->
         </xs:schema>
     </wsdl:types>
 

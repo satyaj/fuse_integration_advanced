@@ -1,27 +1,8 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.jboss.fuse.security.encryption;
 
-import com.sun.webkit.dom.DocumentImpl;
 import org.apache.camel.*;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.converter.jaxp.XmlConverter;
-import org.apache.camel.converter.stream.StreamCacheConverter;
-import org.apache.cxf.helpers.IOUtils;
 import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.encryption.XMLEncryptionException;
 import org.custommonkey.xmlunit.Diff;
@@ -41,8 +22,12 @@ public class TestHelper {
 
     protected static final String XML_REQUEST = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:enc=\"http://encryption.security.fuse.jboss.org\">\n"
-            + "   <soapenv:Header/>\n" + "   <soapenv:Body>\n" + "      <enc:processCheese>\n"
-            + "         <arg0>parmezan</arg0>\n" + "      </enc:processCheese>\n" + "   </soapenv:Body>\n"
+            + "   <soapenv:Header/>\n"
+            + "   <soapenv:Body>\n"
+            + "      <enc:processCheese>\n"
+            + "         <arg0>parmezan</arg0>\n"
+            + "      </enc:processCheese>\n"
+            + "   </soapenv:Body>\n"
             + "</soapenv:Envelope>";
 
     static final boolean HAS_3DES;
@@ -122,6 +107,7 @@ public class TestHelper {
         Exchange exchange = encrypted.getExchanges().get(0);
         Document inDoc = getDocumentForInMessage(exchange);
 
+        // Decrypt the encrypted message
         sendText("direct:decrypt",inDoc,context);
 
         decrypted.assertIsSatisfied(100);
@@ -164,15 +150,6 @@ public class TestHelper {
     }
 
     private Document createDocumentfromInputStream(InputStream is, Exchange exchange) {
-/*        StreamCache streamCache = null;
-        String message = null;
-        try {
-            streamCache = StreamCacheConverter.convertToStreamCache(is,exchange);
-            message = exchange.getContext().getTypeConverter().convertTo(String.class, streamCache);
-            logger.info("MESSAGE : " + message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         return exchange.getContext().getTypeConverter().convertTo(Document.class, is);
     }
 
