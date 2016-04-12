@@ -10,11 +10,11 @@
 
     <!--  key store configuration -->
     <camel:keyStoreParameters id="keyStoreParams" type="jks"
-                              resource="org/jboss/fuse/security/encryption/recipient.ks" password="password"/>
+                              resource="src/test/resources/org/jboss/fuse/security/encryption/recipient.ks" password="password"/>
 
     <!--  trust store configuration -->
     <camel:keyStoreParameters id="trustStoreParams" type="jks"
-                              resource="/Users/chmoulli/RedHat/GPE/GPE-Courses/fuse-integration-advanced/code/security/src/test/resources/org/jboss/fuse/security/encryption/sender.ts" password="password"/>
+                              resource="src/test/resources/org/jboss/fuse/security/encryption/sender.ts" password="password"/>
 
     <bean id="marshallSecuredXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
         <property name="secureTag" value=""/>
