@@ -74,9 +74,7 @@
 
         <route streamCache="true">
             <from uri="cxf:bean:cheeseServiceBean"/>
-            <log message="XML Payload : ${body}"/>
-            <!--<bean ref="utils" method="convertToDom"/>
-            <marshal ref="marshallSecuredXML"/>-->
+            <log loggingLevel="DEBUG" message="XML Payload : ${body}"/>
             <to uri="direct://encrypt"/>
             <log message=">> Encrypted : ${body}"/>
         </route>
