@@ -39,8 +39,6 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
         fact.setServiceClass(CheeseProcess.class);
         fact.setAddress("http://localhost:9001/camel/CheeseService");
 
-        fact.getInInterceptors().add(new )
-
         CheeseProcess cheese = (CheeseProcess) fact.create();
         Client client = ClientProxy.getClient(cheese);
         Country country = cheese.processCheese("parmezan");
