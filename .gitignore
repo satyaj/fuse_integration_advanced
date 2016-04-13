@@ -13,3 +13,5 @@ not4git/
 .classpath
 *.settings/
 *.swp
+
+**/test.xml
