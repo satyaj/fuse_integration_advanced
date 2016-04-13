@@ -4,14 +4,27 @@
 :toc-title: Table of Content
 :numbered:
 
-= fuse_integration_advanced
+= Fuse Integration Advanced Level
 
 toc::[]
 
 == Introduction
 
-This GitHub repository contains the lab instructions and code for the use cases to be implemented by students of the fuse_integration_advanced course. The use cases include:
+This GitHub repository contains the lab instructions and code for the use cases to be implemented by the students during the +Fuse Integration Advanced Level course+ session.
+This page lists the uses cases available and provides for each use case :
 
-- Use REST DSL to populate and search articles in Elasticsearch and analyze using Kibana
-- Secure REST services created in scenario 1 using APIMan for different types of authentication
-- Implement, test and deploy a REST client and REST server as microservices
+- A description of the problem to be resolved,
+- The technologies involved,
+- The time estimated to design the solution and
+- The criteria to be used to evaluate the result provided by the student
+
+At the beginning of each day, a short presentation of the use cases/problems to resolve (= to be developed) will be presented. Next, the students will start to work on their project. They will submit to the teacher the solution to be evaluated.
+A git repository will be created for the purposes of the session with a branch / user. Ideally, the evaluation results should be next discussed/challenged with the Enterprise Integration Practice Leader to determine the next steps.
+
+The use cases have been designed around these topics:
+
+- WS Security
+- WS Security Policy
+- WS Trust
+- Encryption/decryption of a message payload
+
