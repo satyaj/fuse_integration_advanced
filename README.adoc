@@ -23,10 +23,21 @@ A git repository will be created for the purposes of the session with a branch /
 
 The use cases available are grouped by module and they correspond to skills set to be acquired by the student
 
+== Modules
+
 * Web Service Security
 
 ** WS Security
 ** WS Security Policy
 ** WS Trust
 ** Encryption/decryption of a message payload
+
+* REST Security
+
+** HTTPS & TLS
+** Endpoint security with JAAS
+** REST Provider
+** SAML
+** Oauth2
+** API Management & SSO
 
