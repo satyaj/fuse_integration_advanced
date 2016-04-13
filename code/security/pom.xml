@@ -81,6 +81,12 @@
             <artifactId>cxf-testutils</artifactId>
         </dependency>
 
+        <!-- HTTP Client -->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+        </dependency>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
