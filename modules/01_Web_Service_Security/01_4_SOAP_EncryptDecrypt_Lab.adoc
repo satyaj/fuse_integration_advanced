@@ -2,11 +2,9 @@
 
 = Encrypt/Decrypt Lab
 
-*Goal:*
-
-. Secure Apache Camel/CXF endpoints using the following security protocols
-.. xxx
-.. xxx
+.Goals
+* todo
+* todo
 
 == Description
 
