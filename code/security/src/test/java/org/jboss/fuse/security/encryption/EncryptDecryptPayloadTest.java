@@ -43,7 +43,6 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
     }
 
     @Test
-    @Ignore
     public void testXMLPayloadDecryption() throws Exception {
         helper.encryptXMLPayloadAndDecrypt(Helper.XML_REQUEST, context());
     }
