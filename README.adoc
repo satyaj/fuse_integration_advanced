@@ -21,10 +21,12 @@ This page lists the uses cases available and provides for each use case :
 At the beginning of each day, a short presentation of the use cases/problems to resolve (= to be developed) will be presented. Next, the students will start to work on their project. They will submit to the teacher the solution to be evaluated.
 A git repository will be created for the purposes of the session with a branch / user. Ideally, the evaluation results should be next discussed/challenged with the Enterprise Integration Practice Leader to determine the next steps.
 
-The use cases have been designed around these topics:
+The use cases available are grouped by module and they correspond to skills set to be acquired by the student
 
-- WS Security
-- WS Security Policy
-- WS Trust
-- Encryption/decryption of a message payload
+* Web Service Security
+
+** WS Security
+** WS Security Policy
+** WS Trust
+** Encryption/decryption of a message payload
 
