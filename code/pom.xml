@@ -62,9 +62,9 @@
         </pluginManagement>
     </build>
 
-    <!-- Labs -->
     <modules>
-        <module>security</module>
+        <module>security-ws</module>
+        <module>security-rest</module>
     </modules>
 
 </project>
