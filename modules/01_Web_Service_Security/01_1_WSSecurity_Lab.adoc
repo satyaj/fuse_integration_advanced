@@ -1,0 +1,36 @@
+:noaudio:
+
+= Enpoint Security Lab
+
+*Goal:*
+
+. Secure Apache Camel/CXF endpoints using the following security protocols
+.. SAML
+.. OAUTH2
+.. TLS
+
+== Keys and certificates
+
+Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates
+
+[source]
+----
+keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security/src/test/resources/integrationstore.jks
+----
+
+Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
+Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
+
+== Overview
+
+== SAML
+
+== OAUTH2
+
+== TLS
+
+
+ifdef::showScript[]
+
+
+endif::showScript[]
