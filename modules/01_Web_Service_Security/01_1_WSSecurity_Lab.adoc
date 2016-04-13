@@ -1,13 +1,24 @@
 :noaudio:
 
-= Enpoint Security Lab
+= WS Security Lab
 
 *Goal:*
 
 . Secure Apache Camel/CXF endpoints using the following security protocols
-.. SAML
-.. OAUTH2
-.. TLS
+.. xxx
+.. xxx
+
+== Description
+
+== Teacher info
+
+* Time estimated : 1h30 - 2h
+
+* How to evaluate the solution of the student :
+
+** Review the Apache Camel Route created and how it has been designed to split the content and handle the exception (= DLQ pattern)
+
+== Prerequisites
 
 == Keys and certificates
 
@@ -20,15 +31,6 @@ keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass se
 
 Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
 Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
-
-== Overview
-
-== SAML
-
-== OAUTH2
-
-== TLS
-
 
 ifdef::showScript[]
 
