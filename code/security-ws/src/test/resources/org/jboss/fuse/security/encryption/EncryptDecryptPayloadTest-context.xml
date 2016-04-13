@@ -95,15 +95,19 @@
 
         <route streamCache="true">
             <from uri="cxf:bean:cheeseServiceBean"/>
-            <log loggingLevel="DEBUG" message="XML Payload : ${body}"/>
+            <log loggingLevel="DEBUG" message="SOAP XML Payload : ${body}"/>
+            <!-- Define a header containing the result of the Xpath evaluated -->
             <setHeader headerName="arg">
                 <xpath logNamespaces="true">/soap:Envelope/soap:Body/ns4:processCheese/arg0/text()</xpath>
             </setHeader>
             <log loggingLevel="DEBUG" message="Cheese to be processed : ${header.arg}"/>
+            <!-- Use the header arg as Body -->
             <setBody>
                 <simple>${header.arg}</simple>
             </setBody>
+            <!-- Call Service to get the Country containing the cheese selected -->
             <bean ref="service" method="processCheese"/>
+            <!-- Transform the Country object to a XML Stream -->
             <marshal>
                 <jaxb contextPath="org.jboss.fuse.security.encryption"
                       partClass="org.jboss.fuse.security.encryption.Country"
@@ -111,7 +115,9 @@
                       prettyPrint="false"/>
             </marshal>
             <log loggingLevel="DEBUG" message="Response to be encrypted : ${body}"/>
+            <!-- Encrypt the XML content using XML Security Dataformat -->
             <marshal ref="encryptSOAPBody"/>
+            <!-- Wrap the XML encrypted content with the SOAP Envelope -->
             <bean ref="service" method="populateSoapResponse"/>
             <log loggingLevel="DEBUG" message=">> SOAP Response Encrypted : ${body}"/>
         </route>
