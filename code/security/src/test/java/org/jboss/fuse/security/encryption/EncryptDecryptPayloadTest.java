@@ -94,7 +94,9 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             transformer.transform(new DOMSource(n), new StreamResult(writer));
             String xmlBodyEncrypted = writer.toString();
-            LOG.info(">> SOAP BODY ENCRYPTED : " + xmlBodyEncrypted);
+            if(log.isDebugEnabled()) {
+                LOG.debug(">> SOAP BODY ENCRYPTED : " + xmlBodyEncrypted);
+            }
 
             // Verify that the decrypted message matches the response created by the Service
             helper.decryptXMLPayload(xmlBodyEncrypted, context());

@@ -13,21 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class Helper {
 
@@ -187,11 +179,6 @@ public class Helper {
     }
 
 
-/*    public Document convertStringtoDom(String payload) throws Exception {
-        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        return db.parse(new InputSource(new ByteArrayInputStream(payload.getBytes("utf-8"))));
-    }*/
-
     public boolean hasEncryptedData(Document doc) throws Exception {
         NodeList nodeList = doc.getElementsByTagNameNS("http://www.w3.org/2001/04/xmlenc#", "EncryptedData");
         return nodeList.getLength() > 0;
@@ -200,14 +187,10 @@ public class Helper {
     private void logMessage(String info, Exchange exchange, Document inDoc) throws Exception {
         XmlConverter converter = new XmlConverter();
         String xmlStr = converter.toString(inDoc, exchange);
-        log.debug(info + ": " + xmlStr);
+        if(log.isDebugEnabled()) {
+            log.debug(info + ": " + xmlStr);
+        }
     }
-
-/*    private Document getDocumentFromByteArrayStream(Exchange exchange) {
-        ByteArrayInputStream body = (ByteArrayInputStream) exchange.getIn().getBody();
-        Document d = createDocumentfromInputStream(body, exchange);
-        return d;
-    }*/
 
     private Document getDocumentForInMessage(Exchange exchange) {
         byte[] body = exchange.getIn().getBody(byte[].class);
@@ -218,12 +201,4 @@ public class Helper {
     public Document createDocumentfromInputStream(InputStream is, Exchange exchange) {
         return exchange.getContext().getTypeConverter().convertTo(Document.class, is);
     }
-
-/*    public SOAPMessage getSoapMessageFromString(String xml) throws SOAPException, IOException {
-        MessageFactory factory = MessageFactory.newInstance();
-        SOAPMessage message = factory.createMessage(new MimeHeaders(), new ByteArrayInputStream(xml.getBytes(
-                Charset.forName("UTF-8"))));
-        return message;
-    }*/
-
 }

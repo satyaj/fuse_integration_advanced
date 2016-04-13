@@ -47,9 +47,9 @@ public class WSSecurityTest extends AbstractSecurityTest {
         Service service = server.getEndpoint().getService();
 
         service.getInInterceptors().add(new SAAJInInterceptor());
-        service.getInInterceptors().add(new LoggingInInterceptor());
+        //service.getInInterceptors().add(new LoggingInInterceptor());
         service.getOutInterceptors().add(new SAAJOutInterceptor());
-        service.getOutInterceptors().add(new LoggingOutInterceptor());
+        //service.getOutInterceptors().add(new LoggingOutInterceptor());
 
         wsIn = new WSS4JInInterceptor();
         wsIn.setProperty(WSHandlerConstants.SIG_VER_PROP_FILE, "insecurity.properties");
@@ -73,10 +73,10 @@ public class WSSecurityTest extends AbstractSecurityTest {
         echo = (Echo) proxyFac.create();
 
         client = ClientProxy.getClient(echo);
-        client.getInInterceptors().add(new LoggingInInterceptor());
+        //client.getInInterceptors().add(new LoggingInInterceptor());
         client.getInInterceptors().add(wsIn);
         client.getInInterceptors().add(new SAAJInInterceptor());
-        client.getOutInterceptors().add(new LoggingOutInterceptor());
+        //client.getOutInterceptors().add(new LoggingOutInterceptor());
         client.getOutInterceptors().add(wsOut);
         client.getOutInterceptors().add(new SAAJOutInterceptor());
     }

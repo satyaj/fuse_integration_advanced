@@ -70,7 +70,7 @@
                      address="http://localhost:9001/camel/CheeseService"
                      wsdlURL="src/test/resources/org/jboss/fuse/security/encryption/CheeseProcess.wsdl"
                      serviceClass="org.jboss.fuse.security.encryption.CheeseProcess"
-                     loggingFeatureEnabled="true">
+                     loggingFeatureEnabled="false">
         <cxf:properties>
             <entry key="dataFormat" value="MESSAGE"/>
         </cxf:properties>
@@ -89,7 +89,7 @@
         <route>
             <from uri="direct://decrypt"/>
             <unmarshal ref="decryptXML"/>
-            <log message=">>> ${body}"/>
+            <log loggingLevel="DEBUG" message=">>> ${body}"/>
             <to uri="mock:decrypted"/>
         </route>
 
@@ -99,7 +99,7 @@
             <setHeader headerName="arg">
                 <xpath logNamespaces="true">/soap:Envelope/soap:Body/ns4:processCheese/arg0/text()</xpath>
             </setHeader>
-            <log message="Cheese to be processed : ${header.arg}"/>
+            <log loggingLevel="DEBUG" message="Cheese to be processed : ${header.arg}"/>
             <setBody>
                 <simple>${header.arg}</simple>
             </setBody>
@@ -110,10 +110,10 @@
                       fragment="true"
                       prettyPrint="false"/>
             </marshal>
-            <log message="Response to be encrypted : ${body}"/>
+            <log loggingLevel="DEBUG" message="Response to be encrypted : ${body}"/>
             <marshal ref="encryptSOAPBody"/>
             <bean ref="service" method="populateSoapResponse"/>
-            <log message=">> SOAP Response Encrypted : ${body}"/>
+            <log loggingLevel="DEBUG" message=">> SOAP Response Encrypted : ${body}"/>
         </route>
     </camelContext>
 
