@@ -1,3 +1,4 @@
+:noaudio:
 
 == CloudForms 4.0 Enhancements
 
