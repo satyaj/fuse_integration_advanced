@@ -33,7 +33,7 @@
         <value>http://localhost:(\d)*/SoapContext/SoapPort</value>
     </util:list>
     <bean id="utSTSProperties" class="org.apache.cxf.sts.StaticSTSProperties">
-        <property name="signaturePropertiesFile" value="stsKeystore.properties"/>
+        <property name="signaturePropertiesFile" value="org/jboss/fuse/security/wstrust/stsKeystore.properties"/>
         <property name="signatureUsername" value="mystskey"/>
         <property name="callbackHandlerClass" value="org.jboss.fuse.security.wstrust.STSCallbackHandler"/>
         <property name="issuer" value="STSIssuer"/>
@@ -47,7 +47,7 @@
                     endpointName="ns1:UT_Port">
         <jaxws:properties>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.wstrust.STSCallbackHandler"/>
-            <entry key="ws-security.signature.properties" value="stsKeystore.properties"/>
+            <entry key="ws-security.signature.properties" value="org/jboss/fuse/security/wstrust/stsKeystore.properties"/>
             <entry key="ws-security.signature.username" value="mystskey"/>
         </jaxws:properties>
     </jaxws:endpoint>
