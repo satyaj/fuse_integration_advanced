@@ -1,25 +1,48 @@
 :noaudio:
 :sourcedir: ../../code/security-ws/src/test/java
+//:toc: left
 
 = WS Security Lab
 
 .Goals
-* todo
-* todo
+* Verify prerequisites
+* Configure your local environement to develop and resolve use cases
+* Become more experimented about WS-Security, WS-SEcurityPolicy, WS-Trust specifications
+* Encrypt and decrypt SOAP Message using Camel XML Security Data Format
+* Send and receive messages using the CXF Factory Beans class
+* Use the Apache HTTP Client to post SOAP Message
 
-== Description
+:numbered:
 
-== Teacher info
+=== Description
 
-* Time estimated : 1h30 - 2h
+This lab includes the following use cases to be resolved :
+
+<<usecase1>>
+
+<<usecase2>>
+
+<<usecase3>>
+
+<<usecase4>>
+
+=== Prerequisites
+
+* Experience with Java, Spring & Apache Maven
+* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+
+=== Teacher info
+
+* Time estimated : 2d
 
 * How to evaluate the solution of the student :
 
 ** Review the Apache Camel Route created and how it has been designed to split the content and handle the exception (= DLQ pattern)
+** TODO
+** TODO
+** TODO
 
-== Prerequisites
-
-== Install Required Software on Your Machine
+=== Install Required Software on Your Machine
 
 |===
 | Software | Version & URL | Notes |
@@ -31,11 +54,11 @@
 | SoapUI | http://sourceforge.net/projects/soapui/files/[latest] | Optional |
 |===
 
-== Install Lab Assets
+=== Install Lab Assets
 
 Clone the lab from the skeleton branch of the following GitHub repository: https://github.com/redhat-gpe/fuse_integration_advanced.git .
 
-== Configure Your Local Maven Environment
+=== Configure Your Local Maven Environment
 
 All the usecases to be designed involve using Apache Maven modules with dependencies on Apache Maven libraries supported in JBoss Fuse. Red Hat provides both online and offline Maven repositories for JBoss Fuse.
 Follow these steps to configure these online repositories on your machine:
@@ -50,7 +73,7 @@ If this file does not exist under this location, you can also edit the same file
 .. Within the `<activeProfile>` tags in the `settings.xml` is the name of the default profile used when Apache Maven is running.
 
 
-== Keys and certificates
+=== Keys and certificates
 
 Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates
 
@@ -62,9 +85,12 @@ keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass se
 Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
 Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
 
-== Use cases
+=== Resolve the use cases
 
-=== WSSE with Username and Timestamp
+The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
+
+[[usecase1]]
+=== Generate SOAP Header with WSSE : username, timestamp & wrong password
 
 This is a test to add a snippet code
 
@@ -73,7 +99,50 @@ This is a test to add a snippet code
 include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
 ----
 
+[[usecase2]]
+=== Generate SOAP Header with WSSE : username, timestamp & password
 
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+
+[[usecase3]]
+=== Generate a SOAP Message & sign the content
+
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+
+[[usecase4]]
+=== Generate a SOAP Message & sign/encrypt the content
+
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
+This is a use case. This is a use case. This is a use case. This is a use case.
 ifdef::showScript[]
 
 
