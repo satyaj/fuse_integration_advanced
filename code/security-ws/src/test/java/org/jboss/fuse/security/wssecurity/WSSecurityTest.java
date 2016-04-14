@@ -46,11 +46,6 @@ public class WSSecurityTest extends AbstractSecurityTest {
         Server server = factory.create();
         Service service = server.getEndpoint().getService();
 
-        service.getInInterceptors().add(new SAAJInInterceptor());
-        //service.getInInterceptors().add(new LoggingInInterceptor());
-        service.getOutInterceptors().add(new SAAJOutInterceptor());
-        //service.getOutInterceptors().add(new LoggingOutInterceptor());
-
         wsIn = new WSS4JInInterceptor();
         wsIn.setProperty(WSHandlerConstants.SIG_VER_PROP_FILE, "org/jboss/fuse/security/common/insecurity.properties");
         wsIn.setProperty(WSHandlerConstants.DEC_PROP_FILE, "org/jboss/fuse/security/common/insecurity.properties");
@@ -75,10 +70,8 @@ public class WSSecurityTest extends AbstractSecurityTest {
         client = ClientProxy.getClient(echo);
         //client.getInInterceptors().add(new LoggingInInterceptor());
         client.getInInterceptors().add(wsIn);
-        client.getInInterceptors().add(new SAAJInInterceptor());
         //client.getOutInterceptors().add(new LoggingOutInterceptor());
         client.getOutInterceptors().add(wsOut);
-        client.getOutInterceptors().add(new SAAJOutInterceptor());
     }
 
     @Before public void setUpService() throws Exception {
@@ -90,7 +83,7 @@ public class WSSecurityTest extends AbstractSecurityTest {
     }
 
     /**
-     * Create a SOAP Message where the SOAP Header includes a wsse section with a username and timestamp to authenticate the JAXWS Client
+     * Issue a SOAP Message where the SOAP Header managed by the includes a wsse section with a username and timestamp to authenticate the JAXWS Client
      * Use a wrong password
      */
     @Test public void testUsernameTokenWrongPassword() throws Exception {
