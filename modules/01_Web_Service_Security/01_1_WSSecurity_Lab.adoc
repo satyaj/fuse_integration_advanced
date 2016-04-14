@@ -1,4 +1,5 @@
 :noaudio:
+:sourcedir: ../../code/security-ws/src/test/java
 
 = WS Security Lab
 
@@ -32,7 +33,7 @@
 
 == Install Lab Assets
 
-Clone the lab from the skeleton branch of the following GitHub repository: https://github.com/redhat-gpe/fuse_integration_experienced.git .
+Clone the lab from the skeleton branch of the following GitHub repository: https://github.com/redhat-gpe/fuse_integration_advanced.git .
 
 == Configure Your Local Maven Environment
 
@@ -60,6 +61,18 @@ keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass se
 
 Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
 Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
+
+== Use cases
+
+=== WSSE with Username and Timestamp
+
+This is a test to add a snippet code
+
+[source,java]
+----
+include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[]
+----
+
 
 ifdef::showScript[]
 
