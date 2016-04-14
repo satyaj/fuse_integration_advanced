@@ -52,15 +52,15 @@ public class WSSecurityTest extends AbstractSecurityTest {
         //service.getOutInterceptors().add(new LoggingOutInterceptor());
 
         wsIn = new WSS4JInInterceptor();
-        wsIn.setProperty(WSHandlerConstants.SIG_VER_PROP_FILE, "insecurity.properties");
-        wsIn.setProperty(WSHandlerConstants.DEC_PROP_FILE, "insecurity.properties");
+        wsIn.setProperty(WSHandlerConstants.SIG_VER_PROP_FILE, "org/jboss/fuse/security/common/insecurity.properties");
+        wsIn.setProperty(WSHandlerConstants.DEC_PROP_FILE, "org/jboss/fuse/security/common/insecurity.properties");
         wsIn.setProperty(WSHandlerConstants.PW_CALLBACK_CLASS, PwdCallback.class.getName());
 
         service.getInInterceptors().add(wsIn);
 
         wsOut = new WSS4JOutInterceptor();
-        wsOut.setProperty(WSHandlerConstants.SIG_PROP_FILE, "outsecurity.properties");
-        wsOut.setProperty(WSHandlerConstants.ENC_PROP_FILE, "outsecurity.properties");
+        wsOut.setProperty(WSHandlerConstants.SIG_PROP_FILE, "org/jboss/fuse/security/common/outsecurity.properties");
+        wsOut.setProperty(WSHandlerConstants.ENC_PROP_FILE, "org/jboss/fuse/security/common/outsecurity.properties");
         service.getOutInterceptors().add(wsOut);
     }
 

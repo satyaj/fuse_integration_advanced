@@ -13,7 +13,7 @@
     <jaxws:client name="{http://jboss.org/HelloWorld}GreeterSignEncryptPort" createdFromAPI="true">
         <jaxws:properties>
             <entry key="ws-security.username" value="cmoulliard"/>
-            <entry key="ws-security.encryption.properties" value="insecurity.properties"/>
+            <entry key="ws-security.encryption.properties" value="org/jboss/fuse/security/common/insecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
             <entry key="ws-security.must-understand" value="false"/>
         </jaxws:properties>

@@ -20,12 +20,12 @@
     <jaxws:endpoint xmlns:s="http://jboss.org/HelloWorld" id="server"
                     endpointName="s:GreeterPort"
                     serviceName="s:GreeterService" implementor="org.jboss.fuse.security.service.GreeterImpl"
-                    wsdlLocation="src/test/resources/hello_world.wsdl"
+                    wsdlLocation="src/test/resources/org/jboss/fuse/security/common/hello_world.wsdl"
                     address="https://localhost:9001/ws/Hello"
                     depends-on="ClientAuthHttpsSettings">
         <jaxws:properties>
-            <entry key="ws-security.signature.properties" value="outsecurity.properties"/>
-            <entry key="ws-security.encryption.properties" value="outsecurity.properties"/>
+            <entry key="ws-security.signature.properties" value="org/jboss/fuse/security/common/outsecurity.properties"/>
+            <entry key="ws-security.encryption.properties" value="org/jboss/fuse/security/common/outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
         </jaxws:properties>
     </jaxws:endpoint>
