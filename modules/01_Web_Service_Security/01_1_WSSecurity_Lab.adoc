@@ -43,6 +43,7 @@ This lab includes the following use cases to be resolved :
 ** Check if the Junit Tests are passing successfully
 ** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
 ** Review the solutions proposed by the student to resolve the different use cases
+** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
 
 === Install Required Software on Your Machine
 
