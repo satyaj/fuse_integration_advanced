@@ -58,6 +58,11 @@
                     <artifactId>cxf-java2ws-plugin</artifactId>
                     <version>${version.cxf}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-maven-plugin</artifactId>
+                    <version>${version.camel}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
