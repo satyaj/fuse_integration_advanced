@@ -43,7 +43,6 @@ This lab includes the following use cases to be resolved :
 ** Check if the Junit Tests are passing successfully
 ** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
 ** Review the solutions proposed by the student to resolve the different use cases
-**
 
 === Install Required Software on Your Machine
 
@@ -106,7 +105,7 @@ and process this section at the server site. The framework Apache WSS4J must be 
 
 No wsdl file will be used for this project but instead Java classes annotated with the JAX-WS @WebService annotation. The Echo interface and EchoImpl java class implementing the interface have been provided within the project.
 
-For this use case, you will use as parameters to configure the WSS4J class the following parameters :
+For this use case, you will use as parameters to configure the WSS4J class the following properties :
 
 - Actions : UsernameToken and Timestamp
 - User : your user name as defined within the +org.jboss.fuse.security.service.PwdCallback+ class
@@ -134,34 +133,35 @@ to the `WSPasswordCallback` object using the `setPassword` property.
 Use the same Actions as defined for the Usecase 1 in order to generate a header containing the user credential and the timestamp.
 
 [[usecase3]]
-=== Generate a SOAP Message & sign the content
+=== Generate a SOAP Message & sign its content
 
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
+The goal of this use case is to sign the body of the message and its timestamp. The algorithms to be used to digest the signed content is +http://www.w3.org/2001/04/xmlenc#sha256+ while the algorithm to be used to sign the content is +http://www.w3.org/2000/09/xmldsig#rsa-sha1+.
+No UserName token Action is required for this use case but instead the Signature & TimeStamp actions.
 
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
+Please use these parameters to configure the WSS4J class :
+
+- Actions : Timestamp and Signature
+- Parts to be signed : signatureParts
+- Parts : body and timestamp
+- Sign Algorithm : signatureAlgorithm
+- Digest Sign Algorithm : signatureDigestAlgorithm
+
+[WARNING]
+====
+* Take care to configure accordingly the Server and/or client classes and the In/Out interceptors
+* Use the appropriate user to sign the message based on the key associated to its certificate
+====
 
 [[usecase4]]
 === Generate a SOAP Message & sign/encrypt the content
 
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
+For this last use case, you will encrypt and sign the content of the message.
 
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
+Please use these parameters to configure the WSS4J class :
+
+- Actions : Encrypt and Signature
+
+
 ifdef::showScript[]
 
 
