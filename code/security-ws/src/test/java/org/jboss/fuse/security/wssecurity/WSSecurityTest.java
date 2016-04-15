@@ -95,6 +95,7 @@ public class WSSecurityTest extends AbstractSecurityTest {
         // Client Side
         wsOut.setProperty(WSHandlerConstants.ACTION, actions);
         wsOut.setProperty(WSHandlerConstants.USER, "cmoulliard");
+        wsOut.setProperty(WSHandlerConstants.PASSWORD_TYPE, "text");
         wsOut.setProperty("password", "password");
 
         try {
