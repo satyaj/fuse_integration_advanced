@@ -113,8 +113,12 @@ For this use case, you will use as parameters to configure the WSS4J class the f
 - Password : a password which is incorrect
 - Password Type : text
 
-NOTE: You can define such parameter using the setProperty method of the class AbstractWSS4JInterceptor
-
+[NOTE]
+====
+* You can define the WSS4J parameters using the `setProperty` method of the class +AbstractWSS4JInterceptor+
+* The JaxWsServerFactoryBean (server side) and JaxWsProxyFactoryBean (client side) must be configured to use the Crypto configuration files insecurity.properties and outsecurity.properties to sign/decrypt the messages using the parameters +signatureVerificationPropFile+ and +decryptionPropFile+. The properties files should be created within the resources directory +org/jboss/fuse/security/common+
+* Both Crypto config files will use the same keystore file +integrationstore.jks+
+====
 // [source,java]
 // ----
 // include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
@@ -123,17 +127,11 @@ NOTE: You can define such parameter using the setProperty method of the class Ab
 [[usecase2]]
 === Generate SOAP Header with WSSE : username, timestamp & password
 
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
+This usecase extends the previous but instead of sending a wrong password, you will send the correct password assigned to your username within the WSSE Section of the SOAP Header. Please use the `passwordCallbackClass` as WSS4J parameter
+to let the Interceptor to get the password from the `PwdCallback` implementing the `CallbackHandler` interface. Within the handle method, loop within the list of the users till you find the user and assign the password
+to the `WSPasswordCallback` object using the `setPassword` property.
 
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
-This is a use case. This is a use case. This is a use case. This is a use case.
+Use the same Actions as defined for the Usecase 1 in order to generate a header containing the user credential and the timestamp.
 
 [[usecase3]]
 === Generate a SOAP Message & sign the content
