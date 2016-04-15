@@ -26,12 +26,6 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
     private static final String NAMESPACE = "http://jboss.org/HelloWorld";
     private static final QName SERVICE_QNAME = new QName(NAMESPACE, "GreeterService");
 
-    protected WSS4JInInterceptor wsIn;
-    protected WSS4JOutInterceptor wsOut;
-    private Echo echo;
-    private Client client;
-    private JaxWsServerFactoryBean factory;
-
     @BeforeClass
     public static void startServers() throws Exception {
         assertTrue("Server failed to launch",
