@@ -1,5 +1,5 @@
 :noaudio:
-:sourcedir: ../../code/security-ws/src/test/java
+:sourcedir: ../code/security-ws/src/test/java
 //:toc: left
 
 = WS Security Lab
@@ -119,10 +119,10 @@ For this use case, you will use as parameters to configure the WSS4J class the f
 * The JaxWsServerFactoryBean (server side) and JaxWsProxyFactoryBean (client side) must be configured to use the Crypto configuration files insecurity.properties and outsecurity.properties to sign/decrypt the messages using the parameters +signatureVerificationPropFile+ and +decryptionPropFile+. The properties files should be created within the resources directory +org/jboss/fuse/security/common+
 * Both Crypto config files will use the same keystore file +integrationstore.jks+
 ====
-// [source,java]
-// ----
-// include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
-// ----
+[source,java]
+----
+include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
+----
 
 [[usecase2]]
 === Generate SOAP Header with WSSE : username, timestamp & password
