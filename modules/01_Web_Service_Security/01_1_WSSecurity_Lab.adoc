@@ -1,23 +1,10 @@
 :noaudio:
 :sourcedir: ../code/security-ws/src/test/java
-//:toc: left
+:toc2:
 
-= WS Security Lab
+== WS Security Lab
 
-.Goals
-* Verify prerequisites
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about WS-Security, WS-SEcurityPolicy, WS-Trust specifications
-* Encrypt and decrypt SOAP Message using Camel XML Security Data Format
-* Design Web Service project and secure it
-* Send and receive messages using the CXF Factory Beans class
-* Use the Apache HTTP Client to post SOAP Message
-
-:numbered:
-
-=== Description
-
-This lab includes the following use cases to be resolved :
+In this lab you resolve the following use cases:
 
 <<usecase1>>
 
@@ -27,25 +14,22 @@ This lab includes the following use cases to be resolved :
 
 <<usecase4>>
 
-=== Prerequisites
+.Goals
+* Configure your local environment to develop and resolve use cases
+* Become more experimented about WS-Security, WS-SEcurityPolicy, WS-Trust specifications
+* Encrypt and decrypt SOAP Message using Camel XML Security Data Format
+* Design Web Service project and secure it
+* Send and receive messages using the CXF Factory Beans class
+* Use the Apache HTTP Client to post SOAP Message
 
+.Prerequisites
 * Experience with Java, Spring & Apache Maven
 * Expertise with Web Service Technology & SOAP Messages
 * PKI & encryption/decryption background
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
-=== Teacher info
-
-* Time estimated : 2d
-
-* How to evaluate the solution of the student :
-
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
-
-=== Install Required Software on Your Machine
+:numbered:
+=== Install Lab assets
 
 |===
 | Software | Version & URL | Notes |
@@ -88,7 +72,7 @@ keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass se
 Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
 Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
 
-=== Resolve the use cases
+=== Use case exercise
 
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
 
@@ -119,10 +103,11 @@ For this use case, you will use as parameters to configure the WSS4J class the f
 * The JaxWsServerFactoryBean (server side) and JaxWsProxyFactoryBean (client side) must be configured to use the Crypto configuration files insecurity.properties and outsecurity.properties to sign/decrypt the messages using the parameters +signatureVerificationPropFile+ and +decryptionPropFile+. The properties files should be created within the resources directory +org/jboss/fuse/security/common+
 * Both Crypto config files will use the same keystore file +integrationstore.jks+
 ====
-[source,java]
-----
-include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
-----
+
+//[source,java]
+//----
+//include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
+//----
 
 [[usecase2]]
 === Generate SOAP Header with WSSE : username, timestamp & password
@@ -163,7 +148,18 @@ Please use these parameters to configure the WSS4J class :
 - Actions : Encrypt and Signature
 
 
-ifdef::showScript[]
+ifdef::showscript[]
 
+:numbered!:
+== Teacher info
 
-endif::showScript[]
+* Time estimated : 2d
+
+* How to evaluate the solution of the student :
+
+** Check if the Junit Tests are passing successfully
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
+** Review the solutions proposed by the student to resolve the different use cases
+** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+
+endif::showscript[]
