@@ -61,7 +61,7 @@ Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unkno
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Create a WSDL File wit ha Policy to authenticate the user name token
+=== Create a WSDL File with a Web Service Policy to authenticate the user name token
 
 The goal of this use case is to design a Junit Test case to start a CXF Bus Server and to use the CXF JAWS client endpoint in order to issue a SOAP Message using +WS-SecurityPolicy+ as security specification.
 
@@ -169,13 +169,29 @@ Check that the AssertString +Hello Charles+ corresponds to the String returned b
 //----
 
 [[usecase2]]
-=== Generate SOAP Header with WSSE : username, timestamp & password
+=== Issue a SOAP request with a wrong password
 
-This usecase extends the previous but instead of sending a wrong password, you will send the correct password assigned to your username within the WSSE Section of the SOAP Header. Please use the `passwordCallbackClass` as WSS4J parameter
-to let the Interceptor to get the password from the `PwdCallback` implementing the `CallbackHandler` interface. Within the handle method, loop within the list of the users till you find the user and assign the password
-to the `WSPasswordCallback` object using the `setPassword` property.
+This usecase extends the previous but instead it will issue a wrong password. Some modifications are required within your project to design this use case
 
-Use the same Actions as defined for the Usecase 1 in order to generate a header containing the user credential and the timestamp.
+.Spring XML Client File
+* Create a new +client-wrongpassword.xml+ file using what you have created within the previous use case
+* Use as +ws-security.*+ parameter the following +ws-security.password+ in order to send a wrong password associated with the username
+
+.Junit Method
+* Add a new method within the Java class of the test case +testUsernameTokenWrongPassword+
+* Change the URL of the Bus file to point to your +client-password.xml+ file
+* Include a try/catch block section to get the SOAP Fault Message and verify that it fails
+* Add assertEquals to control that you get this error message from the Stack Trace +"A security error was encountered when verifying the message"+
+
+[source,xml]
+----
+try {
+    runandValidate(busFile,"GreeterPort","Hello Charles","org/jboss/fuse/security/common/hello_world.wsdl");
+    fail("Exception expected");
+} catch(Exception ex) {
+    assertEquals();
+}
+----
 
 [[usecase3]]
 === Generate a SOAP Message & sign its content
