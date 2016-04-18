@@ -44,33 +44,6 @@ In this lab you resolve the following use cases:
 Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
 that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
 
-=== Configure Your Local Maven Environment
-
-All the usecases to be designed involve using Apache Maven modules with dependencies on Apache Maven libraries supported in JBoss Fuse. Red Hat provides both online and offline Maven repositories for JBoss Fuse.
-Follow these steps to configure these online repositories on your machine:
-
-. Edit the Apache Maven `settings.xml` file located under the directory `$HOME/.m2` or `~/.m2`.
-+
-[NOTE]
-If this file does not exist under this location, you can also edit the same file which is available under the `conf` subdirectory of the Apache Maven installation directory.
-. Replace the contents of your Maven `$HOME/.m2/settings.xml` with this {settings}.
-. Review the details of your new Fuse enabled `$HOME/.m2/settings.xml`
-.. Within the `<profile>` tags in the `settings.xml` are defined the `JBoss Fuse` repositories that you need to build the code during execution of `mvn compile` or `mvn install` commands.
-.. Within the `<activeProfile>` tags in the `settings.xml` is the name of the default profile used when Apache Maven is running.
-
-
-=== Keys and certificates
-
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates
-
-[source]
-----
-keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security/src/test/resources/integrationstore.jks
-----
-
-Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
-Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
-
 == Use case exercise
 
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
