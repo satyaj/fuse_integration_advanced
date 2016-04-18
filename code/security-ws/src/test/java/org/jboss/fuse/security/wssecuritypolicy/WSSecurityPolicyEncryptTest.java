@@ -2,14 +2,9 @@ package org.jboss.fuse.security.wssecuritypolicy;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBusFactory;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.testutil.common.AbstractBusClientServerTestBase;
-import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
-import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.jboss.fuse.security.SecurityTestUtil;
 import org.jboss.fuse.security.Server;
-import org.jboss.fuse.security.service.Echo;
 import org.jboss.helloworld.Greeter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
