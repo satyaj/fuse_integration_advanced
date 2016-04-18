@@ -2,7 +2,7 @@
 :sourcedir: ../code/security-ws/src/test/java
 :toc2:
 
-= WS Security Lab
+= Web Service Security Lab
 
 In this lab you resolve the following use cases:
 
@@ -16,11 +16,9 @@ In this lab you resolve the following use cases:
 
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented about WS-Security, WS-SEcurityPolicy, WS-Trust specifications
-* Encrypt and decrypt SOAP Message using Camel XML Security Data Format
+* Become more experimented about WS-Security specification
 * Design Web Service project and secure it
 * Send and receive messages using the CXF Factory Beans class
-* Use the Apache HTTP Client to post SOAP Message
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
