@@ -35,9 +35,9 @@ In this lab you resolve the following use cases:
 
 | Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
 | Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[8.1.0.GA] | Required. Account on the jboss.org web site is needed. |
-| Integration Stack | https://devstudio.jboss.com/updates/8.0/integration-stack/[8.0.2] | Required. Account on the jboss.org web site is needed. |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest] | Optional |
+| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
+| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
+| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
 |===
 
 === Install the lab project
