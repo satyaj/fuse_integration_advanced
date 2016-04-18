@@ -61,7 +61,7 @@ Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unkno
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Generate SOAP Header with WSSE : username, timestamp & wrong password
+=== Create a WSDL File wit ha Policy to authenticate the user name token
 
 The goal of this use case is to design a Junit Test case to start a CXF Bus Server and to use the CXF JAWS client endpoint in order to issue a SOAP Message using +WS-SecurityPolicy+ as security specification.
 
@@ -162,11 +162,6 @@ runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security
 * Design this Policy to include the User Name token +<sp:UsernameToken/> + with a hashed password and a TimeStamp +<sp:IncludeTimestamp/>+
 
 Check that the AssertString +Hello Charles+ corresponds to the String returned by the method called +String response = greeter.greetMe("Charles");+
-
-[WARN]
-====
-
-====
 
 //[source,java]
 //----
