@@ -2,7 +2,7 @@
 :sourcedir: ../code/security-ws/src/test/java
 :toc2:
 
-== WS Security Lab
+= WS Security Lab
 
 In this lab you resolve the following use cases:
 
@@ -29,7 +29,7 @@ In this lab you resolve the following use cases:
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
 :numbered:
-=== Install Lab assets
+== Install Lab assets
 
 |===
 | Software | Version & URL | Notes |
@@ -72,7 +72,7 @@ keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass se
 Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
 Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
 
-=== Use case exercise
+== Use case exercise
 
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
 
@@ -151,7 +151,7 @@ Please use these parameters to configure the WSS4J class :
 ifdef::showscript[]
 
 :numbered!:
-== Teacher info
+= Teacher info
 
 * Time estimated : 2d
 
