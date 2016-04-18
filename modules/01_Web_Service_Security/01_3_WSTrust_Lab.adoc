@@ -41,7 +41,8 @@ In this lab you resolve the following use cases:
 
 === Install the lab project
 
-Clone the lab from the skeleton branch of the following GitHub repository: https://github.com/redhat-gpe/fuse_integration_advanced.git .
+Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
+that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
 
 === Configure Your Local Maven Environment
 
