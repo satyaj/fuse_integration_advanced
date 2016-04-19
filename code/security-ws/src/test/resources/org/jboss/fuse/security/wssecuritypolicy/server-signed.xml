@@ -26,7 +26,6 @@
                     depends-on="ClientAuthHttpsSettings">
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="org/jboss/fuse/security/common/outsecurity.properties"/>
-            <entry key="ws-security.encryption.properties" value="org/jboss/fuse/security/common/outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
         </jaxws:properties>
         <jaxws:features>
