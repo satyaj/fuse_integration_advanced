@@ -58,15 +58,6 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
         }
     }
 
-    /**
-     *
-     * Sign Algorithm - Basic128Sha256
-     */
-    @Test public void testSignature() throws Exception {
-        URL busFile = WSSecurityPolicyTest.class.getResource("client-signed.xml");
-        runandValidate(busFile,"GreeterSignedPort","Hello Charles","org/jboss/fuse/security/common/hello_world.wsdl");
-    }
-
     private void runandValidate(URL busFile, String portName, String assertString, String wsdlFile) throws IOException {
         SpringBusFactory bf = new SpringBusFactory();
 
