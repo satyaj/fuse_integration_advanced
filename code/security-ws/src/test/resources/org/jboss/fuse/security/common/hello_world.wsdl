@@ -63,10 +63,8 @@
             <soap:address location="https://localhost:9001/ws/Hello"/>
         </wsdl:port>
 
-        <!-- GreeterService with policy GreetMeAuthenticationPolicy -->
+        <!-- GreeterService used to sign the Message -->
         <wsdl:port binding="tns:GreeterBinding" name="GreeterSignedPort">
-            <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
-                                 URI="#GreetMeSignedPolicy"/>
             <soap:address location="https://localhost:9001/ws/Hello"/>
         </wsdl:port>
     </wsdl:service>
@@ -100,36 +98,6 @@
                 </sp:UsernameToken>
             </wsp:Policy>
         </sp:SupportingTokens>
-    </wsp:Policy>
-
-    <wsp:Policy wsu:Id="GreetMeSignedPolicy"
-                xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-                xmlns:wsp="http://www.w3.org/ns/ws-policy">
-        <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-            <wsp:Policy>
-                <sp:Layout>
-                    <wsp:Policy>
-                        <sp:Strict/>
-                    </wsp:Policy>
-                </sp:Layout>
-                <sp:IncludeTimestamp/>
-                <sp:AlgorithmSuite>
-                    <wsp:Policy>
-                        <sp:Basic128Sha256/>
-                    </wsp:Policy>
-                </sp:AlgorithmSuite>
-            </wsp:Policy>
-        </sp:TransportBinding>
-        <sp:SignedSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-            <wsp:Policy>
-                <sp:UsernameToken
-                        sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-                    <wsp:Policy>
-                        <sp:HashPassword/>
-                    </wsp:Policy>
-                </sp:UsernameToken>
-            </wsp:Policy>
-        </sp:SignedSupportingTokens>
     </wsp:Policy>
 
 </wsdl:definitions>
