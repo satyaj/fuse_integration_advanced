@@ -6,7 +6,8 @@
         <wsp:All>
             <sp:AsymmetricBinding>
                 <wsp:Policy>
-                    <sp:InitiatorToken>
+                    <!-- The specified token populates the [Initiator Signature Token] property and is used for the message signature from initiator to recipient. -->
+                    <sp:InitiatorSignatureToken>
                         <wsp:Policy>
                             <sp:X509Token
                                     sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
@@ -29,8 +30,8 @@
                                 </wsp:Policy>
                             </sp:X509Token>
                         </wsp:Policy>
-                    </sp:InitiatorToken>
-                    <sp:RecipientToken>
+                    </sp:InitiatorSignatureToken>
+                    <sp:RecipientSignatureToken>
                         <wsp:Policy>
                             <sp:X509Token
                                     sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
@@ -42,7 +43,7 @@
                                 </wsp:Policy>
                             </sp:X509Token>
                         </wsp:Policy>
-                    </sp:RecipientToken>
+                    </sp:RecipientSignatureToken>
                     <sp:Layout>
                         <wsp:Policy>
                             <sp:Lax/>
