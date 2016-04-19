@@ -60,6 +60,7 @@
                     <sp:IncludeTimestamp/>
                     <sp:SupportingTokens>
                         <wsp:Policy>
+                            <!-- Include the user name token & a hashed password -->
                             <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                                 <wsp:Policy>
                                     <sp:HashPassword/>
