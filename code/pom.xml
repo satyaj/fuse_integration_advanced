@@ -11,9 +11,17 @@
     <packaging>pom</packaging>
 
     <properties>
+        <!-- Fuse 6.2.1.GA -->
         <version.fabric8>1.2.0.redhat-621084</version.fabric8>
         <version.camel>2.15.1.redhat-621084</version.camel>
         <version.cxf>3.0.4.redhat-621084</version.cxf>
+
+        <!-- Fuse 6.3 Beta
+        <version.fabric8>1.2.0.redhat-630055</version.fabric8>
+        <version.camel>2.17.0.redhat-630055</version.camel>
+        <version.cxf>3.1.5.redhat-630055</version.cxf>
+        -->
+
         <version.xmlunit>1.5</version.xmlunit>
     </properties>
 
