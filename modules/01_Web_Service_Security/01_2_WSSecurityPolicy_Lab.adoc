@@ -196,22 +196,19 @@ try {
 [[usecase3]]
 === Generate a SOAP Message & sign its content
 
-The goal of this use case is to sign the body of the message and its timestamp. The algorithms to be used to digest the signed content is +http://www.w3.org/2001/04/xmlenc#sha256+ while the algorithm to be used to sign the content is +http://www.w3.org/2000/09/xmldsig#rsa-sha1+.
-No UserName token Action is required for this use case but instead the Signature & TimeStamp actions.
+The goal of this use case is to sign the body of the SOAP message using a new Web Security Policy +GreetMeSignedPolicy+ that you will create within the WSDL file. As the WSDL Binding Port of the Service called is different for the client,
+ then you also have to create a new +client-signed.xml+ file
 
-Please use these parameters to configure the WSS4J class :
+.WSDL file
+* Add a new policy +<wsp:Policy wsu:Id="GreetMeSignedPolicy"/>+ within the WSDL file to sign the content using as Signing Algorithm +<sp:Basic128Sha256/>+
 
-- Actions : Timestamp and Signature
-- Parts to be signed : signatureParts
-- Parts : body and timestamp
-- Sign Algorithm : signatureAlgorithm
-- Digest Sign Algorithm : signatureDigestAlgorithm
+.Spring XML Client File
+* Create a new +client-signed.xml+ file
+* Reuse the code created for the first use case and change the WSDL Port of the HTTPConduit & JAXS Beans
 
-[WARNING]
-====
-* Take care to configure accordingly the Server and/or client classes and the In/Out interceptors
-* Use the appropriate user to sign the message based on the key associated to its certificate
-====
+.Junit Method
+
+
 
 [[usecase4]]
 === Generate a SOAP Message & sign/encrypt the content
