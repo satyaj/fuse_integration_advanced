@@ -4,19 +4,15 @@
                 xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
                 xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
                 soap:mustUnderstand="1">
-            <wsu:Timestamp wsu:Id="TS-2e8ff3c0-58e6-4d1a-89e4-de5bb5593989">
-                <wsu:Created>2016-04-19T12:46:28.526Z</wsu:Created>
-                <wsu:Expires>2016-04-19T12:51:28.526Z</wsu:Expires>
-            </wsu:Timestamp>
             <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-                          Id="SIG-21ed3128-8772-4d46-ba8b-fc11ad882a9e">
+                          Id="SIG-0d289cab-b4f1-423e-aba5-07dcedea45c5">
                 <ds:SignedInfo>
                     <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
                         <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"
                                                 PrefixList="soap"/>
                     </ds:CanonicalizationMethod>
                     <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-                    <ds:Reference URI="#TS-2e8ff3c0-58e6-4d1a-89e4-de5bb5593989">
+                    <ds:Reference URI="#TS-f2be8937-96f7-47e1-8300-9b2e05864c3e">
                         <ds:Transforms>
                             <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
                                 <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"
@@ -24,9 +20,9 @@
                             </ds:Transform>
                         </ds:Transforms>
                         <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-                        <ds:DigestValue>4BqiDeW12UVW0CVuRvCtFgLFGrU=</ds:DigestValue>
+                        <ds:DigestValue>gOQV2YgFbnkd631pkKUPgmS9rww=</ds:DigestValue>
                     </ds:Reference>
-                    <ds:Reference URI="#_00ffda7b-6155-469a-892b-ece138ac7e80">
+                    <ds:Reference URI="#_1df34d88-be57-4738-9ab5-55faad19ebd1">
                         <ds:Transforms>
                             <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
                                 <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"
@@ -34,14 +30,14 @@
                             </ds:Transform>
                         </ds:Transforms>
                         <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-                        <ds:DigestValue>dSsoEv3IiuswjbQJQ0BfNiM3H/I=</ds:DigestValue>
+                        <ds:DigestValue>dtVqeWcT0VbFkZrKavteU8zyxus=</ds:DigestValue>
                     </ds:Reference>
                 </ds:SignedInfo>
                 <ds:SignatureValue>
-                    DLh1Cp2uRi/TaRKfjl8DfAjFEnlY+jOP26Tymtxb97B11LvqiO8sj14XKadNtXvrjGB8kkn9glVbiZ+2Lh+kFlCciP45yjtP7reL1x6zyk4Z4DjUc0zD1wTjvCGm5zicg0aMNH0u3e1yhQoScwGCOLDWArtbJDhrYLhtVAgzR4H8Vh9JJrzXiNronkTymDaMEZgaUujkuAA/tG2SLJZV6qK8xLokggQhyUaUD3/nY/8xWTdiKVVJqTbxG5/VnJHqIuTBGwql4TWglMPNOryqjYBXNiIUkU3hWccV0EYRsP5YwKWC6x3OQGFVCdiBUBrgvs+lj3UOX0BsaeItE+e0Lw==
+                    HcHOjyWdOB6uFVVsZn4pXPBTkzFK1ihWMMcFD020B3yb9w2jiCZyEcCED9PifatFokTRLssC98NC7+s9H/lM6I/XdTGz9I1kcXImVQQ+Rgw4qr0Dqsp6Zdplko82fH2TiDNNLAQKfwo107KVvGuXUUC+h6U7pd1q/GQou4VELn/FMPwvwgMsJ8WyFhGMnuuGk+VC4a9ro64YMNlMijVisgqcJlYMMa8tKXSlk0B98ll0ary+rj5T6VOov4JXspUEvYPIa1HSGhTBpl7lG2EJ1gNj8kjLJcGtSqTMINQhuOCdfxvwR8rQh/3hkjC15WNk+uLeKJJBHALvYnBOxanMGQ==
                 </ds:SignatureValue>
-                <ds:KeyInfo Id="KI-23d53644-d2ca-4651-b545-2e8d0c771982">
-                    <wsse:SecurityTokenReference wsu:Id="STR-091c7f31-e22f-49d1-a5a5-134e96ba10c1">
+                <ds:KeyInfo Id="KI-2823083b-5e10-445b-ae28-dc55fa69a5d2">
+                    <wsse:SecurityTokenReference wsu:Id="STR-49a8407c-924e-4ce0-99a6-dff5aa5e65b6">
                         <ds:X509Data>
                             <ds:X509IssuerSerial>
                                 <ds:X509IssuerName>
@@ -53,10 +49,14 @@
                     </wsse:SecurityTokenReference>
                 </ds:KeyInfo>
             </ds:Signature>
+            <wsu:Timestamp wsu:Id="TS-f2be8937-96f7-47e1-8300-9b2e05864c3e">
+                <wsu:Created>2016-04-19T16:33:07.814Z</wsu:Created>
+                <wsu:Expires>2016-04-19T16:38:07.814Z</wsu:Expires>
+            </wsu:Timestamp>
         </wsse:Security>
     </SOAP-ENV:Header>
     <soap:Body xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-               wsu:Id="_00ffda7b-6155-469a-892b-ece138ac7e80">
+               wsu:Id="_1df34d88-be57-4738-9ab5-55faad19ebd1">
         <greetMeResponse xmlns="http://jboss.org/HelloWorld/types">
             <responseType>Hello Charles</responseType>
         </greetMeResponse>

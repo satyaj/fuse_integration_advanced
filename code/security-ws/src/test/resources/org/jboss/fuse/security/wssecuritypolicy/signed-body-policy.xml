@@ -44,9 +44,11 @@
                             </sp:X509Token>
                         </wsp:Policy>
                     </sp:RecipientSignatureToken>
+                    <!-- This element specifies whether to impose any conditions on the order in which security headers are added to the SOAP message. The sp:Lax element specifies that no conditions are imposed on the order of security headers -->
                     <sp:Layout>
                         <wsp:Policy>
-                            <sp:Lax/>
+                            <!-- As Lax except that the last item in the security header MUST be a wsse:Timestamp. -->
+                            <sp:LaxTsLast/>
                         </wsp:Policy>
                     </sp:Layout>
                     <sp:AlgorithmSuite>
@@ -55,9 +57,8 @@
                             <sp:Basic128/>
                         </wsp:Policy>
                     </sp:AlgorithmSuite>
-                    <!-- ISSUE : The timestamp isn't included within the WSSE Header a TimeStamp : https://issues.apache.org/jira/browse/CXF-6873 -->
-                    <!--<sp:IncludeTimestamp/>-->
-                    <sp:SignedSupportingTokens>
+                    <sp:IncludeTimestamp/>
+                    <sp:SupportingTokens>
                         <wsp:Policy>
                             <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                                 <wsp:Policy>
@@ -65,15 +66,13 @@
                                 </wsp:Policy>
                             </sp:UsernameToken>
                         </wsp:Policy>
-                    </sp:SignedSupportingTokens>
+                    </sp:SupportingTokens>
                 </wsp:Policy>
             </sp:AsymmetricBinding>
             <!-- Elements to be signed -->
             <sp:SignedParts>
                 <sp:Body/>
-                <sp:Header
-                        Namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-                        Name="Timestamp"/>
+                <sp:Header Namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" Name="Timestamp"/>
             </sp:SignedParts>
         </wsp:All>
     </wsp:ExactlyOne>
