@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:cxf="http://cxf.apache.org/core"
-       xmlns:p="http://cxf.apache.org/policy"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:http="http://cxf.apache.org/transports/http/configuration"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -29,11 +28,6 @@
             <entry key="ws-security.encryption.properties" value="org/jboss/fuse/security/common/outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
         </jaxws:properties>
-        <jaxws:features>
-            <p:policies>
-                <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" URI="classpath:/org/jboss/fuse/security/wssecuritypolicy/signed-body-policy.xml"/>
-            </p:policies>
-        </jaxws:features>
     </jaxws:endpoint>
     <httpj:engine-factory id="ClientAuthHttpsSettings">
         <httpj:engine port="9001">

@@ -26,7 +26,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
         assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
-                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/common/server.xml" }, true));
+                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/wssecuritypolicy/server.xml" }, true));
     }
 
     @AfterClass
@@ -41,7 +41,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
      */
     @Test public void testUsernameToken() throws Exception {
         URL busFile = WSSecurityPolicyTest.class.getResource("client.xml");
-        runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security/common/hello_world.wsdl");
+        runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
     }
 
     /**
@@ -51,7 +51,7 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
         URL busFile = WSSecurityPolicyTest.class.getResource("client-wrongpassword.xml");
 
         try {
-            runandValidate(busFile,"GreeterPort","Hello Charles","org/jboss/fuse/security/common/hello_world.wsdl");
+            runandValidate(busFile,"GreeterPort","Hello Charles","org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
             fail("Exception expected");
         } catch(Exception ex) {
             assertEquals("A security error was encountered when verifying the message", ex.getMessage());

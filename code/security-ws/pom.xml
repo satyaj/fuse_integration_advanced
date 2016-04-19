@@ -136,7 +136,7 @@
                         <configuration>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/test/resources/org/jboss/fuse/security//common/hello_world.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/test/resources/org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/test/resources/org/jboss/fuse/security/wssecuritypolicy/hello_world_sign_encrypt.wsdl</wsdl>

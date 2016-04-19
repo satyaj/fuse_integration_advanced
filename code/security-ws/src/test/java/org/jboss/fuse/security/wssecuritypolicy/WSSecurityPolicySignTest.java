@@ -41,7 +41,7 @@ public class WSSecurityPolicySignTest extends AbstractBusClientServerTestBase {
      */
     @Test public void testSignature() throws Exception {
         URL busFile = WSSecurityPolicySignTest.class.getResource("client-signed.xml");
-        runandValidate(busFile,"GreeterSignedPort","Hello Charles","org/jboss/fuse/security/common/hello_world.wsdl");
+        runandValidate(busFile,"GreeterSignedPort","Hello Charles","org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
     }
 
     private void runandValidate(URL busFile, String portName, String assertString, String wsdlFile) throws IOException {
