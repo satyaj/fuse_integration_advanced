@@ -54,9 +54,18 @@
                             <!-- Algorithm to be used to sign the message -->
                             <sp:Basic128/>
                         </wsp:Policy>
-                        <!-- Include within the WSSE Header a TimeStamp -->
                     </sp:AlgorithmSuite>
-                    <sp:IncludeTimestamp/>
+                    <sp:SignedSupportingTokens>
+                        <wsp:Policy>
+                            <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                                <wsp:Policy>
+                                    <sp:HashPassword/>
+                                </wsp:Policy>
+                            </sp:UsernameToken>
+                            <!-- ISSUE : The timestamp isn't included within the WSSE Header a TimeStamp : https://issues.apache.org/jira/browse/CXF-6873 -->
+                            <sp:IncludeTimestamp/>
+                        </wsp:Policy>
+                    </sp:SignedSupportingTokens>
                 </wsp:Policy>
             </sp:AsymmetricBinding>
             <!-- Elements to be signed -->
