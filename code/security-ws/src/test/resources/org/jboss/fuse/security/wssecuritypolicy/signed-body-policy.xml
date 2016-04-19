@@ -55,6 +55,8 @@
                             <sp:Basic128/>
                         </wsp:Policy>
                     </sp:AlgorithmSuite>
+                    <!-- ISSUE : The timestamp isn't included within the WSSE Header a TimeStamp : https://issues.apache.org/jira/browse/CXF-6873 -->
+                    <!--<sp:IncludeTimestamp/>-->
                     <sp:SignedSupportingTokens>
                         <wsp:Policy>
                             <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
@@ -62,8 +64,6 @@
                                     <sp:HashPassword/>
                                 </wsp:Policy>
                             </sp:UsernameToken>
-                            <!-- ISSUE : The timestamp isn't included within the WSSE Header a TimeStamp : https://issues.apache.org/jira/browse/CXF-6873 -->
-                            <sp:IncludeTimestamp/>
                         </wsp:Policy>
                     </sp:SignedSupportingTokens>
                 </wsp:Policy>
