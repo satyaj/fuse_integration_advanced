@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SOAPXPathTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EncryptDecryptPayloadTest.class);
 
     Helper helper = new Helper();
 
