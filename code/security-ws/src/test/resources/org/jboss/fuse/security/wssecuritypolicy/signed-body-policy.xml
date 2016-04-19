@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+            xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
+            xmlns:wsp="http://www.w3.org/ns/ws-policy" wsu:Id="RequiredPartsPolicy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <sp:AsymmetricBinding>
+                <wsp:Policy>
+                    <sp:InitiatorToken>
+                        <wsp:Policy>
+                            <sp:X509Token
+                                    sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                                <wsp:Policy>
+                                    <!-- X509 Version 3 token should be used -->
+                                    <sp:WssX509V3Token10/>
+                                    <!-- An issuer serial reference is required when referencing this token and is generated as such :
+                                    <wsse:SecurityTokenReference wsu:Id="STR-0c1b9c80-f6c3-459b-a9ca-868add284ba2">
+                                       <ds:X509Data>
+                                           <ds:X509IssuerSerial>
+                                               <ds:X509IssuerName>
+                                                   CN=localhost,OU=Unknown,O=Unknown,L=Unknown,ST=Unknown,C=Unknown
+                                               </ds:X509IssuerName>
+                                               <ds:X509SerialNumber>863863773</ds:X509SerialNumber>
+                                           </ds:X509IssuerSerial>
+                                       </ds:X509Data>
+                                   </wsse:SecurityTokenReference>
+                                    -->
+                                    <sp:RequireIssuerSerialReference/>
+                                </wsp:Policy>
+                            </sp:X509Token>
+                        </wsp:Policy>
+                    </sp:InitiatorToken>
+                    <sp:RecipientToken>
+                        <wsp:Policy>
+                            <sp:X509Token
+                                    sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+                                <wsp:Policy>
+                                    <!-- X509 Version 3 token should be used -->
+                                    <sp:WssX509V3Token10/>
+                                    <!-- An issuer serial reference is required when referencing this token -->
+                                    <sp:RequireIssuerSerialReference/>
+                                </wsp:Policy>
+                            </sp:X509Token>
+                        </wsp:Policy>
+                    </sp:RecipientToken>
+                    <sp:Layout>
+                        <wsp:Policy>
+                            <sp:Lax/>
+                        </wsp:Policy>
+                    </sp:Layout>
+                    <sp:AlgorithmSuite>
+                        <wsp:Policy>
+                            <!-- Algorithm to be used to sign the message -->
+                            <sp:Basic128/>
+                        </wsp:Policy>
+                        <!-- Include within the WSSE Header a TimeStamp -->
+                    </sp:AlgorithmSuite>
+                    <sp:IncludeTimestamp/>
+                </wsp:Policy>
+            </sp:AsymmetricBinding>
+            <!-- Elements to be signed -->
+            <sp:SignedParts>
+                <sp:Body/>
+                <sp:Header
+                        Namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                        Name="Timestamp"/>
+            </sp:SignedParts>
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>
