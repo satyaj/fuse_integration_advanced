@@ -26,7 +26,7 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
         assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
-                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/common/server-sign-encrypt.xml" }, true));
+                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/wssecuritypolicy/server-sign-encrypt.xml" }, true));
     }
 
     @AfterClass
