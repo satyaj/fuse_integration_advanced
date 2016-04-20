@@ -1,0 +1,19 @@
+:noaudio:
+
+ifdef::revealjs_slideshow[]
+
+[#cover,data-background-image="image/1156524-bg_redhat.png" data-background-color="#cc0000"]
+== &nbsp;
+
+[#cover-h1,width="600px",left="0px",top="200px"]
+Advanced Enterprise Integration
+
+[#cover-h2,width="800px",left="0px",top="450px"]
+Web Service Security
+
+[#block,width="200px",left="70px",top="0px"]
+image::{revealjs_cover_image}[]
+
+endif::[]
+
+

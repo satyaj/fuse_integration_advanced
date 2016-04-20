@@ -1,0 +1,11 @@
+
+
+[source]
+----
+The only examples that I know are available here :
+
+https://github.com/hibernate/hibernate-orm/blob/master/documentation/src/main/asciidoc/userguide/chapters/osgi/OSGi.adoc
+https://github.com/hibernate/hibernate-demos
+
+Remark : The examples have been tested with Karaf 3.x but not (I think so) with Karaf 2.x
+----
