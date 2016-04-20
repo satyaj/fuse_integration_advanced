@@ -1,4 +1,7 @@
+:noaudio:
 
+
+== Prerequisites
 
 [source]
 ----
@@ -9,3 +12,12 @@ https://github.com/hibernate/hibernate-demos
 
 Remark : The examples have been tested with Karaf 3.x but not (I think so) with Karaf 2.x
 ----
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Prerequisites
+
+****
+endif::showscript[]
