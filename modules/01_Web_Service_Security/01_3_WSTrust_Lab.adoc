@@ -2,7 +2,7 @@
 :sourcedir: ../code/security-ws/src/test/java
 :toc2:
 
-= WS Security Lab
+= WS Trust Lab
 
 In this lab you resolve the following use cases:
 
