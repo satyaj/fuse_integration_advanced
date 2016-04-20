@@ -171,17 +171,18 @@ Check that the AssertString +Hello Charles+ corresponds to the String returned b
 [[usecase2]]
 === Issue a SOAP request with a wrong password
 
-This usecase extends the previous but we will issue a SAOP message where the password used for the user is wrong. Some modifications are required within your project to design this use case
+This usecase extends the previous but we will issue a SOAP message where the password used for the user is wrong. Some modifications are required within your project to design this use case.
+Here are the steps to follow :
 
 .Spring XML Client File
-* Create a new +client-wrongpassword.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+ using the file what you have created within the previous use case
-* Use as +ws-security.*+ parameter the following +ws-security.password+ in order to send a wrong password associated with the username
+* Create a new +client-wrongpassword.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+ using the content of the file that you have created within the previous use case
+* Configure the +ws-security.password+ key passed as parameter to the +<jaxws:properties>+ of the JAXWS Bean endpoint with a dummy password
 
 .Junit Method
-* Add a new method within the Java class of the test case +testUsernameTokenWrongPassword+
-* Change the URL of the Bus file to point to your +client-password.xml+ file
-* Include a try/catch block section to get the SOAP Fault Message and verify that it fails
-* Add assertEquals to control that you get this error message from the Stack Trace +"A security error was encountered when verifying the message"+
+* Add a new method +testUsernameTokenWrongPassword+ within the Java +WSSecurityPolicyTest+ Test class
+* Change the URL of the Bus file to point to your +client-password.xml+ config file
+* Include a try/catch block section to get the SOAP Fault Message returned and verify that it fails
+* Add a +assertEquals+ method to control that you get this error message from the Java Stack Trace +"A security error was encountered when verifying the message"+
 
 [source,xml]
 ----
@@ -189,7 +190,7 @@ try {
     runandValidate(busFile,"GreeterPort","Hello Charles","org/jboss/fuse/security/common/hello_world.wsdl");
     fail("Exception expected");
 } catch(Exception ex) {
-    assertEquals();
+    assertEquals(TODO);
 }
 ----
 
