@@ -197,19 +197,35 @@ try {
 [[usecase3]]
 === Generate a SOAP Message & sign its content
 
-The goal of this use case is to sign the body of the SOAP message using a new Web Security Policy +GreetMeSignedPolicy+ that you will create within the WSDL file. As the WSDL Binding Port of the Service called is different for the client,
- then you also have to create a new +client-signed.xml+ file
+The goal of this use case is to sign the body and the TimeStamp of the SOAP message using a new Web Security Policy +GreetMeSignedPolicy+ that you will create as a separate file and not within the wsdl file.
+Like the first use case, the username token must be added to the SOAP Header secured section with a hashed password.
 
-.WSDL file
-* Add a new policy +<wsp:Policy wsu:Id="GreetMeSignedPolicy"/>+ within the WSDL file to sign the content using as Signing Algorithm +<sp:Basic128Sha256/>+
+Here are some indications that we provide you to develop the project
+
+.Spring XML Server file
+* Create a new +server-signed.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
+* Add the key +ws-security.signature.properties+ to the +<jaxws:properties/>+ bean to point to the properties file containing the keystore used to digest/sign the SOAP content
+* Configure the +<jaxws:endpoint/>+ endpoint with a +<jaxws:features>+ bean to pass the location of the +signed-body-policy.xml+ file containing the Policy designed
 
 .Spring XML Client File
-* Create a new +client-signed.xml+ file
-* Reuse the code created for the first use case and change the WSDL Port of the HTTPConduit & JAXS Beans
+* Create a new +client-signed.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
+* Reuse the code created for the first use case and change the WSDL Port of the HTTPConduit & JAXS Bean to use the +GreeterSignedPort+
+* Add the key +ws-security.signature.properties+ to the +<jaxws:properties/>+ bean to point to the properties file containing the keystore used to digest/sign the SOAP content
+* Configure the +<jaxws:endpoint/>+ endpoint with a +<jaxws:features>+ bean to pass the location of the +signed-body-policy.xml+ file containing the Policy designed
 
-.Junit Method
+.Sign Body and TimeStamp Policy
+* Create the +signed-body-policy.xml+ file under the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
+* Develop the policy to sign the Body and the TimeStamp Header
+* Generate the Username Token within the SOAP Header with a hashed password
+* Include a +TimeStamp+ within the SOAP WSSE Header
+* The algorithm to sign the parts of the messahe is +Basic128+
+* Use +AsymmetricBinding+ and the +WssX509V3Token10+ to sign/decrypt the SOAP signed parts for the +InitiatorSignatureToken+ and the +RecipientSignatureToken+
 
-
+.New Test class
+* Add a new Java Test class with the name +WSSecurityPolicySignTest+ and include an annotated method +testSignature+
+* Launch the server using the Spring XML file +org/jboss/fuse/security/wssecuritypolicy/server-signed.xml+
+* Use as Bus URL, the +client-signed.xml+ file to configure the CXF Spring Bus
+* Configure the +runAndValidate+ method to use the +hello_world.wsdl+ file packaged under the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
 
 [[usecase4]]
 === Generate a SOAP Message & sign/encrypt the content
