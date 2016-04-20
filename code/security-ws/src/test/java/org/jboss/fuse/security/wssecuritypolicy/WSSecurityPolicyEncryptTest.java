@@ -39,7 +39,7 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
     @Test
     public void testEncryptionPlusSig() throws Exception {
         URL busFile = WSSecurityPolicyEncryptTest.class.getResource("client-signencrypt.xml");
-        runandValidate(busFile,"GreeterSignEncryptPort","Hello Charles", "org/jboss/fuse/security/wssecuritypolicy/hello_world_sign_encrypt.wsdl");
+        runandValidate(busFile,"GreeterSignEncryptPort","Hello Charles", "org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
     }
 
     private void runandValidate(URL busFile, String portName, String assertString, String wsdlFile) throws IOException {
