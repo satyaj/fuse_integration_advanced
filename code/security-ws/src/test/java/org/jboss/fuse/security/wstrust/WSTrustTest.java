@@ -40,7 +40,7 @@ public class WSTrustTest extends AbstractBusClientServerTestBase {
         stopAllServers();
     }
 
-    @Test public void testSimpleClient() throws Exception {
+    @Test public void testGrretMeClientWithSTS() throws Exception {
 
         SpringBusFactory bf = new SpringBusFactory();
         URL busFile = WSTrustTest.class.getResource("wssec-client.xml");
