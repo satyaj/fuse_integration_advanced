@@ -230,12 +230,21 @@ Here are some indications that we provide you to develop the project
 [[usecase4]]
 === Generate a SOAP Message & sign/encrypt the content
 
-For this last use case, you will encrypt and sign the content of the message.
+For this last use case, you will encrypt and sign the content of the message (header and Body). Like the previous use case, you will create a new Java Test class, new Spring XML config files for the client/server
+and the WS-Security policy file containing the policies according to the following convention
 
-Please use these parameters to configure the WSS4J class :
+Java class : +org/jboss/fuse/security/wssecuritypolicy/WSSecurityPolicyEncryptTest.java+
+Spring Server Beans file : +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/server-sign-encrypt.xml+
+Spring Client Beans file : +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/client-signencrypt.xml.xml+
+WS-Security Policy file : +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/signencrypt-policy.xml+
 
-- Actions : Encrypt and Signature
+Here are some inputs to configure the WS-Security Policy file
 
+.Sign/Encrypt the Body and Headers
+* Develop the policy to sign/encrypt the Body and the Headers
+* Include a +TimeStamp+ within the SOAP WSSE Header
+* The algorithm to sign the parts of the messahe is +Basic128+
+* Use +SymmetricBinding+ and a +ProtectionToken+ with the +X509+ token
 
 ifdef::showscript[]
 
