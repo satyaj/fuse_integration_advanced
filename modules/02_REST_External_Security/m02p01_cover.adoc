@@ -6,7 +6,7 @@ ifdef::revealjs_slideshow[]
 == &nbsp;
 
 [#cover-h1]
-Advanced Enterprise Integration
+Advanced Integration
 
 [#cover-h2]
 REST Security & external enforcement

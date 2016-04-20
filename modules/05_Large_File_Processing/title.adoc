@@ -6,7 +6,7 @@ ifdef::revealjs_slideshow[]
 == &nbsp;
 
 [#cover-h1] 
-Advanced Enterprise Integration using JBoss Fuse
+Advanced Integration using JBoss Fuse
 
 [#cover-h2] 
 Large File Processing
