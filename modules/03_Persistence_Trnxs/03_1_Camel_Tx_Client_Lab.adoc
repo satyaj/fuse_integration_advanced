@@ -1,0 +1,20 @@
+:data-uri:
+:scrollbar:
+:noaudio:
+:tocs2:
+
+= Encrypt / Decrypt Lab
+
+*Goal:*
+
+
+== Overview
+
+
+== Procedure
+
+
+ifdef::showScript[]
+
+
+endif::showScript[]

@@ -90,11 +90,11 @@ public static void startServers() throws Exception {
 Similarly, the client issuing the SOAP request and waiting for the SOAP response from the Web Service will be created using a SpringBusFactory class of the Apache CXF Framework. This class and the CXF Bus to be created
 contains a method +setDefault(Bus bus)+ that you will use to configure the Bus with its Spring Beans XML config file. Like the Server, you must define the XML file with the appropriate CXF beans.
 
-To setup the project, you must create the Spring Beans XML file for the server and the client as such
+To setup the project, you must create the Spring Beans XML file for the server and the client within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+ as such
 
 .Server
 * Add the <cxf:bus> containing the <cxf:features> and the logging Feature
-* Setup the <jaxws:endpoint/> bean to use the the WSDL location file +src/test/resources/org/jboss/fuse/security/common/hello_world.wsdl+
+* Setup the <jaxws:endpoint/> bean to use the the WSDL location file +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl+
 * Use the +org.jboss.fuse.security.service.GreeterImpl+ service
 * Expose the service at this address +https://localhost:9001/ws/Hello+
 * Configure the <httpj:engine-factory/> and its <httpj:engine port="9001"> bean to setup the TLS layer with the +src/test/resources/integrationstore.jks+ keystore file
@@ -171,10 +171,10 @@ Check that the AssertString +Hello Charles+ corresponds to the String returned b
 [[usecase2]]
 === Issue a SOAP request with a wrong password
 
-This usecase extends the previous but instead it will issue a wrong password. Some modifications are required within your project to design this use case
+This usecase extends the previous but we will issue a SAOP message where the password used for the user is wrong. Some modifications are required within your project to design this use case
 
 .Spring XML Client File
-* Create a new +client-wrongpassword.xml+ file using what you have created within the previous use case
+* Create a new +client-wrongpassword.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+ using the file what you have created within the previous use case
 * Use as +ws-security.*+ parameter the following +ws-security.password+ in order to send a wrong password associated with the username
 
 .Junit Method
