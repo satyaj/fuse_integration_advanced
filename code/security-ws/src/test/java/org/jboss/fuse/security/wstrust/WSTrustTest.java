@@ -17,34 +17,30 @@ import java.net.URL;
 
 public class WSTrustTest extends AbstractBusClientServerTestBase {
 
-    private static final QName SERVICE_NAME
-            = new QName("http://apache.org/hello_world_soap_http", "SOAPService");
+    private static final QName SERVICE_NAME = new QName("http://apache.org/hello_world_soap_http",
+            "SOAPService");
 
-    private static final QName PORT_NAME =
-            new QName("http://apache.org/hello_world_soap_http", "SoapPort");
+    private static final QName PORT_NAME = new QName("http://apache.org/hello_world_soap_http", "SoapPort");
 
-    @BeforeClass
-    public static void startServers() throws Exception {
-        assertTrue(
-                "STS Server failed to launch",
+    @BeforeClass public static void startServers() throws Exception {
+        assertTrue("STS Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
-                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/wstrust/wssec-sts.xml" }, true));
-        assertTrue(
-                "Server failed to launch",
+                launchServer(Server.class, null,
+                        new String[] { "/org/jboss/fuse/security/wstrust/wssec-sts.xml" }, true));
+        assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
-                launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/wstrust/wssec-server.xml" }, true));
+                launchServer(Server.class, null,
+                        new String[] { "/org/jboss/fuse/security/wstrust/wssec-server.xml" }, true));
     }
 
-    @AfterClass
-    public static void cleanup() throws Exception {
+    @AfterClass public static void cleanup() throws Exception {
         SecurityTestUtil.cleanup();
         stopAllServers();
     }
 
-    @Test
-    public void testSimpleClient() throws Exception {
+    @Test public void testSimpleClient() throws Exception {
 
         SpringBusFactory bf = new SpringBusFactory();
         URL busFile = WSTrustTest.class.getResource("wssec-client.xml");
@@ -58,18 +54,10 @@ public class WSTrustTest extends AbstractBusClientServerTestBase {
         Service service = Service.create(wsdlURL, SERVICE_NAME);
         Greeter port = service.getPort(PORT_NAME, Greeter.class);
 
-        System.out.println("Invoking greetMe...");
-        try {
-            String resp = port.greetMe(System.getProperty("user.name"));
-            System.out.println("Server responded with: " + resp);
-            System.out.println();
+        String resp = port.greetMe(System.getProperty("user.name"));
+        assertEquals("Hello " + System.getProperty("user.name"), resp);
 
-        } catch (Exception e) {
-            System.out.println("Invocation failed with the following: " + e.getCause());
-            System.out.println();
-        }
-
-        ((java.io.Closeable)port).close();
+        ((java.io.Closeable) port).close();
         bus.shutdown(true);
     }
 }
