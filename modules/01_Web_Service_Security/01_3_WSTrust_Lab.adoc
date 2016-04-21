@@ -54,31 +54,46 @@ in order to request/renew or cancel a Security Token, the WSDL file of the clien
 Remark : To simplify your work, the STS Server (Spring XML config file, WSDL file, STS Keystore) is already configured like the Hello World Endpoint (the the Spring Config file, Server Keystore)
 
 
-
-.Spring XML Server file
-* Create a new +server-signed.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
-* Add the key +ws-security.signature.properties+ to the +<jaxws:properties/>+ bean to point to the properties file containing the keystore used to digest/sign the SOAP content
-* Configure the +<jaxws:endpoint/>+ endpoint with a +<jaxws:features>+ bean to pass the location of the +signed-body-policy.xml+ file containing the Policy designed
-
 .Spring XML Client File
-* Create a new +client-signed.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
-* Reuse the code created for the first use case and change the WSDL Port of the HTTPConduit & JAXS Bean to use the +GreeterSignedPort+
-* Add the key +ws-security.signature.properties+ to the +<jaxws:properties/>+ bean to point to the properties file containing the keystore used to digest/sign the SOAP content
-* Configure the +<jaxws:endpoint/>+ endpoint with a +<jaxws:features>+ bean to pass the location of the +signed-body-policy.xml+ file containing the Policy designed
+* Create a new +wssec-client.xml+ file within the folder +src/test/resources/org/jboss/fuse/wstrust/wssecuritypolicy+
+* Create the <jaxws:client/> bean to use the +SoapPort+ port binding as defined within the Hello World wsdl file
+* Add the +ws-security+ parameters required to configure the :
+** The Crypto/Encrypt property configuration file(s) to use for signature
+** The username(s) of the key/Certificate to be used to sign/encrypt
+** The CallBackHandler pointing to the java class +ClientCallbackHandler+
+* Create a +org.apache.cxf.ws.security.trust.STSClient+ bean and assign it to the ws-security STS Client parameter
+* Configure this bean with the following parameters :
+** wsdl location : `http://localhost:8080/SecurityTokenService/UT?wsdl`
+** Service name : `{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService`
+** Endpoint name : `{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port`
+** Use these properties to configure the Security Module of this bean
+[source]
+----
+<entry key="ws-security.username" value="alice"/>
+<entry key="ws-security.callback-handler" value="org.jboss.fuse.security.wstrust.ClientCallbackHandler"/>
+<entry key="ws-security.encryption.properties" value="org/jboss/fuse/security/wstrust/clientKeystore.properties"/>
+<entry key="ws-security.encryption.username" value="mystskey"/>
+<entry key="ws-security.sts.token.username" value="myclientkey"/>
+<entry key="ws-security.sts.token.properties" value="org/jboss/fuse/security/wstrust/clientKeystore.properties"/>
+<entry key="ws-security.sts.token.usecert" value="true"/>
+----
 
-.Sign Body and TimeStamp Policy
-* Create the +signed-body-policy.xml+ file under the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
-* Develop the policy to sign the Body and the TimeStamp Header
-* Generate the Username Token within the SOAP Header with a hashed password
-* Include a +TimeStamp+ within the SOAP WSSE Header
-* The algorithm to sign the parts of the messahe is +Basic128+
-* Use +AsymmetricBinding+ and the +WssX509V3Token10+ to sign/decrypt the SOAP signed parts for the +InitiatorSignatureToken+ and the +RecipientSignatureToken+
+.Add a policy within the WSDL file
+* Add a policy reference +AsymmetricSAML2Policy+ to the +<wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">+ tag
+* Create the + <wsp:Policy wsu:Id="AsymmetricSAML2Policy">+ policy
+* Add a policy for the +<wsam:Addressing+ to include within the SOAP Header of the Request the MessageId, ReplyTo, Action and To xml tags
+* Configure the +AsymmetricBinding+ to include a policy the +InitiatorToken+ where the +RequestSecurityTokenTemplate+ part of the +IssuedToken+
+  will include a SAML2 Token Type (+http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0+) and a Public Key as Key Type (+http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey+)
+* The issuer of the token is +<wsaw:Address>http://localhost:8080/SecurityTokenService/</wsaw:Address>+
+* Include a TimeStamp and +Basic256+ as algorithm to sign/encrypt
+* Add a +Wss11+ and +Trust13+ assertion
 
 .New Test class
-* Add a new Java Test class with the name +WSSecurityPolicySignTest+ and include an annotated method +testSignature+
-* Launch the server using the Spring XML file +org/jboss/fuse/security/wssecuritypolicy/server-signed.xml+
-* Use as Bus URL, the +client-signed.xml+ file to configure the CXF Spring Bus
-* Configure the +runAndValidate+ method to use the +hello_world.wsdl+ file packaged under the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
+* Add a new Java Test class with the name +WSTrustTest+ and include an annotated method +testGreetMeClientWithSTS+
+* Launch the server containing the Hello World Endpoint using the Spring XML file +org/jboss/fuse/security/wstrust/wssec-server.xml+
+* Launch also the STS Server using the Spring XML file +org/jboss/fuse/security/wstrust/wssec-sts.xml+
+* Use as Bus URL, the +wssec-client.xml+ file to configure the CXF Spring Bus
+* Configure the +runAndValidate+ method to use the +hello_world.wsdl+ file packaged under the folder +src/test/resources/org/jboss/fuse/security/wstrust+
 
 ifdef::showscript[]
 
