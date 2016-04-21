@@ -31,6 +31,7 @@ In this lab you resolve the following use cases:
 | JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
 | Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
 | SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
+| Java Crypto Unlimited | http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[Java 7] / http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java 8] | Required |
 |===
 
 === Install the lab project
