@@ -18,6 +18,7 @@ In this lab you resolve the following use cases:
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
 * Expertise with Web Service Technology & SOAP Messages
+* Design Apache Camel routes and marshall/unmarshall data payload
 * PKI & encryption/decryption background
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
