@@ -58,11 +58,11 @@
             <soap:operation soapAction="" style="document"/>
             <wsdl:input name="greetMeRequest">
                 <soap:body use="literal"/>
-                <wsp:PolicyReference URI="#Input_Policy"/>
+                <!--<wsp:PolicyReference URI="#Input_Policy"/>-->
             </wsdl:input>
             <wsdl:output name="greetMeResponse">
                 <soap:body use="literal"/>
-                <wsp:PolicyReference URI="#Output_Policy"/>
+                <!--<wsp:PolicyReference URI="#Output_Policy"/>-->
             </wsdl:output>
         </wsdl:operation>
     </wsdl:binding>
@@ -144,7 +144,7 @@
             </wsp:All>
         </wsp:ExactlyOne>
     </wsp:Policy>
-    <wsp:Policy wsu:Id="Input_Policy">
+<!--    <wsp:Policy wsu:Id="Input_Policy">
         <wsp:ExactlyOne>
             <wsp:All>
                 <sp:EncryptedParts>
@@ -193,5 +193,5 @@
                 </sp:SignedParts>
             </wsp:All>
         </wsp:ExactlyOne>
-    </wsp:Policy>
+    </wsp:Policy>-->
 </wsdl:definitions>
