@@ -23,6 +23,7 @@ public class WSTrustTest extends AbstractBusClientServerTestBase {
     private static final QName PORT_NAME = new QName("http://apache.org/hello_world_soap_http", "SoapPort");
 
     @BeforeClass public static void startServers() throws Exception {
+        // EXCLUDE-BEGIN
         assertTrue("STS Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
@@ -33,6 +34,7 @@ public class WSTrustTest extends AbstractBusClientServerTestBase {
                 // set this to false to fork
                 launchServer(Server.class, null,
                         new String[] { "/org/jboss/fuse/security/wstrust/wssec-server.xml" }, true));
+        // EXCLUDE-END
     }
 
     @AfterClass public static void cleanup() throws Exception {
@@ -41,7 +43,7 @@ public class WSTrustTest extends AbstractBusClientServerTestBase {
     }
 
     @Test public void testGreetMeClientWithSTS() throws Exception {
-
+        // EXCLUDE-BEGIN
         SpringBusFactory bf = new SpringBusFactory();
         URL busFile = WSTrustTest.class.getResource("wssec-client.xml");
 
@@ -59,6 +61,7 @@ public class WSTrustTest extends AbstractBusClientServerTestBase {
 
         ((java.io.Closeable) port).close();
         bus.shutdown(true);
+        // EXCLUDE-END
     }
 }
 

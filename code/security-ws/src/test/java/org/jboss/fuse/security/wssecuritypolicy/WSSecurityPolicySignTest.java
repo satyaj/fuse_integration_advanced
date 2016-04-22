@@ -23,10 +23,12 @@ public class WSSecurityPolicySignTest extends AbstractBusClientServerTestBase {
 
     @BeforeClass
     public static void startServers() throws Exception {
+        // EXCLUDE-BEGIN
         assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
                 launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/wssecuritypolicy/server-signed.xml" }, true));
+        // EXCLUDE-END
     }
 
     @AfterClass
@@ -40,11 +42,14 @@ public class WSSecurityPolicySignTest extends AbstractBusClientServerTestBase {
      * Sign SOAP Body & TimeStamp
      */
     @Test public void testSignature() throws Exception {
+        // EXCLUDE-BEGIN
         URL busFile = WSSecurityPolicySignTest.class.getResource("client-signed.xml");
         runandValidate(busFile,"GreeterSignedPort","Hello Charles","org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
+        // EXCLUDE-END
     }
 
     private void runandValidate(URL busFile, String portName, String assertString, String wsdlFile) throws IOException {
+        // EXCLUDE-BEGIN
         SpringBusFactory bf = new SpringBusFactory();
 
         Bus bus = bf.createBus(busFile.toString());
@@ -62,5 +67,6 @@ public class WSSecurityPolicySignTest extends AbstractBusClientServerTestBase {
 
         ((java.io.Closeable)greeter).close();
         bus.shutdown(true);
+        // EXCLUDE-END
     }
 }

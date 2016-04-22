@@ -1,5 +1,4 @@
 :noaudio:
-:sourcedir: ../code/security-ws/src/test/java
 :toc2:
 
 = Web Service Security Policy Lab
@@ -162,11 +161,6 @@ runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security
 * Design this Policy to include the User Name token +<sp:UsernameToken/> + with a hashed password and a TimeStamp +<sp:IncludeTimestamp/>+
 
 Check that the AssertString +Hello Charles+ corresponds to the String returned by the method called +String response = greeter.greetMe("Charles");+
-
-//[source,java]
-//----
-//include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
-//----
 
 [[usecase2]]
 === Issue a SOAP request with a wrong password

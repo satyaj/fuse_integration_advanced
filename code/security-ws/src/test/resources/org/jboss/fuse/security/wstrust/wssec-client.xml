@@ -10,6 +10,7 @@
            <!--<cxf:logging/>-->
         </cxf:features>
     </cxf:bus>
+    <!-- EXCLUDE-BEGIN -->
     <jaxws:client name="{http://apache.org/hello_world_soap_http}SoapPort" createdFromAPI="true">
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="org/jboss/fuse/security/wstrust/clientKeystore.properties"/>
@@ -47,4 +48,5 @@
             </entry>
         </jaxws:properties>
     </jaxws:client>
+    <!-- EXCLUDE-END -->
 </beans>

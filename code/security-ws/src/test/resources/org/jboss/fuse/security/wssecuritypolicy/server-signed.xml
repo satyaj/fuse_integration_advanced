@@ -24,6 +24,7 @@
                     wsdlLocation="src/test/resources/org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl"
                     address="https://localhost:9001/ws/Hello"
                     depends-on="ClientAuthHttpsSettings">
+        <!-- EXCLUDE-BEGIN -->
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="org/jboss/fuse/security/common/outsecurity.properties"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
@@ -33,6 +34,7 @@
                 <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" URI="classpath:/org/jboss/fuse/security/wssecuritypolicy/signed-body-policy.xml"/>
             </p:policies>
         </jaxws:features>
+        <!-- EXCLUDE-END -->
     </jaxws:endpoint>
     <httpj:engine-factory id="ClientAuthHttpsSettings">
         <httpj:engine port="9001">

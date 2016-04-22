@@ -40,14 +40,17 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
      * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username and timestamp to authenticate the JAXWS Client
      */
     @Test public void testUsernameToken() throws Exception {
+        // EXCLUDE-BEGIN
         URL busFile = WSSecurityPolicyTest.class.getResource("client.xml");
         runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
+        // EXCLUDE-END
     }
 
     /**
      * Define a WS Security Policy to generate the SOAP Header including a wsse section with a username, wrong password and timestamp to authenticate the JAXWS Client
      */
     @Test public void testUsernameTokenWrongPassword() throws Exception {
+        // EXCLUDE-BEGIN
         URL busFile = WSSecurityPolicyTest.class.getResource("client-wrongpassword.xml");
 
         try {
@@ -56,9 +59,11 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
         } catch(Exception ex) {
             assertEquals("A security error was encountered when verifying the message", ex.getMessage());
         }
+        // EXCLUDE-END
     }
 
     private void runandValidate(URL busFile, String portName, String assertString, String wsdlFile) throws IOException {
+        // EXCLUDE-BEGIN
         SpringBusFactory bf = new SpringBusFactory();
 
         Bus bus = bf.createBus(busFile.toString());
@@ -76,5 +81,6 @@ public class WSSecurityPolicyTest extends AbstractBusClientServerTestBase {
 
         ((java.io.Closeable)greeter).close();
         bus.shutdown(true);
+        // EXCLUDE-END
     }
 }

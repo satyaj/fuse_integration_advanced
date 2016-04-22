@@ -56,7 +56,9 @@
         The wsp:Policy wsu:Id="#AsymmetricSAML2Policy" element is defined later in this file.
     -->
     <wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">
+        <!-- EXCLUDE-BEGIN -->
         <wsp:PolicyReference URI="#AsymmetricSAML2Policy"/>
+        <!-- EXCLUDE-END -->
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <wsdl:operation name="greetMe">
             <soap:operation soapAction="" style="document"/>
@@ -77,6 +79,7 @@
         </wsdl:port>
     </wsdl:service>
 
+    <!-- EXCLUDE-BEGIN -->
     <wsp:Policy wsu:Id="AsymmetricSAML2Policy">
         <wsp:ExactlyOne>
             <wsp:All>
@@ -214,6 +217,8 @@
             </wsp:All>
         </wsp:ExactlyOne>
     </wsp:Policy>
+    <!-- EXCLUDE-END -->
+
     <!--    <wsp:Policy wsu:Id="Input_Policy">
             <wsp:ExactlyOne>
                 <wsp:All>
