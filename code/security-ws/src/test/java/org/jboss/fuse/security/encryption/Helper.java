@@ -17,20 +17,22 @@ import org.w3c.dom.NodeList;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
 public class Helper {
 
     protected static final String XML_REQUEST = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:enc=\"http://encryption.security.fuse.jboss.org\">\n"
-            + "   <soapenv:Header/>\n"
-            + "   <soapenv:Body>\n"
-            + "      <enc:processCheese>\n"
-            + "         <arg0>parmezan</arg0>\n"
-            + "      </enc:processCheese>\n"
-            + "   </soapenv:Body>\n"
+            + "   <soapenv:Header/>\n" + "   <soapenv:Body>\n" + "      <enc:processCheese>\n"
+            + "         <arg0>parmezan</arg0>\n" + "      </enc:processCheese>\n" + "   </soapenv:Body>\n"
             + "</soapenv:Envelope>";
 
     protected static final String XML_ITALY_CHEESE_RESPONSE = "<ns2:country id=\"Italy\" xmlns:ns2=\"http://encryption.security.fuse.jboss.org\"><source>cow</source><cheese>Parmezan</cheese><rating>9/10</rating></ns2:country>";
@@ -80,7 +82,9 @@ public class Helper {
                 exchange.setProperty(Exchange.CHARSET_NAME, "UTF-8");
                 Message in = exchange.getIn();
                 in.setBody(msg);
-                log.info(">> Send Message to endpoint {} : {}", URI, msg);
+                if (log.isDebugEnabled()) {
+                    log.info(">> Send Message to endpoint {} : {}", URI, msg);
+                }
             }
         });
     }
@@ -95,7 +99,7 @@ public class Helper {
 
         Document inDoc = getDocumentForInMessage(exchange);
         if (log.isDebugEnabled()) {
-            logMessage(">> MESSAGE ENCRYPTED", exchange, inDoc);
+            logXMLMessage(">> MESSAGE ENCRYPTED", exchange, inDoc);
         }
         Assert.assertTrue("The XML message has no encrypted data.", hasEncryptedData(inDoc));
         context.stop();
@@ -111,22 +115,22 @@ public class Helper {
 
         // Send clear message and encrypt it
         context.start();
-        sendText("direct:encrypt",msg,context);
+        sendText("direct:encrypt", msg, context);
         Exchange exchange = encrypted.getExchanges().get(0);
         Document inDoc = getDocumentForInMessage(exchange);
 
         if (log.isDebugEnabled()) {
-            logMessage(">> MESSAGE ENCRYPTED",exchange, inDoc);
+            logXMLMessage(">> MESSAGE ENCRYPTED", exchange, inDoc);
         }
 
         // Decrypt the encrypted message
-        sendText("direct:decrypt",inDoc,context);
+        sendText("direct:decrypt", inDoc, context);
 
         decrypted.assertIsSatisfied(100);
         exchange = decrypted.getExchanges().get(0);
         inDoc = getDocumentForInMessage(exchange);
         if (log.isDebugEnabled()) {
-            logMessage(">> MESSAGE DECRYPTED",exchange, inDoc);
+            logXMLMessage(">> MESSAGE DECRYPTED", exchange, inDoc);
         }
         Assert.assertFalse("The XML message has encrypted data.", hasEncryptedData(inDoc));
 
@@ -149,7 +153,7 @@ public class Helper {
 
         // Send encrypted message to decrypt it
         context.start();
-        sendText("direct:decrypt",msg,context);
+        sendText("direct:decrypt", msg, context);
 
         // Check that we get from the mock endpoint an exchange
         decrypted.assertIsSatisfied(100);
@@ -165,19 +169,20 @@ public class Helper {
         Document responseDoc = exchange.getContext().getTypeConverter().convertTo(Document.class, body);
 
         // Verify that the decrypted message matches what was sent
-        InputStream originalResponse = Helper.class.getResourceAsStream("/org/jboss/fuse/security/encryption/response_italy_cheese.xml");
+        InputStream originalResponse = Helper.class
+                .getResourceAsStream("/org/jboss/fuse/security/encryption/response_italy_cheese.xml");
         String response = IOUtils.toString(originalResponse, StandardCharsets.UTF_8.displayName());
 
         if (log.isDebugEnabled()) {
             log.debug(">> ORIGINAL MESSAGE" + response);
         }
 
-        Document originalDoc = createDocumentfromInputStream(new ByteArrayInputStream(XML_ITALY_CHEESE_RESPONSE.getBytes()), exchange);
+        Document originalDoc = createDocumentfromInputStream(
+                new ByteArrayInputStream(XML_ITALY_CHEESE_RESPONSE.getBytes()), exchange);
         Diff xmlDiff = XMLUnit.compareXML(originalDoc, responseDoc);
 
         Assert.assertTrue("The decrypted document does not match the control document.", xmlDiff.identical());
     }
-
 
     public boolean hasEncryptedData(Document doc) throws Exception {
         NodeList nodeList = doc.getElementsByTagNameNS("http://www.w3.org/2001/04/xmlenc#", "EncryptedData");
@@ -187,8 +192,25 @@ public class Helper {
     private void logMessage(String info, Exchange exchange, Document inDoc) throws Exception {
         XmlConverter converter = new XmlConverter();
         String xmlStr = converter.toString(inDoc, exchange);
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug(info + ": " + xmlStr);
+        }
+    }
+
+    private void logXMLMessage(String info, Exchange exchange, Document inDoc) throws Exception {
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+        StringWriter stringWriter = new StringWriter();
+        StreamResult streamResult = new StreamResult(stringWriter);
+
+        transformer.transform(new DOMSource(inDoc), streamResult);
+
+        if (log.isDebugEnabled()) {
+            log.debug(info + ": " + stringWriter.toString());
         }
     }
 

@@ -8,15 +8,20 @@
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
 
+    <!-- EXCLUDE-BEGIN -->
     <!--  key store configuration -->
     <camel:keyStoreParameters id="keyStoreParams" type="jks"
                               resource="src/test/resources/org/jboss/fuse/security/encryption/recipient.ks" password="password"/>
+    <!-- EXCLUDE-END -->
 
+    <!-- EXCLUDE-BEGIN -->
     <!--  trust store configuration -->
     <camel:keyStoreParameters id="trustStoreParams" type="jks"
                               resource="src/test/resources/org/jboss/fuse/security/encryption/sender.ts" password="password"/>
+    <!-- EXCLUDE-END -->
 
     <bean id="encryptSOAPBody" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
+        <!-- EXCLUDE-BEGIN -->
         <property name="secureTag" value=""/>
         <property name="secureTagContents" value="true"/>
         <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
@@ -28,11 +33,11 @@
                 <entry key="soap" value="http://schemas.xmlsoap.org/soap/envelope/"/>
             </map>
         </property>
-
+        <!-- EXCLUDE-END -->
     </bean>
 
     <bean id="encryptXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
-  <!--      <property name="secureTag" value="//soapenv:Body"/>-->
+        <!-- EXCLUDE-BEGIN -->
         <property name="secureTagContents" value="true"/>
         <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
         <property name="keyCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
@@ -44,11 +49,11 @@
                 <entry key="enc" value="http://encryption.security.fuse.jboss.org"/>
             </map>
         </property>
-
+        <!-- EXCLUDE-END -->
     </bean>
 
     <bean id="decryptXML" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
-        <!--<property name="secureTag" value="//soapenv:Body"/>-->
+        <!-- EXCLUDE-BEGIN -->
         <property name="secureTag" value=""/>
         <property name="secureTagContents" value="true"/>
         <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
@@ -61,11 +66,13 @@
                 <entry key="enc" value="http://encryption.security.fuse.jboss.org"/>
             </map>
         </property>
+        <!-- EXCLUDE-END -->
     </bean>
 
     <bean id="utils" class="org.jboss.fuse.security.encryption.Utils"/>
     <bean id="service" class="org.jboss.fuse.security.encryption.CheeseProcessImpl"/>
 
+    <!-- EXCLUDE-BEGIN -->
     <cxf:cxfEndpoint id="cheeseServiceBean"
                      address="http://localhost:9001/camel/CheeseService"
                      wsdlURL="src/test/resources/org/jboss/fuse/security/encryption/CheeseProcess.wsdl"
@@ -75,7 +82,9 @@
             <entry key="dataFormat" value="MESSAGE"/>
         </cxf:properties>
     </cxf:cxfEndpoint>
+    <!-- EXCLUDE-END -->
 
+    <!-- EXCLUDE-BEGIN -->
     <!-- Namespaces of the message processed added to the Camel Context for XPath -->
     <camelContext id="camel-encrypt" xmlns="http://camel.apache.org/schema/spring"
                   xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
@@ -122,5 +131,5 @@
             <log loggingLevel="DEBUG" message=">> SOAP Response Encrypted : ${body}"/>
         </route>
     </camelContext>
-
+    <!-- EXCLUDE-END -->
 </beans>

@@ -11,6 +11,7 @@
         </cxf:features>
     </cxf:bus>
     <jaxws:client name="{http://jboss.org/HelloWorld}GreeterSignedPort" createdFromAPI="true">
+        <!-- EXCLUDE-BEGIN -->
         <jaxws:properties>
             <entry key="ws-security.username" value="cmoulliard"/>
             <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.service.PwdCallback"/>
@@ -22,6 +23,7 @@
                 <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" URI="classpath:/org/jboss/fuse/security/wssecuritypolicy/signed-body-policy.xml"/>
             </p:policies>
         </jaxws:features>
+        <!-- EXCLUDE-END -->
     </jaxws:client>
     <http:conduit name="{http://jboss.org/HelloWorld}GreeterSignedPort.http-conduit">
         <http:tlsClientParameters>

@@ -43,42 +43,82 @@
     <wsdl:message name="greetMeResponse">
         <wsdl:part element="x1:greetMeResponse" name="out"/>
     </wsdl:message>
+
     <wsdl:portType name="Greeter">
         <wsdl:operation name="greetMe">
             <wsdl:input message="tns:greetMeRequest" name="greetMeRequest"/>
             <wsdl:output message="tns:greetMeResponse" name="greetMeResponse"/>
         </wsdl:operation>
     </wsdl:portType>
+
+    <!--
+        The wsp:PolicyReference binds the security requirements on all the STS endpoints.
+        The wsp:Policy wsu:Id="#AsymmetricSAML2Policy" element is defined later in this file.
+    -->
     <wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">
+        <!-- EXCLUDE-BEGIN -->
         <wsp:PolicyReference URI="#AsymmetricSAML2Policy"/>
+        <!-- EXCLUDE-END -->
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <wsdl:operation name="greetMe">
             <soap:operation soapAction="" style="document"/>
             <wsdl:input name="greetMeRequest">
                 <soap:body use="literal"/>
-                <wsp:PolicyReference URI="#Input_Policy"/>
+                <!--<wsp:PolicyReference URI="#Input_Policy"/>-->
             </wsdl:input>
             <wsdl:output name="greetMeResponse">
                 <soap:body use="literal"/>
-                <wsp:PolicyReference URI="#Output_Policy"/>
+                <!--<wsp:PolicyReference URI="#Output_Policy"/>-->
             </wsdl:output>
         </wsdl:operation>
     </wsdl:binding>
+
     <wsdl:service name="SOAPService">
         <wsdl:port binding="tns:Greeter_SOAPBinding" name="SoapPort">
             <soap:address location="http://localhost:9001/SoapContext/SoapPort"/>
         </wsdl:port>
     </wsdl:service>
+
+    <!-- EXCLUDE-BEGIN -->
     <wsp:Policy wsu:Id="AsymmetricSAML2Policy">
         <wsp:ExactlyOne>
             <wsp:All>
+                <!--
+                      The wsam:Addressing element, indicates that the endpoints of this
+                      web service MUST conform to the WS-Addressing specification.  The
+                      attribute wsp:Optional="false" enforces this assertion.
+                -->
                 <wsam:Addressing wsp:Optional="false">
                     <wsp:Policy/>
                 </wsam:Addressing>
+                <!--
+                      The sp:AsymmetricBinding element indicates that security is provided
+                      at the SOAP layer. A public/private key combinations is required to
+                      protect the message.  The initiator will use it’s private key to sign
+                      the message and the recipient’s public key is used to encrypt the message.
+                      The recipient of the message will use it’s private key to decrypt it and
+                      initiator’s public key to verify the signature.
+                -->
                 <sp:AsymmetricBinding>
                     <wsp:Policy>
+                        <!--
+                              The sp:InitiatorToken element specifies the elements required in
+                              generating the initiator request to the ws-provider's service.
+                        -->
                         <sp:InitiatorToken>
                             <wsp:Policy>
+                                <!--
+                                      The sp:IssuedToken element asserts that a SAML 2.0 security token is
+                                      expected from the STS using a public key type.  The
+                                      sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                                      attribute instructs the runtime to include the initiator's public key
+                                      with every message sent to the recipient.
+
+                                      The sp:RequestSecurityTokenTemplate element directs that all of the
+                                      children of this element will be copied directly into the body of the
+                                      RequestSecurityToken (RST) message that is sent to the STS when the
+                                      initiator asks the STS to issue a token.
+                                -->
                                 <sp:IssuedToken
                                         sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                                     <sp:RequestSecurityTokenTemplate>
@@ -92,6 +132,10 @@
                                     <wsp:Policy>
                                         <sp:RequireInternalReference/>
                                     </wsp:Policy>
+                                    <!--
+                                          The sp:Issuer element defines the STS's address and endpoint information
+                                          This information is used by the STSClient.
+                                    -->
                                     <sp:Issuer>
                                         <wsaw:Address>http://localhost:8080/SecurityTokenService/
                                         </wsaw:Address>
@@ -99,6 +143,16 @@
                                 </sp:IssuedToken>
                             </wsp:Policy>
                         </sp:InitiatorToken>
+                        <!--
+                              The sp:RecipientToken element asserts the type of public/private key-pair
+                              expected from the recipient.  The
+                              sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+                              attribute indicates that the initiator's public key will never be included
+                              in the reply messages.
+
+                              The sp:WssX509V3Token10 element indicates that an X509 Version 3 token
+                              should be used in the message.
+                        -->
                         <sp:RecipientToken>
                             <wsp:Policy>
                                 <sp:X509Token
@@ -110,6 +164,12 @@
                                 </sp:X509Token>
                             </wsp:Policy>
                         </sp:RecipientToken>
+                        <!--
+                             The sp:Layout element,  indicates the layout rules to apply when adding
+                             items to the security header.  The sp:Lax sub-element indicates items
+                             are added to the security header in any order that conforms to
+                             WSS: SOAP Message Security.
+                        -->
                         <sp:Layout>
                             <wsp:Policy>
                                 <sp:Lax/>
@@ -117,6 +177,10 @@
                         </sp:Layout>
                         <sp:IncludeTimestamp/>
                         <sp:OnlySignEntireHeadersAndBody/>
+                        <!--
+                            The sp:AlgorithmSuite element, requires the Basic256 algorithm suite
+                            be used in performing cryptographic operations.
+                       -->
                         <sp:AlgorithmSuite>
                             <wsp:Policy>
                                 <sp:Basic256/>
@@ -124,6 +188,12 @@
                         </sp:AlgorithmSuite>
                     </wsp:Policy>
                 </sp:AsymmetricBinding>
+                <!--
+                    The sp:Wss11 element declares WSS: SOAP Message Security 1.1 options
+                    to be supported by the STS.  These particular elements generally refer
+                    to how keys are referenced within the SOAP envelope.  These are normally
+                    handled by CXF.
+                -->
                 <sp:Wss11>
                     <wsp:Policy>
                         <sp:MustSupportRefIssuerSerial/>
@@ -131,6 +201,12 @@
                         <sp:MustSupportRefEncryptedKey/>
                     </wsp:Policy>
                 </sp:Wss11>
+                <!--
+                    The sp:Trust13 element declares controls for WS-Trust 1.3 options.
+                    They are policy assertions related to exchanges specifically with
+                    client and server challenges and entropy behaviors.  Again these are
+                    normally handled by CXF.
+                -->
                 <sp:Trust13>
                     <wsp:Policy>
                         <sp:MustSupportIssuedTokens/>
@@ -141,54 +217,56 @@
             </wsp:All>
         </wsp:ExactlyOne>
     </wsp:Policy>
-    <wsp:Policy wsu:Id="Input_Policy">
-        <wsp:ExactlyOne>
-            <wsp:All>
-                <sp:EncryptedParts>
-                    <sp:Body/>
-                </sp:EncryptedParts>
-                <sp:SignedParts>
-                    <sp:Body/>
-                    <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="AckRequested" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                    <sp:Header Name="SequenceAcknowledgement"
-                               Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                    <sp:Header Name="Sequence" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                    <sp:Header Name="CreateSequence"
-                               Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                </sp:SignedParts>
-            </wsp:All>
-        </wsp:ExactlyOne>
-    </wsp:Policy>
-    <wsp:Policy wsu:Id="Output_Policy">
-        <wsp:ExactlyOne>
-            <wsp:All>
-                <sp:EncryptedParts>
-                    <sp:Body/>
-                </sp:EncryptedParts>
-                <sp:SignedParts>
-                    <sp:Body/>
-                    <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
-                    <sp:Header Name="AckRequested" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                    <sp:Header Name="SequenceAcknowledgement"
-                               Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                    <sp:Header Name="Sequence" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                    <sp:Header Name="CreateSequence"
-                               Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
-                </sp:SignedParts>
-            </wsp:All>
-        </wsp:ExactlyOne>
-    </wsp:Policy>
+    <!-- EXCLUDE-END -->
+
+    <!--    <wsp:Policy wsu:Id="Input_Policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sp:EncryptedParts>
+                        <sp:Body/>
+                    </sp:EncryptedParts>
+                    <sp:SignedParts>
+                        <sp:Body/>
+                        <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="AckRequested" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                        <sp:Header Name="SequenceAcknowledgement"
+                                   Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                        <sp:Header Name="Sequence" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                        <sp:Header Name="CreateSequence"
+                                   Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                    </sp:SignedParts>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+        <wsp:Policy wsu:Id="Output_Policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sp:EncryptedParts>
+                        <sp:Body/>
+                    </sp:EncryptedParts>
+                    <sp:SignedParts>
+                        <sp:Body/>
+                        <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing"/>
+                        <sp:Header Name="AckRequested" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                        <sp:Header Name="SequenceAcknowledgement"
+                                   Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                        <sp:Header Name="Sequence" Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                        <sp:Header Name="CreateSequence"
+                                   Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702"/>
+                    </sp:SignedParts>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>-->
 </wsdl:definitions>

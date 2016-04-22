@@ -68,7 +68,7 @@ will include a SOAP WSSE header section with a username and a timestamp to authe
 
 This use case should issue a message containing a SOAP header with a user and a wrong password and the test must validate that the exception message reported during the fail process contains this message "Security processing failed."
 
-The CXF web service must be created using the JaxWsServerFactoryBean class while the JAXWS client responsible to consume the echo service will be developed using the JaxWsProxyFactoryBean class.
+The CXF web service must be created using the +JaxWsServerFactoryBean+ class while the JAXWS client responsible to consume the echo service will be developed using the +JaxWsProxyFactoryBean+ class.
 No HTTP Transport must be used to configure the client but only the CXF Local transport. Both classes should be developed using the CXF interceptor pattern in order to generate the SOAP WSSE Section header
 and process this section at the server site. The framework Apache WSS4J must be used and configured with the the CXF In/Out Interceptors.
 

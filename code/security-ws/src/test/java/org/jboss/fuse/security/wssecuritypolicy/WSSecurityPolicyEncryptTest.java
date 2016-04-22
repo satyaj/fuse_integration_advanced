@@ -23,10 +23,12 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
 
     @BeforeClass
     public static void startServers() throws Exception {
+        // EXCLUDE-BEGIN
         assertTrue("Server failed to launch",
                 // run the server in the same process
                 // set this to false to fork
                 launchServer(Server.class, null, new String[] { "/org/jboss/fuse/security/wssecuritypolicy/server-sign-encrypt.xml" }, true));
+        // EXCLUDE-END
     }
 
     @AfterClass
@@ -38,11 +40,14 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
 
     @Test
     public void testEncryptionPlusSig() throws Exception {
+        // EXCLUDE-BEGIN
         URL busFile = WSSecurityPolicyEncryptTest.class.getResource("client-signencrypt.xml");
         runandValidate(busFile,"GreeterSignEncryptPort","Hello Charles", "org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl");
+        // EXCLUDE-END
     }
 
     private void runandValidate(URL busFile, String portName, String assertString, String wsdlFile) throws IOException {
+        // EXCLUDE-BEGIN
         SpringBusFactory bf = new SpringBusFactory();
 
         Bus bus = bf.createBus(busFile.toString());
@@ -60,5 +65,6 @@ public class WSSecurityPolicyEncryptTest extends AbstractBusClientServerTestBase
 
         ((java.io.Closeable)greeter).close();
         bus.shutdown(true);
+        // EXCLUDE-END
     }
 }

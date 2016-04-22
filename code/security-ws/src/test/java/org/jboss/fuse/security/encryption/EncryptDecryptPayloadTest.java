@@ -33,23 +33,29 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
     Helper helper = new Helper();
 
     protected AbstractApplicationContext createApplicationContext() {
+        // EXCLUDE-BEGIN
         return new ClassPathXmlApplicationContext(
                 "org/jboss/fuse/security/encryption/EncryptDecryptPayloadTest-context.xml");
+        // EXCLUDE-END
     }
 
     @Test
     public void testXMLPayloadEncryption() throws Exception {
+        // EXCLUDE-BEGIN
         helper.encryptXMLPayload(Helper.XML_REQUEST, context());
+        // EXCLUDE-END
     }
 
     @Test
     public void testXMLPayloadDecryption() throws Exception {
+        // EXCLUDE-BEGIN
         helper.encryptXMLPayloadAndDecrypt(Helper.XML_REQUEST, context());
+        // EXCLUDE-END
     }
 
     @Test
     public void testEncryptedSOAPBody() {
-
+        // EXCLUDE-BEGIN
         String strURL = "http://localhost:9001/camel/CheeseService";
         PostMethod post = new PostMethod(strURL);
 
@@ -107,7 +113,7 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
             // Release current connection to the connection pool once you are done
             post.releaseConnection();
         }
-
+        // EXCLUDE-END
     }
 
 }
