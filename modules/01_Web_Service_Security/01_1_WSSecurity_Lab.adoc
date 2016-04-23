@@ -58,7 +58,11 @@ Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unkno
 
 == Use case exercise
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
+The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project. 
+
+Refer to the following URL's for the relevant Apache CXF documentation: 
+- http://cxf.apache.org/docs/ws-security.html
+- http://cxf.apache.org/docs/a-simple-jax-ws-service.html
 
 [[usecase1]]
 === Generate SOAP Header with WSSE : username, timestamp & wrong password
