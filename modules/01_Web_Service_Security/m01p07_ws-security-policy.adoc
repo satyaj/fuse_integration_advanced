@@ -3,10 +3,38 @@
 [#ws-security-policy]
 == WS Security Policy
 
-* * https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/WsPolicy.html#WsPolicy-Intro[Fuse CXF Security doc]
-* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/errata01/ws-securitypolicy-1.3-errata01.html[WS Security Spec]
-* http://docs.oasis-open.org/ws-sx/security-policy/examples/ws-sp-usecases-examples.html[WS Security Policy Examples]
-* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
+* Goal : apply policies that modify the semantics of connections and communications at runtime in a Web services application
+* Policy +<wsp:Policy>+ can be assigned to the Port section of the WSDL file
++
+[source,xml]
+----
+<wsdl:service name="PingService10">
+    <wsdl:port name="UserNameOverTransport_IPingService" binding="BindingName">
+      <wsp:Policy>
+        <!-- Policy expression comes here! -->
+      </wsp:Policy>
+      <soap:address location="SOAPAddress"/>
+    </wsdl:port>
+----
+
+* Or as a reference
++
+[source,xml]
+----
+<wsdl:service name="PingService10">
+    <wsdl:port name="UserNameOverTransport_IPingService" binding="BindingName">
+ <wsp:PolicyReference URI="#PolicyID"/>
+      <soap:address location="SOAPAddress"/>
+    </wsdl:port>
+  </wsdl:service>
+  ...
+  <wsp:Policy wsu:Id="PolicyID">
+    <!-- Policy expression comes here ... -->
+  </wsp:Policy>
+----
+
+.References
+* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/WsPolicy.html#WsPolicy-Intro[Fuse CXF Security doc]
 
 ifdef::showscript[]
 [.notes]

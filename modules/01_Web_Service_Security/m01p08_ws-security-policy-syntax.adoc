@@ -1,0 +1,28 @@
+:noaudio:
+
+[#ws-security-policy]
+== WS Security Policy
+
+* Externalized in a XML file and passed as parameter to a +<jaws:endpoint/>+ using a +<feature/>+
++
+[source,xml]
+----
+ <jaxws:features>
+            <p:policies>
+                <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" URI="classpath:/org/jboss/fuse/security/wssecuritypolicy/signencrypt-policy.xml"/>
+            </p:policies>
+        </jaxws:features>
+----
+
+.References
+* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/errata01/ws-securitypolicy-1.3-errata01.html[WS Security Spec]
+* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Security Policy
+
+****
+endif::showscript[]
