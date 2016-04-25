@@ -1,6 +1,6 @@
 :noaudio:
 
-== Prerequisites
+== Suggested Readings
 
 * http://www.javaworld.com/article/2073287/soa/secure-web-services.html[Secure Web Service]
 * https://en.wikipedia.org/wiki/WS-Security[WS-Security]
