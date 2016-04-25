@@ -1,12 +1,54 @@
 :noaudio:
 
+[#endpoint-security]
 == Endpoint Security
+
+* CXF Endpoint security relies on SSL/TLS for HTTPS Transport
+* Keystore/Trust stores configured using TLS Parameters
+* Server side secured using `Jetty Engine Factory` & `Jetty Engine Instance`
++
+[source,xml]
+----
+<httpj:engine-factory id="ClientAuthHttpsSettings">
+    <httpj:engine port="9001">
+        <http:tlsServerParameters secureSocketProtocol="TLSv1">
+            ...
+            <sec:keyManagers keyPassword="CertPassword">
+              <sec:keyStore type="JKS"
+                            password="KeystorePassword"
+                            file="certs/CertName.jks"/>
+            </sec:keyManagers>
+            ...
+          </http:tlsServerParameters>
+----
++
+* At the Client side using the `<http:conduit/>`
++
+[source,xml]
+----
+<http:conduit id="{Namespace}PortName.http-conduit">
+  <http:tlsClientParameters>
+    ...
+    <sec:keyManagers keyPassword="CertPassword">
+      <sec:keyStore type="JKS"
+                    password="KeystorePassword"
+                    file="certs/CertName.jks"/>
+    </sec:keyManagers>
+    ...
+  </http:tlsClientParameters>
+</http:conduit>
+----
+
+.References
+* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/ConfigTLS.html[Config TLS with CXF]
 
 ifdef::showscript[]
 [.notes]
 ****
 
 == Endpoint Security
+
+TODO
 
 ****
 endif::showscript[]

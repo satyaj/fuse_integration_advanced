@@ -1,0 +1,66 @@
+:noaudio:
+
+[#ws-security-config]
+== WS Security
+
+* WSS4j can be configured using the Java API
++
+[source,java]
+----
+import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+...
+
+Endpoint cxfEndpoint = jaxWsEndpoint.getServer().getEndpoint();
+
+Map<String,Object> inProps = new HashMap<String,Object>();
+... // how to configure the properties is outlined below;
+
+WSS4JInInterceptor wssIn = new WSS4JInInterceptor(inProps);
+cxfEndpoint.getInInterceptors().add(wssIn);
+
+Map<String,Object> outProps = new HashMap<String,Object>();
+... // how to configure the properties is outlined below;
+
+WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
+cxfEndpoint.getOutInterceptors().add(wssOut);
+----
+
+or
+
+* Spring XML Beans
++
+[source,xml]
+----
+<jaxws:endpoint id="myService"
+   implementor="com.acme.MyServiceImpl"
+   address="http://localhost:9001/MyService">
+
+   <bean id="myPasswordCallback"
+      class="com.mycompany.webservice.ServerPasswordCallback"/>
+
+   <jaxws:inInterceptors>
+      <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+         <constructor-arg>
+            <map>
+               <entry key="action" value="UsernameToken"/>
+               <entry key="passwordType" value="PasswordDigest"/>
+               <entry key="signaturePropFile" value="..."/>
+               <entry key="passwordCallbackRef">
+                  <ref bean="myPasswordCallback"/>
+               </entry>
+               ...
+            </map>
+         </constructor-arg>
+      </bean>
+   </jaxws:inInterceptors>
+----
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Security
+
+****
+endif::showscript[]

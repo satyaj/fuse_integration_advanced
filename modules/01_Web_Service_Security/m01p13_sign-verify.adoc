@@ -1,0 +1,61 @@
+:noaudio:
+
+[#xmlsecurity-sign-verify]
+== Encrypt/Decrypt Payload
+
+* Camel XML Security Component supports to sign & verify SOAP Body message for
+** Enveloped XML Signature
+** Enveloping XML Signature
+** Detached  XML Signature
+
+* Implementation based on JSR 105 and Apache Santuario
++
+.Camel Route Example
+[source,xml]
+----
+<from uri="direct:enveloping" />
+  <to uri="xmlsecurity:sign://enveloping?keyAccessor=#accessor" />
+  <to uri="xmlsecurity:verify://enveloping?keySelector=#selector" />
+<to uri="mock:result" />
+----
+
+.XML Example
+[source]
+----
+<[parent element]>
+   ... <!-- Signature element is added as last child of the parent element-->
+   <Signature Id="generated_unique_signature_id">
+       <SignedInfo>
+             <Reference URI="">
+                   <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                   (<Transform>)* <!-- By default "http://www.w3.org/2006/12/xml-c14n11" is added to the transforms -->
+                   <DigestMethod>
+                   <DigestValue>
+             </Reference>
+             (<Reference URI="#[keyinfo_Id]">
+                   <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                   <DigestMethod>
+                   <DigestValue>
+             </Reference>)?
+             <!-- further references possible, see option &#39;properties&#39; below -->
+      </SignedInfo>
+      <SignatureValue>
+      (<KeyInfo Id="[keyinfo_id]">)?
+      <!-- Object elements possible, see option &#39;properties&#39; below -->
+  </Signature>
+</[parent element]>
+----
+
+.References
+* http://docs.oracle.com/javase/6/docs/technotes/guides/security/xmldsig/overview.html[JSR 105]
+* https://www.w3.org/TR/xmldsig-core1/[XML Signature Syntax]
+* http://camel.apache.org/xml-security-component.html[Camel XML Security - sign/verify]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Encrypt Payload
+
+****
+endif::showscript[]

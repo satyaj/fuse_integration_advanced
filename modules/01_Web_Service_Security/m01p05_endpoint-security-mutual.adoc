@@ -1,0 +1,33 @@
+:noaudio:
+
+[#endpoint-security-mutual]
+== Endpoint Security
+
+.TLS with Mutual Authentication
+* Configure the Server with the +<sec:ClientAuthentication/>+
+* TrustManager is required by both client/server
+* KeyManager is only required at client side for Mutual Authentication
++
+[source,xml]
+----
+<http:destination id="{Namespace}PortName.http-destination">
+  <http:tlsServerParameters secureSocketProtocol="TLSv1">
+    ...
+    <sec:clientAuthentication want="true" required="true"/>
+  </http:tlsServerParameters>
+</http:destination>
+----
+
+.References
+* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/ConfigTLS.html#i305901[Mutual Authentication]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Endpoint Security
+
+TODO
+
+****
+endif::showscript[]

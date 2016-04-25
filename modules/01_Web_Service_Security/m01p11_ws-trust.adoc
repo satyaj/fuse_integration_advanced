@@ -1,0 +1,20 @@
+:noaudio:
+
+[#ws-security-trust]
+== WS Trust
+
+* Principe relies on a Security Provider issuing Token
+* Client contacts the STS to get/renew a token based on SAMLv2 rules
+* Token is included within the SOAP Header client request send to the Web Service
+* Web Service will assert the token and the SAML (v1, v2) rules
+
+* http://cxf.apache.org/docs/ws-trust.html[Cxf & WS-Trust]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Trust
+
+****
+endif::showscript[]
