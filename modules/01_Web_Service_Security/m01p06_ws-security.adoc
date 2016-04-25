@@ -3,15 +3,20 @@
 [#ws-security]
 == WS Security
 
-* SOAP Message can be secure
+* WS Security allows to secure the SOAP Message like :
+** Pass Username token with digested, base64 password
+** Encrypt messages or parts of messages
+** Sign messages
+** Timestamp messages
+
+* Implemented mainly using Apache WSS4J with interceptor (IN/OUT)
+
 
 .References
-* https://www.soapui.org/soapui-projects/ws-security.html[SOAPUI & Security]
 * https://en.wikipedia.org/wiki/WS-Security[WS-Security]
 
 * http://cxf.apache.org/docs/ws-security.html[CXF & WS-Security]
-* http://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf[Username Token Profile]
-* http://www.oasis-open.org/committees/download.php/16785/wss-v1.1-spec-os-x509TokenProfile.pdf[X.509 Token Profile]
+* http://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf[Username Token Profile], http://www.oasis-open.org/committees/download.php/16785/wss-v1.1-spec-os-x509TokenProfile.pdf[X.509 Token Profile]
 
 ifdef::showscript[]
 [.notes]
