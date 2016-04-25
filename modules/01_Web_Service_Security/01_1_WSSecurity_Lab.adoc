@@ -46,7 +46,7 @@ that you will use to resolve the use cases, we suggest that you next import it i
 
 === Keys and certificates
 
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates
+Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates. For this usecase, the keys have been generated so you do not have to run this command.
 
 [source]
 ----
