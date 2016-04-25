@@ -1,6 +1,8 @@
 :noaudio:
 
-== Topics
+== Module Topics
+
+By completing this module you will learn about the following key Web Service Security topics:
 
 * WS Security
 * WS Security Policy
@@ -11,7 +13,11 @@ ifdef::showscript[]
 [.notes]
 ****
 
-== Topics
+== Module Topics
 
+This module covers key Web Service Security concepts such as Secure a Web Service using the specification WS-Security, implementing the Security using a Policy, using a Security Token Service
+with the WS-Trust specification to generate a Security Token that the Web Service will assert using validation rules or to encrypt/decrypt the content of the Web Service Body.
+This module extends the Security concepts introduced within the chapter "Advanced Features" of the +Camel Development with JBoss Fuse+ course. The Security content is packaged within 2 distinct modules; one specific
+for the Web Service technology and the second for the RESTfull service. The second part will also cover OAuth2, TLS & Security Enforcement.
 ****
 endif::showscript[]
