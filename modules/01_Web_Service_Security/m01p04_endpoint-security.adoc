@@ -3,6 +3,7 @@
 == Endpoint Security
 
 * CXF Endpoint security relies on SSL/TLS for HTTPS Transport
+* Keystore/Trust stores configured using TLS Parameters
 * Server side secured using Jetty Engine Factory & Jetty Engine Instance
 +
 [source,xml]
