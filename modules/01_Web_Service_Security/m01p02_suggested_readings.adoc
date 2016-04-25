@@ -1,7 +1,8 @@
 :noaudio:
 
-== Suggested Readings
+== Suggested Readings & work
 
+.Exercise yourself
 * Read Camel & CXF chapter within the Camel Development with JBoss Fuse course
 * Develop some Camel & CXF Camel Routes
 * Use the CXF Maven plugin to generate the Java code from the WSDL or WSDL from Java Annotated classes
@@ -15,7 +16,7 @@ ifdef::showscript[]
 [.notes]
 ****
 
-== Suggested Readings
+== Suggested Readings & work
 
 In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about Camel & CXF within the Camel Development with JBoss Fuse course, that you create some projects
 using your WSDL file and expose a Web Service from a Camel Route that you will consume from another Camel Route playing the role of a client. Exercise tyourself to also use the CXF Maven Plugins reponsioble to generate the Java
