@@ -1,5 +1,6 @@
 :noaudio:
 
+[#ws-encrypt-decrypt]
 == Encrypt Payload
 
 * http://camel.apache.org/xmlsecurity-dataformat.html[Camel XMLSecurity encryption]

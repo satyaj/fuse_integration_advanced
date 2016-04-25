@@ -1,5 +1,6 @@
 :noaudio:
 
+[#ws-security-trust]
 == WS Trust
 
 * http://cxf.apache.org/docs/ws-trust.html[Cxf & WS-Trust]

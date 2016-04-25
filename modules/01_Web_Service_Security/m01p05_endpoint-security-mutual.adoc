@@ -1,5 +1,6 @@
 :noaudio:
 
+[#endpoint-security-mutual]
 == Endpoint Security
 
 * TLS with Mutual Authentication

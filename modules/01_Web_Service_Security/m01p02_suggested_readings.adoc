@@ -1,5 +1,6 @@
 :noaudio:
 
+[#suggested-readings]
 == Suggested Readings & work
 
 .Exercise yourself

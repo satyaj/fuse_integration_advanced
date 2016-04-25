@@ -1,5 +1,6 @@
 :noaudio:
 
+[#endpoint-security]
 == Endpoint Security
 
 * CXF Endpoint security relies on SSL/TLS for HTTPS Transport
