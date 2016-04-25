@@ -1,17 +1,17 @@
 :noaudio:
 
-[#ws-security-policy]
+[#ws-security-policy-]
 == WS Security Policy
 
 * Externalized in a XML file and passed as parameter to a +<jaws:endpoint/>+ using a +<feature/>+
 +
 [source,xml]
 ----
- <jaxws:features>
-            <p:policies>
-                <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" URI="classpath:/org/jboss/fuse/security/wssecuritypolicy/signencrypt-policy.xml"/>
-            </p:policies>
-        </jaxws:features>
+<jaxws:features>
+    <p:policies>
+        <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" URI="classpath:/to/my/policy.xml"/>
+    </p:policies>
+</jaxws:features>
 ----
 
 .References

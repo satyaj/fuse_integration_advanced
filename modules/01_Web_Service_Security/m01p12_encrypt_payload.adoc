@@ -1,0 +1,31 @@
+:noaudio:
+
+[#xmlsecurity-encrypt-decrypt]
+== Encrypt/Decrypt Payload
+
+* SOAP Body, Element or Element Content Level can be Encrypted/Decrypted
+* Encryption capability : based on formats supported using the Apache Santuario project
+* Symmetric encryption/decryption is currently supported using Triple-DES and AES (128, 192, and 256)
+* Encryption is done using +Marshall+ processor
+* Decryption is performed using +Unmarshall+ processor
+
+.Camel Route Example
+[source,xml]
+----
+from("direct:start")
+    .marshal().secureXML()
+    .unmarshal().secureXML()
+    .to("direct:end");
+----
+
+.References
+* http://camel.apache.org/xmlsecurity-dataformat.html[Camel XMLSecurity encryption]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Encrypt Payload
+
+****
+endif::showscript[]

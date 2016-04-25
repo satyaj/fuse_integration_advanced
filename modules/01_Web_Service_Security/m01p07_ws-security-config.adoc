@@ -1,6 +1,6 @@
 :noaudio:
 
-[#ws-security]
+[#ws-security-config]
 == WS Security
 
 * WSS4j can be configured using the Java API

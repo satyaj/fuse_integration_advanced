@@ -11,7 +11,6 @@
 
 * Implemented mainly using Apache WSS4J with interceptor (IN/OUT)
 
-
 .References
 * https://en.wikipedia.org/wiki/WS-Security[WS-Security]
 
