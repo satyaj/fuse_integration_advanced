@@ -1,6 +1,6 @@
 
 include::m01p01_cover.adoc[]
-include::m01p02_prerequisites.adoc[]
+include::m01p02_suggested_readings.adoc[]
 include::m01p03_topics.adoc[]
 include::m01p04_endpoint-security.adoc[]
 include::m01p05_encrypt_payload.adoc[]

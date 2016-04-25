@@ -2,22 +2,24 @@
 
 == Suggested Readings
 
+* Read Camel & CXF chapter within the Camel Development with JBoss Fuse course
+* Develop some Camel & CXF Camel Routes
+* Use the CXF Maven plugin to generate the Java code from the WSDL or WSDL from Java Annotated classes
+
+.Readings
 * http://www.javaworld.com/article/2073287/soa/secure-web-services.html[Secure Web Service]
-* https://en.wikipedia.org/wiki/WS-Security[WS-Security]
-* http://cxf.apache.org/docs/ws-security.html[WS-Security & CXF]
-* http://cxf.apache.org/docs/ws-trust.html[WS-Trust & CXF]
-* http://concentricsky.com/blog/2012/dec/implementing-ws-security-cxf-wsdl-first-web-service[Example of CXF & WS Security]
-* http://concentricsky.com/blog/2012/dec/implementing-ws-security-cxf-wsdl-first-web-service[Cxf & WS Security]
 * https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores[Keytool & Keystore]
-* https://www.soapui.org/soapui-projects/ws-security.html[SOAPUI & Security]
 * https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Security_Guide/CreateCerts.html[Manage your certificates]
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/WsPolicy.html#WsPolicy-Intro[Fuse CXF Security doc]
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Prerequisites
+== Suggested Readings
+
+In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about Camel & CXF within the Camel Development with JBoss Fuse course, that you create some projects
+using your WSDL file and expose a Web Service from a Camel Route that you will consume from another Camel Route playing the role of a client. Exercise tyourself to also use the CXF Maven Plugins reponsioble to generate the Java
+classes from the WSDL file of the WSDL file from the Java Annotated Classes.
 
 ****
 endif::showscript[]

@@ -2,6 +2,7 @@
 
 == WS Security Policy
 
+* * https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/WsPolicy.html#WsPolicy-Intro[Fuse CXF Security doc]
 * http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/errata01/ws-securitypolicy-1.3-errata01.html[WS Security Spec]
 * http://docs.oasis-open.org/ws-sx/security-policy/examples/ws-sp-usecases-examples.html[WS Security Policy Examples]
 * http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
