@@ -6,7 +6,6 @@
 
 = Fuse Integration Advanced Level
 
-
 toc::[]
 
 == Introduction
