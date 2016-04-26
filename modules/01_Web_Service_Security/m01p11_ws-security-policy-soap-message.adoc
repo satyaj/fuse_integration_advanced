@@ -1,0 +1,47 @@
+:noaudio:
+
+[#ws-security-policy-syntax]
+== WS Security Policy - Transport
+
+* Message protection defined at the
+** Transport Layer Level
+** SOAP Message Level
++
+[source,xml]
+----
+<sp:TransportBinding xmlns:sp="..." ... >
+  <wsp:Policy xmlns:wsp="...">
+    <sp:TransportToken ... >
+      <wsp:Policy> ... </wsp:Policy>
+      ...
+    </sp:TransportToken>
+    <sp:AlgorithmSuite ... > ... </sp:AlgorithmSuite>
+    <sp:Layout ... > ... </sp:Layout> ?
+    <sp:IncludeTimestamp ... /> ?
+      ...
+  </wsp:Policy>
+  ...
+</sp:TransportBinding>
+----
+
+
+
+.References
+* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html[WS Security Spec 1.3]
+* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Security Policy
+
+With WS-SecurityPolicy, the binding and/or operation in the wsdl references a WS-Policy fragment that describes the basic security requirements for interacting with that service. The WS-SecurityPolicy specification allows for specifying things like asymmetric/symmetric keys, using transports (https) for encryption, which parts/headers to encrypt or sign, whether to sign then encrypt or encrypt then sign, whether to include timestamps, whether to use derived keys, etc... Basically, it describes what actions are necessary to securely interact with the service described in the WSDL.
+
+However, the WS-SecurityPolicy fragment does not include "everything" that is required for a runtime to be able to able to create the messages. It does not describe things such as locations of key stores, user names and passwords, etc... Those need to be configured in at runtime to augment the WS-SecurityPolicy fragment.
+
+Transport layer message protection refers to the message protection (encryption and signing) that is provided by the transport layer. For example, HTTPS provides encryption and message signing features using SSL/TLS. In fact, WS-SecurityPolicy does not add much to the HTTPS feature set, because HTTPS is already fully configurable using Spring XML configuration
+A transport binding policy must be applied to an endpoint policy subject and
+
+****
+endif::showscript[]
