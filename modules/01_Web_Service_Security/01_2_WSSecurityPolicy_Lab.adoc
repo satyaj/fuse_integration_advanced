@@ -64,6 +64,8 @@ The different use cases should be developed as a collection of Java JUnit Test c
 
 The goal of this use case is to design a Junit Test case to start a CXF Bus Server and to use the CXF JAWS client endpoint in order to issue a SOAP Message using +WS-SecurityPolicy+ as security specification.
 
+The binding and/or operation in the wsdl references a WS-Policy fragment that describes the basic security requirements for interacting with that service. The WS-SecurityPolicy specification allows for specifying things like asymmetric/symmetric keys, using transports (https) for encryption, which parts/headers to encrypt or sign, whether to sign then encrypt or encrypt then sign, whether to include timestamps, whether to use derived keys. The actions necessary to securely interact with the service are described in the WSDL. However, the user still needs to describe things such as locations of key stores, user names and passwords. 
+
 So, the challenge of this use case will be to configure appropriately the Policy, part of the WSDL file, to generate the SOAP Message & WSSE section with the information required to authenticate, sign or encrypt the content of the message.
 
 The Java class +org.jboss.fuse.security.WSSecurityPolicyTest+ which extend the +AbstractBusClientServerTestBase+ class will include @Test Junit methods responsible to issue the SOAP Messages where the SOAP Header is not longer generated
@@ -155,6 +157,10 @@ runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security
 ====
 
 .WSDL and Policy
+
+WS SecurityPolicy uses WS Policy assertions within the WSDL file to define the secure exchange to messages. Some of the policy assertions that are interesting to this use case are:
+- `TransportBinding` which sets the TLS security attributes
+- `SupportingToken` which deal with user sign-on (username,password)
 
 * Create within the HelloWorld WSDL file a policy with this id +<wsp:Policy wsu:Id="GreetMeAuthenticationPolicy"+
 * Configure the Port section to use this Security Policy +<wsdl:port binding="tns:GreeterBinding" name="GreeterPort">+
