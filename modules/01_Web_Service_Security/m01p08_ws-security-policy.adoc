@@ -50,6 +50,13 @@ As such policies can't be defined using Java Annotations, by consequence, it is 
 
 The Policy Assertions are defined within the namespace +http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702+ which is associated by convention to the prefix wsp and will describe how messages are to be secured.
 
+In general, a +<wsp:Policy/> element is composed of multiple different policy settings (where individual policy settings are specified as policy assertions). Hence, the policy defined by a wsp:Policy element is really a composite object.
+The content of the wsp:Policy element is called a policy expression, where the policy expression consists of various logical combinations of the basic policy assertions. By tailoring the syntax of the policy expression, you can determine what
+combinations of policy assertions must be satisfied at runtime in order to satisfy the policy overall.
+
+A policy is built up using policy assertions, which can additionally be qualified using the wsp:Optional attribute, and various nested combinations of the wsp:All and wsp:ExactlyOne elements.
+The net effect of composing these elements is to produce a range of acceptable policy alternatives
+
 There are 2 ways to configure the WS Policies. You can define them within the WSDL File within the +<wsdl:port/>+ section or refer it within the Port Binding section using a +<PolicyReference/>+ as you can see within the 2 snippets code
 of this slide. A policy can be assigned globally for the binding of a Service but you can also define a policy that you will assign to the Input or Output Body message. Typically, such a policy will be used to specify that the body must be signed and/or encrypted like also the Header section.
 
