@@ -48,7 +48,20 @@ ifdef::showscript[]
 
 == Endpoint Security
 
-TODO
+The CXF Endpoint which is a Web Service is exposed to the clients using a transport connector. The Transport connector that the Apache CXF framework supports are : local, HTTP, HTTPS, TCP, UDP, JMS or WebSocket. We will not cover all the transports connectors within this Security Module
+but the HTTP Transport connector which is the most relevant. Of course, most of the aspects that we will introduce here could be applied also for the Netty, JMS or WebSocket Transport connectors as they rely on the same technology to secure the endpoint.
+
+The HTTP transport connector can be used within a JBoss Fuse project if the corresponding jar file is included within the Java classpath of the application, deployed as a bundle into a JBoss Fuse container or as a module on JBoss EAP.
+To use the Jetty Web Component serving a HTTP Connector for the clients sending their SOAP XML Messages, we will use the following maven artifact "cxf-rt-transports-http-jetty".
+
+To secure the HTTP endpoint using the SSL/TLS Protocol, then we will use a Jetty Engine Factory bean to instantiate a Jetty Server and pass as parameter the bean defining the TLS Server parameters. The TLS parameters
+include the Key Managers properties to point to the Java Keystore of the Server and password to be used to access to the Keys or Certificates packaged within the KeyManager Store. If a TrustManager is required, then you will also
+configure it within the TLS Server Parameters.
+
+This Secured HTTP Transport connector is configured at the Server Side using the Java class +org.apache.cxf.configuration.jsse.TLSServerParameters+ or as a Spring Bean as showed on this slide with the XML tag +<http:tlsServerParameters>+. Likewise, the TLS Client Parameters
+will be defined at the client side within the HTTP Conduit using also a Spring Bean with the xml tag +<http:tlsClientParameters>+
+
+NOTE: The Cipher Suites which are the Java Crypto Algorithm used to encrypt/decrypt or sign/digest messages can also be defined as property like also the type of the TLS/SSL version of the protocol to be used
 
 ****
 endif::showscript[]

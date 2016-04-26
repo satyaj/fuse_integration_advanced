@@ -1,0 +1,49 @@
+:noaudio:
+
+[#ws-security-policy-transport]
+== WS Security Policy - Transport
+
+* WS Security Policy allows to Protect
+** Message Globally using a Transport Binding Section or
+** Soap Layer With more granulary (Body, Headers, Attachment)
++
+.Structure of the Transport Binding
+[source,xml]
+----
+<sp:TransportBinding xmlns:sp="..." ... >
+  <wsp:Policy xmlns:wsp="...">
+    <sp:TransportToken ... >
+      <wsp:Policy> ... </wsp:Policy>
+      ...
+    </sp:TransportToken>
+    <sp:AlgorithmSuite ... > ... </sp:AlgorithmSuite>
+    <sp:Layout ... > ... </sp:Layout>
+    <sp:IncludeTimestamp ... />
+      ...
+  </wsp:Policy>
+  ...
+</sp:TransportBinding>
+----
+
+.References
+* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html[WS Security Spec 1.3]
+* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
+
+ifdef::showscript[]
+[.notes]
+****
+
+== WS Security Policy
+
+The Transport layer message protection refers to the message protection (encryption and signing) that is provided by the transport layer. For example, HTTPS provides encryption and message signing features using SSL/TLS.
+In fact, WS-SecurityPolicy does not add much to the HTTPS feature set, because HTTPS is already fully configurable using Spring XML configuration.
+
+If you use WS-SecurityPolicy & TransportBinding to configure the HTTPS transport, you must also configure HTTPS security appropriately in the Spring configuration using <sec:keyManagers/>,<sec:trustManagers/>, etc ... as presented before
+
+The Transport Binding section contains a Policy with the following XML tags. The TransportToken defines a particular type of security token (X.509 by example) to be used and it indicates how the transport is secured (HTTPS by example).
+The AlgorithmSuiteThis element specifies the suite of cryptographic algorithms to use for signing and encryption (base64, ...). The Layout specifies whether to impose any conditions on the order in which security headers are added to the SOAP message
+(Lax, Strict, ...) and the IncludeTimestamp will be used to add the TimeStamp within the SOAP Header.
+
+
+****
+endif::showscript[]

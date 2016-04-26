@@ -60,7 +60,25 @@ ifdef::showscript[]
 [.notes]
 ****
 
+.References
+
+* http://cxf.apache.org/docs/interceptors.html[CXF Phases]
+
 == WS Security
+
+The configuration of the WS Security will be done using the +org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor+ or the org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor+ java classes. They can be configured as you can see within this slide using the Java API.
+With the CXF Endpoint object, you can get the list of the In or OutInterceptors and add a new interceptor. These interceptors will be handled during the PRE_PROTOCOL Phase by the CXF Framework. Likewise the WSS4J Interceptor can be instantiated using a <jaxws:Interceptors> or
+<jaxws:outInterceptors/> list of beans.
+
+The WSS4J Interceptor is configured with a Map that we pass as constructor argument. The key and entries (action, signaturePropFile, etc.) map to the text strings in WSS4J's WSHandlerConstants and WSConstants classes for the corresponding WSHandlerConstants.XXXXX and WSConstants.XXXX constants
+When you would like to setup some Actions, then you will create the key "Action" with by the values "UsernameToken TimeStamp" and CXF will generate a USernameToken with a TimeStamp within the WSSEC SOAP Header Section.
+
+You can get a list of all the actions available by looking within the +org.apache.wss4j.dom.handler.WSHandlerConstants+ java class.
+
+To specify the Class to be used to control the password using a CallBack mechanism, then you will add the key "passwordCallbackClass". To specify the file to be used to sign/digest or encrypt/decrypt the elements of the SOAP messages, you will use
+respectively the keys; signaturePropFile and encryptPropFile. These keys pojnt the location of the properties files that WSS4J will use to configure the Crypto provider. The key +org.apache.ws.security.crypto.provider+ and its value +org.apache.ws.security.components.crypto.Merlin+
+will tell to WSS4J which class it will use to instantiate the Java Crypto Provider which is here by default +Merlin+.
+As the TLS Client/Server parameters, you will also define within these properties files the location of the keystore, password to be used, etc ....
 
 ****
 endif::showscript[]
