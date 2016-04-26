@@ -3,10 +3,9 @@
 [#ws-security-policy-syntax]
 == WS Security Policy - Transport
 
-* WS Security Policy allows to
-* Protect SOAP Message using a
-** Transport Layer Section or
-** SOAP Message Section
+* WS Security Policy allows to Protect
+** Message Globally using a Transport Binding Section or
+** Soap Layer With more granulary (Body, Headers, Attachment)
 +
 .Structure of the Transport Binding
 [source,xml]
@@ -36,12 +35,15 @@ ifdef::showscript[]
 
 == WS Security Policy
 
-With WS-SecurityPolicy, the binding and/or operation in the wsdl references a WS-Policy fragment that describes the basic security requirements for interacting with that service. The WS-SecurityPolicy specification allows for specifying things like asymmetric/symmetric keys, using transports (https) for encryption, which parts/headers to encrypt or sign, whether to sign then encrypt or encrypt then sign, whether to include timestamps, whether to use derived keys, etc... Basically, it describes what actions are necessary to securely interact with the service described in the WSDL.
+The Transport layer message protection refers to the message protection (encryption and signing) that is provided by the transport layer. For example, HTTPS provides encryption and message signing features using SSL/TLS.
+In fact, WS-SecurityPolicy does not add much to the HTTPS feature set, because HTTPS is already fully configurable using Spring XML configuration.
 
-However, the WS-SecurityPolicy fragment does not include "everything" that is required for a runtime to be able to able to create the messages. It does not describe things such as locations of key stores, user names and passwords, etc... Those need to be configured in at runtime to augment the WS-SecurityPolicy fragment.
+If you use WS-SecurityPolicy & TransportBinding to configure the HTTPS transport, you must also configure HTTPS security appropriately in the Spring configuration using <sec:keyManagers/>,<sec:trustManagers/>, etc ... as presented before
 
-Transport layer message protection refers to the message protection (encryption and signing) that is provided by the transport layer. For example, HTTPS provides encryption and message signing features using SSL/TLS. In fact, WS-SecurityPolicy does not add much to the HTTPS feature set, because HTTPS is already fully configurable using Spring XML configuration
-A transport binding policy must be applied to an endpoint policy subject and
+The Transport Binding section contains a Policy with the following XML tags. The TransportToken defines a particular type of security token (X.509 by example) to be used and it indicates how the transport is secured (HTTPS by example).
+The AlgorithmSuiteThis element specifies the suite of cryptographic algorithms to use for signing and encryption (base64, ...). The Layout specifies whether to impose any conditions on the order in which security headers are added to the SOAP message
+(Lax, Strict, ...) and the IncludeTimestamp will be used to add the TimeStamp within the SOAP Header.
+
 
 ****
 endif::showscript[]
