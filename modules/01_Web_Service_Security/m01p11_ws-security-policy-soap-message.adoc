@@ -1,34 +1,61 @@
 :noaudio:
 
 [#ws-security-policy-syntax]
-== WS Security Policy - Transport
+== WS Security Policy - SOAP Message
 
-* Message protection defined at the
-** Transport Layer Level
-** SOAP Message Level
-+
+sp:AsymmetricBinding—the asymmetric binding refers to message protection provided at the SOAP message encoding layer, where the protection features are implemented using asymmetric cryptography (also known as public key cryptography).
+sp:SymmetricBinding—the symmetric binding refers to message protection provided at the SOAP message encoding layer, where the protection features are implemented using symmetric cryptography. Examples of symmetric cryptography are the tokens provided by WS-SecureConversation and Kerberos tokens.
+
+Message protection
+
+The following qualities of protection can be applied to part or all of a message:
+Encryption.
+Signing.
+Signing+encryption (sign before encrypting).
+Encryption+signing (encrypt before signing).
+These qualities of protection can be arbitrarily combined in a single message. Thus, some parts of a message can be just encrypted, while other parts of the message are just signed, and other parts of the message can be both signed and encrypted. It is also possible to leave parts of the message unprotected.
+
+.Asymetric Example
 [source,xml]
 ----
-<sp:TransportBinding xmlns:sp="..." ... >
+<sp:AsymmetricBinding xmlns:sp="..." ... >
   <wsp:Policy xmlns:wsp="...">
-    <sp:TransportToken ... >
-      <wsp:Policy> ... </wsp:Policy>
-      ...
-    </sp:TransportToken>
-    <sp:AlgorithmSuite ... > ... </sp:AlgorithmSuite>
-    <sp:Layout ... > ... </sp:Layout> ?
-    <sp:IncludeTimestamp ... /> ?
-      ...
+  (
+   <sp:InitiatorToken>
+     <wsp:Policy> ... </wsp:Policy>
+   </sp:InitiatorToken>
+  ) | (
+   <sp:InitiatorSignatureToken>
+     <wsp:Policy> ... </wsp:Policy>
+   </sp:InitiatorSignatureToken>
+   <sp:InitiatorEncryptionToken>
+     <wsp:Policy> ... </wsp:Policy>
+   </sp:InitiatorEncryptionToken>
+  )
+  (
+   <sp:RecipientToken>
+     <wsp:Policy> ... </wsp:Policy>
+   </sp:RecipientToken>
+  ) | (
+   <sp:RecipientSignatureToken>
+     <wsp:Policy> ... </wsp:Policy>
+   </sp:RecipientSignatureToken>
+   <sp:RecipientEncryptionToken>
+     <wsp:Policy> ... </wsp:Policy>
+   </sp:RecipientEncryptionToken>
+  )
+   <sp:AlgorithmSuite ... > ... </sp:AlgorithmSuite>
+   <sp:Layout ... > ... </sp:Layout> ?
+   <sp:IncludeTimestamp ... /> ?
+   <sp:EncryptBeforeSigning ... /> ?
+   <sp:EncryptSignature ... /> ?
+   <sp:ProtectTokens ... /> ?
+   <sp:OnlySignEntireHeadersAndBody ... /> ?
+   ...
   </wsp:Policy>
   ...
-</sp:TransportBinding>
+</sp:AsymmetricBinding>
 ----
-
-
-
-.References
-* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html[WS Security Spec 1.3]
-* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
 
 ifdef::showscript[]
 [.notes]

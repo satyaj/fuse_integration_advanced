@@ -3,10 +3,12 @@
 [#ws-security-policy-syntax]
 == WS Security Policy - Transport
 
-* Message protection defined at the
-** Transport Layer Level
-** SOAP Message Level
+* WS Security Policy allows to
+* Protect SOAP Message using a
+** Transport Layer Section or
+** SOAP Message Section
 +
+.Structure of the Transport Binding
 [source,xml]
 ----
 <sp:TransportBinding xmlns:sp="..." ... >
@@ -16,15 +18,13 @@
       ...
     </sp:TransportToken>
     <sp:AlgorithmSuite ... > ... </sp:AlgorithmSuite>
-    <sp:Layout ... > ... </sp:Layout> ?
-    <sp:IncludeTimestamp ... /> ?
+    <sp:Layout ... > ... </sp:Layout>
+    <sp:IncludeTimestamp ... />
       ...
   </wsp:Policy>
   ...
 </sp:TransportBinding>
 ----
-
-
 
 .References
 * http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html[WS Security Spec 1.3]
