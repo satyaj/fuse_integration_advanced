@@ -1,6 +1,6 @@
 :noaudio:
 
-[#ws-security-trust]
+[#ws-security-trust-config]
 == WS Trust
 
 * Principe relies on a Security Provider issuing Token
@@ -16,18 +16,6 @@ ifdef::showscript[]
 
 == WS Trust
 
-According to the specification, WS-Trust is based on a process in which a Web service can require that an incoming message prove a set of claims (e.g., name, key, permission, capability, etc.).
-If a message arrives without having the required proof of claims, the service SHOULD ignore or reject the message.  A service can indicate its required claims and related information in its policy as described by
-the WS-Security Policy.
-
-The WS-Trust specification is an extension of the WS-Security Policy specification aiming to enable applications to construct trusted SOAP message exchanges.
-This trust is represented through the exchange and brokering of security tokens. Such security tokens will be issued by a Security Tokens Service which is designed as a Web Service
-endpoint able to issue, renew, and validate these security tokens. The token issued is used next by the Web Service client to issue the SOAP Request to the target Service
-which will control if the token is valid, user authenticated and if the client is asserted/authorized to access the service.
-
-Most of the times, such security claims will be described using SAML Assertions rules.
-
-The STS Server acts as a Central Security Proxy Server managing globally the Certificates, Keys of the Applications client and integrated within the design of the solution
 
 ****
 endif::showscript[]

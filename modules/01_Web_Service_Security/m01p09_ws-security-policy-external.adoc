@@ -1,6 +1,6 @@
 :noaudio:
 
-[#ws-security-policy-]
+[#ws-security-policy-external]
 == WS Security Policy
 
 * Externalized in a XML file and passed as parameter to a +<jaws:endpoint/>+ using a +<feature/>+

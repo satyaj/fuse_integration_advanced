@@ -1,6 +1,6 @@
 :noaudio:
 
-[#ws-security-policy-syntax]
+[#ws-security-policy-soap-message]
 == WS Security Policy - SOAP Message
 
 * More granularity is offered if SOAP Message Protection is used

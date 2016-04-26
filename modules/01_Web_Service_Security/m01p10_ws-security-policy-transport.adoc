@@ -1,6 +1,6 @@
 :noaudio:
 
-[#ws-security-policy-syntax]
+[#ws-security-policy-transport]
 == WS Security Policy - Transport
 
 * WS Security Policy allows to Protect
