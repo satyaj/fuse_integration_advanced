@@ -27,7 +27,14 @@ ifdef::showscript[]
 
 == Endpoint Security
 
-TODO
+When the mutual TLS authentication is needed between the client and the server and that the server expects to get the certificate of the client and its public key to sign/encrypt/decrypt or digest the content
+of the SOAP Message, then we will use the Java class +org.apache.cxf.configuration.security.ClientAuthentication+ or its corresponding XML Tag + <sec:clientAuthentication/>. To configure that the mutual authentication is required, we
+will use the boolean values required or want to specify if the authentication is required or defined as optional.
+
+The Client Authentication feature doesn't refer to the fact that a username with a password must be provided by the client but means that the Client must provide its certificate containing its public key that the Server
+will verify using its TrustManager.
+
+The Server TLS Parameters will be configured in this case with a Trust and KeyManagers like also the client. Remark that KeyManager is only required at client side for Mutual Authentication
 
 ****
 endif::showscript[]

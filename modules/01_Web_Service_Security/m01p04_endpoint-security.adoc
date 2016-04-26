@@ -61,7 +61,7 @@ configure it within the TLS Server Parameters.
 This Secured HTTP Transport connector is configured at the Server Side using the Java class +org.apache.cxf.configuration.jsse.TLSServerParameters+ or as a Spring Bean as showed on this slide with the XML tag +<http:tlsServerParameters>+. Likewise, the TLS Client Parameters
 will be defined at the client side within the HTTP Conduit using also a Spring Bean with the xml tag +<http:tlsClientParameters>+
 
-NOTE: The Cipher Suites which are the Java Crypto Algorithm used to encrypt/decrypt or sign/digest messages can also be defined as parameter as the type of the TLS/SSL version of the protocol tp be used
+NOTE: The Cipher Suites which are the Java Crypto Algorithm used to encrypt/decrypt or sign/digest messages can also be defined as property like also the type of the TLS/SSL version of the protocol to be used
 
 ****
 endif::showscript[]
