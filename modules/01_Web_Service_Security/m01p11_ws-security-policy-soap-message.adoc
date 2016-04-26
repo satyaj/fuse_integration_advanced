@@ -3,57 +3,34 @@
 [#ws-security-policy-syntax]
 == WS Security Policy - SOAP Message
 
-sp:AsymmetricBinding—the asymmetric binding refers to message protection provided at the SOAP message encoding layer, where the protection features are implemented using asymmetric cryptography (also known as public key cryptography).
-sp:SymmetricBinding—the symmetric binding refers to message protection provided at the SOAP message encoding layer, where the protection features are implemented using symmetric cryptography. Examples of symmetric cryptography are the tokens provided by WS-SecureConversation and Kerberos tokens.
-
-Message protection
-
-The following qualities of protection can be applied to part or all of a message:
-Encryption.
-Signing.
-Signing+encryption (sign before encrypting).
-Encryption+signing (encrypt before signing).
-These qualities of protection can be arbitrarily combined in a single message. Thus, some parts of a message can be just encrypted, while other parts of the message are just signed, and other parts of the message can be both signed and encrypted. It is also possible to leave parts of the message unprotected.
+* More granularity is offered if SOAP Message Protection is used
+* Support Symmetric (Kerberos Token, ...) & AsymetricBinding (Pulic Key)
+* Can sign and/or encrypt specific parts (Body, Headers, ...)
 
 .Asymetric Example
 [source,xml]
 ----
 <sp:AsymmetricBinding xmlns:sp="..." ... >
   <wsp:Policy xmlns:wsp="...">
-  (
    <sp:InitiatorToken>
      <wsp:Policy> ... </wsp:Policy>
    </sp:InitiatorToken>
-  ) | (
-   <sp:InitiatorSignatureToken>
-     <wsp:Policy> ... </wsp:Policy>
-   </sp:InitiatorSignatureToken>
-   <sp:InitiatorEncryptionToken>
-     <wsp:Policy> ... </wsp:Policy>
-   </sp:InitiatorEncryptionToken>
-  )
-  (
    <sp:RecipientToken>
      <wsp:Policy> ... </wsp:Policy>
    </sp:RecipientToken>
-  ) | (
-   <sp:RecipientSignatureToken>
-     <wsp:Policy> ... </wsp:Policy>
-   </sp:RecipientSignatureToken>
-   <sp:RecipientEncryptionToken>
-     <wsp:Policy> ... </wsp:Policy>
-   </sp:RecipientEncryptionToken>
-  )
    <sp:AlgorithmSuite ... > ... </sp:AlgorithmSuite>
-   <sp:Layout ... > ... </sp:Layout> ?
-   <sp:IncludeTimestamp ... /> ?
-   <sp:EncryptBeforeSigning ... /> ?
-   <sp:EncryptSignature ... /> ?
-   <sp:ProtectTokens ... /> ?
-   <sp:OnlySignEntireHeadersAndBody ... /> ?
+   <sp:Layout ... > ... </sp:Layout>
+   <sp:IncludeTimestamp ... />
+   <sp:EncryptSignature ... />
+   <sp:OnlySignEntireHeadersAndBody ... />
    ...
   </wsp:Policy>
-  ...
+  <sp:SignedParts xmlns:sp="..." ... >
+    <sp:Body />
+    <sp:Header Name="xs:NCName"? Namespace="xs:anyURI" ... />
+    <sp:Attachments />
+    ...
+  </sp:SignedParts>
 </sp:AsymmetricBinding>
 ----
 
@@ -63,12 +40,20 @@ ifdef::showscript[]
 
 == WS Security Policy
 
-With WS-SecurityPolicy, the binding and/or operation in the wsdl references a WS-Policy fragment that describes the basic security requirements for interacting with that service. The WS-SecurityPolicy specification allows for specifying things like asymmetric/symmetric keys, using transports (https) for encryption, which parts/headers to encrypt or sign, whether to sign then encrypt or encrypt then sign, whether to include timestamps, whether to use derived keys, etc... Basically, it describes what actions are necessary to securely interact with the service described in the WSDL.
+By applying message protection at the SOAP encoding layer, instead of at the transport layer, you have access to a more flexible range of protection policies.
+In particular, because the SOAP layer is aware of the message structure, you can apply protection at a finer level of granularity—for example, by encrypting and signing only those headers that actually require protection.
 
-However, the WS-SecurityPolicy fragment does not include "everything" that is required for a runtime to be able to able to create the messages. It does not describe things such as locations of key stores, user names and passwords, etc... Those need to be configured in at runtime to augment the WS-SecurityPolicy fragment.
+The protection will be configured using a Security Binding which is either the AsymmetricBinding for public key cryptography or SymmetricBinding when private cryptography will used with Kerberos Token by example.
 
-Transport layer message protection refers to the message protection (encryption and signing) that is provided by the transport layer. For example, HTTPS provides encryption and message signing features using SSL/TLS. In fact, WS-SecurityPolicy does not add much to the HTTPS feature set, because HTTPS is already fully configurable using Spring XML configuration
-A transport binding policy must be applied to an endpoint policy subject and
+In asymmetric binding scenario, keys used for signature and encrypting should be clearly specified. An Asymmetric binding usually contains two main elements, InitiatorToken and RecipientToken.
+These tokens provides room for specifying the tokens used in the signing/encrypting operations by the sender(initiator) and recipient respectively.
+According to the specification, each of these two elements should contain tokens used for signing and encrypting. Most of the a X509 Token will be defined
+
+In addition to those two elements, other properties like Algorithmic Suite, IncludeTimeStamp can also be specified in the Asymmetric Binding element similar to other security binding assertions
+as explained within the previous slide
+
+To Sign or Encrypt specific parts of the SOAP Message, the SignedPart or EncryptedPart XML tag will be sued and the childs elements included will define if the Body, a Header with its name or an attachment
+should be signed or encrypted.
 
 ****
 endif::showscript[]
