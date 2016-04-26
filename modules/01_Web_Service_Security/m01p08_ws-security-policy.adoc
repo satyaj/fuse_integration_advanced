@@ -42,5 +42,13 @@ ifdef::showscript[]
 
 == WS Security Policy
 
+The WS Security Policy like the WS Security specification extends the SOAP Specification but is based on Policies.
+The Web Services policies have been defined within the WS-Policy specification and define a framework for allowing web services to express their constraints and requirements.
+Such constraints and requirements are expressed as security policy assertions for the WS-SecurityPolicy specification with respect to security features provided in SOAP Message Security [WSS10, WSS11].
+
+As such policies can't be defined using Java Annotations, by consequence, it is only possible to use the WS-Security Policy using the approach WSDL to Java.
+
+The Policy Assertions are defined within the namespace +http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702+ which is associated by convention to the prefix wsp and will describe how messages are to be secured.
+
 ****
 endif::showscript[]

@@ -24,5 +24,8 @@ ifdef::showscript[]
 
 == WS Security Policy
 
+There are 2 possibilities to configure the WS Policies. You can define them within the WSDL File within the +<wsdl:port/>+ section or refer it within the Port Binding section using a +<PolicyReference/>+
+The second approach consist to define the policies within a separate file and pass the reference
+
 ****
 endif::showscript[]
