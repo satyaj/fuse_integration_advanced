@@ -24,8 +24,14 @@ ifdef::showscript[]
 
 == WS Security Policy
 
-There are 2 possibilities to configure the WS Policies. You can define them within the WSDL File within the +<wsdl:port/>+ section or refer it within the Port Binding section using a +<PolicyReference/>+
-The second approach consist to define the policies within a separate file and pass the reference
+The second approach that Apache CXF supports consist to define the policies within a separate file. The reference (file, classpath) of the file will be passed as a CXF Policies features as you can see within the snippet code
+example of this slide.
+
+The policies feature enables and configures the CXF Policy Framework. It can have any number of Policy or PolicyReference child elements.
+
+You can assign such policies globally by attaching them to the CXF Bus. Then, they will be applied to all the client and server endpoints created on that bus.
+
+The advantage of this approach is that you can maintain and manage the WSDL contract file separately from the Security Policies within your project's team.
 
 ****
 endif::showscript[]
