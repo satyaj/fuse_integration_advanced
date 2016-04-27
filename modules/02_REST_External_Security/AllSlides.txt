@@ -1,3 +1,15 @@
+
 include::m02p01_cover.adoc[]
-include::m02p02_prerequisites.adoc[]
+include::m02p02_suggested_readings.adoc[]
+include::m02p03_topics.adoc[]
+include::m02pxx_jaas.adoc[]
+include::m02pxx_mutual_tls.adoc[]
+include::m02pxx_oauth2.adoc[]
+include::m02pxx_policy.adoc[]
+include::m02pxx_reenforce_security.adoc[]
+include::m02pxx_reenforce_security-basic.adoc[]
+include::m02pxx_reenforce_security-role.adoc[]
+include::m02pxx_reenforce_security-token.adoc[]
+include::m02pxx_interceptbinding.adoc[]
+
 

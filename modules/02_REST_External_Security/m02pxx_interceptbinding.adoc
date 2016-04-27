@@ -1,0 +1,15 @@
+:noaudio:
+
+== Intercept Binding
+
+.References
+* http://stackoverflow.com/questions/18345600/how-to-intercept-rest-endpoint-to-receive-all-headers
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Intercept Binding
+
+****
+endif::showscript[]

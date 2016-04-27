@@ -1,14 +1,12 @@
 :noaudio:
 
-== Prerequisites
-
-*
+== Mutual TLS
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Prerequisites
+== Mutual TLS
 
 ****
 endif::showscript[]
