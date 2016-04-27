@@ -8,8 +8,6 @@
 ** Enveloping XML Signature
 ** Detached XML Signature
 
-* Implementation based on JSR 105 and Apache Santuario
-+
 .Camel Route Example
 [source,xml]
 ----
@@ -56,6 +54,16 @@ ifdef::showscript[]
 ****
 
 == Encrypt Payload
+
+When we have to verify the signature of a XML message signed or to digest its content, we will use the Apache Camel XML Security Component. This component supports 2 options; sign or verify and is configured through many parameters.
+
+XML Signature differs between enveloped, enveloping, and detached XML signature. In the enveloped XML signature case, the XML Signature is wrapped by the signed XML Document;
+which means that the XML signature element is a child element of a parent element, which belongs to the signed XML Document.
+In the enveloping XML signature case, the XML Signature contains the signed content. All other cases are called detached XML signatures.
+
+For the signing process, a private key is necessary. You specify a key accessor bean which provides this private key. For the validation, the corresponding public key is necessary; you specify a key selector bean which provides this public key.
+The key accessor bean must implement the KeyAccessor interface. The package org.apache.camel.component.xmlsecurity.api contains the default implementation class DefaultKeyAccessor which reads the private key from a Java keystore.
+The key selector bean must implement the javax.xml.crypto.KeySelector interface. The package org.apache.camel.component.xmlsecurity.api contains the default implementation class DefaultKeySelector which reads the public key from a keystore.
 
 ****
 endif::showscript[]
