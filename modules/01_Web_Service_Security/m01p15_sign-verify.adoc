@@ -6,7 +6,7 @@
 * Camel XML Security Component supports to sign & verify SOAP Body message for
 ** Enveloped XML Signature
 ** Enveloping XML Signature
-** Detached  XML Signature
+** Detached XML Signature
 
 * Implementation based on JSR 105 and Apache Santuario
 +

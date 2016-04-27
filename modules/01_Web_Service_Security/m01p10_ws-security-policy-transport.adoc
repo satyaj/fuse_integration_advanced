@@ -3,9 +3,9 @@
 [#ws-security-policy-transport]
 == WS Security Policy - Transport
 
-* WS Security Policy allows to Protect
-** Message Globally using a Transport Binding Section or
-** Soap Layer With more granulary (Body, Headers, Attachment)
+* WS Security Policy can provide
+** transport level security for a Message using the Transport Binding Section or
+** SOAP message or parts of it (Body, Headers, Attachment)
 +
 .Structure of the Transport Binding
 [source,xml]

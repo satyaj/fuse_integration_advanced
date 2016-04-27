@@ -3,7 +3,7 @@
 [#ws-security-policy-external]
 == WS Security Policy
 
-* Externalized in a XML file and passed as parameter to a +<jaws:endpoint/>+ using a +<feature/>+
+* Externalized in a XML file and passed as parameter to a +<jaxws:endpoint/>+ using a +<feature/>+
 +
 [source,xml]
 ----

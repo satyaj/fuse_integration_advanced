@@ -3,11 +3,11 @@
 [#ws-security-policy-soap-message]
 == WS Security Policy - SOAP Message
 
-* More granularity is offered if SOAP Message Protection is used
-* Support Symmetric (Kerberos Token, ...) & AsymetricBinding (Pulic Key)
-* Can sign and/or encrypt specific parts (Body, Headers, ...)
+* SOAP message-level security offers more granularity
+* Support for symmetric (Kerberos Token) & asymmetric (Public Key) key protocols
+* Can sign and/or encrypt specific parts of the message (Body, Headers)
 
-.Asymetric Example
+.Asymmetric Example
 [source,xml]
 ----
 <sp:AsymmetricBinding xmlns:sp="..." ... >
