@@ -1,13 +1,31 @@
 :noaudio:
 
 [#ws-security-trust-config]
-== WS Trust
+== WS Trust Config
 
-* Principe relies on a Security Provider issuing Token
-* Client contacts the STS to get/renew a token based on SAMLv2 rules
-* Token is included within the SOAP Header client request send to the Web Service
-* Web Service will assert the token and the SAML (v1, v2) rules
+* STS : Designed as a Secured WS & WS Trust WSDL
+* Server : Web Service & WS Trust Policies
+* Client : Web Service acting as a STS Client & WS Trust Policies
++
+[source,xml]
+----
+...
+<sp:AsymmetricBinding>
+  <wsp:Policy>
+    <!--
+          The sp:InitiatorToken element specifies the elements required in
+          generating the initiator request to the ws-provider's service.
+    -->
+    <sp:InitiatorToken>
+      <wsp:Policy>
+        <sp:IssuedToken
+                  sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+          <sp:RequestSecurityTokenTemplate>
+            <t:TokenType/>
+            <t:KeyType>
+----
 
+.References
 * http://cxf.apache.org/docs/ws-trust.html[Cxf & WS-Trust]
 
 ifdef::showscript[]
