@@ -1,4 +1,4 @@
-package org.jboss.fuse.security;
+package org.jboss.fuse.security.common;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.properties.PropertiesComponent;
