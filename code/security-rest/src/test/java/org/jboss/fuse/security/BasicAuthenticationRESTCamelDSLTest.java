@@ -1,7 +1,6 @@
 package org.jboss.fuse.security;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.http.HttpOperationFailedException;
 import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestPropertyDefinition;
@@ -16,7 +15,6 @@ import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.util.security.Constraint;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,8 +29,7 @@ public class BasicAuthenticationRESTCamelDSLTest extends BaseJettyTest {
     private static String HOST = "localhost";
     private static int PORT = getPort1();
 
-    @Override
-    protected JndiRegistry createRegistry() throws Exception {
+    @Override protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();
         jndi.bind("myAuthHandler", getSecurityHandler());
         return jndi;
@@ -48,49 +45,49 @@ public class BasicAuthenticationRESTCamelDSLTest extends BaseJettyTest {
 
         ConstraintSecurityHandler sh = new ConstraintSecurityHandler();
         sh.setAuthenticator(new BasicAuthenticator());
-        sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[] {cm}));
+        sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[] { cm }));
 
-        HashLoginService loginService = new HashLoginService("MyRealm", "src/test/resources/org/jboss/fuse/basic/myRealm.properties");
+        HashLoginService loginService = new HashLoginService("MyRealm",
+                "src/test/resources/org/jboss/fuse/basic/myRealm.properties");
         sh.setLoginService(loginService);
-        sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[]{cm}));
+        sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[] { cm }));
 
         return sh;
     }
 
     // EXCLUDE-BEGIN
-    @Test
-    public void UsernameTest() {
+    @Test public void UsernameTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-        HttpResponse response = runAndValidate("localhost",strURL,"donald","duck","MyRealm");
-        assertEquals(200,response.getStatus());
-        assertEquals("We should get a Hello World","Hello World " + user,response.getMessage().replaceAll("^\"|\"$", ""));
+        HttpResult result = runAndValidate("localhost", strURL, "donald", "duck", "MyRealm");
+        assertEquals(200, result.getCode());
+        assertEquals("We should get a Hello World", "Hello World " + user,
+                result.getMessage().replaceAll("^\"|\"$", ""));
     }
     // EXCLUDE-END
 
     // EXCLUDE-BEGIN
-    @Test
-    public void UsernameWrongPasswordTest() {
+    @Test public void UsernameWrongPasswordTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-            HttpResponse response = runAndValidate("localhost", strURL, "donald", "mouse", "MyRealm");
-            assertEquals(401,response.getStatus());
+        HttpResult result = runAndValidate("localhost", strURL, "donald", "mouse", "MyRealm");
+        assertEquals(401, result.getCode());
     }
     // EXCLUDE-END
 
-    protected HttpResponse runAndValidate(String host, String url, String user, String password, String realm) {
+    protected HttpResult runAndValidate(String host, String url, String user, String password, String realm) {
 
-        HttpResponse response = new HttpResponse();
+        HttpResult response = new HttpResult();
 
         // Define the Get Method with the String of the url to access the HTTP Resource
         GetMethod get = new GetMethod(url);
 
         // Set Credentials
-        Credentials creds = new UsernamePasswordCredentials(user,password);
+        Credentials creds = new UsernamePasswordCredentials(user, password);
         // Auth Scope
-        AuthScope authScope = new AuthScope(host,PORT,realm);
+        AuthScope authScope = new AuthScope(host, PORT, realm);
 
         // Execute request
         try {
@@ -98,8 +95,8 @@ public class BasicAuthenticationRESTCamelDSLTest extends BaseJettyTest {
             HttpClient httpclient = new HttpClient();
             // Use preemptive to select BASIC Auth
             httpclient.getParams().setAuthenticationPreemptive(true);
-            httpclient.getState().setCredentials(authScope,creds);
-            response.setStatus(httpclient.executeMethod(get));
+            httpclient.getState().setCredentials(authScope, creds);
+            response.setCode(httpclient.executeMethod(get));
 
             InputStream is = get.getResponseBodyAsStream();
             Scanner s = new Scanner(is).useDelimiter("\\A");
@@ -116,8 +113,7 @@ public class BasicAuthenticationRESTCamelDSLTest extends BaseJettyTest {
     }
 
     // EXCLUDE-BEGIN
-    @Override
-    protected RouteBuilder createRouteBuilder() throws Exception {
+    @Override protected RouteBuilder createRouteBuilder() throws Exception {
 
         final List<RestPropertyDefinition> jettyProperties = new ArrayList<>();
         RestPropertyDefinition rpd = new RestPropertyDefinition();
@@ -126,38 +122,30 @@ public class BasicAuthenticationRESTCamelDSLTest extends BaseJettyTest {
         jettyProperties.add(rpd);
 
         return new RouteBuilder() {
-            @Override
-            public void configure() throws Exception {
+            @Override public void configure() throws Exception {
 
-                restConfiguration()
-                    .component("jetty")
-                    .scheme("http")
-                    .host("0.0.0.0")
-                    .port(getPort1())
-                    .bindingMode(RestBindingMode.json)
-                    .setEndpointProperties(jettyProperties);
+                restConfiguration().component("jetty").scheme("http").host("0.0.0.0").port(getPort1())
+                        .bindingMode(RestBindingMode.json).setEndpointProperties(jettyProperties);
 
-                rest("/say").produces("json")
-                    .get("/hello/{id}").to("direct:hello");
+                rest("/say").produces("json").get("/hello/{id}").to("direct:hello");
 
-                from("direct:hello")
-                    .transform()
-                    .simple("Hello World ${header.id}");
+                from("direct:hello").transform().simple("Hello World ${header.id}");
 
             }
         };
     }
     // EXCLUDE-END
 
-    protected class HttpResponse {
-        int status;
+    protected class HttpResult {
+        int code;
         String message;
-        public int getStatus() {
-            return status;
+
+        public int getCode() {
+            return code;
         }
 
-        public void setStatus(int status) {
-            this.status = status;
+        public void setCode(int code) {
+            this.code = code;
         }
 
         public String getMessage() {
@@ -169,7 +157,5 @@ public class BasicAuthenticationRESTCamelDSLTest extends BaseJettyTest {
         }
 
     }
-
-
 
 }
