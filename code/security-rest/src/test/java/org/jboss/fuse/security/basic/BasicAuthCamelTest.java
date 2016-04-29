@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 
-public class BasicAuthenticationCamelTest extends BaseJettyTest {
+public class BasicAuthCamelTest extends BaseJettyTest {
 
     @Override protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();

@@ -9,23 +9,23 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.eclipse.jetty.jaas.JAASLoginService;
-import org.eclipse.jetty.security.*;
+import org.eclipse.jetty.security.ConstraintMapping;
+import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.HashLoginService;
+import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.util.security.Constraint;
 import org.jboss.fuse.security.common.BaseJettyTest;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class BasicAuthenticationRESTCamelDSLJettyJaasTest extends BaseJettyTest {
+public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
 
     private static String HOST = "localhost";
     private static int PORT = getPort1();
@@ -34,11 +34,6 @@ public class BasicAuthenticationRESTCamelDSLJettyJaasTest extends BaseJettyTest 
         JndiRegistry jndi = super.createRegistry();
         jndi.bind("myAuthHandler", getSecurityHandler());
         return jndi;
-    }
-
-    @Before public void init() throws IOException {
-        URL jaasURL = BasicAuthenticationRESTCamelDSLJettyJaasTest.class.getResource("myrealm-jaas.cfg");
-        System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
     }
 
     private SecurityHandler getSecurityHandler() throws IOException {
@@ -52,33 +47,20 @@ public class BasicAuthenticationRESTCamelDSLJettyJaasTest extends BaseJettyTest 
         cm.setConstraint(constraint);
 
         /* A security handler is a jetty handler that secures content behind a
-         *  particular portion of a url space. The ConstraintSecurityHandler is a
-         *  more specialized handler that allows matching of urls to different
-         *  constraints. The server sets this as the first handler in the chain,
-         *  effectively applying these constraints to all subsequent handlers in
-         *  the chain.
-         *  The BasicAuthenticator instance is the object that actually checks the credentials
-         */
+           particular portion of a url space. The ConstraintSecurityHandler is a
+           more specialized handler that allows matching of urls to different
+           constraints. The server sets this as the first handler in the chain,
+           effectively applying these constraints to all subsequent handlers in
+           the chain.
+           The BasicAuthenticator instance is the object that actually checks the credentials
+        */
         ConstraintSecurityHandler sh = new ConstraintSecurityHandler();
         sh.setAuthenticator(new BasicAuthenticator());
         sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[] { cm }));
 
-        /*
-         * The DefaultIdentityService service handles only role reference maps passed in an
-         * associated org.eclipse.jetty.server.UserIdentity.Scope.  If there are roles
-         * refs present, then associate will wrap the UserIdentity with one that uses the role references in the
-         * org.eclipse.jetty.server.UserIdentity#isUserInRole(String, org.eclipse.jetty.server.UserIdentity.Scope)}
-         * implementation.
-         *
-        */
-        DefaultIdentityService dis = new DefaultIdentityService();
-
-        // Service which create a UserRealm suitable for use with JAAS
-        JAASLoginService loginService = new JAASLoginService();
-        loginService.setName("myrealm");
-        loginService.setLoginModuleName("propsFileModule");
-        loginService.setIdentityService(dis);
-
+        //  The HashLogin is an implementation of a UserRealm that stores users and roles in-memory in HashMaps.
+        HashLoginService loginService = new HashLoginService("MyRealm",
+                "src/test/resources/org/jboss/fuse/security/basic/myrealm.props");
         sh.setLoginService(loginService);
         sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[] { cm }));
 
@@ -129,7 +111,8 @@ public class BasicAuthenticationRESTCamelDSLJettyJaasTest extends BaseJettyTest 
             response.setCode(httpclient.executeMethod(get));
 
             InputStream is = get.getResponseBodyAsStream();
-            response.setMessage(inputStreamToString(is));
+            Scanner s = new Scanner(is).useDelimiter("\\A");
+            response.setMessage(s.hasNext() ? s.next() : "");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,11 +147,6 @@ public class BasicAuthenticationRESTCamelDSLJettyJaasTest extends BaseJettyTest 
         };
     }
     // EXCLUDE-END
-
-    protected String inputStreamToString(InputStream is) {
-        Scanner s = new Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
 
     protected class HttpResult {
         int code;
