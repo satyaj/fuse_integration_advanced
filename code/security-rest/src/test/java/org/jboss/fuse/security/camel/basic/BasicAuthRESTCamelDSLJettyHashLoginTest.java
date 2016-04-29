@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.basic;
+package org.jboss.fuse.security.camel.basic;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
@@ -15,7 +15,7 @@ import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.util.security.Constraint;
-import org.jboss.fuse.security.common.BaseJettyTest;
+import org.jboss.fuse.security.camel.common.BaseJettyTest;
 import org.junit.Test;
 
 import java.io.IOException;

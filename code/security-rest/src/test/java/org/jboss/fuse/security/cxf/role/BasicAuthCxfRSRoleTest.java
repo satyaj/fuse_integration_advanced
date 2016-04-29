@@ -1,60 +1,69 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
-package org.jboss.fuse.security.role.cxf;
-
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.Scanner;
+package org.jboss.fuse.security.cxf.role;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
+import org.apache.cxf.jaxrs.model.AbstractResourceInfo;
+import org.apache.cxf.testutil.common.AbstractBusTestServerBase;
+import org.jboss.fuse.security.cxf.common.BaseCXF;
+import org.jboss.fuse.security.cxf.service.CustomerServiceImpl;
+import org.junit.*;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.ws.rs.core.Response;
+import java.io.InputStream;
 
-public final class Client {
+public class BasicAuthCxfRSRoleTest extends BaseCXF {
 
-    private static final String CLIENT_CONFIG_FILE = "ClientConfig.xml";
-    private static final String BASE_SERVICE_URL = "http://localhost:9000/customerservice/customers";
+    public static final String PORT = allocatePort(BasicAuthCxfRSRoleTest.class);
 
-    private static final Logger log = LoggerFactory.getLogger(Client.class);
+    @Ignore public static class Server extends AbstractBusTestServerBase {
+        protected void run() {
+            JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 
-    private static GetMethod get;
+            sf.setResourceClasses(CustomerServiceImpl.class);
+            // sf.setProvider(new ValidationExceptionMapper());
+            sf.setResourceProvider(CustomerServiceImpl.class,
+                    new SingletonResourceProvider(new CustomerServiceImpl()));
 
-    public static void main(String args[]) throws Exception {
+            sf.setAddress("http://localhost:" + PORT + "/");
+            // sf.setInvoker(new JAXRSBeanValidationInvoker());
 
+            sf.create();
+        }
+
+        public static void main(String[] args) {
+            try {
+                Server s = new Server();
+                s.start();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.exit(-1);
+            } finally {
+                System.out.println("done!");
+            }
+        }
+    }
+
+    @BeforeClass public static void startServers() throws Exception {
+        assertTrue("server did not launch correctly", launchServer(Server.class, true));
+        createStaticBus();
+    }
+
+    @Test public void allowForUserTest() {
         // String keyStoreLoc = "src/main/config/clientKeystore.jks";
 
         // KeyStore keyStore = KeyStore.getInstance("JKS");
         // keyStore.load(new FileInputStream(keyStoreLoc), "cspass".toCharArray());
 
-        /* 
+        /*
          * Send HTTP GET request to query customer info using portable HttpClient
          * object from Apache HttpComponents
          */
+
+        String CustomerResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Customer><id>123</id><name>John</name></Customer>";
+        GetMethod get = null;
+        String BASE_SERVICE_URL = "http://localhost:" + PORT + "/customerservice/customers";
 
         try {
             // Define the Get Method with the String of the url to access the HTTP Resourc
@@ -65,8 +74,9 @@ public final class Client {
 
             InputStream is = get.getResponseBodyAsStream();
             String response = inputStreamToString(is);
-            log.info("Response : " + response);
-            log.info("Status : " + status);
+
+            Assert.assertEquals("Response status is 200", Response.Status.OK.getStatusCode(), status);
+            Assert.assertEquals(CustomerResponse, response);
 
 /*
         *//*
@@ -95,18 +105,12 @@ public final class Client {
         customer.setName("Jack");
         resp = wc.post(customer);
         */
-            System.out.println("\n");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             // Release current connection to the connection pool once you are done
             get.releaseConnection();
-            System.exit(0);
         }
     }
 
-    protected static String inputStreamToString(InputStream is) {
-        Scanner s = new Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
 }

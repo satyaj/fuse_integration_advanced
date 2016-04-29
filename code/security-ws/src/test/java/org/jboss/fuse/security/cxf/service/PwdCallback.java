@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.service;
+package org.jboss.fuse.security.cxf.service;
 
 import org.apache.wss4j.common.ext.WSPasswordCallback;
 

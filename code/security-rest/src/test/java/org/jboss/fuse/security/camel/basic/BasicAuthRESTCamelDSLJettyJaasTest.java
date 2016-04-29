@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.basic;
+package org.jboss.fuse.security.camel.basic;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
@@ -13,7 +13,7 @@ import org.eclipse.jetty.jaas.JAASLoginService;
 import org.eclipse.jetty.security.*;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.util.security.Constraint;
-import org.jboss.fuse.security.common.BaseJettyTest;
+import org.jboss.fuse.security.camel.common.BaseJettyTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class BasicAuthRESTCamelDSLJettyJaasTest extends BaseJettyTest {
 

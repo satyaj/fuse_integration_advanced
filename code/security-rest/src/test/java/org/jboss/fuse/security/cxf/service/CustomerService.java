@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.fuse.security.service;
+package org.jboss.fuse.security.cxf.service;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;

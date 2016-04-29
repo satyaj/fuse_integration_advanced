@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.fuse.security.service;
+package org.jboss.fuse.security.cxf.service;
 
-import org.jboss.fuse.security.service.Customer;
-import org.jboss.fuse.security.service.CustomerService;
+import org.jboss.fuse.security.cxf.service.Customer;
+import org.jboss.fuse.security.cxf.service.CustomerService;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.role;
+package org.jboss.fuse.security.camel.role;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
@@ -16,7 +16,7 @@ import org.eclipse.jetty.security.DefaultIdentityService;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.util.security.Constraint;
-import org.jboss.fuse.security.common.BaseJettyTest;
+import org.jboss.fuse.security.camel.common.BaseJettyTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-        HttpResult result = callRestEndpoint("localhost", strURL, "donald", "duck", "MyRealm");
+        BaseJettyTest.HttpResult result = callRestEndpoint("localhost", strURL, "donald", "duck", "MyRealm");
         assertEquals(200, result.getCode());
         assertEquals("We should get a Hello World", "Hello World " + user,
                 result.getMessage().replaceAll("^\"|\"$", ""));
