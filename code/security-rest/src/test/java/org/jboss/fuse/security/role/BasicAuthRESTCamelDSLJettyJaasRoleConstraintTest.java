@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BasicAuthRESTCamelDSLJettyJaasRoleContraintTest extends BaseJettyTest {
+public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyTest {
 
     private static String HOST = "localhost";
     private static int PORT = getPort1();
@@ -39,7 +39,7 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleContraintTest extends BaseJettyTe
     }
 
     @Before public void init() throws IOException {
-        URL jaasURL = BasicAuthRESTCamelDSLJettyJaasRoleContraintTest.class.getResource("myrealm-jaas.cfg");
+        URL jaasURL = BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest.class.getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
         System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
     }
 

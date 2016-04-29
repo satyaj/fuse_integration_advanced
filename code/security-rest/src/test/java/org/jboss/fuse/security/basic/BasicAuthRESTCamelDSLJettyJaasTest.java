@@ -36,7 +36,7 @@ public class BasicAuthRESTCamelDSLJettyJaasTest extends BaseJettyTest {
     }
 
     @Before public void init() throws IOException {
-        URL jaasURL = BasicAuthRESTCamelDSLJettyJaasTest.class.getResource("myrealm-jaas.cfg");
+        URL jaasURL = BasicAuthRESTCamelDSLJettyJaasTest.class.getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
         System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
     }
 
@@ -45,7 +45,7 @@ public class BasicAuthRESTCamelDSLJettyJaasTest extends BaseJettyTest {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-        HttpResult result = callRestEndpoint("localhost", strURL, "donald", "duck", "MyRealm");
+        HttpResult result = runAndValidate("localhost", strURL, "donald", "duck", "MyRealm");
         assertEquals(200, result.getCode());
         assertEquals("We should get a Hello World", "Hello World " + user,
                 result.getMessage().replaceAll("^\"|\"$", ""));
@@ -57,7 +57,7 @@ public class BasicAuthRESTCamelDSLJettyJaasTest extends BaseJettyTest {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-        HttpResult result = callRestEndpoint("localhost", strURL, "donald", "mouse", "MyRealm");
+        HttpResult result = runAndValidate("localhost", strURL, "donald", "mouse", "MyRealm");
         assertEquals(401, result.getCode());
     }
     // EXCLUDE-END
@@ -86,7 +86,7 @@ public class BasicAuthRESTCamelDSLJettyJaasTest extends BaseJettyTest {
     }
     // EXCLUDE-END
 
-    private HttpResult callRestEndpoint(String host, String url, String user, String password, String realm) {
+    private HttpResult runAndValidate(String host, String url, String user, String password, String realm) {
 
         HttpResult response = new HttpResult();
 
