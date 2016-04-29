@@ -9,9 +9,7 @@
 * Use the CXF Maven plugin to generate the Java code from the WSDL or WSDL from Java Annotated classes
 
 .Readings
-* http://www.javaworld.com/article/2073287/soa/secure-web-services.html[Secure Web Service]
-* https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores[Keytool & Keystore]
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Security_Guide/CreateCerts.html[Manage your certificates]
+* http://docs.oracle.com/middleware/1212/wls/RESTF/secure-restful-service.htm#RESTF280[Secure REST Services]
 
 ifdef::showscript[]
 [.notes]

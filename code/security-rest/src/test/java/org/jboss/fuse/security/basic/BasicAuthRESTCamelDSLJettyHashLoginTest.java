@@ -72,7 +72,7 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-        HttpResult result = runAndValidate("localhost", strURL, "donald", "duck", "MyRealm");
+        HttpResult result = callRestEndpoint("localhost", strURL, "donald", "duck", "MyRealm");
         assertEquals(200, result.getCode());
         assertEquals("We should get a Hello World", "Hello World " + user,
                 result.getMessage().replaceAll("^\"|\"$", ""));
@@ -84,12 +84,37 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
-        HttpResult result = runAndValidate("localhost", strURL, "donald", "mouse", "MyRealm");
+        HttpResult result = callRestEndpoint("localhost", strURL, "donald", "mouse", "MyRealm");
         assertEquals(401, result.getCode());
     }
     // EXCLUDE-END
 
-    protected HttpResult runAndValidate(String host, String url, String user, String password, String realm) {
+    // EXCLUDE-BEGIN
+    @Override protected RouteBuilder createRouteBuilder() throws Exception {
+
+        final List<RestPropertyDefinition> jettyProperties = new ArrayList<>();
+        RestPropertyDefinition rpd = new RestPropertyDefinition();
+        rpd.setKey("handlers");
+        rpd.setValue("myAuthHandler");
+        jettyProperties.add(rpd);
+
+        return new RouteBuilder() {
+            @Override public void configure() throws Exception {
+
+                restConfiguration().component("jetty").scheme("http").host("0.0.0.0").port(getPort1())
+                        .bindingMode(RestBindingMode.json).setEndpointProperties(jettyProperties);
+
+                rest("/say").produces("json").get("/hello/{id}").to("direct:hello");
+
+                from("direct:hello").transform().simple("Hello World ${header.id}");
+
+            }
+        };
+    }
+    // EXCLUDE-END
+
+
+    protected HttpResult callRestEndpoint(String host, String url, String user, String password, String realm) {
 
         HttpResult response = new HttpResult();
 
@@ -122,52 +147,6 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
         }
 
         return response;
-    }
-
-    // EXCLUDE-BEGIN
-    @Override protected RouteBuilder createRouteBuilder() throws Exception {
-
-        final List<RestPropertyDefinition> jettyProperties = new ArrayList<>();
-        RestPropertyDefinition rpd = new RestPropertyDefinition();
-        rpd.setKey("handlers");
-        rpd.setValue("myAuthHandler");
-        jettyProperties.add(rpd);
-
-        return new RouteBuilder() {
-            @Override public void configure() throws Exception {
-
-                restConfiguration().component("jetty").scheme("http").host("0.0.0.0").port(getPort1())
-                        .bindingMode(RestBindingMode.json).setEndpointProperties(jettyProperties);
-
-                rest("/say").produces("json").get("/hello/{id}").to("direct:hello");
-
-                from("direct:hello").transform().simple("Hello World ${header.id}");
-
-            }
-        };
-    }
-    // EXCLUDE-END
-
-    protected class HttpResult {
-        int code;
-        String message;
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
     }
 
 }
