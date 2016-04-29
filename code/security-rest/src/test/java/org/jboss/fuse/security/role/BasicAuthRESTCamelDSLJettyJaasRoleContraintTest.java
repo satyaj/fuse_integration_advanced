@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.basic;
+package org.jboss.fuse.security.role;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
@@ -26,7 +26,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class BasicAuthRESTCamelDSLJettyJaasRoleContraintTest extends BaseJettyTest {
 
