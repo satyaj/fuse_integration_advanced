@@ -176,7 +176,7 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
 
     private List<ConstraintMapping> getConstraintMappings() {
 
-        // Access allowed for role Admin
+        // Access allowed for roles User, Admin
         Constraint constraint0 = new Constraint(Constraint.__BASIC_AUTH, "user");
         constraint0.setAuthenticate(true);
         constraint0.setName("allowedForAll");
@@ -186,6 +186,7 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
         mapping0.setMethod("GET");
         mapping0.setConstraint(constraint0);
 
+        // Access alowed only for Admin role
         Constraint constraint1 = new Constraint();
         constraint1.setAuthenticate(true);
         constraint1.setName("allowedForRoleAdmin");
