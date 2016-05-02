@@ -56,7 +56,7 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
     // EXCLUDE-END
 
     // EXCLUDE-BEGIN
-    @Test public void sayByeNotAllowedTest() {
+    @Test public void sayByeNotAllowedForUserRoleTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/bye/" + user;
 
