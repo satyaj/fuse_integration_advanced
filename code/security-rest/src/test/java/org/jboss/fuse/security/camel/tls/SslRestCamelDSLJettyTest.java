@@ -1,5 +1,6 @@
 package org.jboss.fuse.security.camel.tls;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
@@ -29,9 +30,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SslRestCamelDSLJettyTest extends BaseJettyTest {
 
@@ -72,7 +71,9 @@ public class SslRestCamelDSLJettyTest extends BaseJettyTest {
     }
 
     @Test public void simpleCamelHttpsCall() {
-        InputStream result = (InputStream) template.sendBody("https://localhost:" + PORT + "/say/hello?sslContextParametersRef=#scp",ExchangePattern.InOut,"");
+        Map<String, Object> headers = new HashMap<String, Object>();
+        headers.put(Exchange.HTTP_METHOD,"GET");
+        InputStream result = (InputStream) template.sendBodyAndHeaders("https://localhost:" + PORT + "/say/hello/charles?sslContextParametersRef=#scp",ExchangePattern.InOut,"",headers);
         assertEquals("\"<b>Hello World</b>\"",inputStreamToString(result));
     }
 
@@ -85,13 +86,12 @@ public class SslRestCamelDSLJettyTest extends BaseJettyTest {
                 restConfiguration().component("jetty")
                         .scheme("https").host("0.0.0.0").port(getPort1())
                         .bindingMode(RestBindingMode.json)
-
                         .endpointProperty("sslContextParametersRef","#scp")
                         .componentProperty("sslPassword",pwd)
                         .componentProperty("sslKeyPassword",pwd)
                         .componentProperty("keystore",getKeyStore().toURI().getPath());
 
-                rest("/say").produces("json").post("/hello").to("direct:hello");
+                rest("/say").produces("json").get("/hello/{id}").to("direct:hello");
 
                 from("direct:hello").transform().constant("<b>Hello World</b>");
 
