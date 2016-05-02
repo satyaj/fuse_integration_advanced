@@ -50,7 +50,7 @@ Follow these instructions in order to create the Private/Public keys of the user
 
 [source]
 ----
-keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security/src/test/resources/integrationstore.jks
+keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security-rest/src/test/resources/org/jboss/fuse/security/basic/config/serverstore.jks
 ----
 
 Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
