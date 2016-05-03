@@ -97,13 +97,13 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
     // EXCLUDE-END
 
     // EXCLUDE-BEGIN
-    @Test public void sayByeNotAllowedForUserRoleTest() {
+    @Test  public void sayByeNotAllowedForUserRoleTest() {
         String user = "Charles";
         String strURL = "https://" + HOST + ":" + PORT + "/say/bye/" + user;
 
         HttpResult result = callRestEndpoint("localhost", strURL, "donald", "duck", "MyRealm");
-        // assertEquals(403, result.getCode());
-        assertEquals(200, result.getCode());
+        assertEquals(403, result.getCode());
+        // assertEquals(200, result.getCode());
     }
     // EXCLUDE-END
 
@@ -157,82 +157,75 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
     // EXCLUDE-BEGIN
     @Override protected RouteBuilder createRouteBuilder() throws Exception {
 
-                /*
-        // Configure the Jetty Properties of the endpoint
-        final List<RestPropertyDefinition> jettyEndpointProps = new ArrayList<>();
-        RestPropertyDefinition rpd = new RestPropertyDefinition();
-
-        // Add key fof the Security Constraint
-        rpd.setKey("handlers");
-        rpd.setValue("myAuthHandler");
-        jettyEndpointProps.add(rpd);
-
-        // Add key of the SSL Context Parameters
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("sslContextParametersRef");
-        rpd.setValue("scp");
-        jettyEndpointProps.add(rpd);
-
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("sslPassword");
-        rpd.setValue(pwd);
-        jettyEndpointProps.add(rpd);
-
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("sslKeyPassword");
-        rpd.setValue(pwd);
-        jettyEndpointProps.add(rpd);
-
-        rpd = new RestPropertyDefinition();
-        final URL keyStoreUrl = this.getClass().getResource("serverstore.jks");
-        rpd.setKey("keystore");
-        rpd.setValue(keyStoreUrl.toURI().getPath());
-        jettyEndpointProps.add(rpd);
-
-
-        // Add keys to the Jetty Component
-        final List<RestPropertyDefinition> jettyComponentProps = new ArrayList<>();
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("sslPassword");
-        rpd.setValue(pwd);
-        jettyComponentProps.add(rpd);
-
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("sslKeyPassword");
-        rpd.setValue(pwd);
-        jettyComponentProps.add(rpd);
-
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("keystore");
-        rpd.setValue(keyStoreUrl.toURI().getPath());
-        jettyComponentProps.add(rpd);
-        */
-
-/*        // Add key fof the Security Constraint
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("handlers");
-        rpd.setValue("myAuthHandler");
-        jettyComponentProps.add(rpd);
-
-        // Add key of the SSL Context Parameters
-        rpd = new RestPropertyDefinition();
-        rpd.setKey("sslContextParametersRef");
-        rpd.setValue("scp");
-        jettyComponentProps.add(rpd);*/
-
         return new RouteBuilder() {
             @Override public void configure() throws Exception {
+
+                final List<RestPropertyDefinition> jettyEndpointProps = new ArrayList<>();
+                RestPropertyDefinition rpd = new RestPropertyDefinition();
+
+                // Add key for the ConstraintSecurityHandler
+                rpd.setKey("handlers");
+                rpd.setValue("myAuthHandler");
+                jettyEndpointProps.add(rpd);
+
+                // Add key of the SSL Context Parameter
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("sslContextParametersRef");
+                rpd.setValue("scp");
+                jettyEndpointProps.add(rpd);
+
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("sslPassword");
+                rpd.setValue(pwd);
+                jettyEndpointProps.add(rpd);
+
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("sslKeyPassword");
+                rpd.setValue(pwd);
+                jettyEndpointProps.add(rpd);
+
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("keystore");
+                rpd.setValue(getKeyStore().toURI().getPath());
+                jettyEndpointProps.add(rpd);
+
+                final List<RestPropertyDefinition> jettyComponentProps = new ArrayList<>();
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("sslPassword");
+                rpd.setValue(pwd);
+                jettyComponentProps.add(rpd);
+
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("sslKeyPassword");
+                rpd.setValue(pwd);
+                jettyComponentProps.add(rpd);
+
+                rpd = new RestPropertyDefinition();
+                rpd.setKey("keystore");
+                rpd.setValue(getKeyStore().toURI().getPath());
+                jettyComponentProps.add(rpd);
 
                 restConfiguration().component("jetty")
                         .scheme("https").host("0.0.0.0").port(getPort1())
                         .bindingMode(RestBindingMode.json)
-                        //.setEndpointProperties(jettyEndpointProps)
-                        // Endpoint is well created
-                        // --> Endpoint[https://0.0.0.0:23000/say/hello/%7Bid%7D?httpMethodRestrict=GET&keystore=%2FUsers%2Fchmoulli%2FRedHat%2FGPE%2FGPE-Courses%2Ffuse-integration-advanced%2Fcode%2Fsecurity-rest%2Ftarget%2Ftest-classes%2Forg%2Fjboss%2Ffuse%2Fsecurity%2Fcamel%2Ftls%2Fserverstore.jks&sslKeyPassword=xxxxxx&sslPassword=xxxxxx]
-                        // Excepted that the handlers and sslContextParameters aren't included
-                        .endpointProperty("sslContextParametersRef","#scp")
-                        // SSL + Auth doesn't work !!!!
+                        //
+                        // 1) Test using : setEndpoint & setComponentProperties
+                        // ISSUE : We can't combine Component & endpoint properties with DSL
+                        //.setComponentProperties(jettyEndpointProps)
+                        //.setEndpointProperties(jettyComponentProps);
+                        //
+                        // 2) Using Endpoint Properties containing all the props
+                        // ISSUE : java.io.EOFException: SSL peer shut down incorrectly at sun.security.ssl.InputRecord.read(InputRecord.java:505)
+                        // .setEndpointProperties(jettyEndpointProps);
+                        //
+                        // 3) Without the List of the props but where we configure endpoint & component separately
+                        // ISSUE : ConstraintSecurityHandler doesn't work when added at the endpoint or component
+                        // ConstraintSecurityHandler doesn't work when added at the endpoint
                         // .endpointProperty("handlers","#myAuthHandler")
+                        // ConstraintSecurityHandler doesn't work when added at the component
+                        // .componentProperty("handlers","#myAuthHandler")
+                        //
+                        .endpointProperty("sslContextParametersRef","#scp")
                         .componentProperty("sslPassword",pwd)
                         .componentProperty("sslKeyPassword",pwd)
                         .componentProperty("keystore",getKeyStore().toURI().getPath());
