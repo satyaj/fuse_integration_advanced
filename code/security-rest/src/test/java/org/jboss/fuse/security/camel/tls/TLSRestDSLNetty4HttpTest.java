@@ -115,12 +115,13 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
             @Override public void configure() throws Exception {
 
                 restConfiguration()
-                        .component("netty4-http")
-                        .scheme(SCHEME_HTTPS)
-                        .host("0.0.0.0")
-                        .port(getPort1()).bindingMode(RestBindingMode.json)
-                        .endpointProperty("securityConfiguration", "#mySecurityConfig")
-                        .endpointProperty("nettyHttpConfiguration","#nettyConf");
+                    .component("netty4-http")
+                    .scheme(SCHEME_HTTPS)
+                    .host("0.0.0.0")
+                    .port(getPort1()).bindingMode(RestBindingMode.json)
+                    .endpointProperty("securityConfiguration", "#mySecurityConfig")
+                    .endpointProperty("nettyHttpConfiguration","#nettyConf")
+                    .endpointProperty("traceEnabled","true");
 
                 rest("/say").produces("json").post("/hello/{id}").to("direct:hello");
 
@@ -173,7 +174,6 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         scp.setKeyManagers(kmp);
         return scp;
     }
-
     // EXCLUDE-END
 
 }
