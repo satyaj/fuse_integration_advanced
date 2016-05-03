@@ -11,6 +11,8 @@
 .Readings
 * http://docs.oracle.com/middleware/1212/wls/RESTF/secure-restful-service.htm#RESTF280[Secure REST Services]
 
+* https://jersey.java.net/documentation/latest/filters-and-interceptors.html
+
 ifdef::showscript[]
 [.notes]
 ****
