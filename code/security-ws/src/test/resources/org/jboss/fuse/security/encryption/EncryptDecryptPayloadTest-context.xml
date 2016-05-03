@@ -87,7 +87,8 @@
     <!-- EXCLUDE-BEGIN -->
     <!-- Namespaces of the message processed added to the Camel Context for XPath -->
     <camelContext id="camel-encrypt" xmlns="http://camel.apache.org/schema/spring"
-    >
+                  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ns4="http://encryption.security.fuse.jboss.org">
         <route>
             <from uri="direct://encrypt"/>
             <marshal ref="encryptXML"/>
