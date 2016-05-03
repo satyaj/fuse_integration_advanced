@@ -64,11 +64,10 @@ public class EncryptDecryptPayloadTest extends CamelSpringTestSupport {
         try {
             // Request content will be retrieved directly
             // from the input stream
-            RequestEntity entity = new StringRequestEntity(Helper.XML_REQUEST, "text/xml; charset=ISO-8859-1",
-                    "UTF-8");
+            RequestEntity entity = new StringRequestEntity(Helper.XML_REQUEST, "text/xml; charset=ISO-8859-1", "UTF-8");
             post.setRequestEntity(entity);
-
             post.setRequestHeader("SOAPAction", "");
+
             // Get HTTP client
             HttpClient httpclient = new HttpClient();
             int result = httpclient.executeMethod(post);
