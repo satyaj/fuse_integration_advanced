@@ -53,7 +53,7 @@ public class SimpleAutPolicyTest extends BaseNetty4Test {
                 onException(AuthenticationException.class)
                    .process(new Processor() {
                        @Override public void process(Exchange exchange) throws Exception {
-                           Exception ae = (Exception) exchange.getException();
+                           Exception ae = exchange.getException();
                            Response resp = Response.status(Response.Status.NOT_FOUND).entity(ae.getMessage()).build();
                            exchange.getIn().setBody(resp);
                        }
