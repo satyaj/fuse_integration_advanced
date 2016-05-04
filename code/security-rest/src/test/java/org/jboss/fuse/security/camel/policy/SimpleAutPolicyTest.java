@@ -27,9 +27,9 @@ public class SimpleAutPolicyTest extends BaseNetty4Test {
             template.requestBodyAndHeader("netty4-http://http://localhost:" + PORT + "/say/hello/noauthheader", "", Exchange.HTTP_METHOD,"GET",String.class);
             fail("Should send back 500");
         } catch (CamelExecutionException e) {
-            NettyHttpOperationFailedException cause = assertIsInstanceOf(
-                    NettyHttpOperationFailedException.class, e.getCause());
+            NettyHttpOperationFailedException cause = assertIsInstanceOf(NettyHttpOperationFailedException.class, e.getCause());
             assertEquals(500, cause.getStatusCode());
+            assertEquals("",cause.getMessage());
         }
 
         // Authorized with username:password is mickey:mouse
@@ -53,8 +53,8 @@ public class SimpleAutPolicyTest extends BaseNetty4Test {
                 onException(AuthenticationException.class)
                    .process(new Processor() {
                        @Override public void process(Exchange exchange) throws Exception {
-                           Exception ae = exchange.getException();
-                           Response resp = Response.status(Response.Status.NOT_FOUND).entity(ae.getMessage()).build();
+                           Exception e = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+                           Response resp = Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
                            exchange.getIn().setBody(resp);
                        }
                    });
