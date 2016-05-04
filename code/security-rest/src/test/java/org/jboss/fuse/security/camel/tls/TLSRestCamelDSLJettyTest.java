@@ -5,7 +5,9 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.model.rest.RestConfigurationDefinition;
 import org.apache.camel.model.rest.RestPropertyDefinition;
+import org.apache.camel.spi.RestConfiguration;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.camel.util.jsse.KeyManagersParameters;
 import org.apache.camel.util.jsse.KeyStoreParameters;
@@ -57,7 +59,6 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
 
         /*
         setSystemProp("javax.net.ssl.trustStorePassword", pwd);
-
         setSystemProp("org.eclipse.jetty.ssl.keystore",getKeyStore().toURI().getPath());
         setSystemProp("org.eclipse.jetty.ssl.keypassword",pwd);
         setSystemProp("org.eclipse.jetty.ssl.password",pwd);
@@ -166,28 +167,13 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
 
                 // Add key for the ConstraintSecurityHandler
                 rpd.setKey("handlers");
-                rpd.setValue("myAuthHandler");
+                rpd.setValue("#myAuthHandler");
                 jettyEndpointProps.add(rpd);
 
                 // Add key of the SSL Context Parameter
                 rpd = new RestPropertyDefinition();
                 rpd.setKey("sslContextParametersRef");
-                rpd.setValue("scp");
-                jettyEndpointProps.add(rpd);
-
-                rpd = new RestPropertyDefinition();
-                rpd.setKey("sslPassword");
-                rpd.setValue(pwd);
-                jettyEndpointProps.add(rpd);
-
-                rpd = new RestPropertyDefinition();
-                rpd.setKey("sslKeyPassword");
-                rpd.setValue(pwd);
-                jettyEndpointProps.add(rpd);
-
-                rpd = new RestPropertyDefinition();
-                rpd.setKey("keystore");
-                rpd.setValue(getKeyStore().toURI().getPath());
+                rpd.setValue("#scp");
                 jettyEndpointProps.add(rpd);
 
                 final List<RestPropertyDefinition> jettyComponentProps = new ArrayList<>();
@@ -206,14 +192,29 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
                 rpd.setValue(getKeyStore().toURI().getPath());
                 jettyComponentProps.add(rpd);
 
-                restConfiguration().component("jetty")
-                        .scheme("https").host("0.0.0.0").port(getPort1())
-                        .bindingMode(RestBindingMode.json)
+                RestConfigurationDefinition conf = restConfiguration().component("jetty")
+                        .scheme("https")
+                        .host("0.0.0.0")
+                        .port(getPort1())
+                        .bindingMode(RestBindingMode.json);
+
+                conf.setEndpointProperties(jettyEndpointProps);
+                conf.setComponentProperties(jettyComponentProps);
                         //
                         // 1) Test using : setEndpoint & setComponentProperties
                         // ISSUE : We can't combine Component & endpoint properties with DSL
+                        // Discussed here : ENTESB-5432
                         //.setComponentProperties(jettyEndpointProps)
                         //.setEndpointProperties(jettyComponentProps);
+                        //
+                        // Workaround
+                        //
+                        // RestConfigurationDefinition conf = restConfiguration().component("jetty")
+                        // .scheme("https").host("0.0.0.0").port(getPort1())
+                        //         .bindingMode(RestBindingMode.json);
+                        //
+                        // conf.setEndpointProperties(jettyEndpointProps);
+                        // conf.setComponentProperties(jettyComponentProps);
                         //
                         // 2) Using Endpoint Properties containing all the props
                         // ISSUE : java.io.EOFException: SSL peer shut down incorrectly at sun.security.ssl.InputRecord.read(InputRecord.java:505)
@@ -226,10 +227,10 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
                         // ConstraintSecurityHandler doesn't work when added at the component
                         // .componentProperty("handlers","#myAuthHandler")
                         //
-                        .endpointProperty("sslContextParametersRef","#scp")
-                        .componentProperty("sslPassword",pwd)
-                        .componentProperty("sslKeyPassword",pwd)
-                        .componentProperty("keystore",getKeyStore().toURI().getPath());
+                        // .endpointProperty("sslContextParametersRef","#scp")
+                        // .componentProperty("sslPassword",pwd)
+                        // .componentProperty("sslKeyPassword",pwd)
+                        // .componentProperty("keystore",getKeyStore().toURI().getPath());
 
                 rest("/say").produces("json").get("/hello/{id}").to("direct:hello");
                 rest("/say").produces("json").get("/bye/{id}").to("direct:bye");
@@ -303,7 +304,7 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
         constraint0.setRoles(new String[] { "user", "admin" });
         ConstraintMapping mapping0 = new ConstraintMapping();
         mapping0.setPathSpec("/say/hello/*");
-        mapping0.setMethod("GET");
+        //mapping0.setMethod("GET");
         mapping0.setConstraint(constraint0);
 
         // Access alowed only for Admin role
@@ -313,7 +314,7 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
         constraint1.setRoles(new String[]{ "admin" });
         ConstraintMapping mapping1 = new ConstraintMapping();
         mapping1.setPathSpec("/say/bye/*");
-        mapping1.setMethod("GET");
+        //mapping1.setMethod("GET");
         mapping1.setConstraint(constraint1);
 
         return Arrays.asList(mapping0, mapping1);
