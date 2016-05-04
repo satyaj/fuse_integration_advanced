@@ -189,14 +189,6 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
                 rpd.setValue(getKeyStore().toURI().getPath());
                 jettyComponentProps.add(rpd);
 
-                RestConfigurationDefinition conf = restConfiguration().component("jetty")
-                        .scheme("https")
-                        .host("0.0.0.0")
-                        .port(getPort1())
-                        .bindingMode(RestBindingMode.json);
-
-                conf.setEndpointProperties(jettyEndpointProps);
-                conf.setComponentProperties(jettyComponentProps);
                         //
                         // 1) Test using : setEndpoint & setComponentProperties
                         // ISSUE : We can't combine Component & endpoint properties with DSL
@@ -205,13 +197,17 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
                         //.setEndpointProperties(jettyComponentProps);
                         //
                         // Workaround
-                        //
-                        // RestConfigurationDefinition conf = restConfiguration().component("jetty")
-                        // .scheme("https").host("0.0.0.0").port(getPort1())
-                        //         .bindingMode(RestBindingMode.json);
-                        //
-                        // conf.setEndpointProperties(jettyEndpointProps);
-                        // conf.setComponentProperties(jettyComponentProps);
+
+                /*                RestConfigurationDefinition conf = restConfiguration().component("jetty")
+                        .scheme("https")
+                        .host("0.0.0.0")
+                        .port(getPort1())
+                        .bindingMode(RestBindingMode.json);
+
+                conf.setEndpointProperties(jettyEndpointProps);
+                conf.setComponentProperties(jettyComponentProps);*/
+
+
                         //
                         // 2) Using Endpoint Properties containing all the props
                         // ISSUE : java.io.EOFException: SSL peer shut down incorrectly at sun.security.ssl.InputRecord.read(InputRecord.java:505)
@@ -224,10 +220,18 @@ public class TLSRestCamelDSLJettyTest extends BaseJettyTest {
                         // ConstraintSecurityHandler doesn't work when added at the component
                         // .componentProperty("handlers","#myAuthHandler")
                         //
-                        // .endpointProperty("sslContextParametersRef","#scp")
-                        // .componentProperty("sslPassword",pwd)
-                        // .componentProperty("sslKeyPassword",pwd)
-                        // .componentProperty("keystore",getKeyStore().toURI().getPath());
+
+                restConfiguration().component("jetty")
+                        .scheme("https")
+                        .host("0.0.0.0")
+                        .port(getPort1())
+                        .bindingMode(RestBindingMode.json)
+                        .endpointProperty("sslContextParametersRef","#scp")
+                        .endpointProperty("handlers","#myAuthHandler")
+                        .componentProperty("sslPassword",pwd)
+                        .componentProperty("sslKeyPassword",pwd)
+                        .componentProperty("keystore",getKeyStore().toURI().getPath())
+                        .componentProperty("trustore",getKeyStore().toURI().getPath());
 
                 rest("/say").produces("json").get("/hello/{id}").to("direct:hello");
                 rest("/say").produces("json").get("/bye/{id}").to("direct:bye");
