@@ -3,17 +3,18 @@ package org.jboss.fuse.security.oauth.junit;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.*;
 import io.apiman.test.common.json.JsonArrayOrderingType;
 import io.apiman.test.common.json.JsonCompare;
 import io.apiman.test.common.json.JsonMissingFieldType;
 import io.apiman.test.common.resttest.RestTest;
+import io.apiman.test.common.util.TestUtil;
 import io.apiman.test.common.util.TestVariableResolver;
 import io.apiman.test.common.util.TestVariableResolverFactory;
 import org.apache.commons.io.IOUtils;
 import org.custommonkey.xmlunit.*;
 import org.junit.Assert;
-import org.junit.runners.model.TestClass;
+import org.junit.Before;
 import org.mvel2.MVEL;
 import org.mvel2.integration.PropertyHandler;
 import org.mvel2.integration.PropertyHandlerFactory;
@@ -33,10 +34,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GatewayTestUtil {
+public class GatewayTestSupport {
 
     private static Set<String> resetSysProps = new HashSet<>();
-    private static Logger logger = LoggerFactory.getLogger(GatewayTestUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(GatewayTestSupport.class);
+
+    OkHttpClient client;
+
+    @Before
+    public void setupHttpClient() {
+        client = new OkHttpClient();
+        {
+            client.setFollowRedirects(false);
+            client.setFollowSslRedirects(false);
+        }
+    }
 
     /**
      * Resets the system properties that were set at the start of the test.
@@ -57,8 +69,8 @@ public class GatewayTestUtil {
         if (username == null || username.trim().length() == 0) {
             return null;
         }
-        username = GatewayTestUtil.doPropertyReplacement(username);
-        password = GatewayTestUtil.doPropertyReplacement(password);
+        username = GatewayTestSupport.doPropertyReplacement(username);
+        password = GatewayTestSupport.doPropertyReplacement(password);
         String val = username + ":" + password;
         return "Basic " + org.apache.commons.codec.binary.Base64.encodeBase64String(val.getBytes()).trim();
     }
@@ -306,7 +318,7 @@ public class GatewayTestUtil {
             ObjectMapper jacksonParser = new ObjectMapper();
             JsonNode actualJson = jacksonParser.readTree(inputStream);
             bindVariables(actualJson, restTest);
-            String expectedPayload = GatewayTestUtil.doPropertyReplacement(restTest.getExpectedResponsePayload());
+            String expectedPayload = GatewayTestSupport.doPropertyReplacement(restTest.getExpectedResponsePayload());
             Assert.assertNotNull("REST Test missing expected JSON payload.", expectedPayload);
             JsonNode expectedJson = jacksonParser.readTree(expectedPayload);
             try {
@@ -346,7 +358,7 @@ public class GatewayTestUtil {
             StringWriter writer = new StringWriter();
             IOUtils.copy(inputStream, writer);
             String xmlPayload = writer.toString();
-            String expectedPayload = GatewayTestUtil.doPropertyReplacement(restTest.getExpectedResponsePayload());
+            String expectedPayload = GatewayTestSupport.doPropertyReplacement(restTest.getExpectedResponsePayload());
             Assert.assertNotNull("REST Test missing expected XML payload.", expectedPayload);
             try {
                 XMLUnit.setIgnoreComments(true);
@@ -488,26 +500,6 @@ public class GatewayTestUtil {
     }
 
     /**
-     * Configure some properties.
-     * @param clazz
-     */
-    protected static void configureSystemProperties(TestClass clazz) {
-        GatewayRestTestSystemProperties annotation = clazz.getClass().getAnnotation(GatewayRestTestSystemProperties.class);
-        if (annotation != null) {
-            String[] strings = annotation.value();
-            for (int idx = 0; idx < strings.length; idx += 2) {
-                String pname = strings[idx];
-                String pval = strings[idx + 1];
-                log("Setting system property \"{0}\" to \"{1}\".", pname, pval);
-                if (System.getProperty(pname) == null) {
-                    resetSysProps.add(pname);
-                }
-                GatewayTestUtil.setProperty(pname, pval);
-            }
-        }
-    }
-
-    /**
      * Sets the system property indicated by the specified key unless already defined
      *
      * @param key  the name of the system property.
@@ -517,6 +509,53 @@ public class GatewayTestUtil {
     public static String setProperty(String key, String value) {
         System.setProperty(key, System.getProperty(key, value));
         return System.getProperty(key);
+    }
+
+    /**
+     * Run a HTTP request using OkHTTP client and validate the response
+     *
+     * @param expectedResponse
+     * @param uri
+     * @param payload
+     * @param httpMethod
+     * @param requestHeaders
+     * @param username
+     * @param password
+     * @throws IOException
+     */
+    protected void runAndValidate(String expectedResponse, String uri, String payload, String httpMethod, Map<String, String> requestHeaders, String username, String password)
+            throws IOException {
+
+        String rawType = "application/json";
+        MediaType mediaType = MediaType.parse(rawType);
+
+        RequestBody body = null;
+        if (payload != null && !payload.isEmpty()) {
+            body = RequestBody.create(mediaType, payload.getBytes());
+        }
+
+        Request.Builder requestBuilder = new Request.Builder().url(uri.toString()).method(httpMethod, body);
+
+        for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+            String value = TestUtil.doPropertyReplacement(entry.getValue());
+            // Handle system properties that may be configured in the rest-test itself
+            if (entry.getKey().startsWith("X-RestTest-System-Property")) {
+                String[] split = value.split("=");
+                System.setProperty(split[0], split[1]);
+                continue;
+            }
+            requestBuilder.addHeader(entry.getKey(), value);
+        }
+
+        // Set up basic auth
+        String authorization = createBasicAuthorization(username, password);
+        if (authorization != null) {
+            requestBuilder.addHeader("Authorization", authorization);
+        }
+
+        Response response = client.newCall(requestBuilder.build()).execute();
+        Assert.assertEquals(200,response.code());
+        Assert.assertEquals("OK",response.message());
     }
 
     /**
