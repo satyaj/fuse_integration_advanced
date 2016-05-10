@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.apiman.junit;
+package org.jboss.fuse.security.apiman.server;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.apiman.common.util.ddl.DdlParser;
@@ -15,8 +15,6 @@ import io.apiman.gateway.platforms.servlet.connectors.HttpConnectorFactory;
 import io.apiman.gateway.platforms.war.WarEngineConfig;
 import io.apiman.gateway.test.server.GatewayServer;
 import io.apiman.gateway.test.server.TestMetrics;
-import io.apiman.test.common.echo.EchoServer;
-import io.apiman.test.common.resttest.IGatewayTestServer;
 import io.apiman.test.common.util.TestUtil;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
@@ -47,17 +45,14 @@ import java.util.Map.Entry;
 /**
  * A servlet version of the gateway test server.
  *
- * @author eric.wittmann@redhat.com
  */
 @SuppressWarnings("nls")
 public class ServletGatewayTestServer implements IGatewayTestServer {
 
-    protected static final int ECHO_PORT = 7654;
     protected static final int GATEWAY_PORT = 6060;
     protected static final int GATEWAY_PROXY_PORT = 6061;
     protected static final boolean USE_PROXY = false; // if you set this to true you must start a tcp proxy on 8081
 
-    private EchoServer echoServer = new EchoServer(ECHO_PORT);
     private GatewayServer gatewayServer = new GatewayServer(GATEWAY_PORT);
 
     private boolean withES;
@@ -216,11 +211,13 @@ public class ServletGatewayTestServer implements IGatewayTestServer {
     }
 
     /**
-     * @see io.apiman.test.common.resttest.IGatewayTestServer#getEchoTestEndpoint()
+     * Address of the Default REST endpoint to be used for the Test if not passed as System Env Var
+     *
+     * @return
      */
     @Override
-    public String getEchoTestEndpoint() {
-        return "http://localhost:" + ECHO_PORT;
+    public String getTestEndpoint() {
+        return "http://localhost:9191";
     }
 
     /**
@@ -230,7 +227,6 @@ public class ServletGatewayTestServer implements IGatewayTestServer {
     public void start() {
         try {
             preStart();
-            echoServer.start();
             gatewayServer.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -354,7 +350,6 @@ public class ServletGatewayTestServer implements IGatewayTestServer {
     public void stop() {
         try {
             gatewayServer.stop();
-            echoServer.stop();
             postStop();
         } catch (Exception e) {
             throw new RuntimeException(e);
