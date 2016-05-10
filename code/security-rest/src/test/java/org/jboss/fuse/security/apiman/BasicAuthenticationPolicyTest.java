@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.oauth;
+package org.jboss.fuse.security.apiman;
 
 import io.apiman.gateway.engine.beans.PolicyFailure;
 import io.apiman.gateway.engine.beans.PolicyFailureType;

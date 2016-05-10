@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.oauth.junit;
+package org.jboss.fuse.security.apiman.junit;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

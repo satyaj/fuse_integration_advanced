@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.oauth.junit;
+package org.jboss.fuse.security.apiman.junit;
 
 import io.apiman.test.common.resttest.IGatewayTestServer;
 import io.apiman.test.common.resttest.IGatewayTestServerFactory;

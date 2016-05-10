@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.oauth.junit;
+package org.jboss.fuse.security.apiman.junit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,8 +1,8 @@
-package org.jboss.fuse.security.oauth;
+package org.jboss.fuse.security.apiman;
 
-import org.jboss.fuse.security.oauth.junit.Configuration;
-import org.jboss.fuse.security.oauth.junit.GatewayTestSupport;
-import org.jboss.fuse.security.oauth.junit.GatewayTester;
+import org.jboss.fuse.security.apiman.junit.Configuration;
+import org.jboss.fuse.security.apiman.junit.GatewayTestSupport;
+import org.jboss.fuse.security.apiman.junit.GatewayTester;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

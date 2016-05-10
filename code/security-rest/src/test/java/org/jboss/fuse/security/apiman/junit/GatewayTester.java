@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.oauth.junit;
+package org.jboss.fuse.security.apiman.junit;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +17,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 
-import static org.jboss.fuse.security.oauth.junit.GatewayTestSupport.*;
+import static org.jboss.fuse.security.apiman.junit.GatewayTestSupport.*;
 
 /**
  * A junit test runner that fires up an API Gateway and makes it ready for use
