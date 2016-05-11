@@ -30,7 +30,8 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
     private static String HOST = "localhost";
     private static int PORT = getPort1();
 
-    @Override protected JndiRegistry createRegistry() throws Exception {
+    @Override
+    protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();
         jndi.bind("myAuthHandler", getSecurityHandler());
         return jndi;
@@ -68,7 +69,8 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
     }
 
     // EXCLUDE-BEGIN
-    @Test public void UsernameTest() {
+    @Test
+    public void UsernameTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
@@ -80,7 +82,8 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
     // EXCLUDE-END
 
     // EXCLUDE-BEGIN
-    @Test public void UsernameWrongPasswordTest() {
+    @Test
+    public void UsernameWrongPasswordTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
