@@ -1,4 +1,4 @@
-package org.jboss.fuse.security.camel.role;
+package org.jboss.fuse.security.camel.basic.role;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.JndiRegistry;
@@ -9,11 +9,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.eclipse.jetty.jaas.JAASLoginService;
-import org.eclipse.jetty.security.ConstraintMapping;
-import org.eclipse.jetty.security.ConstraintSecurityHandler;
-import org.eclipse.jetty.security.DefaultIdentityService;
-import org.eclipse.jetty.security.SecurityHandler;
+import org.eclipse.jetty.security.*;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.util.security.Constraint;
 import org.jboss.fuse.security.camel.common.BaseJettyTest;
@@ -27,24 +23,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyTest {
+public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest {
 
     private static String HOST = "localhost";
     private static int PORT = getPort1();
 
-    @Override protected JndiRegistry createRegistry() throws Exception {
+    @Override
+    protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();
         jndi.bind("myAuthHandler", getSecurityHandler());
         return jndi;
     }
 
-    @Before public void init() throws IOException {
-        URL jaasURL = BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest.class.getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
+    @Before
+    public void init() throws IOException {
+        URL jaasURL = BasicAuthRESTCamelDSLJettyRoleConstraintTest.class.getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
         System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
     }
 
     // EXCLUDE-BEGIN
-    @Test public void shouldSayHelloTest() {
+    @Test
+    public void shouldSayHelloTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
@@ -56,7 +55,8 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
     // EXCLUDE-END
 
     // EXCLUDE-BEGIN
-    @Test public void sayByeNotAllowedForUserRoleTest() {
+    @Test
+    public void sayByeNotAllowedForUserRoleTest() {
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/bye/" + user;
 
@@ -66,7 +66,8 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
     // EXCLUDE-END
 
     // EXCLUDE-BEGIN
-    @Test public void sayByeAllowedForAdminRoleTest() {
+    @Test
+    public void sayByeAllowedForAdminRoleTest() {
         String user = "Mickey";
         String strURL = "http://" + HOST + ":" + PORT + "/say/bye/" + user;
 
@@ -140,38 +141,34 @@ public class BasicAuthRESTCamelDSLJettyJaasRoleConstraintTest extends BaseJettyT
 
     private SecurityHandler getSecurityHandler() throws IOException {
 
+        // Describe the Authentication Constraint to be applied (BASIC, DISGEST, NEGOTIATE, ...)
+        Constraint constraint = new Constraint(Constraint.__BASIC_AUTH, "user");
+        constraint.setAuthenticate(true);
+
+        // Map the Auth Contrainst with a Path
+        ConstraintMapping cm = new ConstraintMapping();
+        cm.setPathSpec("/*");
+        cm.setConstraint(constraint);
+
         /* A security handler is a jetty handler that secures content behind a
-         *  particular portion of a url space. The ConstraintSecurityHandler is a
-         *  more specialized handler that allows matching of urls to different
-         *  constraints. The server sets this as the first handler in the chain,
-         *  effectively applying these constraints to all subsequent handlers in
-         *  the chain.
-         *  The BasicAuthenticator instance is the object that actually checks the credentials
-         */
+           particular portion of a url space. The ConstraintSecurityHandler is a
+           more specialized handler that allows matching of urls to different
+           constraints. The server sets this as the first handler in the chain,
+           effectively applying these constraints to all subsequent handlers in
+           the chain.
+           The BasicAuthenticator instance is the object that actually checks the credentials
+        */
         ConstraintSecurityHandler sh = new ConstraintSecurityHandler();
         sh.setAuthenticator(new BasicAuthenticator());
         sh.setConstraintMappings(getConstraintMappings());
 
-        /*
-         * The DefaultIdentityService service handles only role reference maps passed in an
-         * associated org.eclipse.jetty.server.UserIdentity.Scope.  If there are roles
-         * refs present, then associate will wrap the UserIdentity with one that uses the role references in the
-         * org.eclipse.jetty.server.UserIdentity#isUserInRole(String, org.eclipse.jetty.server.UserIdentity.Scope)}
-         * implementation.
-         *
-        */
-        DefaultIdentityService dis = new DefaultIdentityService();
-
-        // Service which create a UserRealm suitable for use with JAAS
-        JAASLoginService loginService = new JAASLoginService();
-        loginService.setName("myrealm");
-        loginService.setLoginModuleName("propsFileModule");
-        loginService.setIdentityService(dis);
-
+        //  The HashLogin is an implementation of a UserRealm that stores users and roles in-memory in HashMaps.
+        HashLoginService loginService = new HashLoginService("MyRealm",
+                "src/test/resources/org/jboss/fuse/security/basic/myrealm.props");
         sh.setLoginService(loginService);
-        sh.setConstraintMappings(getConstraintMappings());
 
         return sh;
+
     }
 
     private List<ConstraintMapping> getConstraintMappings() {
