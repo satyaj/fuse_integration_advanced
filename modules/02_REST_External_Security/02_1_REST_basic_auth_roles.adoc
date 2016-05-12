@@ -2,7 +2,7 @@
 :sourcedir: ../code/security-ws/src/test/java
 :toc2:
 
-= Web Service Security Lab
+= REST Security with Basic Authentication and Role Lab
 
 In this lab you resolve the following use cases:
 
@@ -10,20 +10,18 @@ In this lab you resolve the following use cases:
 
 <<usecase2>>
 
-<<usecase3>>
-
-<<usecase4>>
-
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented about WS-Security specification
-* Design Web Service project and secure it
-* Send and receive messages using the CXF Factory Beans class
+* Become more experimented about Basic Authentication Jetty Server
+* Restrict the access to certain paths based on the role of the user
+* Design RESTfull Service project and secure it
+* Expose the RESTfull services using a Camel route
+* Configure the Jetty Endpoint to authenticate the HTTP User request using the HashLoginService
+* Send the HTTP Request using Apache Commons HttpClient
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
-* Expertise with Web Service Technology & SOAP Messages
-* PKI & encryption/decryption background
+* Expertise with RESTfull & HTTP Basic Authentication
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
 :numbered:
@@ -36,7 +34,6 @@ In this lab you resolve the following use cases:
 | Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
 | JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
 | Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
 |===
 
 === Install the lab project
@@ -44,28 +41,13 @@ In this lab you resolve the following use cases:
 Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
 that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
 
-=== Keys and certificates
-
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates. For this usecase, the keys have been generated so you do not have to run this command.
-
-[source]
-----
-keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security/src/test/resources/integrationstore.jks
-----
-
-Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
-Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
 
 == Use case exercise
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project. 
-
-Refer to the following URL's for the relevant Apache CXF documentation: 
-- http://cxf.apache.org/docs/ws-security.html
-- http://cxf.apache.org/docs/a-simple-jax-ws-service.html
+The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Generate SOAP Header with WSSE : username, timestamp & wrong password
+=== Secure the Jetty Component using a Security Handler
 
 CXF uses WSS4J to implement WS-Security. WS-Security can be activated either:
 - by using WS-SecurityPolicy, which provides a comprehensive and sophisticated validation of the security properties of a received message; or
@@ -99,11 +81,6 @@ For this use case, you will use as parameters to configure the WSS4J class the f
 * The JaxWsServerFactoryBean (server side) and JaxWsProxyFactoryBean (client side) must be configured to use the Crypto configuration files insecurity.properties and outsecurity.properties to sign/decrypt the messages using the parameters +signatureVerificationPropFile+ and +decryptionPropFile+. The properties files should be created within the resources directory +org/jboss/fuse/security/common+
 * Both Crypto config files will use the same keystore file +integrationstore.jks+
 ====
-
-//[source,java]
-//----
-//include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
-//----
 
 [[usecase2]]
 === Generate SOAP Header with WSSE : username, timestamp & password
