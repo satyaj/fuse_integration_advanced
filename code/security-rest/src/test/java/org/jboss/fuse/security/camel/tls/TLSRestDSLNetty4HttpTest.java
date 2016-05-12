@@ -38,10 +38,10 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         URL jaasURL =  this.getClass().getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
         setSystemProp("java.security.auth.login.config", jaasURL.toExternalForm());
 
-        //URL trustStoreUrl = this.getClass().getResource("clientKeystore.jks");
-        //setSystemProp("javax.net.ssl.trustStore", trustStoreUrl.toURI().getPath());
+        URL trustStoreUrl = this.getClass().getResource("clientKeystore.jks");
+        setSystemProp("javax.net.ssl.trustStore", trustStoreUrl.toURI().getPath());
 
-        setSystemProp("javax.net.debug","all");
+        //setSystemProp("javax.net.debug","all");
         super.setUp();
     }
 
@@ -63,7 +63,8 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
     }
 
     @Test
-    public void testBasicAuth() {
+    public void testBasicAuth()  {
+
         // username:password is mickey:mouse
         String auth = "Basic bWlja2V5Om1vdXNl";
         String result = template.requestBodyAndHeader("netty4-http://https://localhost:" + PORT + "/say/hello/Mickey?ssl=true&sslContextParameters=#sslClientParameters", "", "Authorization", auth, String.class);
@@ -164,24 +165,13 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         // NOTE: Needed since the client uses a loose trust configuration when no ssl context
         // is provided.  We turn on WANT client-auth to prefer using authentication
         SSLContextServerParameters scsp = new SSLContextServerParameters();
-        scsp.setClientAuthentication(ClientAuthentication.WANT.name());
-
-        /* Test with TLSv1
-            Camel Thread #33 - NettyClientTCPWorker, fatal error: 80: Inbound closed before receiving peer's close_notify: possible truncation attack?
-            javax.net.ssl.SSLException: Inbound closed before receiving peer's close_notify: possible truncation attack?
-            Camel Thread #33 - NettyClientTCPWorker, SEND TLSv1.2 ALERT:  fatal, description = internal_error
-            Camel Thread #33 - NettyClientTCPWorker, Exception sending alert: java.io.IOException: writer side was already closed.
-         */
-
-        SecureSocketProtocolsParameters sspp = new SecureSocketProtocolsParameters();
-        sspp.getSecureSocketProtocol().add("TLSv1.2");
-
-        scsp.setSecureSocketProtocols(sspp);
+        scsp.setClientAuthentication(ClientAuthentication.REQUIRE.name());
 
         SSLContextParameters scp = new SSLContextParameters();
         scp.setKeyManagers(kmp);
         scp.setTrustManagers(tmp);
         scp.setServerParameters(scsp);
+        scp.setSecureSocketProtocol("SSLv3");
         return scp;
     }
     // EXCLUDE-END
@@ -211,13 +201,10 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         //kmp.setKeyStore(ksp);
         //kmp.setKeyPassword("ckpass");
 
-        SecureSocketProtocolsParameters sspp = new SecureSocketProtocolsParameters();
-        sspp.getSecureSocketProtocol().add("TLSv1.2");
-
         SSLContextParameters scp = new SSLContextParameters();
-        scp.setSecureSocketProtocols(sspp);
         //scp.setKeyManagers(kmp);
         scp.setTrustManagers(tmp);
+        scp.setSecureSocketProtocol("SSLv3");
         return scp;
     }
 
