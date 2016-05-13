@@ -17,7 +17,9 @@ public class SimpleAutPolicyTest extends BaseNetty4Test {
 
     private static int PORT = getPort1();
 
-    @Test public void testBasicAuth() {
+    @Test
+    public void testBasicAuth() {
+        // EXCLUDE-BEGIN
         String result;
 
         // Unauthorized
@@ -37,10 +39,12 @@ public class SimpleAutPolicyTest extends BaseNetty4Test {
         headers.put(Exchange.HTTP_METHOD,"GET");
         result = template.requestBodyAndHeaders("netty4-http://http://localhost:" + PORT + "/say/hello/Donald", "",headers, String.class);
         assertEquals("\"Hello World Donald\"", result);
+        // EXCLUDE-END
     }
 
-    // EXCLUDE-BEGIN
-    @Override protected RouteBuilder createRouteBuilder() throws Exception {
+    @Override
+    protected RouteBuilder createRouteBuilder() throws Exception {
+        // EXCLUDE-BEGIN
 
         final SimpleAuthenticationPolicy auth = new SimpleAuthenticationPolicy();
 
@@ -69,6 +73,6 @@ public class SimpleAutPolicyTest extends BaseNetty4Test {
 
             }
         };
+        // EXCLUDE-END
     }
-    // EXCLUDE-END
 }

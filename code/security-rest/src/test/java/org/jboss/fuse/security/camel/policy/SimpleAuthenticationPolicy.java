@@ -17,9 +17,11 @@ public class SimpleAuthenticationPolicy implements AuthorizationPolicy {
 
     @Override
     public Processor wrap(RouteContext routeContext, Processor processor) {
+        //EXCLUDE-BEGIN
         if (LOG.isDebugEnabled()) {
             LOG.debug("Securing route {} using Shiro policy {}", routeContext.getRoute().getId(), this);
         }
         return new SimpleAuthenticationProcessor(processor, this);
+        //EXCLUDE-END
     }
 }

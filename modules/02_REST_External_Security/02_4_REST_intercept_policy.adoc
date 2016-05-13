@@ -76,6 +76,71 @@ Call the endpoint at the address +http://localhost:PORT/customerservices/custome
 The response code expected for +testBasicAuth+ is +200+ while it should be +401+ for the second. Assert that you will receive as response +<message>Authentication failed</message>+ in case of failure and +<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Customer><id>123</id><name>John</name></Customer>+
 in case of success.
 
+[[usecase2]]
+=== Authenticate the user using Apache Camel Interceptor/Policy
+
+The goal of this use case is to develop an Apache Camel Policy acting as an interceptor to accept/refuse the HTTP Request if the authentication process succeeds/fails. We will design an Apache Camel project using the REST DSL
+syntax and the component Netty4 HTTP to expose the following RESTfull service +/say/hello/{id}+.
+
+The REST endpoint will redirect the Camel Exchange created to a +direct:hello+ endpoint where you will apply your Policy strategy to intercept the HTTP Request.
+
+Use the Java class +org.jboss.fuse.security.camel.policy.SimpleAutPolicyTest+ to design your Camel Route exposing the Rest Netty4 HTTP Endpoint and test case.
+
+Configure a route exposing the from("direct:hello") endpoint and calling next a policy processor created using the class +org.jboss.fuse.security.camel.policy.SimpleAuthenticationPolicy+. Return as response this
+simple message +Hello World ${header.id}+.
+
+Your policy java class +SimpleAuthenticationPolicy+ must implement the interface +org.apache.camel.spi.AuthorizationPolicy;+. Override the wrap method +public Processor wrap(RouteContext routeContext, Processor processor) {+ and
+return this object new +SimpleAuthenticationProcessor(processor, this);+
+
+The +org.jboss.fuse.security.camel.policy.SimpleAuthenticationProcessor+ java class which extends the +DelegateAsyncProcessor+ class of Camel will get the Camel Exchange within the method +process(Exchange exchange, AsyncCallback callback) {+
+
+Develop the strategy to extract the HTTP Authorization header within the +applySecurityPolicy(Exchange exchange)+ method and authenticate the user/password extracted from the Base64 encoded string as done within the
+ previous use case.
+
+Use the +login(String user, String password)+ method to verify the user, password extracted.
+
+Add different catch blocks within the +applySecurityPolicy(Exchange exchange) {+ method to collect the following exceptions and messages
+
+[source]
+----
+} catch (NullPointerException ne) {
+    throw new AuthenticationException("Authorization Header is not present or can't be decoded");
+} catch (AuthenticationException ae) {
+    throw new AuthenticationException("Authentication Failed. There is no user with username and/or password", ae.getCause());
+} catch (UnsupportedEncodingException e) {
+    throw new AuthenticationException("Base64 String can't be decoded", e.getCause());
+}
+----
+
+Add a onException processor within the Camel DSL Route definition to catch these exception +AuthenticationException.class+. Set the Body of the Camel Exchange with a +javax.rs.core.Response+ object that you will
+configure with the HTTP Error code 404 and the message extracted from the Exception caught.
+
+
+Within the Test Class, add this method +testBasicAuth+ and develop the code to perform 2 requests; one unauthorized and the other authorized.
+You will use the +ProducerTemplate.requestBodyAndHeader()+ method to send using the Netty4 HTTP endpoint, the HTTP Request. Don't forget to pass the HTTP Method as parameter to the HTTP header and Authorization header when required
+
+Send 2 HTTP Requests and assert the response message or HTTP code returned for; request without HTTP Authorization header and request with HTTP Authorization header
+
+[cols="2*", options="header"]
+|===
+|Request
+|Description
+
+|netty4-http://http://localhost:" + PORT + "/say/hello/noauthheader
+a|HTTP code: 500
+
+Response message asserted: Netty HTTP operation failed invoking http://localhost:23000/say/hello/noauthheader with statusCode: 500
+
+| netty4-http://http://localhost:" + PORT + "/say/hello/Donald
+a|HTTP code: 200
+
+Response message asserted: "Hello World Donald"
+
+|===
+
+NOTE: You can use as user/password one of the value of the Map of the passwords
+
+
 ifdef::showscript[]
 
 :numbered!:
