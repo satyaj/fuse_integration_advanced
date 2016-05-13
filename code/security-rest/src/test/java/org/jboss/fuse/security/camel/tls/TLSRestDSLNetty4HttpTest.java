@@ -20,13 +20,16 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
     protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();
 
+        // EXCLUDE-BEGIN
         // Netty with HTTPS scheme, JAAS Auth & Security Path Constraint & Role
         jndi.bind("sslServerParameters",getSSLContextParameters());
         jndi.bind("nettyServerSecurityConfig", getJAASSecurityHttpConfiguration());
 
         // Pass to the Netty Producer the SSL Context Parameters
         jndi.bind("sslClientParameters", getClientSSLContextParameters());
+        // EXCLUDE-END
         return jndi;
+
     }
 
     @Override
@@ -49,6 +52,7 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
 
     @Test
     public void testFailAuth() {
+    // EXCLUDE-BEGIN
         try {
             template.requestBody("netty4-http://https://localhost:" + PORT + "/say/hello/noauthheader?ssl=true&sslContextParameters=#sslClientParameters","", String.class);
             fail("Should send back 401");
@@ -56,18 +60,22 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
             NettyHttpOperationFailedException cause = assertIsInstanceOf(NettyHttpOperationFailedException.class, e.getCause());
             assertEquals(401, cause.getStatusCode());
         }
+    // EXCLUDE-END
     }
 
     @Test
     public void testBasicAuth()  {
+    // EXCLUDE-BEGIN
         // username:password is mickey:mouse
         String auth = "Basic bWlja2V5Om1vdXNl";
         String result = template.requestBodyAndHeader("netty4-http://https://localhost:" + PORT + "/say/hello/Mickey?ssl=true&sslContextParameters=#sslClientParameters", "", "Authorization", auth, String.class);
         assertEquals("\"Hello World Mickey\"", result);
+        // EXCLUDE-END
     }
 
     @Test
     public void testBasicAuthSecConstraintWithoutAdminRole() {
+    // EXCLUDE-BEGIN
         // username:password is donald:duck
         String auth = "Basic ZG9uYWxkOmR1Y2s=";
 
@@ -83,6 +91,7 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
 
     @Test
     public void testBasicAuthAndSecConstraint() {
+    // EXCLUDE-BEGIN
         // username:password is mickey:mouse
         String auth = "Basic bWlja2V5Om1vdXNl";
 
@@ -91,30 +100,33 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         assertEquals("\"Hello World Mickey\"", result);
     }
 
-    // EXCLUDE-BEGIN
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
 
+        // EXCLUDE-BEGIN
         return new RouteBuilder() {
             @Override public void configure() throws Exception {
 
-                restConfiguration()
-                    .component("netty4-http")
-                    .scheme(SCHEME_HTTPS)
-                    .host("0.0.0.0")
-                    .port(getPort1()).bindingMode(RestBindingMode.json)
-                    .endpointProperty("securityConfiguration", "#nettyServerSecurityConfig")
-                    .endpointProperty("sslContextParameters","#sslServerParameters")
-                    .endpointProperty("ssl","true")
-                    .endpointProperty("traceEnabled","true");
+                 restConfiguration()
+                     .component("netty4-http")
+                     .scheme(SCHEME_HTTPS)
+                     .host("0.0.0.0")
+                     .port(getPort1()).bindingMode(RestBindingMode.json)
+                     .endpointProperty("securityConfiguration", "#nettyServerSecurityConfig")
+                     .endpointProperty("sslContextParameters","#sslServerParameters")
+                     .endpointProperty("ssl","true")
+                     .endpointProperty("traceEnabled","true");
+
 
                 rest("/say").produces("json").post("/hello/{id}").to("direct:hello");
 
                 from("direct:hello").transform().simple("Hello World ${header.id}");
             }
         };
+        // EXCLUDE-END
     }
 
+    // EXCLUDE-BEGIN
     private NettyHttpSecurityConfiguration getJAASSecurityHttpConfiguration() {
         NettyHttpSecurityConfiguration sec = new NettyHttpSecurityConfiguration();
         sec.setRealm("myrealm");
@@ -131,7 +143,9 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
 
         return sec;
     }
+    // EXCLUDE-END
 
+    // EXCLUDE-BEGIN
     private SSLContextParameters getSSLContextParameters() {
         // TLS
         KeyStoreParameters ksp = new KeyStoreParameters();
@@ -158,6 +172,7 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
     }
     // EXCLUDE-END
 
+    // EXCLUDE-BEGIN
     private SSLContextParameters getClientSSLContextParameters() {
         // TLS
         KeyStoreParameters ksp = new KeyStoreParameters();
@@ -171,27 +186,6 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         scp.setTrustManagers(tmp);
         return scp;
     }
-
-    /*
-     * NettyHttpConfiguration with SSL parameters
-     */
-    private NettyHttpConfiguration getNettyHttpClientSslConfiguration() {
-        NettyHttpConfiguration conf = new NettyHttpConfiguration();
-        conf.setSsl(true);
-        //conf.setKeyStoreResource("org/jboss/fuse/security/camel/tls/clientKeystore.jks");
-        //conf.setTrustStoreResource("org/jboss/fuse/security/camel/tls/clientKeystore.jks");
-        conf.setSslContextParameters(getClientSSLContextParameters());
-        return conf;
-    }
-
-    /*
-     * NettyHttpConfiguration with SSL parameters
-     */
-    private NettyHttpConfiguration getNettyHttpSslConfiguration() {
-        NettyHttpConfiguration conf = new NettyHttpConfiguration();
-        conf.setSslContextParameters(getSSLContextParameters());
-        return conf;
-    }
-
+    // EXCLUDE-END
 
 }
