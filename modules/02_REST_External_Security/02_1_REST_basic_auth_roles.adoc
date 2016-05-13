@@ -47,7 +47,7 @@ that you will use to resolve the use cases, we suggest that you next import it i
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Secure the Jetty Component using a Security Handler
+=== Camel REST DSL with Jetty Component & Basic Authentication
 
 The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
 
@@ -59,52 +59,54 @@ the user using a properties file called +src/test/resources/org/jboss/fuse/secur
 user: password, role.
 
 For this use case, you must create 2 java methods +UsernameWrongPasswordTest()+ and +UsernameTest()+ to test the credentials of a user having either a correct or wrong password.
-Use the method HTTPClient to issue the HTTP request against the RESTFull Endpoint started by Apache Camel with the help of this method +callRestEndpoint()+
+Use the method HTTPClient to issue the HTTP request against the RESTFull Endpoint started by Apache Camel with the help of this method +callRestEndpoint()+.
+Verify that you get a HTTP Code 200 when the user has been authenticated correctly and that the REST Service replies with this response +"Hello World " + user+ that you will validate with Assert methods.
+A code 401 should be returned for a not allowed user.
 
 NOTE: The +BaseJettyTest+ class extends the +CamelTestSupport+ class
 
-
 [[usecase2]]
-=== Generate SOAP Header with WSSE : username, timestamp & password
+=== Camel REST DSL with Jetty Component, Basic Authentication & Role Access Restriction
 
-This usecase extends the previous but instead of sending a wrong password, you will send the correct password assigned to your username within the WSSE Section of the SOAP Header. Please use the `passwordCallbackClass` as WSS4J parameter
-to let the Interceptor to get the password from the `PwdCallback` implementing the `CallbackHandler` interface. Within the handle method, loop within the list of the users till you find the user and assign the password
-to the `WSPasswordCallback` object using the `setPassword` property.
+This usecase extends the previous but will be designed using the java class +org.jboss.fuse.security.camel.basic.role.BasicAuthRESTCamelDSLJettyRoleConstraintTest+. We will expose two RESTFull Services:
 
-Use the same Actions as defined for the Usecase 1 in order to generate a header containing the user credential and the timestamp.
+- +/say/hello/{id}+
+- +/say/bye/{id}+
 
-[[usecase3]]
-=== Generate a SOAP Message & sign its content
+and restrict (or constraint) the access to the paths as such
 
-The goal of this use case is to sign the body of the message and its timestamp. The algorithms to be used to digest the signed content is +http://www.w3.org/2001/04/xmlenc#sha256+ while the algorithm to be used to sign the content is +http://www.w3.org/2000/09/xmldsig#rsa-sha1+.
-You will need to set the Signature and TimeStamp actions (username token does not need to be set).
+- +/say/hello/*+ for users having the role user or admin
+- +/say/bye/*+ for users having the role admin only
 
-Signing a message validates to the receiver that the message was not altered in transit and could only have come from a certain sender. The sender encrypts a digest (hash) of the message with its private key, and the recipient decrypts the hash with the sender's public key.  It checks that the digest values calculated by both the sender and recipient are the same. The student  must ensure that the Client's public key has been imported into the server's keystore using keytool.
+To achieve this goal, you will define a List of ConstraintMapping that you will pass as parameter to the Jetty +ConstraintSecurityHandler+ class when you will design the +SecurityHandler+.
 
-Please use these parameters to configure the WSS4J class :
+There are 3 methods to be developed for this usecase based on the following information :
 
-- Actions : Timestamp and Signature
-- Parts to be signed : signatureParts
-- Parts : body and timestamp
-- Sign Algorithm : signatureAlgorithm
-- Digest Sign Algorithm : signatureDigestAlgorithm
+[cols="2*", options="header"]
+|===
+|Method
+|Description
 
-[WARNING]
-====
-* Take care to configure accordingly the Server and/or client classes and the In/Out interceptors
-* Use the appropriate user to sign the message based on the key associated to its certificate
-====
+|shouldSayHelloTest()
+a|HTTP code: 200
 
-[[usecase4]]
-=== Generate a SOAP Message & sign/encrypt the content
+Response message asserted: "Hello World" + user
 
-For this last use case, you will encrypt and sign the content of the message.
+user: donald, password: duck, role: user
 
-Encryption involves the sender encrypting the message with the recipient's public key to ensure that only the recipient can read the message (only the recipient has its own private key, necessary for decrypting the message.) This requires the sender to have the recipient's public key in its keystore. The process for encrypting is  similar to the signature process detailed in the previous usecase.
+|sayByeNotAllowedForUserRoleTest()
+a|HTTP code: 403
 
-Please use these parameters to configure the WSS4J class :
+user: donald, password: duck, role: user
 
-- Actions : Encrypt and Signature
+|sayByeAllowedForAdminRoleTest()
+a|HTTP code: 200
+
+Response message asserted: "Bye" + user
+
+user: mickey, password: mouse, role: admin
+
+|===
 
 
 ifdef::showscript[]

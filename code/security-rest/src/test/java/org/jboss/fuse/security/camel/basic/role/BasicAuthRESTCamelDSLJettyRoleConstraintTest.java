@@ -31,19 +31,23 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
     @Override
     protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();
+        // EXCLUDE-BEGIN
         jndi.bind("myAuthHandler", getSecurityHandler());
+        // EXCLUDE-END
         return jndi;
     }
 
     @Before
     public void init() throws IOException {
+        // EXCLUDE-BEGIN
         URL jaasURL = BasicAuthRESTCamelDSLJettyRoleConstraintTest.class.getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
         System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
+        // EXCLUDE-END
     }
 
-    // EXCLUDE-BEGIN
     @Test
     public void shouldSayHelloTest() {
+    // EXCLUDE-BEGIN
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
@@ -51,23 +55,23 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         assertEquals(200, result.getCode());
         assertEquals("We should get a Hello World", "Hello World " + user,
                 result.getMessage().replaceAll("^\"|\"$", ""));
-    }
     // EXCLUDE-END
+    }
 
-    // EXCLUDE-BEGIN
     @Test
     public void sayByeNotAllowedForUserRoleTest() {
+    // EXCLUDE-BEGIN
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/bye/" + user;
 
         HttpResult result = callRestEndpoint("localhost", strURL, "donald", "duck", "MyRealm");
         assertEquals(403, result.getCode());
-    }
     // EXCLUDE-END
+    }
 
-    // EXCLUDE-BEGIN
     @Test
     public void sayByeAllowedForAdminRoleTest() {
+    // EXCLUDE-BEGIN
         String user = "Mickey";
         String strURL = "http://" + HOST + ":" + PORT + "/say/bye/" + user;
 
@@ -76,8 +80,8 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         assertEquals("We should get a Bye", "Bye " + user,
                 result.getMessage().replaceAll("^\"|\"$", ""));
 
-    }
     // EXCLUDE-END
+    }
 
     private HttpResult callRestEndpoint(String host, String url, String user, String password, String realm) {
 
@@ -140,12 +144,12 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
     // EXCLUDE-END
 
     private SecurityHandler getSecurityHandler() throws IOException {
-
+    // EXCLUDE-BEGIN
         // Describe the Authentication Constraint to be applied (BASIC, DISGEST, NEGOTIATE, ...)
         Constraint constraint = new Constraint(Constraint.__BASIC_AUTH, "user");
         constraint.setAuthenticate(true);
 
-        // Map the Auth Contrainst with a Path
+        // Map the Auth Constraint with a Path
         ConstraintMapping cm = new ConstraintMapping();
         cm.setPathSpec("/*");
         cm.setConstraint(constraint);
@@ -168,12 +172,12 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         sh.setLoginService(loginService);
 
         return sh;
-
+    // EXCLUDE-END
     }
 
     private List<ConstraintMapping> getConstraintMappings() {
-
-        // Access allowed for roles User, Admin
+    // EXCLUDE-BEGIN
+        // Access allowed for roles : User, Admin
         Constraint constraint0 = new Constraint(Constraint.__BASIC_AUTH, "user");
         constraint0.setAuthenticate(true);
         constraint0.setName("allowedForAll");
@@ -183,7 +187,7 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         mapping0.setMethod("GET");
         mapping0.setConstraint(constraint0);
 
-        // Access alowed only for Admin role
+        // Access alowed only for role : Admin
         Constraint constraint1 = new Constraint();
         constraint1.setAuthenticate(true);
         constraint1.setName("allowedForRoleAdmin");
@@ -194,6 +198,7 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         mapping1.setConstraint(constraint1);
 
         return Arrays.asList(mapping0, mapping1);
+    // EXCLUDE-END
     }
 
 }
