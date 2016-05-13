@@ -74,6 +74,19 @@ A code 401 should be returned for a not allowed user.
 [[usecase2]]
 === CXF JAXRS with Jetty Server & JAAS
 
+The goal of this use case is to use the Java Api for Authentication and Authorization Service with a Module using users defined in a property file. This JAAS Module will check the user credential passed by the HTTP client
+performing the Basic Authentication
+
+So, like the previous use case, you will reuse the use case developed with CXFRS within the Lab 1 but you will use the +org.eclipse.jetty.jaas.JAASLoginService+ instead of the +org.eclipse.jetty.security.HashLoginService+
+class.
+
+In order to develop this project, you will develop a new Java Class +JaasCxfRSTest+ based on the code of the class +BasicAuthCxfRSRoleTest+ and perform the following modifications :
+
+- Create a new file "ServerJAASConfig.xml" where you will use the +org.eclipse.jetty.jaas.JAASLoginService+ bean with the login Module name "propsFileModule" and realm "myrealm"
+- Configure the Spring Bus to use this config file
+- Adapt the +JAXRSServerFactoryBean+ to use +CustomerService+ and +CustomerServiceImpl+
+- Remove the +SecureAnnotationsInterceptor+
+- Setup the System property Key +java.security.auth.login.config+
 
 ifdef::showscript[]
 
