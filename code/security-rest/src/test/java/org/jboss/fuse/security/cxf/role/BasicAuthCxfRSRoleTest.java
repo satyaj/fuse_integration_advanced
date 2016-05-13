@@ -31,17 +31,20 @@ public class BasicAuthCxfRSRoleTest extends BaseCXF {
     public static final String PORT = allocatePort(BasicAuthCxfRSRoleTest.class);
     private static JAXRSServerFactoryBean sf;
 
-    @Ignore public static class Server extends AbstractBusTestServerBase {
+    @Ignore
+    public static class Server extends AbstractBusTestServerBase {
 
         static {
+            // EXCLUDE-BEGIN
             SpringBusFactory factory = new SpringBusFactory();
             Bus bus = factory.createBus("org/jboss/fuse/security/basic/config/ServerConfig.xml");
             BusFactory.setDefaultBus(bus);
+            // EXCLUDE-END
         }
 
         protected void run() {
             sf = new JAXRSServerFactoryBean();
-
+            // EXCLUDE-BEGIN
             // Configure the Interceptor responsible to scan the Classes, Interface in order to detect @RolesAllowed Annotation
             // and creating a RolesMap
             SecureAnnotationsInterceptor sai = new SecureAnnotationsInterceptor();
@@ -55,6 +58,7 @@ public class BasicAuthCxfRSRoleTest extends BaseCXF {
             sf.setAddress("http://localhost:" + PORT + "/");
 
             sf.create();
+            // EXCLUDE-END
         }
 
         public static void main(String[] args) {
@@ -70,48 +74,46 @@ public class BasicAuthCxfRSRoleTest extends BaseCXF {
         }
     }
 
-    @BeforeClass public static void startServers() throws Exception {
+    @BeforeClass
+    public static void startServers() throws Exception {
         assertTrue("server did not launch correctly", launchServer(Server.class, true));
         createStaticBus();
-        URL jaasURL = BasicAuthCxfRSRoleTest.class
-                .getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
+        // EXCLUDE-BEGIN
+        URL jaasURL = BasicAuthCxfRSRoleTest.class.getResource("/org/jboss/fuse/security/basic/myrealm-jaas.cfg");
         System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
+        // EXCLUDE-END
     }
 
-    @AfterClass public static void shutdown() {
+    @AfterClass
+    public static void shutdown() {
         sf.getBus().shutdown(true);
     }
 
-    @Test public void allowForDonalUserCorrectRoleTest() {
-
+    @Test
+    public void allowForDonalUserCorrectRoleTest() {
         String CustomerResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Customer><id>123</id><name>John</name></Customer>";
         String BASE_SERVICE_URL = "http://localhost:" + PORT + "/customerservice/customers/123";
 
         HttpResult res = callRestEndpoint("localhost", BASE_SERVICE_URL, "donald", "duck", "myrealm");
-
+        // EXCLUDE-BEGIN
         Assert.assertEquals("Response status is 200", Response.Status.OK.getStatusCode(), res.getCode());
         Assert.assertEquals(CustomerResponse, res.getMessage());
+        // EXCLUDE-END
     }
 
-    @Test public void deniedForUmperioNotCorrectRole() {
-
+    @Test
+    public void deniedForUmperioNotCorrectRole() {
         String BASE_SERVICE_URL = "http://localhost:" + PORT + "/customerservice/customers/123";
 
         HttpResult res = callRestEndpoint("localhost", BASE_SERVICE_URL, "umperio", "bogarto", "myrealm");
-
+        // EXCLUDE-BEGIN
         Assert.assertEquals("Response status is 500", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                 res.getCode());
         Assert.assertEquals("Unauthorized", true, res.getMessage().contains("Unauthorized"));
-
+        // EXCLUDE-END
     }
 
-    protected HttpResult callRestEndpoint(String host, String url, String user, String password,
-            String realm) {
-        return callRestEndpoint(false, host, url, user, password, realm);
-    }
-
-    protected HttpResult callRestEndpoint(boolean isHttps, String host, String url, String user,
-            String password, String realm) {
+    protected HttpResult callRestEndpoint(String host, String url, String user, String password, String realm) {
 
         HttpResult response = new HttpResult();
 
