@@ -13,7 +13,7 @@ In this lab you resolve the following use cases:
 * Configure your local environment to develop and resolve use cases
 * Become more experimented about JAAS & Jetty
 * Design RESTfull Service project and secure it
-* Expose the RESTfull services using a Camel route
+* Expose the RESTfull services using a Camel route or CXF RS
 * Configure the Jetty Endpoint to authenticate the HTTP User request using JAAS & JAASLoginService class
 
 .Prerequisites
@@ -46,6 +46,30 @@ The different use cases should be developed as a collection of Java JUnit Test c
 [[usecase1]]
 === Camel REST DSL with Jetty Component, Basic Authentication & JAAS
 
+This usecase is a variation of the Basic Authentication use case 1 that you have designed within the Lab 1. What is different is that we will replace the HashLoginService class of Jetty with the
++org.eclipse.jetty.jaas.JAASLoginService+ class and that you will register a Realm with its corresponding JAAS file to install the JAAS Module responsible to find the user and authenticate it.
+
+Within this project, you will setup an Apache Camel Route, use the REST DSL syntax to expose a RESTfull service according to this path +/say/hello/{id}+ where {id} represents the user for which you would like to say hello
+. Next, you will configure the Jetty Component using the Jetty SecurityHandler class to authenticate the user HTTP request using Basic Authentication & Base64.
+
+The +org.eclipse.jetty.security.SecurityHandler+ will be configured to request Basic Authentication and will use the +org.eclipse.jetty.jaas.JAASLoginService+ class to authenticate
+the user using as realm name +myrealm+ and as jaas login module +propsFileModule+.
+
+Create the +org/jboss/fuse/security/basic/myrealm-jaas.cfg+ file and define the module +propsFileModule+ with the following values :
+
+[source]
+----
+org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
+file="src/test/resources/org/jboss/fuse/security/basic/myrealm.props";
+----
+
+Next, configure, using Java System Property, the key "java.security.auth.login.config" with the value of the JAAS Config file +org/jboss/fuse/security/basic/myrealm-jaas.cfg+
+
+Finally, create 2 java methods +UsernameWrongPasswordTest()+ and +UsernameTest()+ within the class +org.jboss.fuse.security.camel.jaas.BasicAuthRESTCamelDSLJettyJaasTest+ to test the credentials of a user having either a correct or wrong password.
+Use the method HTTPClient to issue the HTTP request against the RESTFull Endpoint started by Apache Camel with the help of this method +callRestEndpoint()+.
+
+Verify that you get a HTTP Code 200 when the user has been authenticated correctly and that the REST Service replies with this response +"Hello World " + user+ that you will validate with Assert methods.
+A code 401 should be returned for a not allowed user.
 
 [[usecase2]]
 === CXF JAXRS with Jetty Server & JAAS
