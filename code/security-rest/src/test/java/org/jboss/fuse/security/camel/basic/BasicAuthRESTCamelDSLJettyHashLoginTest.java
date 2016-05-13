@@ -33,11 +33,14 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
     @Override
     protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry jndi = super.createRegistry();
+    // EXCLUDE-BEGIN
         jndi.bind("myAuthHandler", getSecurityHandler());
         return jndi;
+    // EXCLUDE-END
     }
 
     private SecurityHandler getSecurityHandler() throws IOException {
+   // EXCLUDE-BEGIN
         // Describe the Authentication Constraint to be applied (BASIC, DISGEST, NEGOTIATE, ...)
         Constraint constraint = new Constraint(Constraint.__BASIC_AUTH, "user");
         constraint.setAuthenticate(true);
@@ -66,11 +69,12 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
         sh.setConstraintMappings(Arrays.asList(new ConstraintMapping[] { cm }));
 
         return sh;
+    // EXCLUDE-END
     }
 
-    // EXCLUDE-BEGIN
     @Test
     public void UsernameTest() {
+    // EXCLUDE-BEGIN
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
@@ -78,22 +82,23 @@ public class BasicAuthRESTCamelDSLJettyHashLoginTest extends BaseJettyTest {
         assertEquals(200, result.getCode());
         assertEquals("We should get a Hello World", "Hello World " + user,
                 result.getMessage().replaceAll("^\"|\"$", ""));
-    }
-    // EXCLUDE-END
+     // EXCLUDE-END
+     }
 
-    // EXCLUDE-BEGIN
     @Test
     public void UsernameWrongPasswordTest() {
+    // EXCLUDE-BEGIN
         String user = "Charles";
         String strURL = "http://" + HOST + ":" + PORT + "/say/hello/" + user;
 
         HttpResult result = callRestEndpoint("localhost", strURL, "donald", "mouse", "MyRealm");
         assertEquals(401, result.getCode());
-    }
     // EXCLUDE-END
+    }
 
     // EXCLUDE-BEGIN
-    @Override protected RouteBuilder createRouteBuilder() throws Exception {
+    @Override
+    protected RouteBuilder createRouteBuilder() throws Exception {
 
         final List<RestPropertyDefinition> jettyProperties = new ArrayList<>();
         RestPropertyDefinition rpd = new RestPropertyDefinition();
