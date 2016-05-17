@@ -5,10 +5,12 @@
 
 By completing this module you will learn about the following key Web Service Security topics:
 
-* WS Security
-* WS Security Policy
-* WS Trust & SAMLv2
-* Encryption/Decryption
+* Basic HTTP Authentication & Path Security Constraints
+* JAAS Secured Applications (RESTful, ...)
+* Mutual TLS
+* Role based Secure applications (@RolesAllowed)
+* Intercept HTTP call and authenticate the user
+* Use Api to secure your endpoints
 
 ifdef::showscript[]
 [.notes]
@@ -16,9 +18,11 @@ ifdef::showscript[]
 
 == Module Topics
 
-This module covers key Web Service Security concepts such as Secure a Web Service using the specification WS-Security, implementing the Security using a Policy, using a Security Token Service
-with the WS-Trust specification to generate a Security Token that the Web Service will assert using validation rules or to encrypt/decrypt the content of the Web Service Body.
-This module extends the Security concepts introduced within the chapter "Advanced Features" of the +Camel Development with JBoss Fuse+ course. The Security content is packaged within 2 distinct modules; one specific
-for the Web Service technology and the second for the RESTfull service. The second part will also cover OAuth2, TLS & Security Enforcement.
+This module covers the different security concerns to authenticate the application sending HTTP requests using Basic Authentication with or without Java Api for Authentication and Authorization Service. Next we will investigate
+how we could use user's role to restrict access to certain RESTfull paths using Jetty/Netty Security Constraints or the JAX-RS annotation @RolesAllowed. The Security Constraint mechanism checks if the path of the resource
+accessed matches a rule and the role associated. We will also have a look to secure the communication between the client and the server using the TLS protocol and a mutual authentication.
+Instead of using a security mechanism managed by the HTTP Web Container or Netty TCP Server, an approach based on the concept of an interceptor will be presented base on the Apache Camel Policy and a JAXRS Container Filter.
+Finally, we will see how we can secure the endpoint using an API Management platform where we delegate the responsability using some APi plugins to Authenticate the incoming HTTP request using Basic authentication or Oauth2.
+
 ****
 endif::showscript[]
