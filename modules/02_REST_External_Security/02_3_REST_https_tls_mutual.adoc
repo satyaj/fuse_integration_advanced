@@ -42,15 +42,25 @@ that you will use to resolve the use cases, we suggest that you next import it i
 
 === Keys and certificates
 
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates. For this usecase, the keys have been generated so you do not have to run this command.
+Follow these instructions in order to create the Private/Public keys of the user and the server, their corresponding certificate and trust them (Client with the Server and Server with the Client).
 
 [source]
 ----
-keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security-rest/src/test/resources/org/jboss/fuse/security/basic/config/serverstore.jks
+# Create the keystore for the client and Server
+
+keytool -genkeypair -validity 730 -alias myservicekey -keystore serviceKeystore.jks -dname "cn=localhost" -keypass skpass -storepass sspass
+keytool -genkeypair -validity 730 -alias myclientkey -keystore clientKeystore.jks -keypass cspass -storepass cspass
+
+# Place the server public cert in client key/truststore
+keytool -export -rfc -keystore serviceKeystore.jks -alias myservicekey -file MyService.cer -storepass sspass
+keytool -import -noprompt -trustcacerts -file MyService.cer -alias myservicekey -keystore clientKeystore.jks -storepass cspass
+
+# Place client public cert in service key/truststore
+keytool -export -rfc -keystore clientKeystore.jks -alias myclientkey -file MyClient.cer -storepass cspass
+keytool -import -noprompt -trustcacerts -file MyClient.cer -alias myclientkey -keystore serviceKeystore.jks -storepass sspass
 ----
 
-Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
-Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
+NOTE: The command should be executed within this folder used for the Camel use case +src/test/resources/org/jboss/fuse/security/camel/tls+ and this for the CXF case +src/test/resources/org/jboss/fuse/security/cxf/mutualtls+
 
 == Use case exercise
 
