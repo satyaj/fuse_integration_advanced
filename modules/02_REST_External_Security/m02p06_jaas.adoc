@@ -3,11 +3,35 @@
 [#jaas]
 == JAAS
 
+* Basic Authentication can be performed using JAAS Api
+* Well Supported by many Web Containers or Components
+* Rely on a Config File containing modules
+
+.Example
+[source]
+----
+<entry name> {
+    <LoginModule> <flag> <LoginModule options>;
+    <LoginModule> <flag> <LoginModule options>;
+    . . .
+    };
+
+
+xyz {
+    com.acme.SomeLoginModule required debug=true;
+};
+----
+
+* Control also the Resources Access Paths based on Role
+* Different JAAS Implementations exist to support : LDAP, JDBC queries
+
 ifdef::showscript[]
 [.notes]
 ****
 
 == JAAS
+
+Thus, each login configuration file entry consists of a name followed by one or more LoginModule-specific items. Each LoginModule-specific item specifies a LoginModule, a flag value, and options to be passed to the LoginModule. (These are described futher below.) Each LoginModule-specific item is terminated by a semicolon and the entire group of items is enclosed in braces. Each configuration file entry is terminated by a semicolon.
 
 ****
 endif::showscript[]
