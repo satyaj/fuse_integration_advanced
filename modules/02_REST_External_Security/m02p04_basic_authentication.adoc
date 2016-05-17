@@ -4,21 +4,23 @@
 == Basic Authentication
 
 * HTTP user agent provides : user & password
-* Base64 String encoded
-* Included within a HTTP Header
+* Base64 Encoded String
+* Included within a HTTP Authorization Header
 +
 [source]
 ----
 Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
 ----
 +
-* Combined preferably with TLS (HTTPS, SSL)
 * Server can request an agent to be authenticated
 +
 [source]
 ----
 WWW-Authenticate: Basic realm="myrealm"
 ----
+* Error code returned : 401 - Unauthorized
+* Combined preferably with TLS (HTTPS, SSL)
+* Full access to the resources !
 
 ifdef::showscript[]
 [.notes]
