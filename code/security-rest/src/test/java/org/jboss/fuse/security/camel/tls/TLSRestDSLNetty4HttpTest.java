@@ -1,14 +1,19 @@
 package org.jboss.fuse.security.camel.tls;
 
+import io.netty.handler.ssl.NotSslRecordException;
 import org.apache.camel.CamelExecutionException;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.netty4.http.*;
 import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.util.jsse.*;
 import org.jboss.fuse.security.camel.common.BaseNetty4Test;
+import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.net.URL;
 
 public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
@@ -90,14 +95,19 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
     }
 
     @Test
-    public void testBasicAuthAndSecConstraint() {
+    public void testHttpRequest() {
     // EXCLUDE-BEGIN
         // username:password is mickey:mouse
         String auth = "Basic bWlja2V5Om1vdXNl";
 
-        // User with Role Admin
-        String result = template.requestBodyAndHeader("netty4-http://https://localhost:" + PORT + "/say/hello/Mickey?ssl=true&sslContextParameters=#sslClientParameters", "", "Authorization", auth, String.class);
-        assertEquals("\"Hello World Mickey\"", result);
+        try {
+            String result = template
+                    .requestBodyAndHeader("netty4-http://http://localhost:" + PORT + "/say/hello/Mickey", "",
+                            "Authorization", auth, String.class);
+            assertEquals("\"Hello World Mickey\"", result);
+        } catch (CamelExecutionException e) {
+            Assert.assertEquals(true,e.getCause().getMessage().contains("No response received from remote server"));
+        }
     }
 
     @Override
@@ -106,6 +116,11 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         // EXCLUDE-BEGIN
         return new RouteBuilder() {
             @Override public void configure() throws Exception {
+
+                onException(Exception.class)
+                    .handled(true)
+                    .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                    .setBody().constant("HTTP protocol is not supported but HTTPS");
 
                  restConfiguration()
                      .component("netty4-http")
@@ -137,6 +152,7 @@ public class TLSRestDSLNetty4HttpTest extends BaseNetty4Test {
         auth.setName("myrealm");
         sec.setSecurityAuthenticator(auth);
 
+        // Include a Security constraint to restrict access to the /say/hello/* path for admin role users
         SecurityConstraintMapping matcher = new SecurityConstraintMapping();
         matcher.addInclusion("/say/hello/*", "admin");
         sec.setSecurityConstraint(matcher);

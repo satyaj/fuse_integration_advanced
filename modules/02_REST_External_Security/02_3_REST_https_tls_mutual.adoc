@@ -19,7 +19,7 @@ In this lab you resolve the following use cases:
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
 * Expertise with RESTfull & HTTP Basic Authentication
-* Basic knowledge about PKI, encryption with TLS/SSL
+* Basic knowledge about http://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html#keytool_option_genkeypair[PKI], encryption with TLS/SSL
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
 :numbered:
@@ -66,14 +66,65 @@ NOTE: The command should be executed within this folder used for the Camel use c
 
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project. 
 
-Refer to the following URL's for the relevant Apache CXF documentation: 
-- http://cxf.apache.org/docs/ws-security.html
-- http://cxf.apache.org/docs/a-simple-jax-ws-service.html
-
 [[usecase1]]
 === Mutual TLS with Netty4 HTTP & Camel REST DSL
 
+The goal of this use case is to develop a JUnit Test class +org.jboss.fuse.security.camel.tls.TLSRestDSLNetty4HttpTest+ to authenticate the HTTP request using Basic Authentication/JAAS but also
+using Mutual TLS. That means that the Client and the Server will exchange their certificates and will verify that the client or server are trusted to communicate to each other.
 
+As mentioned during the installation step of this lab, the certificates and keys to be used should be generated and available under the folder +src/test/resources/org/jboss/fuse/security/camel/tls+.
+
+Next you will have to configure the following topics :
+
+1) Camel REST DSL Route
+
+- Expose using REST DSL syntax a REST Service using the Netty4 HTTP component at the address +say/hello/{id}+ and returning this message +Hello World ${header.id}+
+- Configure the Netty4 HTTP component to support JAAS & TLS
+
+2) JAAS & Security Constraint
+
+- JAAS Realm to authenticate the client user/password at the server side. The Netty4 HTTP JAAS class to be used is +org.apache.camel.component.netty4.http.JAASSecurityAuthenticator+, the realm name is +myrealm+ and
+  the JAAS config file must be defined within the file +/org/jboss/fuse/security/basic/myrealm-jaas.cfg+
+
+- Include for the Netty4 HTTP Component a Security constraint to restrict access to the /say/hello/* path for admin role users
+
+3) Server Side SSL
+
+- Setup the SSL Parameters at the server side to enable the TLS communication with the client and to require Client TLS Authentication
+- The Keystore and TrustStore should be configured
+
+4) Client Side SSL
+
+- Setup the SSL Parameters at the Client side to enable the TLS communication with the Server and to require Server TLS Authentication
+- The Keystore and TrustStore should be configured
+
+Finally, develop 4 Unit Tests to check the following scenario
+
+[cols="3*", options="header"]
+|===
+|Method
+|Request
+|Description
+
+|testFailAuth() - No HTTP Basic Authentication is included within the HTTP Header
+|netty4-http://https://localhost:" + PORT + "/say/hello/noauthheader
+a|HTTP code: 401
+
+|testBasicAuth() - HTTP request generated with Basic HTTP authentication and user is allowed to access the path
+|netty4-http://https://localhost:" + PORT + "/say/hello/Mickey"
+a|HTTP code: 200
+
+Response message asserted: "Hello World Mickey"
+
+|testBasicAuthSecConstraintWithoutAdminRole() - HTTP request generated with Basic HTTP authentication and user is NOT allowed to access the path
+|netty4-http://https://localhost:" + PORT + "/say/hello/Donald"
+a|HTTP code : 401
+
+|testHttpRequest - test HTTP request without TLS
+|netty4-http://http://localhost:" + PORT + "/say/hello/Mickey
+a| Response message asserted: "No response received from remote server"
+
+|===
 
 [[usecase2]]
 === Mutual TLS using Apache CXF REST framework & Jetty
