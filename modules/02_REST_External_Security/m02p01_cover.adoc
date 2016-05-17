@@ -9,7 +9,7 @@ ifdef::revealjs_slideshow[]
 Advanced Integration
 
 [#cover-h2]
-REST Security & external enforcement
+REST Security & External enforcement
 
 [#cover-logo]
 image::{revealjs_cover_image}[]
