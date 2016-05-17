@@ -1,13 +1,31 @@
 :noaudio:
 
-[#basic_auth_constraints]
-== JAAS
+[#restrict_access_resources]
+== Restrict Access to Resources
+
+* Concept : Combine User role(s) with Resource Access Paths
+* Goal : restrict or allow access to resources
+* Implementation : web container or component specific
+* Operation is sometimes supported (GET, POST, PUT, ...)
+* How: URL requested matched with one the rule(s)
+
+.Example
+[source]
+----
+Constraint constraint = new Constraint();
+constraint.setRoles(new String[] { "user", "admin" });
+
+ConstraintMapping mapping = new ConstraintMapping();
+mapping.setPathSpec("/say/hello/*");
+mapping.setMethod("GET");
+mapping0.setConstraint(constraint);
+----
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== JAAS
+== Restrict Access to Resources
 
 ****
 endif::showscript[]
