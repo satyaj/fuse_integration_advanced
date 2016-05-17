@@ -1,9 +1,11 @@
 :noaudio:
 
+[#basic_auth]
 == Basic Authentication
 
 * HTTP user agent provides : user & password
 * Base64 String encoded
+* Included within a HTTP Header
 +
 [source]
 ----

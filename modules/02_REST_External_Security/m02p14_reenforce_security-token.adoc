@@ -1,5 +1,6 @@
 :noaudio:
 
+[#reenforce-security-token]
 == Reenforce Security
 
 ifdef::showscript[]

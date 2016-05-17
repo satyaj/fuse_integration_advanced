@@ -1,5 +1,6 @@
 :noaudio:
 
+[#mutualtls]
 == Mutual TLS
 
 ifdef::showscript[]

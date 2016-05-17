@@ -12,7 +12,7 @@ include::m02p10_restful-intercept.adoc[]
 include::m02p11_mutual_tls.adoc[]
 include::m02p12_reenforce_security.adoc[]
 include::m02p13_reenforce_security-basic.adoc[]
-include::m02p14_reenforce_security-role.adoc[]
-include::m02p15_reenforce_security-token.adoc[]
+include::m02p14_reenforce_security-token.adoc[]
+include::m02p15_reenforce_security-role.adoc[]
 
 

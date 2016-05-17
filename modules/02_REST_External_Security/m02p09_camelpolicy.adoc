@@ -1,5 +1,6 @@
 :noaudio:
 
+[#camelpolicy]
 == Camel Policy
 
 ifdef::showscript[]

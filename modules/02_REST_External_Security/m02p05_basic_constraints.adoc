@@ -1,5 +1,6 @@
 :noaudio:
 
+[#basic_auth_constraints]
 == JAAS
 
 ifdef::showscript[]

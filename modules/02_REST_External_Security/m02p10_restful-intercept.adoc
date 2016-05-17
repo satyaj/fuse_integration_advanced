@@ -1,5 +1,6 @@
 :noaudio:
 
+[#jaxrsintercept]
 == Camel Policy
 
 ifdef::showscript[]
