@@ -129,6 +129,27 @@ a| Response message asserted: "No response received from remote server"
 [[usecase2]]
 === Mutual TLS using Apache CXF REST framework & Jetty
 
+the goal of this use case is to develop a Apache CXF REST project where mutual TLS will be implemented. The CXF Server side part will be configured usin the Jetty Component and the Spring CXF Bean +httpj:engine-factory+
+while the client will be configured using the Spring Bean +http:conduit+.
+
+Like the previous use case, the SSL Parameters should be configured at the Server and Client side using the Keystore/Trustore generated according to the instructions of the lab installation
+
+Next, design for the Server and Client Side their Spring CXF XML files using the names +ClientConfig.xml+ and +Serverconfig.xml+ under the folder +src/test/resources/org/jboss/fuse/security/cxf/mutualtls+
+and setup the SSL Parameters
+
+NOTE: Don't forget to request the Client SSL authentication
+
+Develop the JUnit Test class +org.jboss.fuse.security.cxf.mutualtls.MutualTLSCxfRSTest+ to setup the Spring CXF Bus responsible to instantiate the Jetty Component configured to support SSL and Client Authentication.
+Next, using the class JAXRSServerFactoryBean, configure CXF to expose the REST service using the +CustomerService+ annotated class.
+
+Design this Unit test
+
+- Method : testMutualTLS() {
+- Response expected : CustomerResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Customer><id>123</id><name>John</name></Customer>";
+- URL of the HTTP request :  "https://localhost:" + PORT + "/customerservice/customers/123";
+- Use the +callRestEndpoint("localhost", BASE_SERVICE_URL)+ method to send your HTTP Request
+- Assert that the "Response status is 200"
+- Assert that the response received corresponds to the response expected
 
 ifdef::showscript[]
 

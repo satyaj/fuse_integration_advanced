@@ -32,12 +32,15 @@ public class MutualTLSCxfRSTest extends BaseCXF {
     public static class Server extends AbstractBusTestServerBase {
 
         static {
+            // EXCLUDE-BEGIN
             SpringBusFactory factory = new SpringBusFactory();
             Bus bus = factory.createBus("org/jboss/fuse/security/cxf/mutualtls/ServerConfig.xml");
             BusFactory.setDefaultBus(bus);
+            // EXCLUDE-END
         }
 
         protected void run() {
+            // EXCLUDE-BEGIN
             sf = new JAXRSServerFactoryBean();
 
             sf.setResourceClasses(CustomerService.class);
@@ -47,6 +50,7 @@ public class MutualTLSCxfRSTest extends BaseCXF {
             sf.setAddress("https://localhost:" + PORT + "/");
 
             sf.create();
+            // EXCLUDE-END
         }
 
         public static void main(String[] args) {
@@ -62,7 +66,8 @@ public class MutualTLSCxfRSTest extends BaseCXF {
         }
     }
 
-    @BeforeClass public static void startServers() throws Exception {
+    @BeforeClass
+    public static void startServers() throws Exception {
         System.setProperty("javax.net.debug","all");
         assertTrue("server did not launch correctly", launchServer(Server.class, true));
         createStaticBus();
@@ -74,8 +79,9 @@ public class MutualTLSCxfRSTest extends BaseCXF {
         sf.getBus().shutdown(true);
     }
 
-    @Test public void testMutualTLS() {
-
+    @Test
+    public void testMutualTLS() {
+        // EXCLUDE-BEGIN
         String CustomerResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Customer><id>123</id><name>John</name></Customer>";
         String BASE_SERVICE_URL = "https://localhost:" + PORT + "/customerservice/customers/123";
 
@@ -83,6 +89,7 @@ public class MutualTLSCxfRSTest extends BaseCXF {
 
         Assert.assertEquals("Response status is 200", Response.Status.OK.getStatusCode(), res.getCode());
         Assert.assertEquals(CustomerResponse, res.getMessage());
+        // EXCLUDE-END
     }
 
     protected HttpResult callRestEndpoint(String host, String url) {

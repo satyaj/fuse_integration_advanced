@@ -11,6 +11,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
     <httpj:engine-factory bus="cxf">
         <httpj:engine port="${testutil.ports.MutualTLSCxfRSTest}">
+            <!-- EXCLUDE-BEGIN -->
             <httpj:tlsServerParameters>
                 <sec:keyManagers keyPassword="skpass">
                     <sec:keyStore
@@ -24,6 +25,7 @@
                 </sec:trustManagers>
                 <sec:clientAuthentication want="true" required="true"/>
             </httpj:tlsServerParameters>
+            <!-- EXCLUDE-END -->
         </httpj:engine>
     </httpj:engine-factory>
 </beans>
