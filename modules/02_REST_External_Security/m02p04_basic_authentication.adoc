@@ -1,12 +1,28 @@
 :noaudio:
 
-== JAAS
+== Basic Authentication
+
+* HTTP user agent provides : user & password
+* Base64 String encoded
++
+[source]
+----
+Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+----
++
+* Combined preferably with TLS (HTTPS, SSL)
+* Server can request an agent to be authenticated
++
+[source]
+----
+WWW-Authenticate: Basic realm="myrealm"
+----
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== JAAS
+== Basic Authentication
 
 ****
 endif::showscript[]
