@@ -1,0 +1,12 @@
+:noaudio:
+
+== Camel Policy
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Camel Policy
+
+****
+endif::showscript[]
