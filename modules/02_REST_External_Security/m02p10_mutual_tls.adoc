@@ -53,5 +53,6 @@ will send to the Client within the TCP Communication a CertificateRequest in ord
 Of course, to use the Mutual TLS mechanism, both parties should generate their X509 Certificates, cross-sign it in order for the Client to accept the SSL Server Certificate and vice versa. If you use Apache CXF or one of the
 Apache Camel Components supporting TLS, then it will be required that you configure the SSL Parameters to configure the Keystore, TrustStore and KeyManagers used by both parties.
 
+Remark : The SSLengine needs to be configure at the server to specify that Client authentication is required, wanted
 ****
 endif::showscript[]
