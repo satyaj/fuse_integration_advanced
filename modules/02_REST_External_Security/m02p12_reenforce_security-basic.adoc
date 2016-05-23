@@ -1,14 +1,40 @@
 :noaudio:
 
 [#reenforce-security-basic]
-== Reenforce Security
+== Re-enforce Security - Basic Auth
+
+* Goal : Setup an Api using the Basic Auth Plugin
+* How :
+- Create a versioned Api for an Organisation
+- Define the target endpoint using REST or SOAP
+- Associate a Policy using the Basic Auth Plugin
+
+* Supports http(s) connection with
+- User/password, LDAP, JDBC
+
+.Example
+[source]
+----
+  "contracts" : [
+    {
+      "apiOrgId" : "Policy_BasicAuthStatic",
+      "apiId" : "echo",
+      "apiVersion" : "1.0.0",
+      "policies" : [
+        {
+          "policyImpl" : "class:io.apiman.gateway.engine.policies.BasicAuthenticationPolicy",
+          "policyJsonConfig" : "{ \"realm\" : \"Test\", \"forwardIdentityHttpHeader\" : \"X-Authenticated-Identity\", \"staticIdentity\" : { \"identities\" : [ { \"username\" : \"bwayne\", \"password\" : \"bwayne\" } ] }  }"
+        }
+      ]
+    }
+  ]
+----
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Reenforce Security
-
+== Re-enforce Security - Basic Auth
 
 ****
 endif::showscript[]

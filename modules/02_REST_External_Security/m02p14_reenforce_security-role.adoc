@@ -1,14 +1,13 @@
 :noaudio:
 
 [#reenforce-security-role]
-== Reenforce Security
+== Re-enforce Security - Role based
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Reenforce Security
-
+== Re-enforce Security - Role based
 
 ****
 endif::showscript[]

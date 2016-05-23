@@ -1,14 +1,13 @@
 :noaudio:
 
 [#reenforce-security-token]
-== Reenforce Security
+== Re-enforce Security - OpenId - Token
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Reenforce Security
-
+== Re-enforce Security - OpenId - Token
 
 ****
 endif::showscript[]
