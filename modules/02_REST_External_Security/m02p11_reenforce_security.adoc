@@ -1,13 +1,21 @@
 :noaudio:
 
 [#reenforce-security]
-== Reenforce Security
+== Re-enforce Security
+
+* Goal : Externalize/Delegate security endpoint to an Api
+* How : Api acts as a Proxy/Gateway matching :
+- Incoming request against 1toMany policies
+- Deliver request to a target endpoint if validation succeeds
+* Advantages:
+- Tracking of APIs and consumers of those APIs
+- Centralized governance policy configuration
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Reenforce Security
+== Re-enforce Security
 
 
 ****
