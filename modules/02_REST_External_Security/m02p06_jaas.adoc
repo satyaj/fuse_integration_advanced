@@ -3,9 +3,9 @@
 [#jaas]
 == JAAS
 
-* Basic Authentication can be performed using JAAS Api
-* Well Supported by many Web Containers or Components
-* Rely on a Config File containing modules
+* Basic Authentication can be performed using JAAS Api (Java Standard)
+* Well Supported by many Web Containers or Camel Components
+* Rely on a Config File containing Login modules definition and Realms
 
 .Example
 [source]
