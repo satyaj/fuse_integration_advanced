@@ -8,6 +8,7 @@
 * @PermitAll, @DenyAll, @RolesAllowed
 - @RolesAllowed
 * List of roles permitted to access method(s) in an application
+- Delegate responsibility to JAXRS Framework
 
 .Example
 [source]
