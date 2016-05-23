@@ -3,6 +3,29 @@
 [#camelpolicy]
 == Camel Policy
 
+* Goal : Extract from the HTTP request the info needed to authenticate a user
+* How : Use a Camel Policy to wrap the Route / Pipeline with a new processor
+* Camel Authorization Policy extends the Policy Interface
+* Free to design/develop as you want the Security Authentication solution
+
+.Example
+[source]
+----
+public class ShiroSecurityPolicy implements AuthorizationPolicy {
+
+    public Processor wrap(RouteContext routeContext, final Processor processor) {
+        return new ShiroSecurityProcessor(processor, this);
+    }
+    ...
+    @Override
+    public boolean process(Exchange exchange, AsyncCallback callback) {
+        try {
+            applySecurityPolicy(exchange);
+----
+
+.References
+- http://camel.apache.org/security.html[See - Camel Route Security]
+
 ifdef::showscript[]
 [.notes]
 ****
