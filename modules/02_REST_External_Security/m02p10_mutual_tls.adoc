@@ -3,6 +3,39 @@
 [#mutualtls]
 == Mutual TLS
 
+* Goal: Two parties authenticating each other at the same
+* TLS also offers client-to-server authentication using client-side X.509 authentication
+* How : server requests a certificate from the client using a CertificateRequest message
+
+.Example
+[source]
+----
+Server side
+
+<http:destination id="{Namespace}PortName.http-destination">
+  <http:tlsServerParameters secureSocketProtocol="TLSv1">
+    ...
+    <sec:clientAuthentication want="true" required="true"/>
+  </http:tlsServerParameters>
+</http:destination>
+
+Client Side
+
+<http:conduit id="{Namespace}PortName.http-conduit">
+  <http:tlsClientParameters>
+    ...
+    <sec:keyManagers keyPassword="CertPassword">
+      <sec:keyStore type="JKS"
+                    password="KeystorePassword"
+                    file="certs/CertName.jks"/>
+    </sec:keyManagers>
+----
+
+.References
+
+- https://en.wikipedia.org/wiki/Transport_Layer_Security[TLS Description]
+- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html-single/Apache_CXF_Security_Guide/index.html#i305901[Mutual TLS config]
+
 ifdef::showscript[]
 [.notes]
 ****
