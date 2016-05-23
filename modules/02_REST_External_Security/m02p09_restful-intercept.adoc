@@ -29,5 +29,15 @@ ifdef::showscript[]
 
 == JAXRS - Filter
 
+The JAXRS specification proposes since the version 2.0 of the specification a Filter which is also an Interceptor executed at the container side and will be of course used to extract the content of the HTTP Request.
+This filter is available by implementing the Java Interface ContainerRequestFilter and contains one method to override "filter". This method will get the ContainerRequestContext object from where you can access the
+HTTP headers or parameters and call your Java Class responsible to authenticate the user.
+
+This filter can be bind globally to all the resources or assigned to a specific resource if the annotation @NameBinding is declared. In case the filter should be applied at the pre-match extension point, i.e. before any request matching has been performed by JAX-RS runtime, the filter MUST be annotated with a @PreMatching annotation.
+
+To inform the framework that the filter must be discovered at runtime and loaded, use the annotation @Provider or register the class on by example, the JAXRSServerFactoryBean.
+
+In case of failure, you can use ContainerRequestContext object to specify the HTTP Return code to return like also the customized message.
+
 ****
 endif::showscript[]
