@@ -1,13 +1,33 @@
 :noaudio:
 
 [#jaxrsintercept]
-== Camel Policy
+== JAXRS - Filter
+
+- Goal : Intercept the HTTP Request and extract the required info to authenticate the user
+- How : Using the ContainerRequestFilter JAXRS Interface implemented as CXF Intercept
+
+.Example
+[source]
+----
+@Provider
+@PreMatching
+public class SecurityRequestFilter implements ContainerRequestFilter {
+
+@Override
+    public void filter(final ContainerRequestContext requestContext)
+                throws IOException {
+...
+----
+
+.References
+
+- http://blog.dejavu.sk/2014/02/04/filtering-jax-rs-entities-with-standard-security-annotations/[Filtering JAX RS entities]
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Camel Policy
+== JAXRS - Filter
 
 ****
 endif::showscript[]
