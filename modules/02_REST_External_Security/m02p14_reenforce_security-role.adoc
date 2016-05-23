@@ -3,6 +3,16 @@
 [#reenforce-security-role]
 == Re-enforce Security - Role based
 
+- Goal : Restrict/allow access to an application based on an Authorization Rule
+- Should be combined with Keycloak Plugin
+- How : Define a collection of Authorization rules as such
+
+|===
+|Path |Verb |Role required
+|.* |PUT |Writer
+|.* |GET |Reader
+|===
+
 ifdef::showscript[]
 [.notes]
 ****

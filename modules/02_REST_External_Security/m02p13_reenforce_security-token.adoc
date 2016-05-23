@@ -13,7 +13,30 @@
 Example
 [source]
 ----
-
+{
+  "jti": "af68fac6-fd50-4b73-bd37-5c555a8e561e",
+  "exp": 1442847825,
+  "nbf": 0,
+  "iat": 1442847525,
+  "iss": "http://localhost:8080/auth/realms/fuse",
+  "aud": "fuse",
+  "sub": "3591e417-7c60-4464-8714-96190c7fad92",
+  "azp": "fuse",
+  "session_state": "f58d5dfc-6e4c-4ad2-bd2f-70713f6b942d",
+  "client_session": "f06b673f-ecbe-47f2-ba76-b6a5901d5afe",
+  "allowed-origins": [],
+  "resource_access": {
+    "account": {
+      "roles": [
+        "manage-account",
+        "view-profile"
+      ]
+    }
+  },
+  "name": "admin ",
+  "preferred_username": "admin",
+  "given_name": "admin"
+}
 ----
 
 .References
