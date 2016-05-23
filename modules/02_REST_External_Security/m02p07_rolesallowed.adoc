@@ -35,5 +35,13 @@ ifdef::showscript[]
 
 == JAXRS - RolesAllowed
 
+Within the previous chapters, we have discovered using the mechanism Security Constraints how it is possible to deny/allow the access to the Web Resources of a Web or Rest Full application. For the RestFull Applications, another option is offered
+to secure the access to the Web Resources by using the Java Annotation @RolesAllowed. This JAXRS Annotation that we will define for the different methods declared within the Java Class containing the REST Services will allow
+to allow the access to a Resource path based on the roles assigned.
+
+The advantage to use this annotation is that we will document the security aspect of the application within the Java Class containing the description of the REST services and that this annotation is container agnostic as it is supported by
+the different JAXRS Frameworks and not anymore by the Web Container or HTTP/TCP component used. To be exhaustive, we must mention that 2 additional annotations exist @DenyAll or @PermitAll.
+The annotation will rely on the role of the user that the Authentication or JAAS Authentication Login Module has been able to retrieve.
+
 ****
 endif::showscript[]
