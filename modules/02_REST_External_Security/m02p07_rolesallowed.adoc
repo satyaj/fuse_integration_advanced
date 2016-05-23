@@ -1,13 +1,38 @@
 :noaudio:
 
 [#rolesallowed]
-== Mutual TLS
+== JAXRS - RolesAllowed
+
+- Allow/Deny Access to resources
+- Annotations supported :
+* @PermitAll, @DenyAll, @RolesAllowed
+- @RolesAllowed
+* List of roles permitted to access method(s) in an application
+
+.Example
+[source]
+----
+@Path("projects")
+@Produces("application/json")
+public class ProjectsResource {
+
+    @POST
+    @RolesAllowed("manager")
+    public Project createProject(final Project project) { ... }
+
+    @GET
+    @Path("{id}")
+    public Project getProject(@PathParam("id") final Long id) { ... }
+----
+
+.References
+- http://docs.oracle.com/javaee/6/api/javax/annotation/security/RolesAllowed.html[JAXRS @RolesAllowed annotation]
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Mutual TLS
+== JAXRS - RolesAllowed
 
 ****
 endif::showscript[]
