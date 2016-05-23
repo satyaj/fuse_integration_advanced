@@ -32,5 +32,15 @@ ifdef::showscript[]
 
 == Camel Policy
 
+When we have to secure a CXF or RESTfull endpoint, we can also use the concept of an Interceptor. IT exists different implementations but we will investigate 2 of them; one base on Apache Camel Framework
+and the other on JAX RS Filter. You can also, if you want, develop your won strategy top of Apache CXF with a InInterceptor and also with Apache ActiveMQ using the Plugin Concept.
+
+To use the Interceptor pattern with Apache Camel, we will implement the Java Interface AuthorizationPolicy. This Interface contains 2 methods; beforeWrap and wrap(). The Method to be overriden is wrap(). The wrap method
+will be called during the setup of the Apache Camel Route and the framework will add within the list of the pipeline your Authentication/Authorization processor used to authenticate the incoming
+HTTP Request/Agent.
+
+To support this approach, you will have to create an Authentication Processor implementing the AuthorizationPolicy, register it within the Java / XML DSL Route and create a Java Security Class containing the code required to ectract
+from the Camel Exchange the HTTP Headers and/or Body to authenticate the request.
+
 ****
 endif::showscript[]
