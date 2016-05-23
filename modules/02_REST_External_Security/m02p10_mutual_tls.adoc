@@ -42,5 +42,16 @@ ifdef::showscript[]
 
 == Mutual TLS
 
+Many Web Applications rely on HTTPS protocol to re enforce the security communication between the Server and the Client but they only setup the communication in one direction, from the server to the client.
+That means that the SSL Server Certificate will be only presented to the client in order for the client to verify/validate that it is well connected to the Server where it should be. This control mechanism is very important as it
+guarantees the integrity of the message transmitted (= no alterations of the message took place), that the server is authenticated (= as its X509 Certificate has been verified by the client and its CA Authority) and
+that the communication is secyred between both parties as encrypted using the Public key, part of the certificate that the client can use.
+
+Mutual TLS means that the client will also send to the server its own certificate, that the server will control in order to authenticate the client. This process which is called Mutual TLS will take place as the Server
+will send to the Client within the TCP Communication a CertificateRequest in order to get this certificate.
+
+Of course, to use the Mutual TLS mechanism, both parties should generate their X509 Certificates, cross-sign it in order for the Client to accept the SSL Server Certificate and vice versa. If you use Apache CXF or one of the
+Apache Camel Components supporting TLS, then it will be required that you configure the SSL Parameters to configure the Keystore, TrustStore and KeyManagers used by both parties.
+
 ****
 endif::showscript[]
