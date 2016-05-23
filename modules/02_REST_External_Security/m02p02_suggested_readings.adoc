@@ -4,9 +4,10 @@
 == Suggested Readings & work
 
 .Exercise yourself
-* Read Camel, REST DSL chapters within the Camel Development with JBoss Fuse course
+* Read Camel, REST DSL chapters part of the Camel Development with JBoss Fuse course
 * Develop some Camel REST DSL routes & CXF REST services
 * Review HTTP Basic Authentication & JAAS
+* Generate using Java Keytool a Key/Trustore and self signed certificates
 
 .Readings
 * https://github.com/FuseByExample/rest-dsl-in-action[Rest DSL in Action with Apache Camel]
