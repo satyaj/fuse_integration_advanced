@@ -3,6 +3,24 @@
 [#reenforce-security-token]
 == Re-enforce Security - OpenId - Token
 
+* Goal : Authenticate a user using a Identity provider to get a token used for SSO purposes
+* Authentication between Client and Identity Provider: public, secret or PKI
+* JSon Web Token :
+- Compact token format,
+- Encode claims to be transmitted,
+- Base64url encoded and digitally signed and/or encrypted
+
+Example
+[source]
+----
+
+----
+
+.References
+
+- http://www.softwaresecured.com/2013/07/16/federated-identities-openid-vs-saml-vs-oauth/[SAML vs Oauth vs OpenID Connect]
+- https://openid.net/specs/draft-jones-json-web-token-07.html[JWT Spec]
+
 ifdef::showscript[]
 [.notes]
 ****
