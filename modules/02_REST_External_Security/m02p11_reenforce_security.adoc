@@ -17,6 +17,15 @@ ifdef::showscript[]
 
 == Re-enforce Security
 
+The security of an Apache Camel or CXF endpoint can be delegated and managed using an Api Management Platform. This Api will act as a proxy/gateway to intercept an incoming HTTP Request, match
+the Web Resource accessed with one of rules defined, apply the rules and if the matching succeeds, then will issue a request to the target endpoint.
+
+The rules, Apis to be managed and the organisation holding the apis are managed using the Api Management Server while the Proxy is handled by a Api Manager Gateway. The Server can manage several Gateways
+and the statistics/usage of the Apis are reported within an ElasticSearch Backend repository.
+
+The advantage to use an Api Management platform is that we can manage centrally the governance about the policies, assign them to a plan and different APis and track your clients like also who is doing what with thr Apis
+
+The current Apiman project is only supported on JBoss EAP but could for the next release also packaged on JBoss Fuse.
 
 ****
 endif::showscript[]
