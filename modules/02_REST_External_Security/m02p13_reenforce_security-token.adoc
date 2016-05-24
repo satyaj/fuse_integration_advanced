@@ -50,5 +50,16 @@ ifdef::showscript[]
 
 == Re-enforce Security - OpenId - Token
 
+When the process to authenticate the HTTP Agent/Client connected to your application must be managed by an Identity Provider as Google, Twitter, Facebook, Gitlab, Keycloak, then it will be required to secure the
+Api as we did for the HTTP Basic Authentication but using now a different Plugin.
+
+To achieve this goal, it will required to use the KeyClok Oauth2 Policy and also to configure Keycloak to act as an OAuth2 Broker between your application and the Identity Provider; Google, Facebook, Twitter, ...
+
+Remark : If you don't want to use one of the Identity Provider supported by Keycloak, you can simply use Keycloak to authenticate your user according to a realm and next return to this user a token. Keycloak uses the OpenID Connect spec and Json
+Web Token to return your token when you will issue a request to be authenticated.
+
+The process to configure a new Keycloak realm, a client (which is in our case the Apiman Client) and the user that the client will use to be authenticated is described within the MicroServices in Action project available
+within the Github Fuse By Example Repo. This is also the case for the Keycloak Plugin that you will use to secure your Api.
+
 ****
 endif::showscript[]
