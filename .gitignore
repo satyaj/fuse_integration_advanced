@@ -18,3 +18,4 @@ not4git/
 **/generated_content_slideshow/
 **/target/
 **/06_test/
+derby.log
