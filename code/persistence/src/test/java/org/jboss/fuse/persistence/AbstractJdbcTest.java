@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 /**
  * Unit test based on user forum request about this component
  */
-public abstract class AbstractJdbcTestSupport extends CamelSpringTestSupport {
+public abstract class AbstractJdbcTest extends CamelSpringTestSupport {
     
     protected EmbeddedDatabase db;
 
