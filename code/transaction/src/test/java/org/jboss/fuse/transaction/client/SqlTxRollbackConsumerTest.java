@@ -19,7 +19,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import java.util.List;
 import java.util.Map;
 
-public class SqlTxClientTest extends CamelTestSupport {
+public class SqlTxRollbackConsumerTest extends CamelTestSupport {
 
     private EmbeddedDatabase db;
     private JdbcTemplate jdbcTemplate;
