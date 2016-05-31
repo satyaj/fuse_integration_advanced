@@ -22,11 +22,6 @@ In this lab you resolve the following use cases:
 * Expertise with SQL, Database & ORM - Hibernate, JPA
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
-.Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with JPA, Database & Hibernate
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
-
 :numbered:
 == Install Lab assets
 
