@@ -9,7 +9,6 @@ In this lab you resolve the following use cases:
 
 <<usecase2>>
 
-
 .Goals
 * Configure your local environment to develop and resolve use cases
 * Become more experimented about Apache Camel Infinispan component
@@ -81,6 +80,12 @@ To design this use case, you will develop the content of the :
   . Restart the Camel Route
   . Send again this csv record : "333,18-05-2016,Claus,Ibsen,incident camel-333,this is a report incident for camel-333,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
   . Verify that the mock:result endpoint will only receive one exchange
+
+[[usecase2]]
+=== Play with Infinispan - nosql component
+
+For this final use case of the persistence lab, we will play with the Infinispan NoSQL component to insert/delete some keys from the cache
+
 
 ifdef::showScript[]
 
