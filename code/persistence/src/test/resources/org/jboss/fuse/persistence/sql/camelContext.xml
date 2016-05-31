@@ -16,7 +16,7 @@
         <route>
             <from uri="direct://select"/>
             <to uri="jdbc:testdb?useHeadersAsParameters=true"/>
-            <to uri="mock:select"/>
+<!--            <to uri="mock:select"/>-->
         </route>
         <route>
             <from uri="direct://insert"/>
