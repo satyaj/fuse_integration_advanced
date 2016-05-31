@@ -13,14 +13,12 @@ In this lab you resolve the following use cases:
 
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel SQL components
-* Design Apache Camel Routes using JDBC & JPA components
-* Develop Camel and Arquillian Test Cases
-* Run Apache Camel in standalone mode or using WildFly Camel subsystem
+* Become more experimented about Apache Camel JDBC component
+* Design Apache Camel Routes using DIRECT, MOCK, JDBC components
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
-* Expertise with SQL, Database & ORM - Hibernate
+* Expertise with SQL, Database
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
 :numbered:

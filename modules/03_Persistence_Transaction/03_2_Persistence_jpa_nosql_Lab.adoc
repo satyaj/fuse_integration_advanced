@@ -1,7 +1,7 @@
 :noaudio:
 :toc2:
 
-= Persistence with Camel SQL Components
+= Persistence with Camel JPA & Infinispan Components
 
 In this lab you resolve the following use cases:
 
@@ -13,17 +13,19 @@ In this lab you resolve the following use cases:
 
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented about Basic Authentication Jetty Server
-* Restrict the access to certain paths based on the role of the user
-* Design RESTfull Service project and secure it
-* Expose the RESTfull services using a Camel route
-* Play with @RolesAllowed JAXRS annotation
-* Configure the Jetty Endpoint to authenticate the HTTP User request using the HashLoginService
-* Send the HTTP Request using Apache Commons HttpClient
+* Become more experimented about Apache Camel JPA, Infinispan components
+* Design Apache Camel Routes using DIRECT, MOCK, JDBC components
+* Develop Camel and Arquillian Test Cases
+* Run Apache Camel in standalone mode or using WildFly Camel subsystem
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
-* Expertise with RESTfull & HTTP Basic Authentication
+* Expertise with SQL, Database & ORM - Hibernate, JPA
+* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+
+.Prerequisites
+* Experience with Java, Spring & Apache Maven
+* Expertise with JPA, Database & Hibernate
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
 :numbered:
