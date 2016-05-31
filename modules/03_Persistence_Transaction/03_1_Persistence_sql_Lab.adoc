@@ -93,6 +93,42 @@ Here are the values that we expect to receive :
 
 NOTE: You can reuse the Spring Camel XML config file created from the previous use case
 
+[[usecase3]]
+=== Use a Named Parameters Query to fetch record from a Database using the JDBC Camel component
+
+The goal of this use case is to design a Junit Test case where we will insert and select records from an Apache Derby Database using 2 different routes. So, you will design a first route to insert a record
+into the database using the JDBC component. The component that you will use to send the Insert Query is +direct:insert+. The query must be formatted using Named parameter. Here are the parameters
+that you will use to setup the insert query :
+
+- ref: named param of the field "INCIDENT_REF", value "005"
+- date: named param of the field "INCIDENT_DATE", value 2016-03-25"
+- firstname: named param of the field "GIVEN_NAME", value "Chad"
+- lastname: named param of the field "FAMILY_NAME", value "Darby"
+- summary: named param of the field "SUMMARY", value "Incident Course-005;
+- details: named param of the field "DETAILS", value "This is a report incident for course-005"
+- email: named param of the field "EMAIL", value "cdarby@redhat.com"
+- phone: named param of the field "PHONE", value "+111 10 20 300"
+
+The second route is defined as such :
+
+[source]
+----
+from("direct:start")
+to("jdbc:testdb")
+to("mock:insert")
+----
+
+The class to be used to create the Junit Test is +org.jboss.fuse.persistence.jdbc.InsertAndSelectFromTest+ and the java method +testInsertAndSelect+. As the method name suggests, you will first insert the record using the Camel endpoint
++direct:insert+ and next control using the +mock:insert+ that you have received the following information :
+
+5 records containing for the fifth record these values :
+
+* 5 for the INCIDENT_ID field
+* 005 for the  INCIDENT_REF field
+* Chad for the GIVEN_NAME field
+* Darby for the FAMILY_NAME field
+* cdarby@redhat.com for the EMAIL field
+
 ifdef::showScript[]
 
 
