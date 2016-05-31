@@ -20,7 +20,7 @@ public class InsertAndSelectFromTest extends AbstractJdbcTest {
 
     @Test
     public void testInsertAndSelect() throws Exception {
-
+        // EXCLUDE-BEGIN
         String INSERT_QUERY = "insert into REPORT.T_INCIDENT "
                 + "(INCIDENT_REF,INCIDENT_DATE,GIVEN_NAME,FAMILY_NAME,SUMMARY,DETAILS,EMAIL,PHONE)"
                 + " values "
@@ -51,6 +51,7 @@ public class InsertAndSelectFromTest extends AbstractJdbcTest {
         assertEquals("Chad", row.get("GIVEN_NAME"));
         assertEquals("Darby", row.get("FAMILY_NAME"));
         assertEquals("cdarby@redhat.com", row.get("EMAIL"));
+        // EXCLUDE-END
     }
 
     @Override

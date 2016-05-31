@@ -11,8 +11,8 @@
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
     ">
 
-
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <!-- EXCLUDE-BEGIN -->
         <route>
             <from uri="direct://select"/>
             <to uri="jdbc:testdb?useHeadersAsParameters=true"/>
@@ -23,10 +23,13 @@
             <to uri="jdbc:testdb?useHeadersAsParameters=true"/>
             <to uri="mock:insert"/>
         </route>
+        <!-- EXCLUDE-END -->
     </camelContext>
 
+    <!-- EXCLUDE-BEGIN -->
     <jdbc:embedded-database id="testdb" type="DERBY">
         <jdbc:script location="classpath:org/jboss/fuse/persistence/sql/derby-jdbc.sql"/>
     </jdbc:embedded-database>
+    <!-- EXCLUDE-END -->
 
 </beans>

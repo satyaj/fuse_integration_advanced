@@ -13,7 +13,7 @@ public class SelectFromWithParamsTest extends AbstractJdbcTest {
 
     @Test
     public void testNamedParametersQuery() throws Exception {
-
+        // EXCLUDE-BEGIN
         Map<String, Object> jdbcParams = new HashMap<String, Object>();
         jdbcParams.put("firstname", "Charles");
         jdbcParams.put("lastname", "Moulliard");
@@ -31,6 +31,7 @@ public class SelectFromWithParamsTest extends AbstractJdbcTest {
         assertEquals("Charles", row.get("GIVEN_NAME"));
         assertEquals("Moulliard", row.get("FAMILY_NAME"));
         assertEquals("cmoulliard@redhat.com", row.get("EMAIL"));
+        // EXCLUDE-END
     }
 
     @Override

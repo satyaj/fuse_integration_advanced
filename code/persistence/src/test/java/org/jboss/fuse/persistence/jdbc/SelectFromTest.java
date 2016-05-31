@@ -12,7 +12,7 @@ public class SelectFromTest extends AbstractJdbcTest {
 
     @Test
     public void testSelectFrom() throws Exception {
-
+        // EXCLUDE-BEGIN
         // now we send the exchange to the endpoint, and receives the response from Camel
         List<Map<String, Object>> data = template.requestBody("direct://select", "SELECT * FROM REPORT.T_INCIDENT", List.class);
 
@@ -26,6 +26,7 @@ public class SelectFromTest extends AbstractJdbcTest {
         assertEquals("Jeff", row.get("GIVEN_NAME"));
         assertEquals("Delong", row.get("FAMILY_NAME"));
         assertEquals("jdelong@redhat.com", row.get("EMAIL"));
+        // EXCLUDE-END
     }
 
     @Override
