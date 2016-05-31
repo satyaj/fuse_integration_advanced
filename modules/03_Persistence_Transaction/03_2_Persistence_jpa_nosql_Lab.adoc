@@ -71,6 +71,44 @@ SendEmail email = mock.....
 assertEquals("dummy@somewhere.org", email.getAddress());
 ----
 
+[[usecase2]]
+=== Camel JPA Component & Wildfly Camel
+
+The goal of this use case is to design an Apache Camel project using the Camel JPA component but deployed top of Wildfly as a subsystem/module. To help us to boot the Wildfly JavaEE Container, we will use the Arquillian Testing framework
+to simplify the creation of the JAR file containing the artifacts as the Java classes, Datasource, ...
+The route will not be longer configured using Spring XML DSL but using Java DSL. The IoC framework will be based on CDI combined with EJB to startup the CamelRoute & JPA to manage the EntityManager container.
+
+For this use case, you will develop the following artifacts :
+
+- Model class : +org.jboss.fuse.persistence.jpa.model.Account+
+- Java Camel Class : +org.jboss.fuse.persistence.jpa.routing.DirectToJPABuilder+
+- Persistence XML file located under this folder : +src/main/resources/org/jboss/fuse/persistence/persistence-jpa.xml+
+- Datasource XML file located +src/main/resources/org/jboss/fuse/persistence/+
+- Junit Test +org.jboss.fuse.persistence.jpa.JPACamelWildflyTest+ class with the methods @Before setUp(), @After tearDown() & @Test testJpaInsertCamelRoute
+
+The points that you should develop are :
+
+- Model class : Add the @Entity annotation, @Table annotation mapped to the table "account". The id field should also be annotated with the annotation @Id
+- Java Camel class :
+** Extend the RouterBuilder parent class
+** Inject the EntityManager & JtaTransactionManager using their CDI or JPA annotations
+** Define the CamelContext using rhe CamelCDI annotation "contextName" with the name +route-cdi-context+
+** Add the @Startup annotation to bootsrap the Camel route when the EJB container will instantiate the beans
+** Create an Apache Camel route starting from the consumer "direct:start" & calling the endpoint +jpa+ using the model class
+- Junit Test class :
+** Develop the deployment() method to generate a JAr archive having the name +camel-jpa-test.jar+
+** Include within this jar file, the classes packaged te routing & model subpackage
+** Include the datasource and persistence.xml files as MANIFEST Resources
+** Develop the method @Before setUp to persist 2 new Account objects with respectively the values ((1, 750, (2, 300)) forthe id, balance
+** Cleanup the content of the DB within the tearDown method using a quety applied on the EntityManager
+** Within the testJpaInsertCamelRoute method, assert that you can retrieve the CamelContext injected using the @ArquillianResource annotation
+** Create a new Account object (3, 800) and sned it to your direct endpoint
+** Assert that you can retrieve using the EntityManager a reference for this account which is equal to the object Account created
+** Use the annotation javax.Resource to inject the UserTransactionManager. this Tx manager will be used to insert the objects within the setUp or TearDown
+
+
+
+
 ifdef::showScript[]
 
 
