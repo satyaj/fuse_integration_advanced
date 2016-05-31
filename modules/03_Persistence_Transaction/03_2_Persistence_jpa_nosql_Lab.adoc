@@ -50,10 +50,26 @@ that you will use to resolve the use cases, we suggest that you next import it i
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== xxx
+=== Camel JPA Component
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+For this use case, you will create 2 Apache Camel Routes, one sending an exchange with the java object to be inserted within a Derby Database using the JPA component and the
+second querying every x second the records from the database and sending the result to a mock endpoint.
 
+To develop this usecase, you will create the following artifacts :
+
+- persistence.xml file located under META-INF folder. The name of the persistence unit is Camel and the java class to be mapped with its corresponding table is +org.jboss.fuse.persistence.model.SendEmail+
+  The database driver to be configured is +org.apache.derby.jdbc.EmbeddedDriver+ while the url is +jdbc:derby:target/derby;create=true+
+- Spring Camel XML file containing the routes definition, the declaration of the Spring bean +org.springframework.orm.jpa.LocalEntityManagerFactoryBean+ and +org.springframework.transaction.support.TransactionTemplate+
+- The Junit Test case using the class +Jorg.jboss.fuse.persistence.jpa.paConsumerTest+ which extend the class +CamelSpringTestSupport+ class.
+
+The method that Junit will test is called +testInsertAndReceive+. Within this method, you will send 3 camel exchanges to the endpoint +direct:start+ with respectively the body value "alpha","beta" and "gamma"
+Verify on the mock endpoint that you will receive 3 records, that the +Exchange.BATCH_SIZE+ is equal to 3 and that the second record assert this statement for the email
+
+[source]
+----
+SendEmail email = mock.....
+assertEquals("dummy@somewhere.org", email.getAddress());
+----
 
 ifdef::showScript[]
 
