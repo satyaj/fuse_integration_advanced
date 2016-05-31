@@ -84,7 +84,23 @@ To design this use case, you will develop the content of the :
 [[usecase2]]
 === Play with Infinispan - nosql component
 
-For this final use case of the persistence lab, we will play with the Infinispan NoSQL component to insert/delete some keys from the cache
+For this final use case of the persistence lab, we will play with the Infinispan NoSQL component to insert/get keys from an in memory Java cache. For that purpose, an Infinispan DefaultCacheManager
+will be created and used for all the tests. The first test case will insert 2 keys into the cache while the second will fetch the two keys. 2 distinct Apache Camel Routes will be created to support
+the 2 infinispan operations (PUT & GET).
+
+To realize this use case, you will develop the code within the class +org.jboss.fuse.persistence.nosql.InfinispanCacheTest+ according to the following steps :
++
+[source]
+----
+  . Create an Apache Camel route starting with a +direct:put+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used (= cacheContainer), the operation which is PUT
+    and finally, send the result to the +mock:put+ endpoint.
+  . Create a second Apache Camel route starting with a +direct:get+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used (= cacheContainer"), the operation which is GET
+    and finally, send the result to the +mock:get+ endpoint
+  . Add the @test method : insertCache()
+  . Add the @Test method : GetKeyFromCache()
+----
+
+
 
 
 ifdef::showScript[]
