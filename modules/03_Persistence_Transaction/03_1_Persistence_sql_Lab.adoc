@@ -45,12 +45,29 @@ that you will use to resolve the use cases, we suggest that you next import it i
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Query an Apache Derby database using H2 Driver & Apache Camel SQL component
+=== Query an Apache Derby database using an Apache Camel SQL component
 
-The goal of this use case is to design a Junit Test case
+The goal of this use case is to design a Junit Test case where an Apache Derby Database will be created and populated with some records. This database will be next used to
+select some SQL records previously populated within the database using the Apache Camel JDBC component. The route that we will use within the Junit Test is based on a Direct consumer, responsible to
+send an Exchange object to the JDBC endpoint.
 
-The use czase will be developed using the class +org.jboss.fuse.persistence.jdbc.SelectFromTest.java+ which extend the class +BaseJettyTest+ class.
+The use case will be developed using the class +org.jboss.fuse.persistence.jdbc.SelectFromTest.java+ which extend the class +CamelSpringTestSupport+ class.
+This class will override the method of Spring used to pass as parameter the location of the Spring XML config file +src/test/resources/org/jboss/fuse/persistence/sql/camelContext.xml+.
+You will develop into this XML file the Apache Camel route exposing the +direct:start+ endpoint and sending the result to the +jdbc+ component.
+The SQL query that you will use +SELECT * FROM REPORT.T_INCIDENT+ to fetch the records from the Derby database will be assigned to the Camel Body Object and the result will be validated
+with some Assert rules.
 
+Here are the values that we expect to receive :
+
+4 records containing for the second record these values :
+
+* 2 for the INCIDENT_ID field
+* 002 for the  INCIDENT_REF field
+* Jeff for the GIVEN_NAME field
+* Delong for the FAMILY_NAME field
+* jdelong@redhat.com for the EMAIL field
+
+NOTE: Use Spring JDBC framework to create a Derby embedded Database where the Database Name is testdb
 
 ifdef::showScript[]
 

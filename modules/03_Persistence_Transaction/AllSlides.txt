@@ -1,9 +1,3 @@
-:data-uri:
-:scrollbar:
 
-include::m03p01_cover.adoc.adoc[]
+include::m03p01_cover.adoc[]
 include::m03p02_prerequisites.adoc[]
-
-ifdef::showScript[]
-
-endif::showScript[]
