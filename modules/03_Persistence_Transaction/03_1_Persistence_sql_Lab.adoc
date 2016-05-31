@@ -45,9 +45,11 @@ that you will use to resolve the use cases, we suggest that you next import it i
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== xxx
+=== Query an Apache Derby database using H2 Driver & Apache Camel SQL component
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+The goal of this use case is to design a Junit Test case
+
+The use czase will be developed using the class +org.jboss.fuse.persistence.jdbc.SelectFromTest.java+ which extend the class +BaseJettyTest+ class.
 
 
 ifdef::showScript[]
