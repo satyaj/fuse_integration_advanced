@@ -13,6 +13,7 @@ public class InfinispanCacheTest extends InfinispanSupportTest {
 
     @Test
     public void insertCache() throws Exception {
+        // EXCLUDE-BEGIN
         MockEndpoint mock = (MockEndpoint)context().getEndpoint("mock:put");
         mock.expectedMessageCount(2);
 
@@ -30,10 +31,12 @@ public class InfinispanCacheTest extends InfinispanSupportTest {
         Assert.assertEquals("valueOne",currentCache().get(KEY_ONE));
         Assert.assertEquals("valueTwo",currentCache().get(KEY_TWO));
         mock.assertIsSatisfied();
+        // EXCLUDE-END
     }
 
     @Test
     public void GetKeyFromCache() throws Exception {
+        // EXCLUDE-BEGIN
         MockEndpoint mock = (MockEndpoint)context().getEndpoint("mock:get");
         mock.expectedMessageCount(2);
 
@@ -52,6 +55,7 @@ public class InfinispanCacheTest extends InfinispanSupportTest {
         Assert.assertEquals("valueOne",val1);
         Assert.assertEquals("valueTwo",val2);
         mock.assertIsSatisfied();
+        // EXCLUDE-END
     }
 
     @Override
