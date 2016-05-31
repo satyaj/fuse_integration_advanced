@@ -1,7 +1,7 @@
 :noaudio:
 :toc2:
 
-= Persistence with Camel JPA & Infinispan Components
+= Persistence with Camel JPA & Wildfly subsystem
 
 In this lab you resolve the following use cases:
 
@@ -9,12 +9,11 @@ In this lab you resolve the following use cases:
 
 <<usecase2>>
 
-<<usecase3>>
 
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel JPA, Infinispan components
-* Design Apache Camel Routes using DIRECT, MOCK, JDBC components
+* Become more experimented about Apache Camel JPA components
+* Design Apache Camel Routes using DIRECT, MOCK, JPA components
 * Develop Camel and Arquillian Test Cases
 * Run Apache Camel in standalone mode or using WildFly Camel subsystem
 
@@ -105,8 +104,6 @@ The points that you should develop are :
 ** Create a new Account object (3, 800) and sned it to your direct endpoint
 ** Assert that you can retrieve using the EntityManager a reference for this account which is equal to the object Account created
 ** Use the annotation javax.Resource to inject the UserTransactionManager. this Tx manager will be used to insert the objects within the setUp or TearDown
-
-
 
 
 ifdef::showScript[]
