@@ -87,7 +87,7 @@ The points that you should develop are :
 ** Extend the RouterBuilder parent class
 ** Inject the EntityManager & JtaTransactionManager using their CDI or JPA annotations
 ** Define the CamelContext using rhe CamelCDI annotation "contextName" with the name +route-cdi-context+
-** Add the @Startup annotation to bootsrap the Camel route when the EJB container will instantiate the beans
+** Add the @Startup annotation to bootstrap the Camel route when the EJB container will instantiate the beans
 ** Create an Apache Camel route starting from the consumer "direct:start" & calling the endpoint +jpa+ using the model class
 - Junit Test class :
 ** Develop the deployment() method to generate a JAr archive having the name +camel-jpa-test.jar+
@@ -96,7 +96,7 @@ The points that you should develop are :
 ** Develop the method @Before setUp to persist 2 new Account objects with respectively the values ((1, 750, (2, 300)) forthe id, balance
 ** Cleanup the content of the DB within the tearDown method using a quety applied on the EntityManager
 ** Within the testJpaInsertCamelRoute method, assert that you can retrieve the CamelContext injected using the @ArquillianResource annotation
-** Create a new Account object (3, 800) and sned it to your direct endpoint
+** Create a new Account object (3, 800) and send it to your direct endpoint
 ** Assert that you can retrieve using the EntityManager a reference for this account which is equal to the object Account created
 ** Use the annotation javax.Resource to inject the UserTransactionManager. this Tx manager will be used to insert the objects within the setUp or TearDown
 
