@@ -100,7 +100,6 @@ The points that you should develop are :
 ** Assert that you can retrieve using the EntityManager a reference for this account which is equal to the object Account created
 ** Use the annotation javax.Resource to inject the UserTransactionManager. this Tx manager will be used to insert the objects within the setUp or TearDown
 
-
 ifdef::showScript[]
 
 
