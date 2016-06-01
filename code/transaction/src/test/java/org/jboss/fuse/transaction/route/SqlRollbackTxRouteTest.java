@@ -83,6 +83,7 @@ public class SqlRollbackTxRouteTest extends CamelTestSupport {
     }
 
     @Override protected RouteBuilder createRouteBuilder() throws Exception {
+        // EXCLUDE-BEGIN
         return new RouteBuilder() {
             @Override public void configure() throws Exception {
 
@@ -102,5 +103,6 @@ public class SqlRollbackTxRouteTest extends CamelTestSupport {
                     .to("mock:delete");
             }
         };
+        // EXCLUDE-END
     }
 }

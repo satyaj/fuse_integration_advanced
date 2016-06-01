@@ -1,7 +1,7 @@
 :noaudio:
 :toc2:
 
-= Camel Transactional Route
+= Camel Transactional Client & Tx Routes
 
 In this lab you resolve the following use cases:
 
@@ -9,9 +9,10 @@ In this lab you resolve the following use cases:
 
 <<usecase2>>
 
+
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel Transactional Route
+* Become more experimented about Apache Camel Transactional Client & Routes
 * Transform an idempotent consumer into a persistent one
 * Develop Camel Test Cases
 
@@ -42,7 +43,12 @@ that you will use to resolve the use cases, we suggest that you next import it i
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== xxx
+=== Use a Transactional Client
+
+The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+
+[[usecase2]]
+=== Combine a Transactional Client within a Transacted Route
 
 The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
 

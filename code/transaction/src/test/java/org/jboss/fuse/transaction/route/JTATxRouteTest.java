@@ -54,7 +54,7 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
         assertEquals("111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300",csvRecord.replaceAll("\\r|\\n", ""));
 
         assertMockEndpointsSatisfied();
-        // EXCLUDE-BEGIN
+        // EXCLUDE-END
     }
 
     @Test
@@ -86,7 +86,7 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
         mockQueue.expectedMessageCount(0);
 
         assertMockEndpointsSatisfied();
-        // EXCLUDE-BEGIN
+        // EXCLUDE-END
     }
 
 }
