@@ -9,7 +9,6 @@ In this lab you resolve the following use cases:
 
 <<usecase2>>
 
-
 .Goals
 * Configure your local environment to develop and resolve use cases
 * Become more experimented about Apache Camel Transactional Client & Routes
