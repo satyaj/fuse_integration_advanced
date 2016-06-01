@@ -33,6 +33,7 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
 
     @Test
     public void testInsertRecord() throws Exception {
+        // EXCLUDE-BEGIN
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(1);
 
@@ -53,10 +54,12 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
         assertEquals("111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300",csvRecord.replaceAll("\\r|\\n", ""));
 
         assertMockEndpointsSatisfied();
+        // EXCLUDE-BEGIN
     }
 
     @Test
     public void testRollbackRecord() throws Exception {
+        // EXCLUDE-BEGIN
         MockEndpoint mockError = getMockEndpoint("mock:error");
         mockError.expectedMessageCount(1);
 
@@ -83,6 +86,7 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
         mockQueue.expectedMessageCount(0);
 
         assertMockEndpointsSatisfied();
+        // EXCLUDE-BEGIN
     }
 
 }

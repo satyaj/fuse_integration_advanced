@@ -27,7 +27,7 @@ public class SqlTxRollbackConsumerTest extends CamelTestSupport {
     @Override
     protected JndiRegistry createRegistry() throws Exception {
         JndiRegistry reg = super.createRegistry();
-
+        // EXCLUDE-BEGIN
         db = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.DERBY).addScript("sql/createAndPopulateDatabase.sql").build();
         reg.bind("testdb", db);
@@ -43,27 +43,30 @@ public class SqlTxRollbackConsumerTest extends CamelTestSupport {
         reg.bind("sql",sql);
 
         return reg;
+        // EXCLUDE-END
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-
         db.shutdown();
     }
 
     @Test
     public void testConsume() throws Exception {
+        // EXCLUDE-BEGIN
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(0);
 
         assertMockEndpointsSatisfied();
 
         assertEquals("Should Not have deleted all rows", new Integer(3), jdbcTemplate.queryForObject("select count(*) from projects", Integer.class));
+        // EXCLUDE-BEGIN
     }
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
+        // EXCLUDE-BEGIN
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
@@ -78,5 +81,6 @@ public class SqlTxRollbackConsumerTest extends CamelTestSupport {
                         .to("mock:result");
             }
         };
+        // EXCLUDE-END
     }
 }
