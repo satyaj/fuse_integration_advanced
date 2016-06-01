@@ -89,21 +89,20 @@ will be created and used for all the tests. The first test case will insert 2 ke
 the 2 infinispan operations (PUT & GET).
 
 To realize this use case, you will develop the code within the class +org.jboss.fuse.persistence.nosql.InfinispanCacheTest+ according to the following steps :
-+
-[source]
-----
-  . Create an Apache Camel route starting with a +direct:put+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used (= cacheContainer), the operation which is PUT
+
+  . Create an Apache Camel route starting with a +direct:put+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used which is cacheContainer, the operation which is PUT
     and finally, send the result to the +mock:put+ endpoint.
-  . Create a second Apache Camel route starting with a +direct:get+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used (= cacheContainer"), the operation which is GET
+  . Create a second Apache Camel route starting with a +direct:get+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used which is cacheContainer, the operation which is GET
     and finally, send the result to the +mock:get+ endpoint
   . Add the @test method : insertCache()
   . Add the @Test method : GetKeyFromCache()
-----
-
-
-
+  . For the insertCache() method, send 2 exchanges to the direct:put endpoint using as keys, values respectively; KEY_ONE/VALUE_ONE and KEY_TWO,VALUE_TWO.
+  . Assert that the cache contains for the KEY_ONE, the "valueOne" and for KEY_TWO, the "valueTwo"
+  . Assert that the mock:put endpoint will get 2 exchanges
+  . For the GetKeyFromCache() method, send 2 exchanges to the direct:get endpoint using as key KEY_ONE and KEY_TWO to get the result from the cache
+  . Assert that the exchange received from the mock:get endpoint will contain the "valueOne" and for the other exchange "valueTwo" as Infisinispan Result
+  . Assert that the mock:put endpoint will get 2 exchanges
 
 ifdef::showScript[]
-
 
 endif::showScript[]

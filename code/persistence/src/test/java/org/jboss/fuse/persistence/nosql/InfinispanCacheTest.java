@@ -40,9 +40,6 @@ public class InfinispanCacheTest extends InfinispanSupportTest {
         MockEndpoint mock = (MockEndpoint)context().getEndpoint("mock:get");
         mock.expectedMessageCount(2);
 
-        Assert.assertEquals("valueOne",currentCache().get(KEY_ONE));
-        Assert.assertEquals("valueTwo",currentCache().get(KEY_TWO));
-
         Map<String, Object> cacheHeaders = new HashMap<String, Object>();
         cacheHeaders.put(InfinispanConstants.KEY, KEY_ONE);
         template.sendBodyAndHeaders("direct:get",null,cacheHeaders);
