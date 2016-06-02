@@ -6,6 +6,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.component.sql.SqlComponent;
 import org.apache.camel.impl.JndiRegistry;
+import org.apache.camel.spi.TransactedPolicy;
+import org.apache.camel.spring.spi.SpringTransactionPolicy;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.After;
 import org.junit.Test;
@@ -34,6 +36,9 @@ public class SqlRollbackTxRouteTest extends CamelTestSupport {
         dtm.setDataSource(db);
         reg.bind("txManager", dtm);
 
+        TransactedPolicy txPolicy = new SpringTransactionPolicy(dtm);
+        reg.bind("txPolicy",txPolicy);
+
         SqlComponent sql = new SqlComponent();
         sql.setDataSource(db);
         reg.bind("sql", sql);
@@ -46,19 +51,6 @@ public class SqlRollbackTxRouteTest extends CamelTestSupport {
     public void tearDown() throws Exception {
         super.tearDown();
         db.shutdown();
-    }
-
-    @Test
-    public void testProducer() throws Exception {
-        // EXCLUDE-BEGIN
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);
-
-        template.sendBodyAndHeader("direct:start", null, "id", "1");
-
-        assertMockEndpointsSatisfied();
-        assertEquals("Should have deleted record for id 1", new Integer(2), jdbcTemplate.queryForObject("select count(*) from projects", Integer.class));
-        // EXCLUDE-END
     }
 
     @Test
@@ -83,13 +75,8 @@ public class SqlRollbackTxRouteTest extends CamelTestSupport {
         return new RouteBuilder() {
             @Override public void configure() throws Exception {
 
-                from("direct:start")
-                   .transacted()
-                   .to("sql:delete from projects where id = :#${header.id}")
-                   .to("mock:result");
-
                 from("direct:rollback")
-                    .transacted()
+                    .transacted("txPolicy")
                     .to("sql:delete from projects where id = :#${header.id}")
                     .process(new Processor() {
                         @Override public void process(Exchange exchange) throws Exception {

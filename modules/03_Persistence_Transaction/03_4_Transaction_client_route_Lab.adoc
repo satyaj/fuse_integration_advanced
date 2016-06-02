@@ -9,6 +9,8 @@ In this lab you resolve the following use cases:
 
 <<usecase2>>
 
+<<usecase3>>
+
 .Goals
 * Configure your local environment to develop and resolve use cases
 * Become more experimented about Apache Camel Transactional Client & Routes
@@ -69,9 +71,25 @@ Declare the Junit Test method +testRollBack()+ and perform the follow tasks :
    . Assert that the table Project contains 1 record for the Project Camel as the others have been deleted
 
 [[usecase2]]
-=== Combine a Transactional Client within a Transacted Route
+=== Create a Transacted Route with the SQL Component
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+For this use case, you will develop a transacted route using an Apache Camel Transacted Policy acting as an interceptor within the route. The policy to be used is org.apache.camel.spring.spi.SpringTransactionPolicy. The datasource containing the connection to the
+Derby database will be created using the +org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder+ class. The following SQL script +transaction/src/test/resources/sql/createAndPopulateDatabase.sql+ has been created to setup the database and populate 3 records
+within the table Projects.
+
+The TransactionManager, responsible to handle the begin/commit/rollback events, is the +org.springframework.jdbc.datasource.DatasourceTransactionManager+ class.
+
+To design this project, you will perform the following steps :
+
+ . Instantiate the required Java classes (Datasource, TransactionManager, SQL component) and bind them within the JNDI Camel Registry
+ . Create a transacted camel route starting with the direct:rollback endpoint
+ . Next, include the SQL producer to delete from the table Projects the record where the id corresponds to the header id value
+ . Add an inner processor where you will throw an Exception
+ . finish the route with the mock:delete processor
+ . Develop the test case within the method testProduceWithRollback
+ . Send an empty body to the direct:rollback endpoint with a header id = 1
+ . Assert that the mock endpoint will never receive an exchange
+ . Assert that the table Projects still contains 3 records
 
 
 ifdef::showScript[]
