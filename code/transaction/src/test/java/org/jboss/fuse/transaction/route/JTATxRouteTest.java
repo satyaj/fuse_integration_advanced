@@ -1,6 +1,8 @@
 package org.jboss.fuse.transaction.route;
 
+import org.apache.camel.CamelExecutionException;
 import org.apache.camel.Exchange;
+import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Assert;
@@ -21,32 +23,6 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
     }
 
     @Test
-    public void testInsertRecord() throws Exception {
-        // EXCLUDE-BEGIN
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);
-
-        // Send a CSV Record to insert it within the DB
-        template.sendBody("direct:data-insert", "111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300");
-
-        // Perform a Select query to find the record
-        template.sendBody("direct:select",null);
-        Exchange exchange = mock.getExchanges().get(0);
-        assertEquals("1, Claus, Ibsen, cibsen@gmail.com, +111 10 20 300, 111, this is a report incident for camel-111, incident camel-111",exchange.getIn().getBody());
-
-        Thread.sleep(1000);
-
-        // We will check that we have a message within the queue
-        MockEndpoint mockQueue = getMockEndpoint("mock:result-queue");
-        mockQueue.expectedMessageCount(1);
-        String csvRecord = (String)mockQueue.getExchanges().get(0).getIn().getBody();
-        assertEquals("111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300",csvRecord.replaceAll("\\r|\\n", ""));
-
-        assertMockEndpointsSatisfied();
-        // EXCLUDE-END
-    }
-
-    @Test
     public void testRollbackRecord() throws Exception {
         // EXCLUDE-BEGIN
         MockEndpoint mockError = getMockEndpoint("mock:error");
@@ -59,6 +35,8 @@ public class JTATxRouteTest extends CamelSpringTestSupport {
             fail("Exception expected");
         } catch(Exception e) {
             // Record should be rollbacked
+            RuntimeCamelException ex = (RuntimeCamelException) e.getCause();
+            Assert.assertTrue(ex.getCause().getMessage().contains("###### Sorry, we can't insert your record and place it on the queue !."));
         }
 
         MockEndpoint mock = getMockEndpoint("mock:result");

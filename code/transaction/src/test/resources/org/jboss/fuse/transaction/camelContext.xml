@@ -16,6 +16,7 @@
         </property>
     </bean>
 
+    <!-- EXCLUDE-BEGIN -->
     <bean id="PROPAGATION_REQUIRED_POLICY" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
         <constructor-arg>
             <bean class="org.springframework.transaction.support.TransactionTemplate">
@@ -23,14 +24,18 @@
             </bean>
         </constructor-arg>
     </bean>
+    <!-- EXCLUDE-END -->
 
     <!-- JPA Component -->
+    <!-- EXCLUDE-BEGIN -->
     <bean id="jpa" class="org.apache.camel.component.jpa.JpaComponent">
         <property name="entityManagerFactory" ref="emFactory"/>
         <property name="transactionManager" ref="txManager"/>
     </bean>
+    <!-- EXCLUDE-END -->
 
     <!-- EntityManager -->
+    <!-- EXCLUDE-BEGIN -->
     <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="camel"/>
         <property name="jpaDialect">
@@ -45,8 +50,10 @@
             </bean>
         </property>
     </bean>
+    <!-- EXCLUDE-END -->
 
     <!-- JMS Connection Factory -->
+    <!-- EXCLUDE-BEGIN -->
     <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="vm://broker1?broker.persistent=false&amp;broker.useJmx=false"/>
     </bean>
@@ -62,6 +69,7 @@
     <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="configuration" ref="jmsConfig"/>
     </bean>
+    <!-- EXCLUDE-END-->
 
     <bean id="sqlutil" class="org.jboss.fuse.transaction.route.SqlUtil" init-method="init"
           destroy-method="close"/>
@@ -71,7 +79,7 @@
     </bean>
 
     <camelContext id="camel" trace="true" xmlns="http://camel.apache.org/schema/spring">
-
+        <!-- EXCLUDE-BEGIN -->
         <errorHandler id="txEH" type="TransactionErrorHandler" rollbackLoggingLevel="WARN"/>
 
         <dataFormats>
@@ -83,19 +91,9 @@
             <handled>
                 <constant>true</constant>
             </handled>
-            <log message="%%%%% Exception took place" />
             <to uri="mock:error"/>
-            <rollback message="######  Sorry, we can't insert your record and place it on the queue !"/>
+            <rollback message="###### Sorry, we can't insert your record and place it on the queue !"/>
         </onException>
-
-        <route id="direct-jpa">
-            <from uri="direct:data-insert"/>
-            <transacted/>
-            <unmarshal ref="csvReport"/>
-            <convertBodyTo type="org.jboss.fuse.transaction.model.Incident"/>
-            <to uri="jpa:org.jboss.fuse.transaction.model.Incident"/>
-            <to uri="activemq:queue:incidents"/>
-        </route>
 
         <route id="direct-jpa-rb" errorHandlerRef="txEH">
             <from uri="direct:data-insert-rb"/>
@@ -122,7 +120,7 @@
             <convertBodyTo type="String"/>
             <to uri="mock:result-queue"/>
         </route>
-
+        <!-- EXCLUDE-END -->
     </camelContext>
 
 </beans>
