@@ -1,8 +1,6 @@
 package org.jboss.fuse.transaction.client;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.spring.SpringCamelContext;
@@ -16,17 +14,18 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class JpaTxRollbackTest extends CamelTestSupport {
+public class JpaConsumeDeleteTest extends CamelTestSupport {
 
     protected ApplicationContext applicationContext;
     protected TransactionTemplate transactionTemplate;
     protected EntityManager entityManager;
-    private static AtomicInteger amq = new AtomicInteger();
-    private static AtomicInteger linux = new AtomicInteger();
-    private static AtomicInteger kaboom = new AtomicInteger();
 
     protected static final String SELECT_ALL_STRING = "select x from " + Project.class.getName() + " x";
 
@@ -69,42 +68,53 @@ public class JpaTxRollbackTest extends CamelTestSupport {
         return SpringCamelContext.springCamelContext(applicationContext);
     }
 
-    @Test @Ignore
-    public void testNoRollBack() throws Exception {
+    @Test
+    public void testConsumeNoDelete() throws Exception {
         // EXCLUDE-BEGIN
-        // First create records
+        // First create 4 records
         template.sendBody("direct:insert",new Project(1, "AMQ", "ASF"));
         template.sendBody("direct:insert",new Project(2, "Linux", "XXX"));
-        template.sendBody("direct:insert",new Project(3, "Karaf", "ASF"));
+        template.sendBody("direct:insert",new Project(3, "Karaf", "YYY"));
         template.sendBody("direct:insert",new Project(4, "Camel", "ASF"));
 
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(4);
+        MockEndpoint insert = getMockEndpoint("mock:insert");
+        insert.expectedMessageCount(4);
+        MockEndpoint result = getMockEndpoint("mock:result");
+        insert.expectedMessageCount(4);
 
+        // Start Jpa route
+        context.startRoute("jpa-nodelete");
+
+        //assertEntityInDB(0);
         assertMockEndpointsSatisfied();
 
+        Thread.sleep(2000);
         assertEntityInDB(4);
         // EXCLUDE-BEGIN
     }
 
     @Test
-    public void testRollBack() throws Exception {
+    public void testConsumeDelete() throws Exception {
         // EXCLUDE-BEGIN
         // First create 4 records
-        template.sendBody("jpa://" + Project.class.getName(),new Project(1, "AMQ", "ASF"));
-        template.sendBody("jpa://" + Project.class.getName(),new Project(2, "Linux", "XXX"));
-        template.sendBody("jpa://" + Project.class.getName(),new Project(3, "Karaf", "YYY"));
-        template.sendBody("jpa://" + Project.class.getName(),new Project(4, "Camel", "ASF"));
+        template.sendBody("direct:insert",new Project(1, "AMQ", "ASF"));
+        template.sendBody("direct:insert",new Project(2, "Linux", "XXX"));
+        template.sendBody("direct:insert",new Project(3, "Karaf", "YYY"));
+        template.sendBody("direct:insert",new Project(4, "Camel", "ASF"));
 
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(3);
+        MockEndpoint insert = getMockEndpoint("mock:insert");
+        insert.expectedMessageCount(4);
+        MockEndpoint result = getMockEndpoint("mock:result");
+        insert.expectedMessageCount(4);
 
-        // start route
-        context.startRoute("jpa");
+        // Start Jpa route
+        context.startRoute("jpa-delete");
 
+        //assertEntityInDB(0);
         assertMockEndpointsSatisfied();
+
         Thread.sleep(2000);
-        assertEntityInDB(1);
+        assertEntityInDB(0);
         // EXCLUDE-BEGIN
     }
 
@@ -115,36 +125,29 @@ public class JpaTxRollbackTest extends CamelTestSupport {
 
             @Override public void configure() throws Exception {
 
-                from("jpa://" + Project.class.getName() + "?consumer.transacted=false&consumer.delay=1000&consumeDelete=true").routeId("jpa").noAutoStartup()
-                 .process(new Processor() {
-                           @Override
-                           public void process(Exchange exchange) throws Exception {
-                               Project project = exchange.getIn().getBody(Project.class);
-                               if ("Camel".equals(project.getProject())) {
-                                  throw new IllegalArgumentException("Camel Forced");
-                               }
-                           }
-                  })
-                 .log("### Processed Project: ${body.project}, ID: ${body.id}")
-                 .to("mock:result");
-
                 from("direct:insert")
-                    .to("jpa://" + Project.class.getName())
-                    .log("### Processed Project: ${body.project}, ID: ${body.id}")
-                    .to("mock:result");
+                  .to("jpa://" + Project.class.getName())
+                  .log("### Processed Project: ${body.project}, ID: ${body.id}")
+                  .to("mock:insert");
+
+                from("jpa://" + Project.class.getName() + "?consumer.delay=1000&consumeDelete=false").routeId("jpa-nodelete").noAutoStartup()
+                  .log("### Processed Project: ${body.project}, ID: ${body.id}")
+                  .to("mock:result");
+
+                from("jpa://" + Project.class.getName() + "?consumer.delay=1000&consumeDelete=true").routeId("jpa-delete").noAutoStartup()
+                        .log("### Processed Project: ${body.project}, ID: ${body.id}")
+                        .to("mock:result");
             }
         };
         // EXCLUDE-END
     }
 
-    protected String getEndpointUri() {
-        return "jpa://" + Project.class.getName() + "?consumer.transacted=true&delay=1000";
-    }
-
     protected void assertEntityInDB(int size) throws Exception {
         List<?> list = entityManager.createQuery(selectAllString()).getResultList();
         assertEquals(size, list.size());
-        assertIsInstanceOf(Project.class, list.get(0));
+        if(!list.isEmpty()) {
+            assertIsInstanceOf(Project.class, list.get(0));
+        }
     }
 
     protected String selectAllString() {
