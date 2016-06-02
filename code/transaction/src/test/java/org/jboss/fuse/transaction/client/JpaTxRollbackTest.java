@@ -22,10 +22,10 @@ public class JpaTxRollbackTest extends AbstractJpaTest {
     public void testRollBack() throws Exception {
         // EXCLUDE-BEGIN
         // First create 4 records
-        template.sendBody("jpa://" + Project.class.getName(),new Project(1, "AMQ", "ASF"));
-        template.sendBody("jpa://" + Project.class.getName(),new Project(2, "Linux", "XXX"));
-        template.sendBody("jpa://" + Project.class.getName(),new Project(3, "Karaf", "YYY"));
-        template.sendBody("jpa://" + Project.class.getName(),new Project(4, "Camel", "ASF"));
+        template.sendBody("direct:insert",new Project(1, "AMQ", "ASF"));
+        template.sendBody("direct:insert",new Project(2, "Linux", "XXX"));
+        template.sendBody("direct:insert",new Project(3, "Karaf", "YYY"));
+        template.sendBody("direct:insert",new Project(4, "Camel", "ASF"));
 
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(3);
@@ -63,8 +63,7 @@ public class JpaTxRollbackTest extends AbstractJpaTest {
 
                 from("direct:insert")
                     .to("jpa://" + Project.class.getName())
-                    .log("### Processed Project: ${body.project}, ID: ${body.id}")
-                    .to("mock:result");
+                    .log("### Processed Project: ${body.project}, ID: ${body.id}");
             }
         };
         // EXCLUDE-END

@@ -44,7 +44,29 @@ The different use cases should be developed as a collection of Java JUnit Test c
 [[usecase1]]
 === Use a Transactional Client
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+The goal of this use case is to design a project using the Apache Camel Transactional client JPA to rollback a transaction when an error will took place within the route execution process.
+We will develop the project using the Junit Test class +org.jboss.fuse.transaction.client.JpaTxRollbackTest.java+ where we will design the Apache Camel routes and the test case.
+
+Create 2 routes as described here after :
+
+  . The first route starts with the JPA Consumer using the Entity class "org.jboss.fuse.transaction.model.Project". The route must be declared to "not start" and endpoint configured to delete the
+    entities when consumed and the transaction behavior should be to rollback only the last message. The delay between each poll is 1s.
+  . This endpoint continues with a inner processor where we will check if the Project is equal to Camel. If this is the case, then an IllegalArgumentException will be throw with the message "Camel Forced"
+  . The next process will log the message with the project name and id
+  . The route ends with the "mock:result" processor
+  . The second route starts with the "direct:insert" consumer and will call a jpa endpoint to insert the Project Entity received
+  . The next process will log the message with the project name and id
+
+Declare the Junit Test method +testRollBack()+ and perform the follow tasks :
+
+   . Insert 4 records using the direct:insert consumer with these data to instantiate the Project objects :
+     id: 1, project: AMX, license: ASF
+     id: 2, project: Linux, license: XXX
+     id: 3, project: Karaf, license: YYY
+     id: 4, project: Camel, license: ASF
+   . Start the JPA consumer
+   . Assert that the result mockendpoint will receive 3 exchanges
+   . Assert that the table Project contains 1 record for the Project Camel as the others have been deleted
 
 [[usecase2]]
 === Combine a Transactional Client within a Transacted Route
