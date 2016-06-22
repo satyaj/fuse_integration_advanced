@@ -1,3 +1,9 @@
 
 include::m03p01_cover.adoc[]
-include::m03p02_prerequisites.adoc[]
+include::m03p02_suggested_readings.adoc[]
+include::m03p03_topics.adoc[]
+include::m03p04_persistence.adoc[]
+include::m03p05_persistence_jpa.adoc[]
+include::m03p06_persistence_nosql.adoc[]
+include::m03p07_transactional_client.adoc[]
+include::m03p08_transactional_route.adoc[]
