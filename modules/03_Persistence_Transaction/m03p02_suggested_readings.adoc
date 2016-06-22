@@ -1,21 +1,16 @@
 :noaudio:
 
+== Suggested Readings & work
 
-== Prerequisites
+.Exercise yourself
+* Read Camel, Persistence and Transactional chapters part of the Camel Development with JBoss Fuse course
+* Develop some examples based on JPA spec or Java JDBC
+* Review Java Transactions, JTA
 
-[source]
-----
-The only examples that I know are available here :
-
-https://github.com/hibernate/hibernate-orm/blob/master/documentation/src/main/asciidoc/userguide/chapters/osgi/OSGi.adoc
-https://github.com/hibernate/hibernate-demos
-
-Remark : The examples have been tested with Karaf 3.x but not (I think so) with Karaf 2.x
-
-
-https://github.com/mrobson/fuse-camel-hibernate-jpa
-https://github.com/mrobson/fuse-cxf-hibernate-xa
-----
+.Readings
+* http://docs.oracle.com/javaee/5/tutorial/doc/bnbpy.html[Java & JPA]
+* http://www.mkyong.com/jdbc/jdbc-transaction-example/[Java & JDBC]
+* http://docs.oracle.com/javaee/5/tutorial/doc/bncii.html[Java Transaction]
 
 ifdef::showscript[]
 [.notes]
