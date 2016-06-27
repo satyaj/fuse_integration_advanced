@@ -1,16 +1,20 @@
 :noaudio:
 
-[#topics]
-== Module Topics
+[#transactional-client]
+== Transactional Client
 
-By completing this module you will learn about the following key Web Service Security topics:
+* Item 1
++
+[source]
+----
+Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+----
++
+* Item 2
 
-* Basic HTTP Authentication & Path Security Constraints
-* JAAS Secured Applications (RESTful, ...)
-* Mutual TLS
-* Role based Secure applications (@RolesAllowed)
-* Intercept HTTP call and authenticate the user
-* Use Api to secure your endpoints
+.References
+
+- https://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01#AA[W3C Http Basic Authentication spec]
 
 ifdef::showscript[]
 [.notes]
