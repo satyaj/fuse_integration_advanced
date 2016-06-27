@@ -3,14 +3,15 @@
 [#persistence]
 == Persistence
 
-* Item 1
-+
-[source]
-----
-Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
-----
-+
-* Item 2
+* Apache Camel supports different SQL components :
+
+** JDBC - Java Spec based
+** SQL - Spring SQL Component (Template base)
+** JPA - Java JPA Spec
+** Hibernate, iBatis, MyBatis (support ?)
+** NoSQL
+* Supports Guarantee Delivery - EIP Pattern
+* Be aware that some components acts only as Producer and/not Consumer
 
 .References
 
@@ -22,11 +23,12 @@ ifdef::showscript[]
 
 == Persistence
 
-This module covers the different security concerns to authenticate the application sending HTTP requests using Basic Authentication with or without Java Api for Authentication and Authorization Service. Next we will investigate
-how we could use user's role to restrict access to certain RESTfull paths using Jetty/Netty Security Constraints or the JAX-RS annotation @RolesAllowed. The Security Constraint mechanism checks if the path of the resource
-accessed matches a rule and the role associated. We will also have a look to secure the communication between the client and the server using the TLS protocol and a mutual authentication.
-Instead of using a security mechanism managed by the HTTP Web Container or Netty TCP Server, an approach based on the concept of an interceptor will be presented base on the Apache Camel Policy and a JAXRS Container Filter.
-Finally, we will see how we can secure the endpoint using an API Management platform where we delegate the responsibility using some APi plugins to Authenticate the incoming HTTP request using Basic authentication or OpenID connect / Oauth2.
+The Apache Camel framework supports the Guarantee Delivery - EIP Pattern and we can use different components to persist the information like the SQL, JDBC, JPA components. Even if they rely on a
+different principe, we could also use the file and JMS component to persist the content of the Body, part of the Apache Camel Exchange. Before to choose a component for a project, it is important to review 2 parameters;
+Does the component include a consumer/producer or just a producer and also is the component fully supported from the Red Hat Subscription point of view and Apache community. As, some components like Hibernate
+doesn't use the Apache License 2, then the code is not maintained actively under the Apache Camel project. Ibatis is not longer an Apache project even if the new project MyBatis is still released using
+an Apache License. For some projects, the JDBC projects could be enough as the complexity of the data model, queries does not justify to use an ORM.
+Another point that I would like to mention is that some components support Transactions like JPA, SQL, Hibernate & MyBatis while others no.
 
 ****
 endif::showscript[]
