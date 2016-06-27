@@ -15,7 +15,7 @@
 
 .References
 
-- https://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01#AA[W3C Http Basic Authentication spec]
+- http://camel.apache.org/guaranteed-delivery.html[Guarantee Delivery]
 
 ifdef::showscript[]
 [.notes]
