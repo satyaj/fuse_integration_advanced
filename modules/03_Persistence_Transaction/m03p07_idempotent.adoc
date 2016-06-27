@@ -21,6 +21,11 @@ ifdef::showscript[]
 
 == Idempotent Consumer
 
+The Idempotent consumer is one of the most famous EIP Pattern acting as an agent to filter out the duplicate messages. It uses an expression to calculate an unique ID challenged against a repository.
+If the ID is already present within the repository, then the message is discarded, otherwise it will be processed. On completion Camel will remove the message id from the repository if the Exchange failed, otherwise it stays there.
+This use case is very important as it allows to avoid to consume duplicate messages when typically the route has been designed using distinct Tx Managers. In this case, it will provide a compensation mechanism and will
+avoid to use a Global Tx Manager. Several persistent storage are supported to allow the repository values to be recovered in case of a crash of the JVM. Such persistent storage are listed here after :
+FileIdempotentRepository, HazelcastIdempotentRepository, JdbcMessageIdRepository, JpaMessageIdRepository, InfinispanIdempotentRepository, JCacheIdempotentRepository, SpringCache & EhcacheIdempotentRepository
 
 ****
 endif::showscript[]
