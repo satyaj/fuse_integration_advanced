@@ -3,14 +3,7 @@
 [#transactional-client]
 == Transactional Client
 
-* Item 1
-+
-[source]
-----
-Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
-----
-+
-* Item 2
+*
 
 .References
 
@@ -20,7 +13,7 @@ ifdef::showscript[]
 [.notes]
 ****
 
-== Module Topics
+== Transactional Client
 
 This module covers the different security concerns to authenticate the application sending HTTP requests using Basic Authentication with or without Java Api for Authentication and Authorization Service. Next we will investigate
 how we could use user's role to restrict access to certain RESTfull paths using Jetty/Netty Security Constraints or the JAX-RS annotation @RolesAllowed. The Security Constraint mechanism checks if the path of the resource

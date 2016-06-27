@@ -3,14 +3,41 @@
 [#transactional-route]
 == Transactional Route
 
-* Item 1
+* Route turned into Transactional Route
 +
-[source]
+[source,java]
 ----
-Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+from("direct:rollback")
+   .transacted("txPolicy")
+   .to("sql:delete from projects where id = :#${header.id}")
 ----
 +
-* Item 2
+* Implemented using an Interceptor - TransactedPolicy wrapping a processor
++
+[source,java]
+----
+https://github.com/apache/camel/blob/master/components/camel-spring/src/main/java/org/apache/camel/spring/spi/SpringTransactionPolicy.java
+
+public class SpringTransactionPolicy implements TransactedPolicy {
+
+    public Processor wrap(RouteContext routeContext, Processor processor) {
+        TransactionErrorHandler answer;
+----
++
+* Combined with the TxErrorHanlder - Spring Template !
++
+[source,java]
+----
+https://github.com/apache/camel/blob/master/components/camel-spring/src/main/java/org/apache/camel/spring/spi/TransactionErrorHandler.java
+
+protected void doInTransactionTemplate(final Exchange exchange) {
+
+    // spring transaction template is working best with rollback if you throw it a runtime exception
+    // otherwise it may not rollback messages send to JMS queues etc.
+
+    transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+----
+
 
 .References
 
@@ -19,13 +46,12 @@ ifdef::showscript[]
 [.notes]
 ****
 
-== Module Topics
+== Transactional Route
 
-This module covers the different security concerns to authenticate the application sending HTTP requests using Basic Authentication with or without Java Api for Authentication and Authorization Service. Next we will investigate
-how we could use user's role to restrict access to certain RESTfull paths using Jetty/Netty Security Constraints or the JAX-RS annotation @RolesAllowed. The Security Constraint mechanism checks if the path of the resource
-accessed matches a rule and the role associated. We will also have a look to secure the communication between the client and the server using the TLS protocol and a mutual authentication.
-Instead of using a security mechanism managed by the HTTP Web Container or Netty TCP Server, an approach based on the concept of an interceptor will be presented base on the Apache Camel Policy and a JAXRS Container Filter.
-Finally, we will see how we can secure the endpoint using an API Management platform where we delegate the responsibility using some APi plugins to Authenticate the incoming HTTP request using Basic authentication or OpenID connect / Oauth2.
+When we turn an Apache Camel route into a Transacted route, we are in fact adding an interceptor within the list of the processors handled by Camel. This processor is added used the DSL word ("transacted") corresponding
+to the SpringTransactedPolicy. According to the Apache Camel Framework, an Interceptor, which is an interface, is used to wrap the process before or after. In this case, we wrap the processor after and not before. This
+interceptor will instantiate a TransactionErrorHandler object which contains the logic to execute a begin/commit or rollback of a Transaction as you can see with the code snippets added within this slide.
+As the ErrorHandler uses behind the scene Spring Tx Template, it can be configured with a Spring Tx Manager or a PlatformTxManager like also the Transaction Behavior (New, ...).
 
 ****
 endif::showscript[]
