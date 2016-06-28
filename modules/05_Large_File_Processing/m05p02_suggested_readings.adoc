@@ -4,16 +4,11 @@
 == Suggested Readings & work
 
 .Exercise yourself
-* Read Camel, REST DSL chapters part of the Camel Development with JBoss Fuse course
-* Develop some Camel REST DSL routes & CXF REST services
-* Review HTTP Basic Authentication & JAAS
-* Generate using Java Keytool a Key/Trustore and self signed certificates
+* Design a project using the File component
+* Review the Apache Camel Splitter & Aggregator pattern
 
 .Readings
-* https://github.com/FuseByExample/rest-dsl-in-action[Rest DSL in Action with Apache Camel]
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Development_Guide/RESTGuide.html[Develop RESTful Services with CXF]
-* https://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authentication]
-* https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html[JAAS Ref Guide]
+*
 
 
 ifdef::showscript[]
