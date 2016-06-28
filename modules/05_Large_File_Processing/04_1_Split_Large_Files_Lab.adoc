@@ -1,7 +1,5 @@
-:data-uri:
-:scrollbar:
 :noaudio:
-:tocs2:
+:toc2:
 
 = Split Large Files Lab
 

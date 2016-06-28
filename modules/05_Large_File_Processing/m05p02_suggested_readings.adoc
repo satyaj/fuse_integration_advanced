@@ -1,0 +1,30 @@
+:noaudio:
+
+[#suggested-readings]
+== Suggested Readings & work
+
+.Exercise yourself
+* Read Camel, REST DSL chapters part of the Camel Development with JBoss Fuse course
+* Develop some Camel REST DSL routes & CXF REST services
+* Review HTTP Basic Authentication & JAAS
+* Generate using Java Keytool a Key/Trustore and self signed certificates
+
+.Readings
+* https://github.com/FuseByExample/rest-dsl-in-action[Rest DSL in Action with Apache Camel]
+* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Development_Guide/RESTGuide.html[Develop RESTful Services with CXF]
+* https://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authentication]
+* https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html[JAAS Ref Guide]
+
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Suggested Readings & work
+
+In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about Camel REST DSL within the Camel Development with JBoss Fuse course, like also "Develop RESTful Services with CXF".
+Exercise yourself with the "REST DSL in Action" project of Github and create some CXF/Camel Web Services routes with a REST client and REST Service. It is also important that you review also how HTTP Basic Authentication
+is working according to the IETF specification like also the Java Api for Authentication & Authorisation mechanism.
+
+****
+endif::showscript[]

@@ -1,8 +1,4 @@
-:data-uri:
-:scrollbar:
 
-include::title.adoc[]
-
-ifdef::showScript[]
-
-endif::showScript[]
+include::m05p01_cover.adoc[]
+include::m05p02_suggested_readings.adoc[]
+include::m05p03_topics.adoc[]
