@@ -1,0 +1,25 @@
+:noaudio:
+
+[#suggested-readings]
+== Suggested Readings & work
+
+.Exercise yourself
+* Design a project using the File component
+* Review the Apache Camel Splitter & Aggregator pattern
+
+.Readings
+*
+
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Suggested Readings & work
+
+In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about Camel REST DSL within the Camel Development with JBoss Fuse course, like also "Develop RESTful Services with CXF".
+Exercise yourself with the "REST DSL in Action" project of Github and create some CXF/Camel Web Services routes with a REST client and REST Service. It is also important that you review also how HTTP Basic Authentication
+is working according to the IETF specification like also the Java Api for Authentication & Authorisation mechanism.
+
+****
+endif::showscript[]
