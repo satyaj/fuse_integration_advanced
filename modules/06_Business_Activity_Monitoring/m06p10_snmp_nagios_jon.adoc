@@ -1,0 +1,28 @@
+:noaudio:
+
+[#integration]
+== Integrate with Mngt Platform
+
+By completing this module you will learn about the following key Web Service Security topics:
+
+* Basic HTTP Authentication & Path Security Constraints
+* JAAS Secured Applications (RESTful, ...)
+* Mutual TLS
+* Role based Secure applications (@RolesAllowed)
+* Intercept HTTP call and authenticate the user
+* Use Api to secure your endpoints
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Integrate with Mngt Platform
+
+This module covers the different security concerns to authenticate the application sending HTTP requests using Basic Authentication with or without Java Api for Authentication and Authorization Service. Next we will investigate
+how we could use user's role to restrict access to certain RESTfull paths using Jetty/Netty Security Constraints or the JAX-RS annotation @RolesAllowed. The Security Constraint mechanism checks if the path of the resource
+accessed matches a rule and the role associated. We will also have a look to secure the communication between the client and the server using the TLS protocol and a mutual authentication.
+Instead of using a security mechanism managed by the HTTP Web Container or Netty TCP Server, an approach based on the concept of an interceptor will be presented base on the Apache Camel Policy and a JAXRS Container Filter.
+Finally, we will see how we can secure the endpoint using an API Management platform where we delegate the responsibility using some APi plugins to Authenticate the incoming HTTP request using Basic authentication or OpenID connect / Oauth2.
+
+****
+endif::showscript[]
