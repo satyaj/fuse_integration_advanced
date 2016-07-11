@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <name>Module :: Large file Processing</name>
 
-    <artifactId>large-file-prcessing</artifactId>
+    <artifactId>Module :: Large File Processing</artifactId>
 
     <dependencies>
         <dependency>
