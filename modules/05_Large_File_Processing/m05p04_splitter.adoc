@@ -15,9 +15,7 @@
    <simple>${body}</simple>
    <to uri="direct://processExchange"/>
 </split>
-
 ----
-
 
 .References
 * https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Splitter.html[Splitter]
