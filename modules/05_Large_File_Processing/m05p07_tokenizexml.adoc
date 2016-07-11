@@ -1,14 +1,13 @@
 :noaudio:
 
-[#tokenize]
-== Tokenize
+[#tokenizexml]
+== Tokenize XML
 
 * Built-in language of camel-core
 * Goal : tokenize text documents using :
 ** A specified delimiter pattern ("\n",",") or
 ** Regex
 * Can also tokenize XML content using the XMLTokenize/xtoken language
-* Use `streaming` attribute to iterate through the result
 +
 .Example
 [source,xml]
