@@ -3,6 +3,10 @@
 [#xpath]
 == Xpath
 
+* Take care of the XML Parser/APi used
+* XPath Language & Saxon will load XML in memory !
+* Stax doesn't support offset & location
+
 ifdef::showscript[]
 [.notes]
 ****
