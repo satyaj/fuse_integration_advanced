@@ -17,6 +17,23 @@
     <tokenize token="\n"/>
     <tokenize token="order" xml="true"/>
 ----
+* To process the content as one atomic - unit, use the option +shareUnitOfWork+
++
+.Example
+[source,xml]
+----
+<route>
+    <from uri="direct:start"/>
+    <to uri="mock:a"/>
+    <!-- share unit of work in the splitter, which tells Camel to propagate failures from
+         processing the splitted messages back to the result of the splitter, which allows
+         it to act as a combined unit of work -->
+    <split shareUnitOfWork="true">
+      <tokenize token=","/>
+      <to uri="mock:b"/>
+      <to uri="direct:line"/>
+    </split>
+----
 
 ifdef::showscript[]
 [.notes]
