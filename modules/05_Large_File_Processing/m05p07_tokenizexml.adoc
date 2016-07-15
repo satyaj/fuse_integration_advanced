@@ -4,14 +4,16 @@
 == Tokenize XML
 
 * Goal: Split XML content
-* Available using
+* Available using TokenizeXML & XTokernize languages
 +
 .Example
 [source,xml]
 ----
-<split streaming="true">
-    <tokenize token="\n"/>
+<from uri="file:inbox"/>
+  <split streaming="true">
     <tokenize token="order" xml="true"/>
+    <to uri="activemq:queue:order"/>
+  </split>
 ----
 
 ifdef::showscript[]
