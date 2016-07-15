@@ -18,6 +18,7 @@
     <tokenize token="order" xml="true"/>
 ----
 * To process the content as one atomic - unit, use the option +shareUnitOfWork+
+* Control the exception error propagation using the option +stopOnException+
 +
 .Example
 [source,xml]
