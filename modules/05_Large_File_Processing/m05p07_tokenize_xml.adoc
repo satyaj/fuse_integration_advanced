@@ -1,0 +1,40 @@
+:noaudio:
+
+[#tokenizexml]
+== Tokenize XML
+
+* Goal: Split XML content
+* Available using TokenizeXML & XTokenize languages
++
+.Example
+[source,xml]
+----
+<from uri="file:inbox"/>
+  <split streaming="true">
+    <tokenize token="order" xml="true"/>
+    <to uri="activemq:queue:order"/>
+  </split>
+----
+* XTokenize uses Stax Parser
+* Best suitted for complex XML Processing
++
+.Example
+[source,xml]
+----
+<from uri="file:target/xtokenizer"/>
+   <split>
+     <!-- split the file using XML tokenizer, where we grab the order tag,
+          and inject the namespaces declarations from its ancestor nodes -->
+     <xtokenize>//s:orders/s:order</xtokenize>
+----
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Tokenize XML
+
+TODO.
+
+****
+endif::showscript[]
