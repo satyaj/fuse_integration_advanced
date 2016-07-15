@@ -1,28 +1,28 @@
 :noaudio:
 
-[#tokenize]
-== Tokenize
+[#tokenize-group]
+== Tokenize Group
 
-* Built-in language of camel-core
-* Goal : tokenize text documents using :
-** A specified delimiter pattern ("\n",",") or
-** Regex
-* Can also tokenize XML content using the XMLTokenize/xtoken language
-* Use `streaming` attribute to iterate through the result
+* Goal of tokenize group option : group N parts/chunks spitted together
+* Must be a positive number that dictates how many groups to combine together
 +
 .Example
 [source,xml]
 ----
-<split streaming="true">
-    <tokenize token="\n"/>
-    <tokenize token="order" xml="true"/>
+<route>
+  <from uri="file:inbox"/>
+  <split streaming="true">
+    <tokenize token="\n" group="1000"/>
+    <to uri="activemq:queue:order"/>
+  </split>
+</route>
 ----
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Tokenize
+== Tokenize Group
 
 TODO.
 
