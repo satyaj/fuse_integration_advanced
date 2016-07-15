@@ -16,7 +16,7 @@
   </split>
 ----
 * XTokenize uses Stax Parser
-* Best suitted for complex XML Processing
+* Best suited for complex XML Processing
 +
 .Example
 [source,xml]
