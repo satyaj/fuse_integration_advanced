@@ -1,13 +1,29 @@
 :noaudio:
 
 [#parallel]
-== Parallel
+== Parallel & Aggregate
+
+* Use option `parallel` to process slitted message in parallel
+* Will reduce the
+* Assign a dedicated ThreadPool using `executorServiceRef` option
+* To aggregate the result, include an aggregator
++
+.Example
+[source,xml]
+----
+from("direct:start")
+.split().tokenize(",").aggregationStrategy(new MyAggregationStrategy())
+  ...
+  .log(">> Splitted msg : ${body}")
+  .end()
+.to("mock:result");
+----
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Parallel
+== Parallel & Aggregate
 
 TODO
 
