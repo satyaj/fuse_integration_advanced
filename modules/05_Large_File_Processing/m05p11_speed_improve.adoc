@@ -1,0 +1,20 @@
+:noaudio:
+
+[#improve-speed]
+== Improve speed
+
+* Reduce number of write operations to the output file
+* Aggregation could be used to batch/group result before to write to output file
+* Result could be send to an async component (seda, jms)
+* Prefer to use StringBuilder within the StringBodyAggregator
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Improve write speed
+
+TODO
+
+****
+endif::showscript[]
