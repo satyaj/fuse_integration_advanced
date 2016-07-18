@@ -3,8 +3,7 @@
 [#parallel]
 == Parallel & Aggregate
 
-* Use option `parallel` to process slitted message in parallel
-* Will reduce the
+* Use the option `parallel` to process slitted message in parallel
 * Assign a dedicated ThreadPool using `executorServiceRef` option
 * To aggregate the result, include an aggregator
 +
@@ -25,7 +24,11 @@ ifdef::showscript[]
 
 == Parallel & Aggregate
 
-TODO
+By default, the splitter processor will use one Thread to split the stream of data (String, File, ...) and process each item splitted. As the item processed could request very complex transformations performed
+by the next processors, the benefit that we could make from the iteration step could be wiped out if we don't take care. For that purpose, it will be required that you will parallelize the workload by using the parallel attribute
+which is available. When this option is enabled, the splitter processor will use additional threads part of the ThreadPool assigned by default to the DefaultCamelContext or created specifically for this splitter.
+To use your own threadpool, then you will configure the executorServiceRef attribute to provide the reference of the bean instantiated for that purpose.
 
+For some applications, it will be required after the splitting process that we rebuild the file, sting, stream originally splitted. That will be the purpose of the aggregation strategy that we will specify when we setup the splitter.
 ****
 endif::showscript[]
