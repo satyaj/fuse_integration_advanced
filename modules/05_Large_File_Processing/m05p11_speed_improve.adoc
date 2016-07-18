@@ -14,7 +14,15 @@ ifdef::showscript[]
 
 == Improve write speed
 
-TODO
+The last topic of this module covers the different strategies that you should be aware in order to improve the performance of your application when you must process a huge volume of records.
+Some have already been presented before and some are new but we will nevertheless recap the points to take care here.
+To avoid to process all the objects created as a list after the split of the content in memory, use the stream option in order to iterate through the list. That means that you should verify that the object used supports
+the Iterable interface of the JDK. Next, evaluate with the customers if processing the workload in parallel is an option. Adopting parallel processing will required like also the other approaches that you design a benchmark to stress
+test the project using dummies files/data that you evaluate the threads to be used like also the policy to be configured to release the threads from the pool.
+When possible, use the group option to process the group of the objects created and added within the body of the child exchange created by the splitter processor as a batch unit of work.
+To reduce the number of write operations needed when we create a file on the file system, use the aggregation EIP pattern in order to bufferize the result processed by the child processor called by the splitter processor.
+Don't manipulate the old and new Camel Exchanges within the Aggregator processor using a Java String object but instead a StringBuilder/StringBuffer that finally you will convert to a String.
+Instead of sending the String object created to the file producer, you can also use an asynchronous component (JMS, Seda) to rebuild the file in a separate route but using a different non blocking thread.
 
 ****
 endif::showscript[]
