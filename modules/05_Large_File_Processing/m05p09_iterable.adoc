@@ -3,13 +3,51 @@
 [#iterable]
 == Iterable
 
+* Default : Collection, Array & List
++
+.Example
+
+[source,java]
+----
+from("direct:splitUsingBody").split(body()).to("mock:result");
+----
++
+* Can be extended to support your own strategy
+* Benefit : iterate over the collection of objects, without exposing implementation details !
++
+.Example
+
+[source,java]
+----
+public class GameCollection implements Iterable<Game> {
+ private Vector<Game> games;
+
+ public GameCollection() {
+  games = new Vector<Game>();
+ }
+
+ public void add(Game game) {
+  games.add(game);
+ }
+
+ @Override
+ public Iterator<Game> iterator() {
+  return games.iterator();
+ }
+}
+----
+
 ifdef::showscript[]
 [.notes]
 ****
 
 == Iterable
 
-TODO
+Whenever the Splitter processor will get an object from the Body or Header using the simple, body, header, ognl or mvel language which is a Java Collection, Array,
+List, Array of Java Primitives or a String with values separated by the given delimiter then the processor will automatically split its content using the SplitterIterable class.
 
+As a Java developer, this is also up to you to decide when you can use or create your own Collection. One of the benefit of the Collection is that you will mask the implementation details
+and that you can change it without having to update the existing Apache Camel route. If you look to the example included within this slide, it contains a Vector where we add new Games
+object and the Iterator method will return an Iterator object that the Splitter processor can use to iterate through the list of the items included.
 ****
 endif::showscript[]
