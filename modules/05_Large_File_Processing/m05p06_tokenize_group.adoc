@@ -24,7 +24,10 @@ ifdef::showscript[]
 
 == Tokenize Group
 
-TODO.
+Another benefit of the tokenize language is that it offers the possibility to group items splitted. This feature that we could compare to a batch mechanism allows to generate a group of items
+that the Camel processor will add within the new Exchange created. The benefit of this approach is that again like the stream option, you will reduce the memory footprint by adding the group of items
+as an object withing the new exchange created. To use this option, simply define the group XML attribute within the XML tag or pass tge group integer value within the method tokenize.
+Of course, the grouping value must a valid integer not null and not negative.
 
 ****
 endif::showscript[]
