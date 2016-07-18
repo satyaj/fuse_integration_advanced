@@ -26,6 +26,10 @@ ifdef::showscript[]
 
 == Splitter
 
-
+The EIP Pattern Splitter is currently implemented by the Apache Camel Integration framework and offers the possibility to split a message into a number of pieces which are next processed individually.
+That means that the framework will create a new Exchange containing within its Body object the content of the item/piece created. For each exchange created, a header/property will be attached to the exchange
+to indicate the size of the string splitted, a counter which increases for each new sub-exchange created and finally a property containing the info that this is the last exchange splitted.
+By default, the splitter pattern can process a List, an array of Java objects if they are attached to the Body object of the exchange. By using the simple expression language you can extract the Body object of the exchange
+that you will pass to the splitter processor to split the content as presented within the example of this slide.
 ****
 endif::showscript[]
