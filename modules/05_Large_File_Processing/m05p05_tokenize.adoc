@@ -49,6 +49,8 @@ this option is responsible to tell to the Splitter processor that we will iterat
 the content supports the Java Iterable interface like the Java Scanner, ArrayList class, ...
 To use one of the Tokenize language, you will define the XML tag within the Apache Camel route or its corresponding Java Fluent method and will pass as parameter the token to be used. By example, to split all the CSV records defined
 in a String, then you will use the carriage return delimiter.
+When a stream of data is splitted into collection of items, they will be processed independently from each other. If, for a logic point of view, the content must be processed as one atomic unit by Camel during the routing,
+then the option shareUnitOfWork must be defined at the level of the spliut pattern as you can see within the second example.
 
 ****
 endif::showscript[]
