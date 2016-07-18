@@ -19,9 +19,9 @@ ifdef::showscript[]
 
 This module covers different strategies that you can implement within your project to process Large Files, Messages containing huge volume of data, ... The fundamental principe that we will follow
 is to split the stream, file into a collection of small items that the Apache Camel processors can handle in a very fast way without to have to create too large objects in memory. Different
-languages exist to split the CSV records, XML String, ... as the Tokenize & XPath expression language. They both use an iteration  which relies on a pointer accessing the record of the CSV list or
-XML tag without the penalty to hold all the data in memory. To make this process very powerfull, we recommend that you parallel the the work and that you aggregate the result of the transform
- in order to save the incoming files into the resulting files. Finally, we will see how we could also use the Stream component to pass the items splitted.
+languages exist to split the CSV records, XML String, ... as the Tokenize, XTokenize or XMLTokenize expression language. They both use an iteration which relies on a pointer accessing the record of the CSV list or
+XML or CSV record without the penalty to hold all the data in memory. To make this process very powerful, we recommend that you parallelize the the work and that you aggregate the result of the transformation
+in order to save the incoming files into the resulting files.
 
 ****
 endif::showscript[]
