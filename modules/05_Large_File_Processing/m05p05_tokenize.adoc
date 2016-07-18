@@ -42,7 +42,13 @@ ifdef::showscript[]
 
 == Tokenize
 
-TODO.
+When the incoming object to be splitted is not a list, an array list or an iterable object, then another Apache Camel language will be required to create the list of the items to be processed. This is the purpose
+of the Tokenize language provided by the framework which exists under different variants (tokenize, tokenizePair, tokenizeXML, xtoken) to process XML, CSV records or any stream of data that we can split according to a token which is delimiter
+or a regular expression. As the splitter will generate a list of items and for each of them a new exchange, if the stream of data t o be processed is huge/important, then you should use the option streaming.
+this option is responsible to tell to the Splitter processor that we will iterate through the list of the items instead of loading all the Java objects in memory. The rule of thum is that the object that you will use to split
+the content supports the Java Iterable interface like the Java Scanner, ArrayList class, ...
+To use one of the Tokenize language, you will define the XML tag within the Apache Camel route or its corresponding Java Fluent method and will pass as parameter the token to be used. By example, to split all the CSV records defined
+in a String, then you will use the carriage return delimiter.
 
 ****
 endif::showscript[]
