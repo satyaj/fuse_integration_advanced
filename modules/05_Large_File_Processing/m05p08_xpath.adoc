@@ -1,19 +1,22 @@
 :noaudio:
 
-[#xpath]
-== Xpath
+[#xml-parser]
+== XML Parser / Api
 
-* Take care of the XML Parser/APi used
-* XPathBuilder will load XML in memory !
-* Stax doesn't support offset & location
+* Choose accordingly your Expression Language / XML Parser as :
+** XPathBuilder will load XML in memory using DOM !
+** Some Stax Api doesn't support offset & location
 
 ifdef::showscript[]
 [.notes]
 ****
 
-== Xpath
+== XML Parser / Api
 
-TODO
+When you will select the Apache Camel Expression language and/or the Tokenizer to be used to parse and split the content, it is important that you review the XML Parser/APi which is used
+behind the scene when you will design the project for the customer. By example, the XpathBuilder expression, part of the xpath language, will use the DOM api to load the objects in memory in order to find the tag to be extracted,
+And the Xerces Api, packaged within the Java Developer Kit, doesn't implement the location / offset feature like the woodstock Api to iterate through the list of the items.
+Nevertheless, if the number of objects to be created into memoty is not so big, you can still continue to use Xpath as it supports to iterate through the list of the nodes discovered.
 
 ****
 endif::showscript[]
