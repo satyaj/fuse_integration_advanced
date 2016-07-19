@@ -2,6 +2,7 @@ package org.jboss.fuse.largefile.parallel;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
@@ -25,15 +26,6 @@ public class ParallelAggregateXMLSplitTest extends CamelTestSupport {
     }
 
     @Test
-    public void testAggregate() {
-        // EXCLUDE-BEGIN
-        String response = "a1,b2,c3,d4,e5,f6";
-        result.expectedMessageCount(1);
-        result.expectedBodiesReceived(response);
-        // EXCLUDE-END
-    }
-
-    @Test
     public void testParallel() throws Exception {
         // EXCLUDE-BEGIN
         template.sendBody("direct:start-parallel", "a,b,c,d,e,f,g,h,i,j");
@@ -51,6 +43,19 @@ public class ParallelAggregateXMLSplitTest extends CamelTestSupport {
         // EXCLUDE-END
     }
 
+    @Test
+    public void testAggregate() throws InterruptedException {
+        // EXCLUDE-BEGIN
+        String response = "a1,b2,c3,d4,e5,f6";
+        result.expectedMessageCount(1);
+        result.expectedBodiesReceived(response);
+
+        template.sendBody("direct:start-aggregate","a,b,c,d,e,f");
+
+        result.assertIsSatisfied();
+        // EXCLUDE-END
+    }
+
     @Override
     protected RouteBuilder createRouteBuilder() {
         // EXCLUDE-BEGIN
@@ -63,22 +68,24 @@ public class ParallelAggregateXMLSplitTest extends CamelTestSupport {
 
                 myThreadPool = Executors.newFixedThreadPool(5);
 
-                from("direct:start-aggregate")
-                        .split().tokenize(",")
-                          .aggregationStrategy(new MyAggregationStrategy())
-                          .to("mock:result");
-
                 from("direct:start-parallel")
                         .split(body().tokenize(","))
-                          .parallelProcessing()
-                          .setProperty("threadNumber").method(utility,"getNumberFromCamelThreadName()")
-                          .to("file:target/split/parallel?fileExist=Append&fileName=result-${property.threadNumber}.txt");
+                        .parallelProcessing()
+                        .setProperty("threadNumber").method(utility,"getNumberFromCamelThreadName()")
+                        .to("file:target/split/parallel?fileExist=Append&fileName=result-${property.threadNumber}.txt");
 
                 from("direct:start-parallel-threadpool")
                         .split(body().tokenize(","))
-                          .parallelProcessing().executorService(myThreadPool)
-                          .setProperty("threadNumber").method(utility,"getNumberFromThreadName()")
-                          .to("file:target/split/parallel-threadpool?fileExist=Append&fileName=result-${property.threadNumber}.txt");
+                        .parallelProcessing().executorService(myThreadPool)
+                        .setProperty("threadNumber").method(utility,"getNumberFromThreadName()")
+                        .to("file:target/split/parallel-threadpool?fileExist=Append&fileName=result-${property.threadNumber}.txt");
+
+                from("direct:start-aggregate")
+                        .split().tokenize(",")
+                          .aggregationStrategy(new MyAggregationStrategy())
+                          .log(LoggingLevel.INFO,"Msg processed : ${body}")
+                        .end()
+                        .to("mock:result");
 
             }
         };
@@ -88,14 +95,21 @@ public class ParallelAggregateXMLSplitTest extends CamelTestSupport {
     private class MyAggregationStrategy implements AggregationStrategy {
         // EXCLUDE-BEGIN
 
+        private int count = 0;
+
         @Override public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
             if (oldExchange == null) {
                 newExchange.getIn().setBody(new StringBuilder(newExchange.getIn().getBody(String.class)));
                 return newExchange;
             }
             oldExchange.getIn().getBody(StringBuilder.class)
-                    .append(",")
+                    .append(++count + ",")
                     .append(newExchange.getIn().getBody(String.class));
+
+            if (Boolean.valueOf(newExchange.getProperty("CamelSplitComplete",Boolean.class))) {
+                oldExchange.getIn().getBody(StringBuilder.class).append(++count);
+            }
+
             return oldExchange;
         }
         // EXCLUDE-END
