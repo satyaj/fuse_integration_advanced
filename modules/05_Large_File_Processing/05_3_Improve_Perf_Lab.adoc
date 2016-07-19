@@ -1,16 +1,91 @@
 :noaudio:
 :toc2:
 
-= Split Large Files Lab
+= Improve performance of the Splitted items Lab
 
-*Goal:*
+In this lab you resolve the following use cases:
 
+<<usecase1>>
 
-== Overview
+<<usecase2>>
 
+<<usecase3>>
 
-== Procedure
+<<usecase4>>
 
+.Goals
+* Configure your local environment to develop and resolve use cases
+* Become more experimented using Splitter EIP Pattern
+* Process CSV records or XML data
+* Use Reg expression, delimiter to split the stream of the data
+* Extract XML content using an XML Expression language
+
+.Prerequisites
+* Experience with Java, Spring & Apache Maven
+* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+
+:numbered:
+== Install Lab assets
+
+|===
+| Software | Version & URL | Notes |
+
+| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
+| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
+| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
+| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
+|===
+
+=== Install the lab project
+
+Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
+that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+
+== Use case exercise
+
+The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+
+[[usecase1]]
+=== Split Java Collection
+
+The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.largefile.tokenize.SplitJavaCollectionTest.java+ and to develop 3 methods where you will cover the
+following use cases :
+
+. Split the content of the body containing an Array of String and send the result to the +mock:result+ endpoint. Name of the test method is +testArrayOfString+ and the String Array variable name is +names+. According to the number
+of entries of the Array, validate that you will receive the number of splitted items within the Mock endpoint. Develop the Apache Camel route using the +direct+ component and the splitter EIP pattern for that project.
+. Repeat the previous test but now using an Array of java primitive char. You can use the letters of your first name for that purpose. The name of the method is +testArrayOfPrimitive+ and the variable to be used is +chars+. You can reuse the Apache Camel route created for the previous test case.
+. Split the content of the header +foo+ containing a Java List<String>. The List<String> will be populated using the same values used for the Array of Spring. Develop the Apache Camel route using the +direct+ component and the splitter with the appropriate Expression language.
+
+[[usecase2]]
+=== Split content using Delimiter/Token
+
+For this project, you will create another Java class +org.jboss.fuse.largefile.tokenize.SplitUsingDelimiterTest.java+ where you will validate that a String containing a special character or token can be splitted.
+So, you will create 2 Apache Camel Routes and 2 Java methods to implement the following scenario :
+
+. Develop an Apache Camel Route starting with a Direct endpoint and consuming a String Object that you will pass to the Splitter EIP Processor. Split the content of the Body object using the tokenize expression language and
+  use the carriage return as delimiter. To feed your route, create a String using the variable name +records+ and add a collection of names separated using the carriage return. Validate that the
+  mock endpoint will receive the number of splitted items expected. Verify also that the Camel Property Split SIZE corresponds also to the number expected and that the last exchange is completed.
+  The name of the method to filled is +testUsingCarriageReturn+.
+. Repeat the previous use case using the method +testUsingTokenPairs+ but now create a String named +record+ which contains your list of names where each name is encapsulated with a
+  start token "[" and end token "]". Here is an example about such String +[charles][jeff]....+. Define the syntax of the Apache Camel Route accordingly to process the content and split it using the Token pairs.
+
+[[usecase3]]
+=== Split content using Reg Expression
+
+To be exhaustive we will now use a Regular Expression to split the content of our String into a collection of pieces. The Java unit test class that we will use is called +SplitUsingRegularExpressionTest+ and it will
+contain the method +testRegExpression+. We will use the String +record+ which contains your list of names separated with one or more spaces. The regular expression that you will pass as parameter
+to the Expression language defined for the Splitter EIP Pattern should be able to extract each name from the String no matter if the name starts with a lower or uppercase.
+
+[[usecase4]]
+=== Split XML using tokenize language
+
+For this last use case, we will develop within the +org.jboss.fuse.largefile.tokenize.SplitXMLTest.java+ class 2 methods where we will split the content of a XML String using a XML
+Expression language and next we will group the messages splitted.
+
+. Develop an Apache Camel Route starting with a +direct+ endpoint to send to this consumer a String which contains a list of +<order/>+ encapsulated between the +<orders/>+ tag. Configure the
+Slitter Processor to split the content using a XML Expression language. The tag to be split is +<order/>+. According to the size of the orders, verify that the result received by the Mockendpoint contains the number of splitted items expected.
+
+. Repeat the previous use case using another Apache Camel Route where you will group the splitted items The group value is 5 for a list of 10 orders. Verify that the mock endpoint result will receive 2 exchanges containing each a group of 5 orders.
 
 ifdef::showScript[]
 
