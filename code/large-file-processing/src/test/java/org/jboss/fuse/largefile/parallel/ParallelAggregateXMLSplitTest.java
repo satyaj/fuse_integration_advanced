@@ -1,4 +1,4 @@
-package org.jboss.fuse.largefile;
+package org.jboss.fuse.largefile.parallel;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;

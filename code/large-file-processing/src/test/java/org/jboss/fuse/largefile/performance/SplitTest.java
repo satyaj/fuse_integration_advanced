@@ -1,4 +1,4 @@
-package org.jboss.fuse.largefile;
+package org.jboss.fuse.largefile.performance;
 
 import org.apache.camel.*;
 import org.apache.camel.builder.NotifyBuilder;
