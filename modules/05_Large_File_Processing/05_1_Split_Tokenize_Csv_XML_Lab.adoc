@@ -1,15 +1,61 @@
 :noaudio:
 :toc2:
 
-= Split Large Files Lab
+= Split CSV and XML records Lab
 
-*Goal:*
+In this lab you resolve the following use cases:
 
+<<usecase1>>
 
-== Overview
+<<usecase2>>
 
+<<usecase3>>
 
-== Procedure
+.Goals
+* Configure your local environment to develop and resolve use cases
+* Become more experimented using Splitter EIP Pattern
+* Process CSV records or XML data
+* Use Regexp, pattern to split the records
+* Extract XML content using xtokenize and tokenize xml language
+
+.Prerequisites
+* Experience with Java, Spring & Apache Maven
+* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+
+:numbered:
+== Install Lab assets
+
+|===
+| Software | Version & URL | Notes |
+
+| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
+| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
+| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
+| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
+|===
+
+=== Install the lab project
+
+Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
+that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+
+== Use case exercise
+
+The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+
+[[usecase1]]
+=== Split Java Collection
+
+The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+
+[[usecase2]]
+=== Split content using Delimiter
+
+[[usecase3]]
+=== Split content using Reg Expression
+
+[[usecase4]]
+=== Split XML using tokenize language
 
 
 ifdef::showScript[]
