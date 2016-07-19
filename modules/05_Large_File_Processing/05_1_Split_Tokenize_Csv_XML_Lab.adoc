@@ -64,8 +64,8 @@ So, you will create 2 Apache Camel Routes and 2 Java methods to implement the fo
   use the carriage return as delimiter. To feed your route, create a String using the variable name +records+ and add a collection of names separated using the carriage return. Validate that the
   mock endpoint will receive the number of splitted items expected. Verify also that the Camel Property Split SIZE corresponds also to the number expected and that the last exchange is completed.
   The name of the method to filled is +testUsingCarriageReturn+.
-. Repeat the previous use case using the method +testUsingTokenPairs+. So create a String named +record+ which contains your list of names but where each name is encapsulated with a
-  start token "[" and end token "]". Define the syntax of the Apache Camel Route accordingly to process the content and split it using the Token pairs.
+. Repeat the previous use case using the method +testUsingTokenPairs+ but now create a String named +record+ which contains your list of names where each name is encapsulated with a
+  start token "[" and end token "]". Here is an example about such String +[charles][jeff]....+. Define the syntax of the Apache Camel Route accordingly to process the content and split it using the Token pairs.
 
 [[usecase3]]
 === Split content using Reg Expression
