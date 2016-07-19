@@ -46,7 +46,7 @@ The different use cases should be developed as a collection of Java JUnit Test c
 [[usecase1]]
 === Split Java Collection
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.largefile.kokenize.SplitJavaCollectionTest.java+ which extend the class +BaseJettyTest+ class.
 
 [[usecase2]]
 === Split content using Delimiter
