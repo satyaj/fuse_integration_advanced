@@ -70,6 +70,10 @@ So, you will create 2 Apache Camel Routes and 2 Java methods to implement the fo
 [[usecase3]]
 === Split content using Reg Expression
 
+To be exhaustive we will now use a Regular Expression to split the content of our String into a collection of pieces. The Java unit test class that we will use is called +SplitUsingRegularExpressionTest+ and it will
+contains the method +testRegExpression+. We will use the String +record+ which contains your list of names separated with one or more spaces. The regular expression that you will pass as parameter
+to the Expression language defined for the Splitter EIP Pattern should be able to extract each name from the String no matter if the name starts with a lower or uppercase.
+
 [[usecase4]]
 === Split XML using tokenize language
 
