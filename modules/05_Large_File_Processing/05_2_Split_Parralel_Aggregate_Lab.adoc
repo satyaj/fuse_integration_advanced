@@ -14,9 +14,8 @@ In this lab you resolve the following use cases:
 .Goals
 * Configure your local environment to develop and resolve use cases
 * Become more experimented using Splitter EIP Pattern
-* Process CSV records or XML data
-* Use Reg expression, delimiter to split the stream of the data
-* Extract XML content using an XML Expression language
+* Process Camel exchanges in parallel
+* Aggregate splitted messages to rebuild the original string, stream
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven

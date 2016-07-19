@@ -85,7 +85,7 @@ Expression language and next we will group the messages splitted.
 . Develop an Apache Camel Route starting with a +direct+ endpoint to send to this consumer a String which contains a list of +<order/>+ encapsulated between the +<orders/>+ tag. Configure the
 Slitter Processor to split the content using a XML Expression language. The tag to be split is +<order/>+. According to the size of the orders, verify that the result received by the Mockendpoint contains the number of splitted items expected.
 
-. Repeat the previous use case using another Apache Camel Route where you will group the splitted items The group value is 5 for a list of 10 orders. Verify that the mock endpoint result will receive 2 exchanges containing each a group of 5 orders.
+. Repeat the previous use case using another Apache Camel Route where you will group the splitted items. The group value is 5 for a list of 10 orders. Verify that the mock endpoint result will receive 2 exchanges containing each a group of 5 orders.
 
 ifdef::showScript[]
 
