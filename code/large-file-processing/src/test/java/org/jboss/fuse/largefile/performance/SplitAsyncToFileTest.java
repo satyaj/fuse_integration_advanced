@@ -43,7 +43,7 @@ public class SplitAsyncToFileTest extends CamelTestSupport {
     }
 
     @Test
-    public void testStreamAndSeda() throws Exception {
+    public void testStreamAndseda() throws Exception {
         // EXCLUDE-BEGIN
         NotifyBuilder notify = new NotifyBuilder(context).whenDone(total).create();
 
@@ -52,7 +52,7 @@ public class SplitAsyncToFileTest extends CamelTestSupport {
         context.startRoute("stream-and-seda");
 
         // Check that the splitted items have been processed during this period of time
-        notify.matches(30, TimeUnit.SECONDS);
+        notify.matches(1, TimeUnit.MINUTES);
         log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records with stream and seda.");
         // EXCLUDE-END
     }
@@ -76,7 +76,7 @@ public class SplitAsyncToFileTest extends CamelTestSupport {
                     .setBody().simple("${body}\\n")
                     .to("seda:in-memory");
 
-                from("seda:in-memory?concurrentConsumers=30")
+                from("seda:in-memory?concurrentConsumers=50")
                     .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
             }
         };
