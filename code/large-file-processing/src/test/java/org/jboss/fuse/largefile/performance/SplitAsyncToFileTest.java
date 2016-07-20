@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SplitAsyncToFileTest extends CamelTestSupport {
@@ -61,6 +63,8 @@ public class SplitAsyncToFileTest extends CamelTestSupport {
     protected RouteBuilder createRouteBuilder() throws Exception {
         // EXCLUDE-BEGIN
         return new RouteBuilder() {
+
+            ExecutorService myThreadPool = Executors.newFixedThreadPool(10);
             @Override
             public void configure() throws Exception {
 
@@ -71,10 +75,10 @@ public class SplitAsyncToFileTest extends CamelTestSupport {
                         .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
 
                 from("file://target/data?noop=true").id("stream-and-seda").noAutoStartup()
-                    .split().tokenize("\n").streaming()
-                    .log(LoggingLevel.DEBUG,"Record : ${body}")
-                    .setBody().simple("${body}\\n")
-                    .to("seda:in-memory");
+                    .split().tokenize("\n").streaming().parallelProcessing().executorService(myThreadPool)
+                      .log(LoggingLevel.DEBUG,"Record : ${body}")
+                      .setBody().simple("${body}\\n")
+                      .to("seda:in-memory");
 
                 from("seda:in-memory?concurrentConsumers=50")
                     .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
