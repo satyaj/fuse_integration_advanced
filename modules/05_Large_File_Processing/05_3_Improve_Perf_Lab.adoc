@@ -72,8 +72,11 @@ IMPORTANT: Instead of using the mock endpoint to get all the exchanges processed
 [[usecase3]]
 === Speed write process
 
-The goal of this use is to experiment the tricks presented within the course to speed the process to write the splitted content with a result file
+The goal of this use case is to experiment the tricks presented within the course to speed the process to write the splitted content within a result file. To design this project, you will use the Java class +org.jboss.fuse.largefile.performance.SpeedWriteProcessTest+.
 
+No matter which strategies you will implement, they should be developed using a dedicated Apache Camel Route and tested under the corresponding Junit Method. You will again consume the CSV files generated from the maven profile +gen-csv+.
+The files should not be deleted. You will split the content using the carriage return as delimiter and the result processed will be saved within the folder +target/data/out+ under the name +bigfile.txt+.
+A maximum of 3 strategies should be designed for that use case. We will check the elapsed time to process the Apache Camel Route and save the result to the +bigfile.txt+ file as criteria to evaluate your solution.
 
 [[usecase4]]
 === Use Async Component

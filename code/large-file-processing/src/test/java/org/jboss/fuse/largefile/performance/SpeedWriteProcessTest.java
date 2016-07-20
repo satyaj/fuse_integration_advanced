@@ -28,32 +28,47 @@ public class SpeedWriteProcessTest extends CamelTestSupport {
     }
 
     @Test
-    public void testWithoutAggregation() throws Exception {
+    public void testNoStreamNoAggregate() throws Exception {
         // EXCLUDE-BEGIN
         NotifyBuilder notify = new NotifyBuilder(context).whenDone(total).create();
 
         // Start the route
         StopWatch watch = new StopWatch();
-        context.startRoute("noaggregate");
+        context.startRoute("nostream-noaggregate");
 
         // Check that the splitted items have been processed during this period of time
         notify.matches(2, TimeUnit.MINUTES);
-        log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records with stream.");
+        log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records without stream and aggregation.");
         // EXCLUDE-END
     }
 
     @Test
-    public void testWithAggregation() throws Exception {
+    public void testStreamWithoutAggregation() throws Exception {
         // EXCLUDE-BEGIN
         NotifyBuilder notify = new NotifyBuilder(context).whenDone(total).create();
 
         // Start the route
         StopWatch watch = new StopWatch();
-        context.startRoute("aggregate");
+        context.startRoute("noaggregate-but-stream");
 
         // Check that the splitted items have been processed during this period of time
         notify.matches(20, TimeUnit.SECONDS);
-        log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records with stream.");
+        log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records with stream but no aggregation.");
+        // EXCLUDE-END
+    }
+
+    @Test
+    public void testStreamWithAggregation() throws Exception {
+        // EXCLUDE-BEGIN
+        NotifyBuilder notify = new NotifyBuilder(context).whenDone(total).create();
+
+        // Start the route
+        StopWatch watch = new StopWatch();
+        context.startRoute("aggregate-and-stream");
+
+        // Check that the splitted items have been processed during this period of time
+        notify.matches(20, TimeUnit.SECONDS);
+        log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records with stream and aggregation.");
         // EXCLUDE-END
     }
 
@@ -64,15 +79,20 @@ public class SpeedWriteProcessTest extends CamelTestSupport {
             @Override
             public void configure() throws Exception {
 
-                from("file://target/data?noop=true").id("aggregate").noAutoStartup()
-                    .split().tokenize("\n").streaming().aggregate(header(Exchange.FILE_NAME_ONLY),new MyAggregationStrategy()).completionSize(10000)
-                    .log(LoggingLevel.DEBUG,"Record : ${body}")
-                    .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
+                from("file://target/data?noop=true").id("nostream-noaggregate").noAutoStartup()
+                        .split().tokenize("\n")
+                        .log(LoggingLevel.DEBUG,"Record : ${body}")
+                        .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
 
-                from("file://target/data?noop=true").id("noaggregate").noAutoStartup()
+                from("file://target/data?noop=true").id("noaggregate-but-stream").noAutoStartup()
                         .split().tokenize("\n").streaming()
                         .log(LoggingLevel.DEBUG,"Record : ${body}")
                         .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
+
+                from("file://target/data?noop=true").id("aggregate-and-stream").noAutoStartup()
+                    .split().tokenize("\n").streaming().aggregate(header(Exchange.FILE_NAME_ONLY),new MyAggregationStrategy()).completionSize(10000)
+                    .log(LoggingLevel.DEBUG,"Record : ${body}")
+                    .to("file://target/data/out?fileExist=Append&fileName=bigfile.txt");
             }
         };
         // EXCLUDE-END
@@ -81,7 +101,8 @@ public class SpeedWriteProcessTest extends CamelTestSupport {
     private class MyAggregationStrategy implements AggregationStrategy {
         // EXCLUDE-BEGIN
 
-        @Override public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+        @Override
+        public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
             if (oldExchange == null) {
                 newExchange.getIn().setBody(new StringBuilder(newExchange.getIn().getBody(String.class)));
                 return newExchange;
