@@ -78,10 +78,6 @@ No matter which strategies you will implement, they should be developed using a 
 The files should not be deleted. You will split the content using the carriage return as delimiter and the result processed will be saved within the folder +target/data/out+ under the name +bigfile.txt+.
 A maximum of 3 strategies should be designed for that use case. We will check the elapsed time to process the Apache Camel Route and save the result to the +bigfile.txt+ file as criteria to evaluate your solution.
 
-[[usecase4]]
-=== Use Async Component
-
-
 ifdef::showScript[]
 
 
