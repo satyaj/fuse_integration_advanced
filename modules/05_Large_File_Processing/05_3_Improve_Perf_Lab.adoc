@@ -11,14 +11,11 @@ In this lab you resolve the following use cases:
 
 <<usecase3>>
 
-<<usecase4>>
-
 .Goals
 * Configure your local environment to develop and resolve use cases
-* Become more experimented using Splitter EIP Pattern
-* Process CSV records or XML data
-* Use Reg expression, delimiter to split the stream of the data
-* Extract XML content using an XML Expression language
+* Iterate through the list of the items to be splitted to boost the performance
+* Use a different XML Api to parse its content (Stax, DOM)
+* Aggregate the result to reduce the number of write
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
@@ -47,6 +44,17 @@ The different use cases should be developed as a collection of Java JUnit Test c
 
 [[usecase1]]
 === Stream CSV records
+
+The goal of this use case is to demonstrate that we can improve the splitting processing of files containing many records using the streaming option of the Splitter EIP Pattern.
+So, you will use the Java Test class +org.jboss.fuse.largefile.performance.StreamCsvTest+ to develop 2 Junit methods +testWithoutStream+ and +testWithStream+ where you will demonstrate
+that the streaming option is faster compare to the scenatio where you don't use it.
+
+For that purpose, you will measure the elapsed time required by the Apache Camel route to split and process 10 files containing each 100.000 records. The files, which contain
+CSV records, can be generated using the maven profile +gen-csv+. The files generated will be available under the folder +target/data+.
+
+Then, you will consume them, split the content in a route using as delimiter the carriage return character and send the result to the LOG EIP processor where the logging level is defined DEBUG.
+
+IMPORTANT: Instead of using the mock endpoint to get all the exchanges processed, you can build an Expression using the http://camel.apache.org/notifybuilder.html[NotificationBuilder] to be notified about the exchanged processed.
 
 
 [[usecase2]]

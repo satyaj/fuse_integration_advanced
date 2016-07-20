@@ -29,7 +29,7 @@ public class StreamCsvTest extends CamelTestSupport {
 
     @Test
     public void testWithoutStream() throws Exception {
-
+        // EXCLUDE-BEGIN
         NotifyBuilder notify = new NotifyBuilder(context).whenDone(total).create();
 
         StopWatch watch = new StopWatch();
@@ -38,10 +38,12 @@ public class StreamCsvTest extends CamelTestSupport {
         // Check that the splitted items have been processed during this period of time
         notify.matches(1, TimeUnit.MINUTES);
         log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records without stream.");
+        // EXCLUDE-END
     }
 
     @Test
     public void testWithStream() throws Exception {
+        // EXCLUDE-BEGIN
         NotifyBuilder notify = new NotifyBuilder(context).whenDone(total).create();
 
         // Start the route
@@ -51,11 +53,12 @@ public class StreamCsvTest extends CamelTestSupport {
         // Check that the splitted items have been processed during this period of time
         notify.matches(1, TimeUnit.MINUTES);
         log.info("Took : " + watch.taken() + " millis to process " + files * rows + " records with stream.");
+        // EXCLUDE-END
     }
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
-
+        // EXCLUDE-BEGIN
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
@@ -68,7 +71,7 @@ public class StreamCsvTest extends CamelTestSupport {
                         .log(LoggingLevel.DEBUG,"Record : ${body}");
             }
         };
-
+        // EXCLUDE-END
     }
 
 }
