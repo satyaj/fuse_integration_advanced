@@ -9,12 +9,25 @@
 .WireTap Example
 [source]
 ----
+ from("direct:start")
+     .to("log:foo")
+     .wireTap("seda:tap")
+     .bean(MyBean.class)
+     .to("mock:result");
+
+ from("seda:tap")
+     .to("mock:tap");
 ----
 * Using a Condition to detour the traffic
 +
 .Detour Example
 [source]
 ----
+from("direct:start")
+.choice()
+  .when().method("control", "isDetour")
+     .to("mock:detour").end()
+  .to("mock:result");
 ----
 
 ifdef::showscript[]
