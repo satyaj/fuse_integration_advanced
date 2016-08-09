@@ -3,14 +3,33 @@
 [#intercept]
 == Intercept
 
-* Goal : Intercept information using a producer, consumer and optionally includes a condition
+* Goal : Intercept information at a producer, consumer endpoint
+* Predicate can be triggered according to condition
 * Information can be routed to another processors
-* Processus is done synchronously
-* All the
+* Process is done synchronously
 +
 .Intercept Example
 [source]
 ----
+intercept().to("log:hello");
+
+from("jms:queue:order").to("bean:validateOrder").to("bean:processOrder");
+
+interceptFrom()
+    .when(header("usertype").isEqualTo("test"))
+    .process(new MyTestServiceProcessor())
+    .to("mock:intercepted");
+
+// and here is our route
+from("direct:start").to("seda:bar").to("mock:result");
+----
+* Wildcard based
++
+.Wildcard Example
+[source]
+----
+intercept("jms:*").to("log:fromjms");
+intercept("jms:queue:(gold|silver)").to("seda:handleFast");
 ----
 
 ifdef::showscript[]
