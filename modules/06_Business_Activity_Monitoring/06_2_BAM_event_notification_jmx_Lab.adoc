@@ -1,7 +1,7 @@
 :noaudio:
 :toc2:
 
-= Split Large Files Lab
+= Business Activities Monitoring Lab
 
 *Goal:*
 

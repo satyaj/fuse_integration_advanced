@@ -1,0 +1,18 @@
+:noaudio:
+:toc2:
+
+= Business Activities Monitoring Lab
+
+*Goal:*
+
+
+== Overview
+
+
+== Procedure
+
+
+ifdef::showScript[]
+
+
+endif::showScript[]

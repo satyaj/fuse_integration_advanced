@@ -37,7 +37,6 @@ ifdef::showscript[]
 
 == Detour Wiretap
 
-.
 
 ****
 endif::showscript[]
