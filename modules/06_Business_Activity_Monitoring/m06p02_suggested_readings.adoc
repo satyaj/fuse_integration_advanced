@@ -8,10 +8,6 @@
 * Review EIP Patterns
 * Read Camel Course chapters about JMX & Interceptor
 
-.Readings
-*
-
-
 ifdef::showscript[]
 [.notes]
 ****

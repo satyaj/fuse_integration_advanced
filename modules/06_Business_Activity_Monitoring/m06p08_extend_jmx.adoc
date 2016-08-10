@@ -8,7 +8,7 @@
 * @ManagedResource, @ManagedOperation, @ManagedAttribute annotations
 +
 .Jmx Example
-[source]
+[source,java]
 ----
 @ManagedResource(objectName = "mbeans:name=myJmxDemoBean", description = "My managed Bean.")
 public class JmxDemo {
@@ -24,32 +24,6 @@ public long getNumberOfWaitingApplications() {
 public List<String> showWaitingApplications() {
     // do something and return a list of all waiting applications
 }
-----
-* Integrate them with Jolokia using @JsonMbean
-* Work also with JMX support libraries which use ModelMBeans under the hood
-* Serialisation of complex Java Beans is more powerful with JsonMBeans
-+
-.Jolokia
-----
-private List<ObjectName> registeredMBeans;
-public static final  String JOLOKIA_IT_DOMAIN           = "jolokia.it";
-
-public void start() {
-     registeredMBeans = registerMBeans(ManagementFactory.getPlatformMBeanServer(), JOLOKIA_IT_DOMAIN);
-     MBeanServer jolokiaServer = getJolokiaMBeanServer();
-     if (jolokiaServer != null) {
-         registeredJolokiaMBeans.addAll(registerJsonMBeans(jolokiaServer, JOLOKIA_IT_JSONMBEAN_DOMAIN));
-     }
- }
-
-@JsonMBean()
-    public static class JsonAnnoTest implements JsonAnnoTestMXBean {
-
-        public Chili getChili() {
-            return new Chili("Bhut Jolokia",1000000);
-        }
-
-    }
 ----
 
 ifdef::showscript[]

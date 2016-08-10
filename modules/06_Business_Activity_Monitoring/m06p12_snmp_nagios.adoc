@@ -1,0 +1,17 @@
+:noaudio:
+
+[#integration]
+== Integrate with Mngt Platform
+
+*
+
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Integrate with Mngt Platform
+
+
+****
+endif::showscript[]

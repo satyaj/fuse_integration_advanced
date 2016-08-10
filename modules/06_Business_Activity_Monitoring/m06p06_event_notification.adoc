@@ -4,11 +4,10 @@
 == Event Notification
 
 * Goal : Being notified about an event, change done to a Camel Exchange
-* Support : exchange send, complete, fail, create, redeliver
-* Route added, started
+* Support : exchange send, complete, fail, create, redeliver, Route added, started
 +
-. Notification event
-[source]
+.Notification event example
+[source,java]
 ----
 MyEventNotifier extends EventNotifierSupport {
 
@@ -31,7 +30,6 @@ MyEventNotifier extends EventNotifierSupport {
    public boolean isEnabled(EventObject event) {
        return true;
    }
-
 ----
 
 ifdef::showscript[]
