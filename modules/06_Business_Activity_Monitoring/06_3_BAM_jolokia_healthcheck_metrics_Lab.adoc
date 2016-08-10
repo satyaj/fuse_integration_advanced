@@ -3,14 +3,53 @@
 
 = Business Activities Monitoring Lab
 
-*Goal:*
+In this lab you resolve the following use cases:
 
+<<usecase1>>
 
-== Overview
+<<usecase2>>
 
+<<usecase3>>
 
-== Procedure
+.Goals
+* Configure your local environment to develop and resolve use cases
+* Use your MBeans with Jolokia
+* Setup a health Check to control the consumers
+* Collect History Metrics
 
+.Prerequisites
+* Experience with Java, Spring & Apache Maven
+* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+
+:numbered:
+== Install Lab assets
+
+|===
+| Software | Version & URL | Notes |
+
+| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
+| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
+| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
+| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
+|===
+
+=== Install the lab project
+
+Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
+that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+
+== Use case exercise
+
+The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+
+[[usecase1]]
+=== Use your MBeans with Jolokia
+
+[[usecase2]]
+=== Setup a health Check to control the consumers
+
+[[usecase3]]
+=== Collect History Metrics
 
 ifdef::showScript[]
 
