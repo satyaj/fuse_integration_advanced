@@ -1,0 +1,27 @@
+:noaudio:
+
+[#integration]
+== Integrate with Mngt Platform
+
+* Goal : Collect camel routes info and send the information using a Management Platform
+* Using Nagios
++
+.Nagios Example
+[source]
+----
+Map headers = new HashMap();
+headers.put(NagiosConstants.LEVEL, "CRITICAL");
+headers.put(NagiosConstants.HOST_NAME, "myHost");
+headers.put(NagiosConstants.SERVICE_NAME, "myService");
+
+from("direct:start").to("nagios:127.0.0.1:5667?password=secret").to("mock:result");
+----
+
+ifdef::showscript[]
+[.notes]
+****
+
+== Integrate with Mngt Platform
+
+****
+endif::showscript[]
