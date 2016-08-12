@@ -43,13 +43,25 @@ that you will use to resolve the use cases, we suggest that you next import it i
 The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Use your MBeans with Jolokia
+=== Use your MBean with Jolokia
+
+- The goal of this use case is to reuse the code developed within the last exercise of the lab 2 but where Jolokia MBean Server is used to register the MBean. To query it, perform a HTTP request
+  and verify the JSon response returned
+
+  Remarks: Some helpfull classes : https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/HttpRequestHandlerTest.java, http://grepcode.com/file/repo1.maven.org/maven2/org.jolokia/jolokia-core/1.0.2/org/jolokia/backend/BackendManager.java
 
 [[usecase2]]
 === Setup a health Check to control the consumers
 
+- Develop a use case where the Health Check will control that the consumers are still alive. This class should inspire you to design the code (https://github.com/commercehub-oss/dropwizard-camel/blob/master/dropwizard-camel-core/src/main/java/com/commercehub/dropwizard/camel/health/CamelHealthCheck.java)
+  Use the camel-metrics component to do this health check.
+
 [[usecase3]]
 === Collect History Metrics
+
+- Develop a use where you will from a camel route query the history of the messages created by another camel route collect the history and the metrics of the message processed within the processor.
+  Example : https://github.com/apache/camel/blob/camel-2.17.0/components/camel-metrics/src/test/java/org/apache/camel/component/metrics/messagehistory/ManagedMessageHistoryTest.java
+
 
 ifdef::showScript[]
 
