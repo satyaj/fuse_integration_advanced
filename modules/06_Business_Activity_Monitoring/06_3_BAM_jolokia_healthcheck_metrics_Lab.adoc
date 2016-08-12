@@ -48,7 +48,10 @@ The different use cases should be developed as a collection of Java JUnit Test c
 - The goal of this use case is to reuse the code developed within the last exercise of the lab 2 but where Jolokia MBean Server is used to register the MBean. To query it, perform a HTTP request
   and verify the JSon response returned
 
-  Remarks: Some helpfull classes : https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/HttpRequestHandlerTest.java, http://grepcode.com/file/repo1.maven.org/maven2/org.jolokia/jolokia-core/1.0.2/org/jolokia/backend/BackendManager.java
+  Remarks:
+  - https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/HttpRequestHandlerTest.java,
+  - http://grepcode.com/file/repo1.maven.org/maven2/org.jolokia/jolokia-core/1.0.2/org/jolokia/backend/BackendManager.java,
+  - https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/AgentServletTest.java
 
 [[usecase2]]
 === Setup a health Check to control the consumers
