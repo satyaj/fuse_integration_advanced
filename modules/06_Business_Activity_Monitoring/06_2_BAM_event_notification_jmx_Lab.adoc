@@ -12,7 +12,7 @@ In this lab you resolve the following use cases:
 .Goals
 * Configure your local environment to develop and resolve use cases
 * Implement an Event Notification to collect Camel Route information
-* Register some MBeans to monitor your application
+* Register a MBean to monitor an endpoint
 
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
@@ -42,9 +42,19 @@ The different use cases should be developed as a collection of Java JUnit Test c
 [[usecase1]]
 === Implement an Event Notification to collect Camel Route information
 
-[[usecase2]]
-=== Register some MBeans to monitor your application
+- The goal of this use case is to create a class which extends the EventNotifierSupport class and where you will generate a message that you will publish within the log file when a Camel
+  Exchange is created and when it is also completed. The message must include the Camel ExchangeId, a header with the routeId and a customized message
 
+- Repeat the previous but use the ExchangeSentEvent to calculate how much time it tooks to call an HTTP endpoint exposed by another Camel route. Use a delayer with the Camel route to slow dow the process
+  generating the response.
+
+
+[[usecase2]]
+=== Register a MBean to monitor an endpoint
+
+- The goal of this use case is to create a new custom endpoint where you will register also the endpoint as a MBean using Spring JMX. The custom endpoint must provide an attribute to return a dummy value and
+  an operation showing the url of the endpoint. The test case must verify that the customer endpoint like also the MBean are used in a Camel Route and that you can query using the JMX Server
+  the JMS object registered (attribute and operation).
 
 ifdef::showScript[]
 
