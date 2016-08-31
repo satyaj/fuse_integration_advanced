@@ -11,7 +11,7 @@
 .References
 
 - https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-JPA.html[Apache Camel on Fuse]
-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/ch02s02.html#idp4584400[Apache Camel JPA on EAP]
+- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-JPA.html[Apache Camel JPA on EAP]
 - https://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jpa.html[JPA Persistence with Apache Camel]
 
 
