@@ -46,3 +46,27 @@ The use cases available are grouped by module and they correspond to skills set 
 ** Oauth2
 ** API Management & SSO
 
+* Persistence and Transactions
+
+** Persistence using Apache JPA, JDBC & SQL components
+** Persistence using Camel running On WildFly
+** Idempotent Persistent Processor
+** NoSQL component - Infinispan
+** Camel transactions
+** Transacted route and transacted clients
+
+* Service Activity Monitoring
+
+** Use EIP patterns to collect the Business information
+** Intercept Camel Exchanges using the consumer, producer or a condition
+** Collect information using Event notification mechanism
+** Integrate your Camel project with ELK
+** Extend the JMX Layer to expose your own MBeans
+
+* Large File Processing
+
+** Consume Large Files or Data Stream
+** Split the content using the Tokenize & Xpath Languages
+** Process the dataflow in parallel
+** Use of the stream component
+
