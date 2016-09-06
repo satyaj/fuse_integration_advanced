@@ -19,7 +19,7 @@ In this lab you resolve the following use cases:
 .Prerequisites
 * Experience with Java, Spring & Apache Maven
 * Expertise with RESTfull & HTTP Basic Authentication
-* Basic knowledge about http://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html#keytool_option_genkeypair[PKI], encryption with TLS/SSL
+* Basic knowledge about https://docs.oracle.com/cd/B10501_01/network.920/a96582/pki.htm[PKI], encryption with TLS/SSL
 * Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
 
 :numbered:
