@@ -3,8 +3,9 @@
 [#tokenize-group]
 == Tokenize Group
 
-* Goal of tokenize group option : group N parts/chunks spitted together
+* Goal of tokenize group option : number of lines that should be grouped into a single chunk
 * Must be a positive number that dictates how many groups to combine together
+* The streaming option directs the splitter not to read the whole file at once (resulting in much better performance if the file is large)
 +
 .Example
 [source,xml]
