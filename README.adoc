@@ -61,7 +61,7 @@ The use cases available are grouped by module and they correspond to skills set 
 ** Intercept Camel Exchanges using the consumer, producer or a condition
 ** Collect information using Event notification mechanism
 ** Integrate your Camel project with ELK
-** Extend the JMX Layer to expose your own MBeans
+** Extend the JMX Layer to expose your MBeans
 
 * Large File Processing
 
