@@ -6,7 +6,7 @@ ifdef::revealjs_slideshow[]
 == &nbsp;
 
 [#cover-h1,width="600px",left="0px",top="200px"]
-Advanced Integration
+Advanced Camel Development using Red Hat JBoss Fuse 6
 
 [#cover-h2,width="800px",left="0px",top="450px"]
 Business Activity Monitoring
