@@ -40,6 +40,7 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         return jndi;
     }
 
+    /*
     @Before
     public void init() throws IOException {
         // EXCLUDE-BEGIN
@@ -47,6 +48,7 @@ public class BasicAuthRESTCamelDSLJettyRoleConstraintTest extends BaseJettyTest 
         System.setProperty("java.security.auth.login.config", jaasURL.toExternalForm());
         // EXCLUDE-END
     }
+    */
 
     @Test
     public void shouldSayHelloTest() {

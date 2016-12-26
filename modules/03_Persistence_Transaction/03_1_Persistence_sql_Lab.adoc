@@ -77,7 +77,7 @@ The use case will be developed using the class +org.jboss.fuse.persistence.jdbc.
 will be created within the method +testNamedParametersQuery+.
 
 Like the previous use case, we will use the following route definition +from(direct:select).to(jdbc)+ to send a Camel Exchange to the Direct endpoint. The message to be send will use as input this SQL Query definition
-+SELECT * FROM REPORT.T_INCIDENT where GIVEN_NAME = :?firstname AND FAMILY_NAME = :?lastname+. So, configure accordingly your Camel Exchange in order to pass the parameter.
++SELECT * FROM REPORT.T_INCIDENT where GIVEN_NAME = :?firstname AND FAMILY_NAME = :?lastname+. Initialize a map with the correct header values to be passed in as JBDC parameters to the select query.
 
 Here are the values that we expect to receive :
 

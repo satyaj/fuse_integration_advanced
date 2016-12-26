@@ -44,7 +44,7 @@ The different use cases should be developed as a collection of Java JUnit Test c
 [[usecase1]]
 === Use a persistent Idempotent Consumer
 
-For this use case, we will setup an Apache Camel route using a persistent Idempotent Consumer. This idempotent consumer will check the content of the header +CamelHeader+ against
+For this use case, we will setup an Apache Camel route using a persistent Idempotent Consumer. This idempotent consumer will check the content of the header +CamelRecord+ against
 the +messageId+ which is stored within the table +CAMEL_MESSAGEPROCESSED+. The Apache Camel route starts with the +direct:data-insert+ endpoint, following by the idempotent persistent
 consumer, next the Camel bindy Dataformat to transform the CXF record received into a java Incident object and finally the +mock:result+ endpoint.
 

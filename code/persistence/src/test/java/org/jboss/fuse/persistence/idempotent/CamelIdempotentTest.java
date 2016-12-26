@@ -3,6 +3,7 @@ package org.jboss.fuse.persistence.idempotent;
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.Exchange;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Assert;
@@ -14,6 +15,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+       
+import org.jboss.fuse.persistence.model.Incident;
+
+import java.util.*;
 
 public class CamelIdempotentTest extends CamelSpringTestSupport {
 
@@ -30,6 +36,14 @@ public class CamelIdempotentTest extends CamelSpringTestSupport {
        template.requestBodyAndHeader("111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300","CamelRecord",1);
        template.requestBodyAndHeader("222,18-05-2016,Claus,Ibsen,incident camel-222,this is a report incident for camel-222,cibsen@gmail.com,+111 10 20 300","CamelRecord",2);
        mockResult.assertIsSatisfied();
+
+       List<Exchange> receivedExchanges = mockResult.getExchanges();
+       System.out.println("Message received: " + receivedExchanges.get(0).getIn().getBody());
+       
+       Incident first = (Incident) receivedExchanges.get(0).getIn().getBody();
+       assertNotNull(first);
+       assertEquals("111", first.getIncidentRef());
+       
        // EXCLUDE-END
     }
 

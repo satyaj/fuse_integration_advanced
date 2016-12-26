@@ -35,8 +35,8 @@ public class JPACamelWildflyTest {
 
     @Deployment
     public static JavaArchive deployment() {
-        // EXCLUDE-BEGIN
         JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "camel-jpa-test.jar");
+        // EXCLUDE-BEGIN
         archive.addClass(Account.class);
         archive.addPackage(DirectToJPABuilder.class.getPackage());
         // Location of the Datasource definition file
