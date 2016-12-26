@@ -4,6 +4,7 @@
 :toc-title: Table of Content
 :numbered:
 
+
 = Fuse Integration Advanced Level
 
 toc::[]
