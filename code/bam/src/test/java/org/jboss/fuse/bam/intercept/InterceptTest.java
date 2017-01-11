@@ -59,6 +59,21 @@ public class InterceptTest extends CamelTestSupport {
         template.sendBodyAndHeader("direct:start", BODY, "usertype", "test");
                 
         assertMockEndpointsSatisfied();        
+    }
+
+    @Test
+    public void testInterceptFromPredNoop() throws Exception {      
+        
+        MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
+        resultEndpoint.expectedMessageCount(1);
+        resultEndpoint.message(0).body().equals(BODY);
+
+        MockEndpoint interceptEndpoint = getMockEndpoint("mock:intercepted");
+        interceptEndpoint.expectedMessageCount(0);
+        
+        template.sendBodyAndHeader("direct:start1", BODY, "usertype", "test");
+                
+        assertMockEndpointsSatisfied();        
     }    
 
     @Override
@@ -71,11 +86,12 @@ public class InterceptTest extends CamelTestSupport {
         return new RouteBuilder() {
             public void configure() {
 		intercept().when(body().contains("Hello")).to("log:hello").to("mock:intercept");
-		interceptFrom()
+		interceptFrom("direct:start")
 		    .when(header("usertype").isEqualTo("test"))
 			    .to("mock:intercepted");
  
 		from("direct:start").to("mock:result");
+		from("direct:start1").to("mock:result");
 
             }
         };
