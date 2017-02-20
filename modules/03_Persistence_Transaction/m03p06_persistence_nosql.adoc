@@ -3,11 +3,11 @@
 [#persistence-nosql]
 == Persistence NoSQL & Caching
 
-* Several NoSQL components proposed
+* Several NoSQL components supported
 ** Infinispan, HazelCast, EHCache
 ** MongoDB, Apache Cassandra
 ** HawtDB, Couchbase, Gora
-* Could be used for caching purposes
+* Could be used for caching
 
 .References
 
@@ -20,10 +20,7 @@ ifdef::showscript[]
 
 == Persistence NoSQL & Caching
 
-The Apache Camel project proposes also Non SQL Components that we can use to design additional use cases for the client's project. The most well-know technologies are supported as MongoDB, Apache Cassandra
-EHCache (= Hibernate caching), Couchbase but also the new players like JBoss Infinispan, Apache Gora. One of the key benefit of some of the NoSQL components is that they can be used to cache information, to replicate using several
-JVM the cache between the nodes for high availability purposes. As Apache Camel doesn't provide any scope as proposed by the JavaEE technology, a NoSQL component could be used to provide such cache
-of keys, parameters shared between different CamelContexts.
+The Apache Camel project supports NoSQL components like MongoDB, Apache Cassandra, EHCache (Hibernate caching), Couchbase but also newer projects like JBoss Infinispan, Apache Gora. One of the key benefit of some of the NoSQL components is that they can be used to cache information. High availability can be provided by replicating the cache using multiple JVMs. A cache of <key,value> pairs can be shared across multiple camel contexts.
 
 ****
 endif::showscript[]

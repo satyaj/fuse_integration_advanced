@@ -4,12 +4,13 @@
 == Idempotent Consumer
 
 * Idempotent Consumer : Filter out duplicate messages
-* Use an expression to calculate an unique ID challenged against a repository
-* On completion Camel will remove the message id from the repository if the Exchange failed, otherwise it stays there.
+* Use an expression to calculate an unique ID
+* Generated ID can be checked against a repository
+* On completion Camel will remove the message id from the repository if the Exchange fails, otherwise it stays there.
 * Repository persistence supported using :
 ** File, Hazelcast, JDBC, JPA, Infinispan, EHCache, SpringCache
 * Extend use cases :
-** Avoid to consume duplicate messages when using distinct Tx Managers
+** Avoid consuming duplicate messages when using distinct Tx Managers
 
 .References
 
@@ -21,11 +22,8 @@ ifdef::showscript[]
 
 == Idempotent Consumer
 
-The Idempotent consumer is one of the most famous EIP Pattern acting as an agent to filter out the duplicate messages. It uses an expression to calculate an unique ID challenged against a repository.
-If the ID is already present within the repository, then the message is discarded, otherwise it will be processed. On completion Camel will remove the message id from the repository if the Exchange failed, otherwise it stays there.
-This use case is very important as it allows to avoid to consume duplicate messages when typically the route has been designed using distinct Tx Managers. In this case, it will provide a compensation mechanism and will
-avoid to use a Global Tx Manager. Several persistent storage are supported to allow the repository values to be recovered in case of a crash of the JVM. Such persistent storage are listed here after :
-FileIdempotentRepository, HazelcastIdempotentRepository, JdbcMessageIdRepository, JpaMessageIdRepository, InfinispanIdempotentRepository, JCacheIdempotentRepository, SpringCache & EhcacheIdempotentRepository
+The Idempotent consumer EIP Pattern can be used to filter out duplicate messages. It uses an expression to calculate an unique ID which is challenged against a repository. If the ID is already present within the repository, then the message is discarded, otherwise it will be processed. On completion Camel will remove the message id from the repository if the Exchange failed, otherwise it stays there. When using distinct Tx managers, it makes it possible to vavoid consuming duplicate messages. Persistent storage can be used to recover the IDs in the repository after a JVM crash. These are listed here :
+FileIdempotentRepository, HazelcastIdempotentRepository, JdbcMessageIdRepository, JpaMessageIdRepository, InfinispanIdempotentRepository, JCacheIdempotentRepository, SpringCache & EhcacheIdempotentRepository.
 
 ****
 endif::showscript[]

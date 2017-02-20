@@ -5,7 +5,7 @@
 
 * Goal of the Detour/Wiretap : route information to another destination
 * Can be implemented using WireTap EIP Pattern in FireForget mode
-* Message copied or new created
+* Message copied or created
 +
 .WireTap Example
 [source]

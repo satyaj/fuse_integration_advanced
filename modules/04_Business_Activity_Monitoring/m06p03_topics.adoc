@@ -3,7 +3,7 @@
 [#topics]
 == Module Topics
 
-By completing this module you will learn about the following topics which cover the Business Activities Monitoring concepts :
+In this module you will learn about the following topics which cover the Business Activities Monitoring concepts :
 
 * Use EIP patterns to collect the Business information
 * Intercept Camel Exchanges using the consumer, producer or a condition

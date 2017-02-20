@@ -5,8 +5,8 @@
 
 * Goal : Intercept information at a producer, consumer endpoint
 * Predicate can be triggered according to condition
-* Information can be routed to another processors
-* Process is done synchronously
+* Information can be routed to other processors
+* Processed synchronously
 +
 .Intercept Example
 [source]
