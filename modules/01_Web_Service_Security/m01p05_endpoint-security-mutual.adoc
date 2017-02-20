@@ -5,8 +5,8 @@
 
 .TLS with Mutual Authentication
 * Configure the Server with the +<sec:ClientAuthentication/>+
-* TrustManager is required by both client/server
-* only for mutual authentication, is the key manager required on the client side
+* TrustManager is required by both client and server
+* KeyManager is only required at client side for Mutual Authentication
 +
 [source,xml]
 ----

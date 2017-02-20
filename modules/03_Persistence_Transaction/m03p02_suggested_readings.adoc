@@ -3,7 +3,7 @@
 == Suggested Readings & work
 
 .Exercise yourself
-* Read Camel, Persistence and Transactional chapters part of the Camel Development with JBoss Fuse course
+* Read the Persistence and Transactional chapters part of the Camel Development with JBoss Fuse course
 * Develop some examples based on JPA spec or Java JDBC
 * Review Java Transactions, JTA
 

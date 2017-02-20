@@ -3,10 +3,10 @@
 [#persistence-jpa]
 == Persistence JPA
 
-* JPA Component supported on JBoss Fuse & EAP as module
+* JPA Component supported on JBoss Fuse & on EAP as a module
 * Propose a SharedEntityManager and EntityManager
-* Component can be used as Tx Client or part of an Tx Route
-* Consumer supports; query, nativeQuery, namedQuery or Parameters
+* Component can be used as Tx Client or as part of an Tx Route
+* Consumer supports: query, nativeQuery, namedQuery or Parameters
 
 .References
 
@@ -21,9 +21,9 @@ ifdef::showscript[]
 
 == Persistence JPA
 
-The Apache JPA component is certainly one of the most elaborated component as it offers a panel of many features starting from the consumer to the producer or idempotent repository pattern. It also
-can be used in combination with a Transaction Manager to be used as Transaction Client or part of a Transacted Route. One of the key benefit of this component concerns the great flexibility that we have to manage
-the query as different modes are proposed query, nativeQuery, namedQuery or Parameters. The latter will use a Java Util Map object to map the information saved within the registry with the query to be parameterized.
+The Apache JPA component is offers a variety  of features like the consumer, producer and idempotent repository pattern.
+It can also be used in combination with a Transaction Manager to be used as Transaction Client or part of a Transacted Route. One of the key benefits of this component is the flexibility offered through the different modes : query, nativeQuery, namedQuery or parameterized query. The latter will use a Java Util Map object to map the information saved within the registry with the query to be parameterized.
+
 
 ****
 endif::showscript[]
