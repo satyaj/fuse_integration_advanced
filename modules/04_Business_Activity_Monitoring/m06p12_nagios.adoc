@@ -1,7 +1,7 @@
 :noaudio:
 
 [#integration]
-== Integrate with Mngt Platform
+== Integrate with Management Platform
 
 * Goal : Collect camel routes info and send the information using a Management Platform
 * Using Nagios

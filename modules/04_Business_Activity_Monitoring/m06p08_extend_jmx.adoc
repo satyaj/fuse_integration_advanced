@@ -4,10 +4,9 @@
 == Extend JMX
 
 * Goal : Register MBeans to collect info or expose operations
-* Use Spring to register them using:
-* @ManagedResource, @ManagedOperation, @ManagedAttribute annotations
+* Use Spring to register them using: @ManagedResource, @ManagedOperation, @ManagedAttribute annotations
 +
-.Jmx Example
+.JMX Example
 [source,java]
 ----
 @ManagedResource(objectName = "mbeans:name=myJmxDemoBean", description = "My managed Bean.")

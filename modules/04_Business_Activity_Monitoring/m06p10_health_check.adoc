@@ -4,7 +4,7 @@
 == Health Check
 
 * Goal : Control/check if endpoints (producer/consumer) are still healthy
-* Require camel-metrics component and/or at least Dropwizard Metrics api
+* Require camel-metrics component and/or Dropwizard Metrics API
 * Allow to register some beans controlling the status of the endpoints, route or context
 +
 .Camel Context Health Example

@@ -13,7 +13,7 @@ image:image/attributes.png[]
 image:image/operations.png[]
 +
 * Or Using camel-metrics component
-* At runtime the metrics can be accessed from Java API/JMX which allows to gather the data as json output.
+* At runtime the metrics can be accessed from Java API/JMX which allows to gather the data as JSON output.
 +
 .History Example
 [source]

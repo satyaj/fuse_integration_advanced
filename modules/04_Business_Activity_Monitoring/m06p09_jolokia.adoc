@@ -3,7 +3,8 @@
 [#jolokiajmx]
 == JMX & Jolokia
 
-* Integrate them with Jolokia using @JsonMbean
+* Jolokia is a JMX-HTTP bridge
+* Integrate with Jolokia using @JsonMbean
 * Work also with JMX support libraries which use ModelMBeans under the hood
 * Serialisation of complex Java Beans is more powerful with JsonMBeans
 +
