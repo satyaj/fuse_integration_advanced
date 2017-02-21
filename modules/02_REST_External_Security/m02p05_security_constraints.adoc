@@ -6,7 +6,7 @@
 * Concept : Combine User role(s) with Resource Access Paths
 * Goal : restrict or allow access to resources
 * Implementation : web container or component specific
-* Operation is sometimes supported (GET, POST, PUT, ...)
+* Operations are supported (GET, POST, PUT)
 * How: URL requested matched with one the rule(s)
 
 .Example
@@ -27,13 +27,11 @@ ifdef::showscript[]
 
 == Restrict Access to Resources
 
-When a RESTFull Application is developed, several web resources will be defined and identified by Uniform Resource Identifiers or URIs. Those URIs will be operated through one of the verbs supported by the HTTP Agent and the
- server (GET, POST, PUT, DELETE, ...). To deny or allow the access to these Web Resources, it is possible to define a collection of authorization rules describing which resources are accessible and how they could be reached using a role.
-Such rule or Constraint are supported by many Web Containers (Jetty, Netty HTTP, ...) and can be described according to the mechanism that they provide. By example, it is possible with Jetty to declare a Constraint, to enable the HTTP Basic Authentication mode,
-to assign the roles authorized and next to declare a ConstraintMapping containing the path to the Web Resource and the Verb that we can use to access the resource.
+When a RESTFul Application is developed, several web resources will be defined and identified by Uniform Resource Identifiers or URIs. Those URIs will be accessed via one of the verbs supported by the HTTP Agent and the server (GET, POST, PUT, DELETE). To deny or allow the access to these Web Resources, it is possible to define a collection of authorization rules describing which resources are accessible and how they could be reached using a role.
+Such rule or Constraint are supported by many Web Containers (Jetty, Netty HTTP) and can be described according to the mechanism that they provide. For example, with the Jetty container to declare a constraint for enabling the HTTP Basic Authentication mode. You can specify the authorized roles declare a ConstraintMapping containing the path to the Web Resource and the Verb.
 
-By combining the HTTP Authentication Basic mechanism with SSL/TLS transport and such constraints, you will have the possibility to secure your RESTfull Services. Nevertheless, the disadvantage of this approach is that the Authorization to deny/allow the access to the Web Resources
-is defined at the level of the Web Container, is project dependent as the support / implementation is different between Jetty/Netty HTTP, ... and will require to stop/start the Web server if new Security Constraints should be supported.
+By combining the HTTP Authentication Basic mechanism with SSL/TLS transport and such constraints, you will have the possibility to secure your RESTful Services. Nevertheless, the disadvantage of this approach is that the Authorization to deny/allow the access to the Web Resources
+is defined at the level of the Web Container, is project dependent as the support / implementation is different between Jetty/Netty HTTP and will require restarting the Web server if new Security Constraints need to be supported.
 
 Remark : The Java class used to authenticate the user id sending its credentials using Basic Authentication must be able to retrieve the user's role from the properties file containing this information.
 
