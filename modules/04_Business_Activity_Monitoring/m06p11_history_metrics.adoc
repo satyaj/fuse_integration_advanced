@@ -7,10 +7,10 @@
 * Can be retrieved using JMX attributes/operations
 +
 .JMX Stats Attributes
-image:image/attributes.png[]
+image:images/attributes.png[]
 +
 .JMX Stats Operation
-image:image/operations.png[]
+image:images/operations.png[]
 +
 * Or Using camel-metrics component
 * At runtime the metrics can be accessed from Java API/JMX which allows to gather the data as JSON output.
