@@ -13,6 +13,7 @@ import java.util.Map;
 public class WiretapTest extends CamelSpringTestSupport {
 
     @EndpointInject(uri = "mock:wiretap-output") private MockEndpoint wiretapEndpoint;
+    @EndpointInject(uri = "mock:wiretap-output-new") private MockEndpoint wiretapEndpointNew;
 
     @Test
     public void testWiretapWithCopy() throws Exception {
@@ -37,6 +38,19 @@ public class WiretapTest extends CamelSpringTestSupport {
         assertEquals("Delong", row.get("FAMILY_NAME"));
         assertEquals("jdelong@redhat.com", row.get("EMAIL"));
 	*/
+        // EXCLUDE-END
+    }
+
+    @Test
+    public void testWiretapWithNew() throws Exception {
+        // EXCLUDE-BEGIN
+        wiretapEndpointNew.expectedMessageCount(1);
+        wiretapEndpointNew.expectedBodiesReceived("modified body");
+        // send an Exchange to the wiretap with new route
+	template.sendBody("direct://wiretap-new", "my test message to be tapped");
+
+        // verify results
+        wiretapEndpointNew.assertIsSatisfied();
         // EXCLUDE-END
     }
 

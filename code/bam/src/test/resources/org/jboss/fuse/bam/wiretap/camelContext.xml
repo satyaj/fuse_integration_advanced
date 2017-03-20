@@ -22,6 +22,19 @@
 	    <log message="Got ${body}"/>
 	    <to uri="mock:wiretap-output"/>
         </route>
+
+	<route>
+	  <from uri="direct:wiretap-new"/>
+	  <wireTap uri="direct:tap-new" copy="false">
+	    <body><simple>modified body</simple></body> 
+	  </wireTap>
+	  <to uri="mock:result"/>
+	</route>
+        <route>
+            <from uri="direct:tap-new"/>
+	    <log message="Got ${body}"/>
+	    <to uri="mock:wiretap-output-new"/>
+        </route>
         <!-- EXCLUDE-END -->
     </camelContext>
 
