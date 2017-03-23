@@ -17,6 +17,7 @@ public class InterceptTest extends CamelTestSupport {
 
     @Test
     public void testInterceptPred() throws Exception {
+	// EXCLUDE-BEGIN
         
         MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
         resultEndpoint.expectedMessageCount(1);
@@ -29,10 +30,12 @@ public class InterceptTest extends CamelTestSupport {
         template.sendBody("direct:start", BODY);
                 
         assertMockEndpointsSatisfied();        
+	// EXCLUDE-END
     }
 
     @Test
     public void testInterceptPredNoop() throws Exception {      
+	// EXCLUDE-BEGIN
         
         MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
         resultEndpoint.expectedMessageCount(1);
@@ -44,10 +47,13 @@ public class InterceptTest extends CamelTestSupport {
         template.sendBody("direct:start", BODY1);
                 
         assertMockEndpointsSatisfied();        
+	// EXCLUDE-END
+
     }    
     
     @Test
     public void testInterceptFromPred() throws Exception {      
+	// EXCLUDE-BEGIN
         
         MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
         resultEndpoint.expectedMessageCount(1);
@@ -59,10 +65,12 @@ public class InterceptTest extends CamelTestSupport {
         template.sendBodyAndHeader("direct:start", BODY, "usertype", "test");
                 
         assertMockEndpointsSatisfied();        
+	// EXCLUDE-END
     }
 
     @Test
     public void testInterceptFromPredNoop() throws Exception {      
+	// EXCLUDE-BEGIN
         
         MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
         resultEndpoint.expectedMessageCount(1);
@@ -74,6 +82,7 @@ public class InterceptTest extends CamelTestSupport {
         template.sendBodyAndHeader("direct:start1", BODY, "usertype", "test");
                 
         assertMockEndpointsSatisfied();        
+	// EXCLUDE-END
     }    
 
     @Override
@@ -85,6 +94,7 @@ public class InterceptTest extends CamelTestSupport {
     protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
             public void configure() {
+	// EXCLUDE-BEGIN
 		intercept().when(body().contains("Hello")).to("log:hello").to("mock:intercept");
 		interceptFrom("direct:start")
 		    .when(header("usertype").isEqualTo("test"))
@@ -92,6 +102,7 @@ public class InterceptTest extends CamelTestSupport {
  
 		from("direct:start").to("mock:result");
 		from("direct:start1").to("mock:result");
+	// EXCLUDE-END
 
             }
         };

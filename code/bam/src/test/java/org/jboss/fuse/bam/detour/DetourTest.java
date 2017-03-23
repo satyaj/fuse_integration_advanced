@@ -17,6 +17,7 @@ public class DetourTest extends CamelTestSupport {
 
     @Test
     public void testDetourSet() throws Exception {
+	// EXCLUDE-BEGIN 
         controlBean.setDetour(true);
         
         MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
@@ -30,10 +31,12 @@ public class DetourTest extends CamelTestSupport {
         template.sendBody("direct:start", BODY);
                 
         assertMockEndpointsSatisfied();        
+	// EXCLUDE-END
     }
 
     @Test
     public void testDetourNotSet() throws Exception {      
+	// EXCLUDE-BEGIN
         controlBean.setDetour(false);
         
         MockEndpoint resultEndpoint = getMockEndpoint("mock:result");
@@ -46,6 +49,7 @@ public class DetourTest extends CamelTestSupport {
         template.sendBody("direct:start", BODY);
                 
         assertMockEndpointsSatisfied();        
+	// EXCLUDE-END
     }    
     
     @Override
@@ -59,9 +63,11 @@ public class DetourTest extends CamelTestSupport {
     protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
             public void configure() {
+	// EXCLUDE-BEGIN
                 from("direct:start").choice()
                     .when().method("controlBean", "isDetour").to("mock:detour").end()
                     .to("mock:result");                
+		// EXCLUDE-END
             }
         };
     }

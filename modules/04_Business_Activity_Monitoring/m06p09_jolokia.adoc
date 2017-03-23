@@ -37,7 +37,9 @@ ifdef::showscript[]
 ****
 
 == Extend JMX
+JMX 1.4 introduced MXBeans which allows for nearly arbitrary data to be translated into so called OpenData which are accessible via JMX. For example, arbitrary Java Beans are translated into a CompositeData structure with property names as keys and their values in OpenData values.
 
+Jolokia provides an annotation @JsonMBean for marking an MBean as a JSON MBean. Such an MBean, if registered at the Jolokia MBeanServer creates a proxy on the PlatformMBeanServer where every complex value gets translated into plain strings in JSON format. This is true for attributes, operation return values and arguments. That way, a JSR-160 based console (like jconsole) can easily access complex data type exposed by custom MBeans. Json MBeans work for Java 6 and newer.
 
 ****
 endif::showscript[]

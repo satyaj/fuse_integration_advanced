@@ -30,6 +30,7 @@ ifdef::showscript[]
 ****
 
 == Extend JMX
+“Camel registers many MBeans that expose statistics and operations for management. Those MBeans are divided into eleven categories. Most MBeans expose a set of standard information and operations, concerning things such as lifecycle.”
 
 
 ****

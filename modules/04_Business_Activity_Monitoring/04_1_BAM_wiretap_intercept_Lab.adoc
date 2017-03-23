@@ -45,7 +45,7 @@ The different use cases should be developed as a collection of Java JUnit Test c
 [[usecase1]]
 === Use Detour & WireTap pattern
 
-- Develop a Junit Test case covering the Detour. As Detour does not correspond to a DSL word, it should be implemented using a ContentBaseRouter base on a condition which is evaluated when a message
+- Develop a Junit Test case covering the Detour. As Detour does not correspond to a DSL word, it should be implemented using content based routing on a condition which is evaluated when a message
   is received to forward or detour the content to a producer or group of processors. The condition could be defined as a boolean value defined in a class
 - Develop a Junit Test case covering the WireTap Pattern. Design 2 methods where you will check that the students have implemented a wiretap using a copy of the original exchange but also where
   they have created a new exchange.
