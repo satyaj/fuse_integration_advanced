@@ -51,7 +51,7 @@ consumer, next the Camel bindy Dataformat to transform the CXF record received i
 To design this use case, you will develop the content of the :
 
 - Spring XML Beans file to include the Apache Camel route definition but also the beans +org.apache.camel.processor.idempotent.jpa.JpaMessageIdRepository+ and +org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean+
-- Persistence.xml unit file under the folder META-INF. The name of the persistence unit is +idempotentDb+, url of the database to be used "jdbc:h2:mem:idempotentReport", database driver +org.h2.Driver+. Hibernate is used as ORM/JPA Framework
+- Persistence.xml unit file under the folder META-INF. The name of the persistence unit is +idempotentDb+, url of the database to be used "jdbc:h2:mem:idempotentReport", database driver +org.h2.Driver+, class name: org.apache.camel.processor.idempotent.jpa.MessageProcessed. Hibernate is used as ORM/JPA Framework
 - The Junit Test class +org.jboss.fuse.persistence.idempotent.CamelIdempotentTest+ with these methods :
 ** testSendDifferentCsvRecords() : Send to the direct endpoint the following String & assert that the mock result endpoint will receive 2 exchanges
 +
