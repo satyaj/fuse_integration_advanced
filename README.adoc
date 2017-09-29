@@ -4,7 +4,6 @@
 :toc-title: Table of Content
 :numbered:
 
-
 = Fuse Integration Advanced Level
 
 toc::[]
@@ -70,4 +69,5 @@ The use cases available are grouped by module and they correspond to skills set 
 ** Split the content using the Tokenize & Xpath Languages
 ** Process the dataflow in parallel
 ** Use of the stream component
+
 

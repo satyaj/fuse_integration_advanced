@@ -42,7 +42,7 @@ and assign it to the Basic Auth Policy and publish it.
 By creating an organization, we define a project/namespace that Apiman will use to group all the related Web Resources or Apis together. This organization will represent within a project a group of related Endpoints part of an
 application or part of several applications related.
 
-The Api that will will register corresponds to our target endpoint that we want to secure. It is encoded and can be documented with its correspoding Swagger JSON/Yaml file. When the Api has been encoded to a specifc
+The Api that will will register corresponds to our target endpoint that we want to secure. It is encoded and can be documented with its corresponding Swagger JSON/Yaml file. When the Api has been encoded to a specifc
 version, we will add a Policy and will select the BasicAuthenticationPolicy. This policy provides different options to use the HTTPS scheme, define the realm to be used for the communication between the Server and the
  client like also how to match the extracted user-id and password against a static list of users, a LDAP repo or a JDBC database.
 

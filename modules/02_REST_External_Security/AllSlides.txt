@@ -1,3 +1,4 @@
+:course_git_repo: https://github.com/gpe-mw-training/advanced-integration-labs.git
 
 include::m02p01_cover.adoc[]
 include::m02p02_suggested_readings.adoc[]

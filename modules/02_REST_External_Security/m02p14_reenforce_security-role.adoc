@@ -22,11 +22,11 @@ ifdef::showscript[]
 One of the key benefit to use Keycloak in combination with Apiman is that you can define roles to a realm within the Keycloak Management console and next map the roles with a HTTP Action (= aka a verb)
 using the Authorization Rule Plugin of Apiman.
 
-To achieve this goal, when ypou will configure the Authorization Rule Plugin, you will describe as a list a collection of rules in order to specify for a Web Resource or PATH, the Verb or Action allowed and the role
+To achieve this goal, when you will configure the Authorization Rule Plugin, you will describe as a list a collection of rules in order to specify for a Web Resource or PATH, the Verb or Action allowed and the role
 assigned. When the HTTP client will call the gateway, ths Keycloak plugin will extract the JWT Token, verify if the token is still valid and if this is still the case, it will extract from the token, the role assigned to the user.
 Based on this role, it will check the authorization policy rule and will deny/allow the access to the resource.
 
-This approach offers the advanatage to externalize the authentication of the HTTP Client outside of Apiman according to a Realm defined, to use the token passed by the client when it will call the RESTFull Service to deny/allow the access
+This approach offers the advantage to externalize the authentication of the HTTP Client outside of Apiman according to a Realm defined, to use the token passed by the client when it will call the RESTFull Service to deny/allow the access
 to the service without having to manage locally the security aspects excepted the Security Constraints which are the Authorization rules.
 
 ****

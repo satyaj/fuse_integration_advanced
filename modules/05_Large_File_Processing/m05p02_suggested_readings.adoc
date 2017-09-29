@@ -21,7 +21,7 @@ ifdef::showscript[]
 
 In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about the EIP Patterns within the Camel Development with JBoss Fuse course.
 As we will investigate the strategies available to process Large Files but also Messages containing Big String, XML files, it is important that you create some Camel Routes using the
-file, ftp or JMS components to collect such big volumes of information to be processed and yu review how to use the EIP Splitter & Aggregator patterns.
+file, ftp or JMS components to collect such big volumes of information to be processed and you review how to use the EIP Splitter & Aggregator patterns.
 
 ****
 endif::showscript[]
