@@ -52,6 +52,7 @@
     <bean id="customerWSImplBean" class="org.fuse.usecase.service.CustomerWSImpl"/>
     <bean id="customerRestImplBean" class="org.fuse.usecase.service.CustomerRestImpl"/>
     <bean id="processorBean" class="org.fuse.usecase.ProcessorBean"/>
+    <bean id="opJsonFile" class="org.fuse.usecase.ReadFile"/>
 
     <!--  THIS PROVIDER DOESN'T WORK & RETURN ERROR 415 Unsupported Media Type
       It can't also handle the Body : No message body reader has been found for
@@ -94,21 +95,16 @@
         <!-- Multicast the account to the REST & WS to aggregate the result -->
         <route>
             <from uri="direct:enrichCustomer"/>
-            <log message=">> enrichCustomer:: Received the ID: ${header.id}"/>
-<!--             <pollEnrich uri="file://{{fileInput}}?fileName=account-${header.id}.json" timeout="1000"/> -->
-            <setBody>
-                <simple>{"company":{"name":"Robocops","geo":"NA","active":true},"contact":{"firstName":"Bill","lastName":"Smith","streetAddr":"100 N Park Ave.","city":"Phoenix","state":"AZ","zip":"85017","phone":"200-555-1000"},"clientId":0,"salesRepresentative":null}</simple>
-            </setBody>
+            <log loggingLevel="DEBUG" message=">> enrichCustomer:: Received the ID: ${header.id}"/>
+            <bean ref="opJsonFile" method="readFile"/>
             <convertBodyTo type="String"/>
-<!--             <multicast strategyRef="reconcileData"> -->
             <multicast>
-<!--                 <to uri="direct://callRestEndpoint"/> -->
                 <to uri="direct://callWSEndpoint"/>
             </multicast>
 	    
-<!--             <log message=">> After multicast:: ${body.company} ${body.contact}"/> -->
-<!--             <log loggingLevel="INFO" -->
-<!--                  message=">> Aggregated result: Account : ${body[0].clientId}, ${body[0].salesRepresentative}; Company : ${body[0].company.name}, ${body[0].company.geo}, ${body[0].company.active}; Contact : ${body[0].contact.firstName}, ${body[0].contact.lastName}, ${body[0].contact.streetAddr}, ${body[0].contact.city}, ${body[0].contact.state}, ${body[0].contact.zip}, ${body[0].contact.phone}"/> -->
+            <log loggingLevel="DEBUG" message=">> After multicast:: ${body.company} ${body.contact}"/>
+            <log loggingLevel="DEBUG"
+                 message=">> Aggregated result: Account : ${body[0].clientId}, ${body[0].salesRepresentative}; Company : ${body[0].company.name}, ${body[0].company.geo}, ${body[0].company.active}; Contact : ${body[0].contact.firstName}, ${body[0].contact.lastName}, ${body[0].contact.streetAddr}, ${body[0].contact.city}, ${body[0].contact.state}, ${body[0].contact.zip}, ${body[0].contact.phone}"/>
 
             <to uri="direct:insertDB"/>
         </route>
