@@ -23,13 +23,18 @@ public class ReadFile {
 	Object idObj = exchange.getIn().getHeader("id");
 	String sSuffix = idObj.toString();
 	int suffix = Integer.valueOf(sSuffix);
-	String fileName = "/Users/nandanjoshi/partnertraining/fuse_integration_experienced/code/02_enrich-content-REST-and-WS/routing/src/data/outbox/.camel/account-" + suffix + ".json";
+	Object fileObj = exchange.getIn().getHeader("fileDir");
+	String fileDir = fileObj.toString();
+	//	String fileName = fileDir + "account-" + suffix + ".json";
+	String fileName = "/Users/nandanjoshi/partnertraining/fuse_integration_advanced/code/homework/routing/" + fileDir + "account-" + suffix + ".json";
+	System.out.println("fileName = " + fileName + "\n");
         FileInputStream fis = new FileInputStream(fileName);
         StringBuffer buf = new StringBuffer();
         while ((c = fis.read()) != -1) {
             buf.append((char) c);
         }
         fis.close();
+	System.out.println("Contents of the file are " +buf.toString() + "\n");
         exchange.getIn().setBody(buf.toString());
     }
 }

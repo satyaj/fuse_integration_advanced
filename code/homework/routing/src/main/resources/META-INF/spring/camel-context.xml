@@ -96,7 +96,12 @@
         <route>
             <from uri="direct:enrichCustomer"/>
             <log loggingLevel="DEBUG" message=">> enrichCustomer:: Received the ID: ${header.id}"/>
+	    <setHeader headerName="fileDir">
+	      <constant>{{fileInput}}</constant>
+	    </setHeader>
+            <log loggingLevel="INFO" message=">> Before bean invocation:: ${header.fileDir}"/>
             <bean ref="opJsonFile" method="readFile"/>
+            <log loggingLevel="INFO" message=">> After bean invocation:: ${body}"/>
             <convertBodyTo type="String"/>
             <multicast>
                 <to uri="direct://callWSEndpoint"/>
