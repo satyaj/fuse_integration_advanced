@@ -38,7 +38,7 @@ ifdef::showscript[]
 
 == Intercept
 
-.
+The Camel intercept feature is used to intercept exchanges much like AOP; the interception can be done in multiple modes. The 1st example shown invokes the log function before each step in the camel route. The interceptFrom feature in contrast intercepts each incoming exchange. In addition, a predicate may be applied to selectively intercept exchanges, based on certain conditions. An advanced feature available is the ability to intercept exchanges based on wildcards, URI and regular expressions. In addition, the interceptSendToEndpoint feature allows for a detour functionality to be implemented when an exchange is being sent to an endpoint. As we know, the detour can be used to encode any kind of processing logic.
 
 ****
 endif::showscript[]

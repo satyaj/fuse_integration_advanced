@@ -36,7 +36,7 @@ ifdef::showscript[]
 ****
 
 == Detour Wiretap
-
+We discuss the wiretap EIP and the detour logic to explain how messages may be re-routed to another destination. The wiretap EIP that is provided with Camel can be sent, as shown in the example above, to another route. This route can send this exchange to a mock endpoint, which can be part of a unit test. Using a wiretap EIP, you can either send a copy of the exchange or create a new exchange populated with different values.  There is no built-in detour EIP, so the functionality can be implemented with a choice function (as shown above) to send the exchange to a detour route under certain conditions.. 
 
 ****
 endif::showscript[]

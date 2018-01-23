@@ -19,10 +19,8 @@ ifdef::showscript[]
 
 == Module Topics
 
-This module covers different technologies that you can use within a project to Monitor the activities related to the Business. These activities are in fact, the
-message, body or headers information transported through the different Camel Routes. The techniques to be used can be classified from less invasive to more invasive depending
-if you prefer to use a EIP pattern, interceptor or extend the code using an Event Notification approach. through this module, we will investigate the different
-mechanisms and explain how to use it.
+This module covers different service monitoring techniques in JBoss Fuse. Information in the message, body or headers  transported through the different Camel Routes can be inspected. The techniques used range from less invasive to more invasive depending on whether you use a EIP pattern, interceptor or a code extension via Event Notifications. 
+
 
 ****
 endif::showscript[]

@@ -30,7 +30,7 @@ ifdef::showscript[]
 ****
 
 == Extend JMX
-“Camel registers many MBeans that expose statistics and operations for management. Those MBeans are divided into eleven categories. Most MBeans expose a set of standard information and operations, concerning things such as lifecycle.”
+Camel supports monitoring and controlling Camel objects by supporting JMX. Camel registers many MBeans that expose statistics and operations for management. Those MBeans are divided into eleven categories. Most MBeans expose a set of standard information and operations, concerning things such as lifecycle. In order to monitor your application, you can use the JConsole UI to connect to local or remote hosts.
 
 
 ****

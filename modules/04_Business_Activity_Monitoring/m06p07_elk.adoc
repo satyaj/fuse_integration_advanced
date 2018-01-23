@@ -1,12 +1,12 @@
 :noaudio:
 
-[#elk]
-== ElasticSearch LogStash Kibana
+[#efk]
+== ElasticSearch Fluentd Kibana
 
 * Goal : Store and manage the info collected
-* How To : Store the data as json indexed document within ElasticSearch No SQL store
+* How To : Store the data as json indexed document within ElasticSearch
 * Consult and search information using Kibana Dashboard
-* Combine different source of info using LogStash
+* Combine different sources of info using Fluentd
 
 ifdef::showscript[]
 [.notes]
