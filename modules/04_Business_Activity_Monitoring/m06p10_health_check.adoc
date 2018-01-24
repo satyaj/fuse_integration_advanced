@@ -35,6 +35,7 @@ ifdef::showscript[]
 
 == Health Check
 
+The goal of health checks is to ensure that the camel context has started and the Camel endpoints are healthy. Apache Camel comes with health check integrated with Spring Boot if you are using actuators. The health check does a coarse grained check to ensure that Camel started up properly. As show in the example, you can write your own check by implementing the HealthCheck interface or by extending AbstractHealthCheck which provides some useful methods.
 
 ****
 endif::showscript[]

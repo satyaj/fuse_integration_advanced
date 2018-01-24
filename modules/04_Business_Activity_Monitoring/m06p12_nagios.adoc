@@ -22,6 +22,7 @@ ifdef::showscript[]
 ****
 
 == Integrate with Mngt Platform
+Using the camel nagios component, you can send passive checks or event notifications to the Nagios platform using the Nagios endpoint. In the example shown here, a message of critical severity is being reported. Additional examples of use of this component can be found within the Apache Camel suite of tests in Github.
 
 ****
 endif::showscript[]

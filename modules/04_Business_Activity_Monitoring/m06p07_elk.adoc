@@ -12,7 +12,8 @@ ifdef::showscript[]
 [.notes]
 ****
 
-== ElasticSearch Logstash Kibana
+== ElasticSearch Fluentd Kibana
+Given the amount of data created in an enterprise application, it is necessary to use tools like EFK to make sense of it. ElasticSearch is used to store and index the data, Fluentd is used to aggregate data from multiple sources and Kibana is used for visualization.
 
 
 ****
