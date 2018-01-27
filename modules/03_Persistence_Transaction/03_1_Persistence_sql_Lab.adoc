@@ -1,133 +1,142 @@
-:noaudio:
+:scrollbar:
+:data-uri:
+:linkattrs:
 :toc2:
 
-= Persistence with Camel 'SQL' Components
 
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Persistence with Camel SQL Components Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel JDBC component
-* Design Apache Camel Routes using DIRECT, MOCK, JDBC components
+* Configure your local environment to develop and explore use cases
+* Gain experience using the Apache Camel JDBC component
+* Design Apache Camel routes using Direct, Mock, and JDBC components
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with SQL, Database
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with SQL and databases
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you examine three use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-== Use case exercise
+=== Install Lab Project
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
+
 
 [[usecase1]]
-=== Query an Apache Derby database using an Apache Camel SQL component
+== Query Database Using Apache Camel SQL
 
-The goal of this use case is to design a Junit Test case where an Apache Derby Database will be created and populated with some records. This database will be used to
-select some SQL records using the Apache Camel JDBC component. The route that we will use within the Junit Test is based on a Direct consumer, responsible to
-send an Exchange object to the JDBC endpoint.
+In this use case, you develop a JUnit test case that creates an Apache Derby database and populates it with records. You use the Apache Camel JDBC component to select SQL records from this database. The route you use in the JUnit test is based on a Direct consumer, and is responsible for sending an Exchange object to the JDBC endpoint.
 
-The use case will be developed using the class +org.jboss.fuse.persistence.jdbc.SelectFromTest.java+ which extends the class +CamelSpringTestSupport+ class.
-This class will override the method of Spring used to pass as parameter the location of the Spring XML config file +src/test/resources/org/jboss/fuse/persistence/sql/camelContext.xml+.
-You will develop into this XML file the Apache Camel route exposing the +direct:start+ endpoint and sending the result to the +jdbc+ component.
-The SQL query that you will use +SELECT * FROM REPORT.T_INCIDENT+ to fetch the records from the Derby database will be assigned to the Camel Body Object and the result will be validated
-with some Assert rules within the method +testSelectFrom+.
+. Create the `org.jboss.fuse.persistence.jdbc.SelectFromTest.java` class, extending the `CamelSpringTestSupport` class.
 
-Here are the values that we expect to receive :
+. Override the Spring method used to specify the location of the Spring XML configuration file.
+* Use `src/test/resources/org/jboss/fuse/persistence/sql/camelContext.xml` as the configuration file.
 
-4 records containing for the second record these values :
+. Use the Spring JDBC framework to create a Derby embedded database with the name `testdb`.
+. In the XML file, perform these steps:
+.. Develop an Apache Camel route exposing the `direct:start` endpoint.
+.. Use a `SELECT * FROM REPORT.T_INCIDENT` SQL query to fetch records from the Derby database.
+.. Send the SQL query to the JDBC component.
+.. Assign the result of this query to the Camel Body object.
 
-* 2 for the INCIDENT_ID field
-* 002 for the  INCIDENT_REF field
-* Jeff for the GIVEN_NAME field
-* Delong for the FAMILY_NAME field
-* jdelong@redhat.com for the EMAIL field
+. In the `testSelectFrom` method, validate the results with `Assert` rules.
+. Verify that the second record contains these column/value pairs:
+* `INCIDENT_ID`: 2
+* `INCIDENT_REF`: 002
+* `GIVEN_NAME`: Jeff
+* `FAMILY_NAME`: Delong
+* `EMAIL`: jdelong@redhat.com
 
-NOTE: Use Spring JDBC framework to create a Derby embedded Database where the Database Name is testdb.
 
 [[usecase2]]
-=== Use a Named Parameters Query to fetch record from a Database using the JDBC Camel component
+== Use Named Parameter Query with JDBC Camel
 
-The goal of this use case is to design a Junit Test case where an Apache Derby Database will be created and populated with some records. This database will be used to
-select some SQL records using the Apache Camel JDBC component with a SQL query containing named parameters.
+In this use case, you develop a JUnit test case where an Apache Derby database is created and populated with records. This database is used to select some SQL records using the Apache Camel JDBC component with a SQL query containing named parameters.
 
-The use case will be developed using the class +org.jboss.fuse.persistence.jdbc.SelectFromTest.java+ which extends the class +SelectFromWithParamsTest+ class and the code to be tested
-will be created within the method +testNamedParametersQuery+.
+. Create an `org.jboss.fuse.persistence.jdbc.SelectFromTest.java` class that extends the `SelectFromWithParamsTest` class.
+* Reuse the Spring Camel XML configuration file created in the previous use case.
 
-Like the previous use case, we will use the following route definition +from(direct:select).to(jdbc)+ to send a Camel Exchange to the Direct endpoint. The message to be send will use as input this SQL Query definition
-+SELECT * FROM REPORT.T_INCIDENT where GIVEN_NAME = :?firstname AND FAMILY_NAME = :?lastname+. Initialize a map with the correct header values to be passed in as JBDC parameters to the select query.
+. Create the code to be tested in the `testNamedParametersQuery` method.
 
-Here are the values that we expect to receive :
+. Just as you did in the previous use case, use the `from(direct:select).to(jdbc)` route definition to send a Camel Exchange to the Direct endpoint.
+. Use the `SELECT * FROM REPORT.T_INCIDENT where GIVEN_NAME = :?firstname AND FAMILY_NAME = :?lastname` SQL query.
+. Initialize a map with the header values you want to pass in as JBDC parameters to the selected query.
+. Verify that you receive two records and that the first record contains these column/value pairs:
+* `INCIDENT_ID`: 1
+* `INCIDENT_REF`: 001
+* `GIVEN_NAME`: CharlesP
+* `FAMILY_NAME`: Moulliard
+* `EMAIL`: cmoulliard@redhat.com
 
-2 records containing for the first record these values :
-
-* 1 for the INCIDENT_ID field
-* 001 for the  INCIDENT_REF field
-* Charles for the GIVEN_NAME field
-* Moulliard for the FAMILY_NAME field
-* cmoulliard@redhat.com for the EMAIL field
-
-NOTE: You can reuse the Spring Camel XML config file created from the previous use case
 
 [[usecase3]]
-=== Use a Named Parameters Query to fetch record from a Database using the JDBC Camel component
+== Insert and Select Records Using JDBC Camel
 
-The goal of this use case is to design a Junit Test case where we will insert and select records from an Apache Derby Database using 2 different routes. So, you will design a first route to insert a record
-into the database using the JDBC component. The component that you will use to send the Insert Query is +direct:insert+. The query must be formatted using Named parameter. Here are the parameters
-that you will use to setup the insert query :
+In this use case, you develop a JUnit test case that uses one Camel route to insert records into a database and then uses another route to query the inserted records.
 
-- ref: named param of the field "INCIDENT_REF", value "005"
-- date: named param of the field "INCIDENT_DATE", value 2016-03-25"
-- firstname: named param of the field "GIVEN_NAME", value "Chad"
-- lastname: named param of the field "FAMILY_NAME", value "Darby"
-- summary: named param of the field "SUMMARY", value "Incident Course-005;
-- details: named param of the field "DETAILS", value "This is a report incident for course-005"
-- email: named param of the field "EMAIL", value "cdarby@redhat.com"
-- phone: named param of the field "PHONE", value "+111 10 20 300"
+=== Implement Camel Routes
+. Develop a route to insert a record into the database using the JDBC component.
+.. Use the `direct:insert` component to send the `INSERT` query.
+.. Format the query using the `Named` parameter.
 
-The second route is defined as such :
+. Use these parameters to set up the `INSERT` query:
++
+[cols="3",options="header"]
+|=====
+|Parameter  | Named Parameter of Field  | Value
+|`ref`      |`INCIDENT_REF`             |005
+|`date`     |`INCIDENT_DATE`            |2016-03-25
+|`firstname`|`GIVEN_NAME`               |Chad
+|`lastname` |`FAMILY_NAME`              |Darby
+|`summary`  |`SUMMARY`                  |Incident Course-005
+|`details`  |`DETAILS`                  |This is a report incident for course-005
+|`email`    |`EMAIL`                    |cdarby@redhat.com
+|`phone`    |`PHONE`                    |111 10 20 300
+|=====
 
-[source]
+. Create a second route to select records from the database:
++
+[source,text]
 ----
 from("direct:start")
 to("jdbc:testdb")
 to("mock:insert")
 ----
 
-The class to be used to create the Junit Test is +org.jboss.fuse.persistence.jdbc.InsertAndSelectFromTest+ and the java method +testInsertAndSelect+. As the method name suggests, you will first insert the record using the Camel endpoint
-+direct:insert+ and next control using the +mock:insert+ that you have received the following information :
+=== Implement Test Case
 
-5 records containing for the fifth record these values :
+. Create an `org.jboss.fuse.persistence.jdbc.InsertAndSelectFromTest` class.
+. Create a `testInsertAndSelect` Java method.
+. In the `testInsertAndSelect` method, insert the record using the `direct:insert` Camel endpoint.
+. In the `testInsertAndSelect` method, use the `mock:insert` Camel endpoint to verify that you receive five records and that the fifth record contains these column/value pairs:
+* `INCIDENT_ID`: 5
+* `INCIDENT_REF`: 005
+* `GIVEN_NAME`: Chad
+* `FAMILY_NAME`: Darby
+* `EMAIL`: cdarby@redhat.com
 
-* 5 for the INCIDENT_ID field
-* 005 for the  INCIDENT_REF field
-* Chad for the GIVEN_NAME field
-* Darby for the FAMILY_NAME field
-* cdarby@redhat.com for the EMAIL field
 
-ifdef::showScript[]
-
-
-endif::showScript[]

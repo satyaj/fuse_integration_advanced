@@ -1,26 +1,28 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#persistence-nosql]
-== Persistence NoSQL & Caching
+== NoSQL and Caching
 
-* Several NoSQL components supported
+* Several NoSQL components supported:
 ** Infinispan, HazelCast, EHCache
 ** MongoDB, Apache Cassandra
 ** HawtDB, Couchbase, Gora
-* Could be used for caching
+* Can be used for caching
 
 .References
 
-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-Cache.html[Apache Camel Cache]
-- http://camel.apache.org/infinispan.html[Infinispan Cache]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-Cache.html[Apache Camel Cache Component^]
+* link:http://camel.apache.org/infinispan.html[Apache Camel Infinispan Component^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Persistence NoSQL & Caching
+Transcript:
 
-The Apache Camel project supports NoSQL components like MongoDB, Apache Cassandra, EHCache (Hibernate caching), Couchbase but also newer projects like JBoss Infinispan, Apache Gora. One of the key benefit of some of the NoSQL components is that they can be used to cache information. High availability can be provided by replicating the cache using multiple JVMs. A cache of <key,value> pairs can be shared across multiple camel contexts.
+The Apache Camel project also supports non-SQL, or NoSQL, components, such as MongoDB, Apache Cassandra, Couchbase, and EHCache, also known as Hibernate caching. Some of the newer supported technologies include JBoss Infinispan and Apache Gora.
 
-****
+One key benefit of some NoSQL components is that they can be used to cache information and then, by using several Java virtual machines (VMs), replicate the cache between the nodes for high-availability purposes. A cache of key-value pairs can be shared across multiple Camel contexts.
+
+
 endif::showscript[]

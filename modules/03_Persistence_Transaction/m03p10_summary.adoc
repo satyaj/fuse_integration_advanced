@@ -1,0 +1,23 @@
+:scrollbar:
+:data-uri:
+:noaudio:
+
+== Summary
+
+* Preparation
+* Persistence
+* JPA Component
+* NoSQL and Caching
+* Idempotent Consumer
+* Transactional Client
+* Transactional Route
+
+ifdef::showscript[]
+
+Transcript:
+
+This module covered different persistence and transactional aspects that you can implement using the Apache Camel framework. It reviewed key concepts about Camel development with JBoss Fuse and then extended them to show how to use Camel subsystems on top of Red Hat JBoss WildFly. It showed how you can use the Arjuna transaction manager, which is part of the JBoss EAP platform, instead of using Spring transaction managers.
+
+The module also described a NoSQL component and how to use Infinispan technology.
+
+endif::showscript[]

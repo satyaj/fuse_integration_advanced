@@ -1,108 +1,160 @@
-:noaudio:
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
 
-= Persistence with No SQL Component & Idempotent
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
+== Persistence with Idempotent Consumer and NoSQL Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel Infinispan component
-* Transform an idempotent consumer into a persistent one
-* Develop Camel Test Cases
+* Configure your local environment to develop and explore use cases
+* Gain experience with Apache Camel Infinispan
+* Transform an Idempotent consumer into a persistent one
+* Develop Camel test cases
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with SQL, Database & ORM - Hibernate, JPA
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Apache Maven
+* Familiarity with SQL, databases, and ORM, including Hibernate and JPA
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you explore two use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-== Use case exercise
+=== Install Lab Project
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
+
 
 [[usecase1]]
-=== Use a persistent Idempotent Consumer
+== Use Persistent Idempotent Consumer
 
-For this use case, we will setup an Apache Camel route using a persistent Idempotent Consumer. This idempotent consumer will check the content of the header +CamelRecord+ against
-the +messageId+ which is stored within the table +CAMEL_MESSAGEPROCESSED+. The Apache Camel route starts with the +direct:data-insert+ endpoint, following by the idempotent persistent
-consumer, next the Camel bindy Dataformat to transform the CXF record received into a java Incident object and finally the +mock:result+ endpoint.
+For this use case, you set up an Apache Camel route using a persistent Idempotent consumer. The Idempotent consumer checks the content of the `CamelRecord` header against the `messageId` field, which is stored in the `CAMEL_MESSAGEPROCESSED` table. The Apache Camel route starts with the `direct:data-insert` endpoint, followed by the persistent Idempotent consumer. Next, it uses the Camel Bindy data format to transform the CXF record received into a Java `Incident` object. Finally, the route ends with the `mock:result` endpoint.
 
-To design this use case, you will develop the content of the :
+To implement this use case, you create the Spring XMP beans file, the `persistence.xml` unit file, and the JUnit test class.
 
-- Spring XML Beans file to include the Apache Camel route definition but also the beans +org.apache.camel.processor.idempotent.jpa.JpaMessageIdRepository+ and +org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean+
-- Persistence.xml unit file under the folder META-INF. The name of the persistence unit is +idempotentDb+, url of the database to be used "jdbc:h2:mem:idempotentReport", database driver +org.h2.Driver+, class name: org.apache.camel.processor.idempotent.jpa.MessageProcessed. Hibernate is used as ORM/JPA Framework
-- The Junit Test class +org.jboss.fuse.persistence.idempotent.CamelIdempotentTest+ with these methods :
-** testSendDifferentCsvRecords() : Send to the direct endpoint the following String & assert that the mock result endpoint will receive 2 exchanges
+=== Develop Spring XML Beans File
+
+. Include the Apache Camel route definition.
+. Include the `org.apache.camel.processor.idempotent.jpa.JpaMessageIdRepository` and `org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean` beans.
+
+=== Create Persistence XML Unit File
+
+. Create the `persistence.xml` unit file under the `META-INF` folder.
+. Name the persistence unit `idempotentDb`.
+. Use the `jdbc:h2:mem:idempotentReport` database, the `org.h2.Driver` database driver, and the `org.apache.camel.processor.idempotent.jpa.MessageProcessed` class name.
+. Use Hibernate as the ORM/JPA framework.
+
+=== Build JUnit Test Class
+
+In this section, you create the `org.jboss.fuse.persistence.idempotent.CamelIdempotentTest` JUnit test class with three methods:
+
+* `testSendDifferentCsvRecords()`
+* `TestSendSomeCsvRecordWithSameHeader()`
+* `TestStopStartCamelRoute()`.
+
+==== Create `testSendDifferentCsvRecords` Method
+
+. Send the following data to the Direct endpoint:
 +
-[source]
+[source,text]
 ----
 "111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
 "222,18-05-2016,Claus,Ibsen,incident camel-222,this is a report incident for camel-222,cibsen@gmail.com,+111 10 20 300","CamelRecord",2
 ----
+. Assert that the mock result endpoint receives the two Exchanges you sent.
+
+==== Create `TestSendSomeCsvRecordWithSameHeader` Method
+
+. Send three CSV records to the Direct endpoint.
 +
-** testSendSomeCsvRecordWithSameHeader() : Send 3 CSV records to the direct endpoint and check that you will only receive 2 exchanges as one should be filtered by the idempotentConsumer
-+
-[source]
+[source,text]
 ----
 111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
 222,18-05-2016,Claus,Ibsen,incident camel-222,this is a report incident for camel-222,cibsen@gmail.com,+111 10 20 300","CamelRecord",2
 333,18-05-2016,Claus,Ibsen,incident camel-333,this is a report incident for camel-333,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
 ----
+. Check that you receive only two Exchanges (one is filtered by the `idempotentConsumer`).
+
+==== Create `TestStopStartCamelRoute` Method
+
+. Send this CSV record:
 +
-** testStopStartCamelRoute() : the scenario of this one is more complex. Here are the steps
+[source,text]
+----
+111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
+----
+
+. Stop the Camel route.
+. Use an SQL statement to check that there is one record saved to the `CAMEL_MESSAGEPROCESSED` table, and assert that the `messageId` is `1` and the `processName` is `DirectConsumer`.
+. Send the same CSV record to the endpoint.
+* Because the endpoint and Camel route is stopped, expect this to fail.
+. Assert that the `String` exception message contains, in this case, "Exception occurred during execution on the exchange".
+. Restart the Camel route.
+. Send this record again:
 +
-  . Send this CSV record : 111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
-  . Stop the Camel route
-  . Use a SQL Statement to check that there is one record saved into the table CAMEL_MESSAGEPROCESSED and assert that the messageId is 1 and the processName is DirectConsumer
-  . Send the same CSV record to the endpoint. That should fail as the endpoint / camel route has been stopped.
-  . Assert that the String exception message contains in this case this message "Exception occurred during execution on the exchange"
-  . Restart the Camel Route
-  . Send again this csv record : "333,18-05-2016,Claus,Ibsen,incident camel-333,this is a report incident for camel-333,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
-  . Verify that the mock:result endpoint will only receive one exchange
+[source,text]
+----
+"333,18-05-2016,Claus,Ibsen,incident camel-333,this is a report incident for camel-333,cibsen@gmail.com,+111 10 20 300","CamelRecord",1
+----
+. Verify that the `mock:result` endpoint receives one Exchange.
+
 
 [[usecase2]]
-=== Play with Infinispan - nosql component
+== Explore Infinispan NoSQL Component
 
-For this final use case of the persistence lab, we will play with the Infinispan NoSQL component to insert/get keys from an in memory Java cache. For that purpose, an Infinispan DefaultCacheManager
-will be created and used for all the tests. The first test case will insert 2 keys into the cache while the second will fetch the two keys. 2 distinct Apache Camel Routes will be created to support
-the 2 infinispan operations (PUT & GET).
+In this use case, you explore the Infinispan NoSQL component. You insert and retrieve keys from an in-memory Java cache. You create an `DefaultCacheManager` Infinispan and use it for the tests. The first test case inserts two keys into the cache, and the second fetches the two keys. You create two distinct Apache Camel routes to support the `PUT` and `GET` Infinispan operations.
 
-To realize this use case, you will develop the code within the class +org.jboss.fuse.persistence.nosql.InfinispanCacheTest+ according to the following steps :
+In this section, you develop the code within the `org.jboss.fuse.persistence.nosql.InfinispanCacheTest` class.
 
-  . Create an Apache Camel route starting with a +direct:put+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used which is cacheContainer, the operation which is PUT
-    and finally, send the result to the +mock:put+ endpoint.
-  . Create a second Apache Camel route starting with a +direct:get+ endpoint, next calling the infinispan producer and passing as parameter the name of the cacheContainer to be used which is cacheContainer, the operation which is GET
-    and finally, send the result to the +mock:get+ endpoint
-  . Add the @test method : insertCache()
-  . Add the @Test method : GetKeyFromCache()
-  . For the insertCache() method, send 2 exchanges to the direct:put endpoint using as keys, values respectively; KEY_ONE/VALUE_ONE and KEY_TWO,VALUE_TWO.
-  . Assert that the cache contains for the KEY_ONE, the "valueOne" and for KEY_TWO, the "valueTwo"
-  . Assert that the mock:put endpoint will get 2 exchanges
-  . For the GetKeyFromCache() method, send 2 exchanges to the direct:get endpoint using as key KEY_ONE and KEY_TWO to get the result from the cache
-  . Assert that the exchange received from the mock:get endpoint will contain the "valueOne" and for the other exchange "valueTwo" as Infisinispan Result
-  . Assert that the mock:put endpoint will get 2 exchanges
+=== Develop Camel Routes
+
+. Create an Apache Camel route starting with a `direct:put` endpoint.
+.. Have the route call the Infinispan producer next, passing the cache container name ("cacheContainer") as a parameter.
+* Use the `PUT` operation.
+.. Have the route send the result to the `mock:put` endpoint.
+
+. Create a second Apache Camel route starting with a `direct:get` endpoint.
+.. Use the `GET` operation to have the route call the Infinispan producer, passing cache container name ("cacheContainer") as a parameter.
+.. Have the route send the result to the `mock:get` endpoint.
+
+=== Create Test Methods
+
+==== Create `insertCache` Method
+
+. Add the `@test insertCache` method.
+.. For the `insertCache` method, send two Exchanges to the `direct:put` endpoint--for the first use the key/value pair `KEY_ONE/VALUE_ONE` and for the second, use `KEY_TWO/VALUE_TWO`.
+.. Assert that the cache contains "valueOne" for the `KEY_ONE` key, and "valueTwo" for the `KEY_TWO` key.
+.. Assert that the `mock:put` endpoint receives two Exchanges.
+
+==== Create `GetKeyFromCache` Method
+
+. Add the `@Test GetKeyFromCache` method.
+.. For the `GetKeyFromCache` method, send two Exchanges to the `direct:get` endpoint using as keys `KEY_ONE` and `KEY_TWO`.
+** This retrieves the values from the cache.
+.. Assert that one Exchange received from the `mock:get` endpoint contains "valueOne" and that the other contains "valueTwo" as the Infinispan result.
+.. Assert that the `mock:put` endpoint receives two Exchanges.
 
 ifdef::showScript[]
 
 endif::showScript[]
+

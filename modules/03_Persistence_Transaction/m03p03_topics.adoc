@@ -1,26 +1,23 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#topics]
 == Module Topics
 
-By completing this module you will learn about the following topics:
-
-* Persistence using Apache JPA, JDBC & SQL components
-* Persistence using Camel running On WildFly
-* Idempotent Persistent Processor
-* Playing with a NoSQL component - Infinispan
-* Combining Apache Camel Tx Client & Transacted Route
-* Use Arjuna Tx Manager
+* Preparation
+* Persistence
+* JPA Component
+* NoSQL and Caching
+* Idempotent Consumer
+* Transactional Client
+* Transactional Route
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Module Topics
+Transcript:
 
-This module covers different Persistence and Transactional Aspects that we can implement using the Apache Camel Framework. We will cover key concepts already introduced within the Apache Camel foundational course
-but it will be extended in order to see how to use the Camel Subsystems top of JBoss WildFly like also how we can use the Arjuna Tx Manager part of the JBoss EAP platform instead of Spring Tx Managers.
-To be exhaustive, we will also play with a NoSQL component and use the Infinispan technology.
+This module covers different persistence and transactional aspects that you can implement using the Apache Camel framework. It reviews key concepts about Camel development with JBoss Fuse and then extends those concepts to show how to use Camel subsystems on top of Red Hat JBoss WildFly. It shows how you can use the Arjuna transaction manager, which is part of the JBoss Enterprise Application Platform (EAP) platform, instead of using Spring transaction managers.
 
-****
+The module also describes a NoSQL component and how to use Infinispan technology.
+
 endif::showscript[]

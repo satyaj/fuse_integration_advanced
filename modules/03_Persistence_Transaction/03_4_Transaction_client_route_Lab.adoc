@@ -1,108 +1,131 @@
-:noaudio:
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
 
-= Camel Transactional Client & Tx Routes
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Camel Transactional Client and Transacted Routes Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel Transactional Client & Routes
-* Transform an idempotent consumer into a persistent one
-* Develop Camel Test Cases
+* Configure your local environment to develop and explore use cases
+* Gain experience using the Apache Camel Transactional Client and routes
+* Transform an Idempotent consumer into a persistent one
+* Develop Camel test cases
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with Java Transaction, JTA
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with Java Transaction API (JTA)
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab you explore three use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0] | Required
+|====
 
-== Use case exercise
+=== Install Lab Project
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
+
 
 [[usecase1]]
-=== Use a Transactional Client
+== Use Transactional Client
 
-The goal of this use case is to design a project using the Apache Camel Transactional client JPA to rollback a transaction when an error will took place within the route execution process.
-We will develop the project using the Junit Test class +org.jboss.fuse.transaction.client.JpaTxRollbackTest.java+ where we will design the Apache Camel routes and the test case.
+In this use case, you implement a project using the Apache Camel Transactional Client JPA to roll back a transaction when an error takes place within the route execution process. You use the `org.jboss.fuse.transaction.client.JpaTxRollbackTest.java` JUnit test class to develop the Apache Camel routes and the test case.
 
-Create 2 routes as described here after :
+=== Create Camel Routes
 
-  . The first route starts with the JPA Consumer using the Entity class "org.jboss.fuse.transaction.model.Project". The route must be declared to "not start" and endpoint configured to delete the
-    entities when consumed and the transaction behavior should be to rollback only the last message. The delay between each poll is 1s.
-  . This endpoint continues with a inner processor where we will check if the Project is equal to Camel. If this is the case, then an IllegalArgumentException will be throw with the message "Camel Forced"
-  . The next process will log the message with the project name and id
-  . The route ends with the "mock:result" processor
-  . The second route starts with the "direct:insert" consumer and will call a jpa endpoint to insert the Project Entity received
-  . The next process will log the message with the project name and id
+. In the first route, start with the JPA Consumer using the `org.jboss.fuse.transaction.model.Project` Entity class.
+.. Declare the route to "not start."
+.. Configure the endpoint to delete the entities when consumed.
+.. Configure the transaction behavior to roll back only the last message.
+.. Set the delay between each poll to one second.
+.. Use an inner processor to check if the project is equal to "Camel" and, if it is,
+throw an `IllegalArgumentException` exception with the "Camel Forced" message.
+.. Log a message with the project name and ID.
+.. End the route with the `mock:result` processor.
+. Start a second route with the `direct:insert` consumer.
+.. Make the route call a JPA endpoint to insert the received `Project` entity.
+.. Make the route log a message with the project name and ID.
 
-Declare the Junit Test method +testRollBack()+ and perform the follow tasks :
+===  Instantiate Project Objects
 
-   . Insert 4 records using the direct:insert consumer with these data to instantiate the Project objects :
-     id: 1, project: AMX, license: ASF
-     id: 2, project: Linux, license: XXX
-     id: 3, project: Karaf, license: YYY
-     id: 4, project: Camel, license: ASF
-   . Start the JPA consumer
-   . Assert that the result mockendpoint will receive 3 exchanges
-   . Assert that the table Project contains 1 record for the Project Camel as the others have been deleted
+. Declare the `testRollBack()` JUnit test method and insert four records using the `direct:insert` consumer with this data to instantiate the `Project` objects:
++
+[cols="3",options="header"]
+|====
+| `id` | `project` | `license`
+| 1    | AMX       | ASF
+| 2    | Linux     | XXX
+| 3    | Karaf     | YYY
+| 4    | Camel     | ASF
+|====
+
+. Start the JPA consumer.
+. Assert that the result mock endpoint receives three Exchanges.
+. Assert that the `Project` table contains one record for the Camel project.
+. Assert that the other records are deleted.
 
 [[usecase2]]
-=== Create a Transacted Route with the SQL Component
+== Create Transacted Route with SQL Component
 
-For this use case, you will develop a transacted route using an Apache Camel Transacted Policy acting as an interceptor within the route. The policy to be used is org.apache.camel.spring.spi.SpringTransactionPolicy. The datasource containing the connection to the
-Derby database will be created using the +org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder+ class. The following SQL script +transaction/src/test/resources/sql/createAndPopulateDatabase.sql+ has been created to setup the database and populate 3 records
-within the table Projects.
+For this use case, you develop a transacted route using an Apache Camel Transacted Policy acting as an interceptor within the route. Use the `org.apache.camel.spring.spi.SpringTransactionPolicy` policy. Create the data source containing a connection to the Derby database using the `org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder` class. The SQL script in `transaction/src/test/resources/sql/createAndPopulateDatabase.sql` sets up the database and populates three records in the `Project` table.
 
-The TransactionManager, responsible to handle the begin/commit/rollback events, is the +org.springframework.jdbc.datasource.DatasourceTransactionManager+ class.
+=== Create Route
 
-To design this project, you will perform the following steps :
+. Use the `org.springframework.jdbc.datasource.DatasourceTransactionManager` class as the transaction manager.
+* The transaction manager is responsible for handling the begin, commit, and rollback events.
 
- . Instantiate the required Java classes (Datasource, TransactionManager, SQL component) and bind them within the JNDI Camel Registry
- . Create a transacted camel route starting with the direct:rollback endpoint
- . Next, include the SQL producer to delete from the table Projects the record where the id corresponds to the header id value
- . Add an inner processor where you will throw an Exception
- . finish the route with the mock:delete processor
- . Develop the test case within the method testProduceWithRollback
- . Send an empty body to the direct:rollback endpoint with a header id = 1
- . Assert that the mock endpoint will never receive an exchange
- . Assert that the table Projects still contains 3 records
+. Instantiate the required Java classes (`Datasource`, `TransactionManager`, `SQL component`) and bind them within the JNDI Camel Registry.
+. Create a transacted Camel route starting with the `direct:rollback` endpoint.
+. Include a SQL producer to delete from the `Projects` table the record where the `id` corresponds to the header `id` value.
+. Add an inner processor that throws an exception.
+. Finish the route with the `mock:delete` processor.
+
+=== Develop Test Case
+
+. Create a test case with a `testProduceWithRollback` method.
+. In this method, send an empty Body to the `direct:rollback` endpoint with a header `id` equal to `1`.
+. Assert that the mock endpoint never receives an Exchange.
+. Assert that the `Project` table still contains three records.
+
 
 [[usecase3]]
-=== Combine a Transacted route with a Transactional client
+== Combine Transacted Route with Transactional Client
 
-This last use case of this lab will mix the 2 strategies that you have used within the previous use cases; a transactional client which is here a JMS Component with a Transacted route where
-the transactional endpoint to be managed is JPA.
+In this use case, you intermix two strategies--a transactional client, or JMS component, and a transacted route, where the JPA is the transactional endpoint to be managed.
 
-The TransactionManager used for this project is the Arjuna Tx Manager which is already defined within the Spring Camel XML file +transaction/src/test/resources/org/jboss/fuse/transaction/camelContext.xml+. You will use it to configure the ActiveMQ JMS Connection Factory
-which is one the Tx Client used and also for the EntityManager required to configure the JPA Component
+=== Configure Transactional Client
 
-Here is the skeleton of the routes to be created.
+. Use the TX Manager to configure the ActiveMQ JMS Connection Factory, used by the Transactional Client.
 
-[source]
+* Arjuna TX Manager--the `TransactionManager` used for this project--is already defined in  the `transaction/src/test/resources/org/jboss/fuse/transaction/camelContext.xml` Spring Camel XML file.
+
+. In this file, configure the `EntityManager` that is required to configure the JPA component.
+
+=== Implement Camel Routes
+
+. Create three Camel routes similar to these:
++
+[source,xml]
 ----
 <route>
     <from uri="direct:data-insert-rb"/>
@@ -121,7 +144,6 @@ Here is the skeleton of the routes to be created.
     <bean ref="sqlutil"/>
     <to uri="mock:result"/>
 </route>
-
 <route>
     <from uri="activemq:queue:incidents"/>
     <marshal/>
@@ -129,17 +151,38 @@ Here is the skeleton of the routes to be created.
 </route>
 ----
 
-Don't forget to configure the Camel Bindy CSV Dataformat as we will use it to transform the CSV String to a Java Object or from a Java Object to a String.
-Include also an interceptor to catch the java.io.IOException and rollback the transaction using the message "###### Sorry, we can't insert your record and place it on the queue !"
+. Configure the Camel Bindy CSV data format.
+* You use it to transform the CSV String to a Java object or from a Java object to a String.
+. Include an interceptor to catch the `java.io.IOException` and roll back the transaction using this message:
++
+[source,text]
+----
+"###### Sorry, we can't insert your record and place it on the queue !"
+----
 
-Here is the scenario that you will develop within the unit test method +testRollbackRecord+ :
+=== Develop Test Case
 
- . Produce a message that you will send to the direct:data-insert-rb endpoint using this Body String "111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300"
- . Assert that a rollback took place and that you get this message "###### Sorry, we can't insert your record and place it on the queue !." within the exception
- . Assert that the mock:error endpoint will get an exchange
- . Perform a SQL select to verify that no record exists within the table Projects using the endpoint "direct:select"
- . Assert also that the mock endpoint "mock:result-queue" doesn't contain ayn exchange
+In this section, you develop the the `testRollbackRecord` JUnit test method.
+
+. Send this message to the `direct:data-insert-rb` endpoint:
++
+[source,text]
+----
+"111,22-04-2016,Claus,Ibsen,incident camel-111,this is a report incident for camel-111,cibsen@gmail.com,+111 10 20 300"
+----
+
+. Assert that a rollback occurs and that you receive the message in the exception object as shown here:
++
+[source,text]
+----
+"###### Sorry, we can't insert your record and place it on the queue !" 
+----
+
+. Assert that the `mock:error` endpoint receives an Exchange.
+. Perform an SQL select to verify that no record exists within the `Projects` table using the `direct:select` endpoint.
+. Assert that the `mock:result-queue` Mock endpoint does not contain any Exchange.
 
 ifdef::showScript[]
 
 endif::showScript[]
+

@@ -1,9 +1,10 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#transactional-route]
 == Transactional Route
 
-* Route turned into Transactional Route
+* Route turned into transactional route
 +
 [source,java]
 ----
@@ -11,8 +12,8 @@ from("direct:rollback")
    .transacted("txPolicy")
    .to("sql:delete from projects where id = :#${header.id}")
 ----
-+
-* Implemented using an Interceptor - TransactedPolicy wrapping a processor
+
+* Implemented using interceptor `SpringTransactionPolicy` wrapping a processor:
 +
 [source,java]
 ----
@@ -23,8 +24,8 @@ public class SpringTransactionPolicy implements TransactedPolicy {
     public Processor wrap(RouteContext routeContext, Processor processor) {
         TransactionErrorHandler answer;
 ----
-+
-* Combined with the TxErrorHanlder - Spring Template !
+
+* Combined with `TransactionErrorHanlder` in Spring template:
 +
 [source,java]
 ----
@@ -36,22 +37,24 @@ protected void doInTransactionTemplate(final Exchange exchange) {
     // otherwise it may not rollback messages send to JMS queues etc.
 
     transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
 ----
 
 
-.References
+.Reference
 
-- https://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01#AA[W3C Http Basic Authentication spec]
+* link:https://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01#AA["W3C Hypertext Transfer Protocol -- HTTP/1.1, Access Authentication^"]
+
 ifdef::showscript[]
-[.notes]
-****
 
-== Transactional Route
+Transcript:
 
-When we turn an Apache Camel route into a Transacted route, we are in fact adding an interceptor within the list of the processors handled by Camel. This processor is added used the DSL word ("transacted") corresponding
-to the SpringTransactedPolicy. According to the Apache Camel Framework, an Interceptor, which is an interface, is used to wrap the process before or after. In this case, we wrap the processor after and not before. This
-interceptor will instantiate a TransactionErrorHandler object which contains the logic to execute a begin/commit or rollback of a Transaction as you can see with the code snippets added within this slide.
-As the ErrorHandler uses behind the scene Spring Tx Template, it can be configured with a Spring Tx Manager or a PlatformTxManager like also the Transaction Behavior (New, ...).
+When you turn an Apache Camel route into a transacted route, you are in fact adding an interceptor within the list of the processors handled by Camel.
 
-****
+You add this processor using the DSL word `transacted`, which corresponds to the `SpringTransactionPolicy` shown here.
+
+According to the Apache Camel framework, an interceptor, which is an interface, is used to wrap a process before or after. In this case, you wrap the processor after. This interceptor instantiates a `TransactionErrorHandler` object that contains the logic to execute a begin, commit, or rollback of a transaction. An example is shown.
+
+The `ErrorHandler` uses a behind-the-scenes Spring transaction template and therefore can be configured with a Spring transaction manager, as shown here, or a platform transaction manager. The transaction behavior--`New`, and so on--can be configured in the same way.
+
 endif::showscript[]

@@ -1,106 +1,133 @@
-:noaudio:
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
 
-= Persistence with Camel JPA & Wildfly subsystem
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
+== Persistence with Camel JPA and WildFly Subsystem Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel JPA components
-* Design Apache Camel Routes using DIRECT, MOCK, JPA components
-* Develop Camel and Arquillian Test Cases
-* Run Apache Camel in standalone mode or using WildFly Camel subsystem
+* Configure your local environment to develop and explore use cases
+* Gain experience using Apache Camel JPA components
+* Design Apache Camel routes using Direct, Mock, and JPA components
+* Develop Camel and Arquillian test cases
+* Run Apache Camel in standalone mode and use the WildFly Camel subsystem
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with SQL, Database & ORM - Hibernate, JPA
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with SQL and databases, and ORM, including Hibernate and JPA
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you explore two use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-== Use case exercise
+=== Install Lab Project
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
+
 
 [[usecase1]]
-=== Camel JPA Component
+== Use Camel JPA Component to Insert and Query Data
 
-For this use case, you will create 2 Apache Camel Routes, one sending an exchange with the java object to be inserted within a Derby Database using the JPA component and the
-second querying every x second the records from the database and sending the result to a mock endpoint.
+In this use case, you create two Apache Camel routes. One uses the JPA component to send an exchange with a Java object to be inserted into a Derby database. The second queries the records from the database every `x` seconds and sends the result to a mock endpoint.
 
-To develop this usecase, you will create the following artifacts :
+=== Create JPA Persistence Configuration
+. Create a `persistence.xml` file and place it in the `META-INF` folder.
+. Specify "Camel" as the persistence unit name.
+. Map the `org.jboss.fuse.persistence.model.SendEmail` Java class to its corresponding table.
+. Configure the `org.apache.derby.jdbc.EmbeddedDriver` database driver.
+. Use the `jdbc:derby:target/derby;create=true` address.
 
-- persistence.xml file located under META-INF folder. The name of the persistence unit is Camel and the java class to be mapped with its corresponding table is +org.jboss.fuse.persistence.model.SendEmail+
-  The database driver to be configured is +org.apache.derby.jdbc.EmbeddedDriver+ while the url is +jdbc:derby:target/derby;create=true+
-- Spring Camel XML file containing the routes definition, the declaration of the Spring bean +org.springframework.orm.jpa.LocalEntityManagerFactoryBean+ and +org.springframework.transaction.support.TransactionTemplate+
-- The Junit Test case using the class +Jorg.jboss.fuse.persistence.jpa.paConsumerTest+ which extend the class +CamelSpringTestSupport+ class.
+=== Create Spring Camel XML File
+. Create a Spring Camel XML file and define the routes in this file.
+. Add a declaration of the `org.springframework.orm.jpa.LocalEntityManagerFactoryBean` Spring bean.
+. Add a declaration of the `org.springframework.transaction.support.TransactionTemplate` Spring bean.
 
-The method that Junit will test is called +testInsertAndReceive+. Within this method, you will send 3 camel exchanges to the endpoint +direct:start+ with respectively the body value "alpha","beta" and "gamma"
-Verify on the mock endpoint that you will receive 3 records, that the +Exchange.BATCH_SIZE+ is equal to 3 and that the second record assert this statement for the email
+=== Implement JUnit Test Case
 
-[source]
+. Implement a JUnit Test case using the `org.jboss.fuse.persistence.jpa.paConsumerTest` class, extending the `CamelSpringTestSupport` class.
+. Define the `testInsertAndReceive` test method.
+. In this method, send three Camel Exchanges to the `direct:start` endpoint, with the Body values of "alpha", "beta", and "gamma", respectively.
+. In the mock endpoint, verify that you receive three records and that the `Exchange.BATCH_SIZE` is equal to `3`.
+. Verify that that the second record has the `"dummy@somewhere.org"` value as the email address.
+* Expect your code to look similar to this:
++
+[source, text]
 ----
 SendEmail email = mock.....
 assertEquals("dummy@somewhere.org", email.getAddress());
 ----
 
 [[usecase2]]
-=== Camel JPA Component & Wildfly Camel
+== Use Camel JPA Component with WildFly Camel
 
-The goal of this use case is to design an Apache Camel project using the Camel JPA component but deployed top of Wildfly as a subsystem/module. To help us to boot the Wildfly JavaEE Container, we will use the Arquillian Testing framework
-to simplify the creation of the JAR file containing the artifacts as the Java classes, Datasource, ...
-The route will not be longer configured using Spring XML DSL but using Java DSL. The IoC framework will be based on CDI combined with EJB to startup the CamelRoute & JPA to manage the EntityManager container.
+In this use case, you design an Apache Camel project using the Camel JPA component deployed on top of WildFly as a subsystem/module. You use the Arquillian testing framework to simplify the creation of the JAR file containing the artifacts. This JAR file contains the Java classes and data source, and is used to boot the Wildfly Java EE Container.
 
-For this use case, you will develop the following artifacts :
+In this use case, you configure the route using the Java DSL instead of the Spring XML DSL that you used in the previous use case. The IoC framework is based on CDI andEJB, to start up the Camel route, and JPA to manage the `EntityManager` container.
 
-- Model class : +org.jboss.fuse.persistence.jpa.model.Account+
-- Java Camel Class : +org.jboss.fuse.persistence.jpa.routing.DirectToJPABuilder+
-- Persistence XML file located under this folder : +src/main/resources/org/jboss/fuse/persistence/persistence-jpa.xml+
-- Datasource XML file located +src/main/resources/org/jboss/fuse/persistence/+
-- Junit Test +org.jboss.fuse.persistence.jpa.JPACamelWildflyTest+ class with the methods @Before setUp(), @After tearDown() & @Test testJpaInsertCamelRoute
+In this section, you implement five artifacts--the model class, the Java Camel class, the persistence XML file, the data source XML file, and the JUnit test. 
 
-The points that you should develop are :
+=== Implement Model Class
+. Implement the `org.jboss.fuse.persistence.jpa.model.Account` model class.
+. Add the `@Entity` and `@Table` annotations.
+. Map both annotations to the `account` table.
+. Add the `@Id` annotation to the `id` field.
 
-- Model class : Add the @Entity annotation, @Table annotation mapped to the table "account". The id field should also be annotated with the annotation @Id
-- Java Camel class :
-** Extend the RouterBuilder parent class
-** Inject the EntityManager & JtaTransactionManager using their CDI or JPA annotations
-** Define the CamelContext using rhe CamelCDI annotation "contextName" with the name +route-cdi-context+
-** Add the @Startup annotation to bootstrap the Camel route when the EJB container will instantiate the beans
-** Create an Apache Camel route starting from the consumer "direct:start" & calling the endpoint +jpa+ using the model class
-- Junit Test class :
-** Develop the deployment() method to generate a JAr archive having the name +camel-jpa-test.jar+
-** Include within this jar file, the classes packaged te routing & model subpackage
-** Include the datasource and persistence.xml files as MANIFEST Resources
-** Develop the method @Before setUp to persist 2 new Account objects with respectively the values ((1, 750, (2, 300)) forthe id, balance
-** Cleanup the content of the DB within the tearDown method using a quety applied on the EntityManager
-** Within the testJpaInsertCamelRoute method, assert that you can retrieve the CamelContext injected using the @ArquillianResource annotation
-** Create a new Account object (3, 800) and send it to your direct endpoint
-** Assert that you can retrieve using the EntityManager a reference for this account which is equal to the object Account created
-** Use the annotation javax.Resource to inject the UserTransactionManager. this Tx manager will be used to insert the objects within the setUp or TearDown
+=== Implement Java Camel Class
+. Implement the `org.jboss.fuse.persistence.jpa.routing.DirectToJPABuilder` Java Camel class.
+. Extend the `RouterBuilder` parent class.
+. Inject the `EntityManager` and  `JtaTransactionManager` instances using their CDI or JPA annotations.
+. Use the `contextName` Camel CDI annotation with the `route-cdi-context` to define the `CamelContext`.
+. Add the `@Startup` annotation to bootstrap the Camel route when the EJB container instantiates the beans.
+. Create an Apache Camel route starting from the `direct:start` consumer.
+. Call the `jpa` endpoint using the model class.
+
+=== Implement Persistence XML File
+. Implement the JPA persistence XML file.
+. Name the file `persistence-jpa.xml` and place it in the `src/main/resources/org/jboss/fuse/persistence` directory.
+
+=== Implement Data Source XML File
+. Implement the data source XML file.
+. Place this file in the `src/main/resources/org/jboss/fuse/persistence/` directory.
+
+=== Implement JUnit Test
+. Implement the `org.jboss.fuse.persistence.jpa.JPACamelWildflyTest` JUnit class.
+* Include the `@Before setUp()`, `@After tearDown()`, and `@Test testJpaInsertCamelRoute` methods.
+. Implement the `deployment()` method to generate a JAR archive with the name `camel-jpa-test.jar`.
+* In the JAR file, include the classes in the routing and model subpackages.
+* Include the data source and persistence XML files as `MANIFEST` resources.
+. Develop the `@Before setUp` method to persist two new `Account` objects with these values:
+* The first object has an `id` of `1` and `balance` of `750`.
+* The second object has an `id` of `2` and `balance` of `300`.
+. Using a query applied on the `EntityManager` in the `tearDown` method, clean up the content of the database.
+. In the `testJpaInsertCamelRoute` method, assert that you can retrieve the `CamelContext` injected using the `@ArquillianResource` annotation.
+. Create a new `Account` object and send this object to the Direct endpoint.
+* The object has an `id` equal to `3` and `balance` set to `800`. 
+. Use the `EntityManager` to assert that you can retrieve a reference to this account and that fields are equal to those in the account you created.
+. Use the `javax.Resource` annotation to inject the `UserTransactionManager`.
+* This transaction manager is used to insert the objects within the `setUp` or `TearDown` methods.
 
 ifdef::showScript[]
 
-
 endif::showScript[]
+
