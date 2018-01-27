@@ -6,7 +6,7 @@
 == WS-Security
 
 * Extends SOAP specification
-* To secure SOAP message :
+* To secure SOAP message:
 ** Pass username token with digested base64 password
 ** Encrypt messages or parts of messages
 ** Sign messages
