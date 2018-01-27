@@ -1,115 +1,120 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= REST Security with Apiman
 
-In this lab you resolve the following use cases:
+== REST Security Using apiman Lab
 
-<<usecase1>>
-
-<<usecase2>>
-
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Apiman with Basic Auth Plugin and Keycloak Plugin
-* Design RESTfull Service project and secure it using Apiman Gateway
-* Expose the RESTfull services using a Camel route
+.Goals
+* Configure your local environment to develop and explore use cases
+* Gain experience using apiman with the basic authentication plug-in and Keycloak plug-in
+* Design a RESTful service and secure it using apiman API Gateway
+* Expose RESTful services using a Camel route
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with RESTfull & HTTP Basic Authentication
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with with RESTful and HTTP basic authentication
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you examine two cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
+
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Prepare Lab Environment
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-|===
+=== Install Lab assets
 
-=== Install the lab project
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://sourceforge.net/projects/soapui/files/[SoapUI^] | Latest version | Optional
+|====
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+=== Install Lab Project
 
+Download and install locally the latest release of the project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Secure a Camel REST endpoint using Apiman with Basic Auth Plugin
+== Secure Camel REST Endpoint Using apiman with Basic Authentication Plug-in
 
-The goal of this test case is to start a Camel Route exposing a REST endpoint at the address +/say/hello/{id}+ and next to secure it using the Apiman Gateway at this address +http://localhost:6060/gateway/Policy_BasicAuthStatic/message/1.0/say/hello/+.
+. Create a Camel route exposing a REST endpoint at `/say/hello/{id}`.
+. Secure it using the apiman Gateway at `http://localhost:6060/gateway/Policy_BasicAuthStatic/message/1.0/say/hello/`.
 
-The process to register and configure the Basic Auth Plugin that you will use to create the Api for our endpoint have been done respectively within these files (src/test/resources/test-plan-data/policies/basic-auth-static/001-publish-api.resttest,src/test/resources/test-plan-data/policies/basic-auth-static/002-register-client.resttest).
+* The process to register and configure the basic authentication plug-in that you use to create the API for the endpoint are respectively in the `src/test/resources/test-plan-data/policies/basic-auth-static/001-publish-api.resttest` and `src/test/resources/test-plan-data/policies/basic-auth-static/002-register-client.resttest` files.
 
-Such config files are parsed and used at the launch of the server to execute REST HTTP requests against the ApiMan Server to setup the Apis.
+. At server launch time, parse and use the configuration files to execute the REST HTTP requests against the apiman server to set up the APIs.
 
-The GatewayTester class which is used by the annotation @RunWith() will start a Jetty Apiman Server with the Apiman servlets, ...
+* The `GatewayTester` class used by the `@RunWith() annotation` starts a Jetty apiman Server with the apiman servlets.
 
-To play with this use case, use the +org.jboss.fuse.security.apiman.BasicAuthenticationTest+ Java Class and add 2 methods to test respectively a successfull and failing Basic auth using
-the method +protected void runAndValidate(String expectedResponse, int code, String uri, String payload, String httpMethod, Map<String, String> requestHeaders, String username, String password)+
-
-[cols="2*", options="header"]
-|===
+. Use the `org.jboss.fuse.security.apiman.BasicAuthenticationTest` Java class.
+. Add two test methods to test both a successful and failing basic authentication using the `protected void runAndValidate(String expectedResponse, int code, String uri, String payload, String httpMethod, Map<String, String> requestHeaders, String username, String password)` method.
+. Using the table below, determine various parameters and expected responses for each test case:
++
+[cols="2",options="header"]
+|====
 |Method
 |Description
+|`testBasicAuthenticationAgainstBackendApi()`
+a|HTTP code: `200`
 
-|testBasicAuthenticationAgainstBackendApi()
-a|HTTP code: 200
+Method: `GET`
 
-Method : GET
-
-Response message asserted: "Hello World " + user"
+Response message asserted: `"Hello World " + user`
 
 user: bwayne, password: bwayne
 
-address: http://localhost:6060/gateway/Policy_BasicAuthStatic/message/1.0/say/hello/ + user
+address: `http://localhost:6060/gateway/Policy_BasicAuthStatic/message/1.0/say/hello/ + user`
 
-header: "X-API-Key","12345"
+header: `"X-API-Key","12345"`
 
-|sayByeNotAllowedForUserRoleTest()
-a|HTTP code: 401
+|`sayByeNotAllowedForUserRoleTest()`
+a|HTTP code: `401`
 
-Method : GET
+Method : `GET`
 
-Response message asserted: ""
+Response message asserted: None
 
 user: bwayne, password: wrongpassword
 
-address: http://localhost:6060/gateway/Policy_BasicAuthStatic/message/1.0/say/hello/ + user
+address: `http://localhost:6060/gateway/Policy_BasicAuthStatic/message/1.0/say/hello/ + user`
 
-header: "X-API-Key","12345"
+header: `"X-API-Key","12345"`
+|====
 
-|===
+[[usecase2]]
+== Retrieve OAuth2 Token with Roles Using apiman/Keycloak
 
-=== Oauth2 with Roles using Apiman/Keycloak
+In this section, you use the apiman Keycloak OAuth plug-in to get an OAuth token for an application--the Camel REST endpoint--and authenticate the HTTP request. The `reader` or `writer` roles are defined and associated with a user in Keycloak. Using the Keycloak plug-in, roles are used to configure the REST HTTP operation (GET, POST) and path to authorize or reject a user calling the REST endpoint.
 
-For this project we will use the Apiman Keycloak OAuth plugin to get a OAuth token for an application which is our Camel REST endpoint and next authenticate the HTTP Request. Two roles "reader" or "writer"
-have been defined and associated to a user in Keycloak. This role will be used to configure, using the Keycloak Plugin, the REST HTTP operation (GET, POST) and path to authorize or unauthorize a user
-callign the REST endpoint.
-
-Follow the instructions defined within this project to play with the use case - https://github.com/FuseByExample/enforcement-security-in-action#24-use-case---oauth2-with-keycloak
+Follow the link:https://github.com/FuseByExample/enforcement-security-in-action#24-use-case---oauth2-with-keycloak["Use case - Oauth2 with Keycloak^"] instructions to explore this use case.
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Teacher Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
 
 endif::showscript[]

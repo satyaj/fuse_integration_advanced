@@ -1,17 +1,20 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#rolesallowed]
-== JAXRS - RolesAllowed
 
-- Allow/Deny Access to resources
-- Annotations supported :
-* @PermitAll, @DenyAll, @RolesAllowed
-- @RolesAllowed
-* List of roles permitted to access method(s) in an application
-- Delegate responsibility to JAXRS Framework
+== JAX-RS `@RolesAllowed`
 
-.Example
-[source]
+- Allow/deny access to resources
+- Annotations supported:
+* `@PermitAll`, `@DenyAll`, `@RolesAllowed`
+- `@RolesAllowed` lists roles permitted to access methods in application
+- Delegates responsibility to JAXRS framework
+
+- Example:
++
+[source,text]
 ----
 @Path("projects")
 @Produces("application/json")
@@ -26,22 +29,18 @@ public class ProjectsResource {
     public Project getProject(@PathParam("id") final Long id) { ... }
 ----
 
-.References
-- http://docs.oracle.com/javaee/6/api/javax/annotation/security/RolesAllowed.html[JAXRS @RolesAllowed annotation]
+.Reference
+* link:http://docs.oracle.com/javaee/6/api/javax/annotation/security/RolesAllowed.html[Annotation Type RolesAllowed^]
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== JAXRS - RolesAllowed
+Transcript:
 
-Within the previous chapters, we have discovered using the mechanism Security Constraints how it is possible to deny/allow the access to the Web Resources of a Web or Rest Full application. For the RestFull Applications, another option is offered
-to secure the access to the Web Resources by using the Java Annotation @RolesAllowed. This JAXRS Annotation that we will define for the different methods declared within the Java Class containing the REST Services will allow
-to allow the access to a Resource path based on the roles assigned.
+Previously you learned how to use security constraints to deny or allow access to the web resources of a web or RESTful application. For RESTful applications, another option is available for securing access to web resources: the Java annotation `@RolesAllowed`. You define this Java API for RESTful web services, or JAX-RS, annotation for the different methods declared within the Java class containing the REST services. This annotation allows access to a resource path based on the roles assigned by defining a list of roles permitted to access methods in an application.
 
-The advantage to use this annotation is that we will document the security aspect of the application within the Java Class containing the description of the REST services and that this annotation is container agnostic as it is supported by
-the different JAXRS Frameworks and not anymore by the Web Container or HTTP/TCP component used. To be exhaustive, we must mention that 2 additional annotations exist @DenyAll or @PermitAll.
-The annotation will rely on the role of the user that the Authentication or JAAS Authentication Login Module has been able to retrieve.
+The advantage of using this annotation is that it lets you document the security aspect of the application within the Java class containing the description of the REST services. In addition, because this annotation is supported by a variety of JAX-RS frameworks and not by the web container or HTTP/TCP component, it is container-agnostic.
 
-****
+Two additional annotations exist: `@DenyAll` or `@PermitAll`. The annotation used depends on the role of the user that the authentication or JAAS authentication login module is able to retrieve.
+
 endif::showscript[]

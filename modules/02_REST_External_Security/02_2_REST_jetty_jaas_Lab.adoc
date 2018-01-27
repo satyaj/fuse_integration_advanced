@@ -1,105 +1,112 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= REST Security with JAAS
+== REST Security with JAAS
 
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about JAAS & Jetty
-* Design RESTfull Service project and secure it
-* Expose the RESTfull services using a Camel route or CXF RS
-* Configure the Jetty Endpoint to authenticate the HTTP User request using JAAS & JAASLoginService class
+.Goals
+* Configure your local environment to develop and explore use cases
+* Gain experience using Jetty and the Java API for Authentication and Authorization Service (JAAS)
+* Develop a RESTful service project and secure it
+* Expose RESTful services using a Camel route and CXF RS
+* Configure a Jetty endpoint to authenticate the HTTP user request using JAAS and a `JAASLoginService` class
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with RESTfull & HTTP Basic Authentication
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with RESTful services and HTTP basic authentication
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you examine two use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Prepare Lab Environment
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-|===
+=== Install Lab Assets
 
-=== Install the lab project
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://sourceforge.net/projects/soapui/files/[SoapUI^] | Latest version | Optional
+|====
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+=== Install Lab Project
 
-== Use case exercise
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Camel REST DSL with Jetty Component, Basic Authentication & JAAS
+== Explore Camel REST DSL Using Jetty, Basic Authentication, and JAAS
 
-This usecase is a variation of the Basic Authentication use case 1 that you have designed within the Lab 1. What is different is that we will replace the HashLoginService class of Jetty with the
-+org.eclipse.jetty.jaas.JAASLoginService+ class and that you will register a Realm with its corresponding JAAS file to install the JAAS Module responsible to find the user and authenticate it.
+This use case is a variation of the basic authentication use case you developed in the _REST Security with Basic Authentication and Role Lab_. In this lab, you replace the `HashLoginService` Jetty class with the `org.eclipse.jetty.jaas.JAASLoginService` class. You register this class as a realm with its corresponding JAAS file to install the JAAS module responsible for finding and authenticating the user.
 
-Within this project, you will setup an Apache Camel Route, use the REST DSL syntax to expose a RESTfull service according to this path +/say/hello/{id}+ where {id} represents the user for which you would like to say hello
-. Next, you will configure the Jetty Component using the Jetty SecurityHandler class to authenticate the user HTTP request using Basic Authentication & Base64.
+. Set up an Apache Camel route using the REST DSL syntax to expose a RESTful service for the `/say/hello/{id}` path.
+* `{id}` represents the ID of the user. It is used in the `hello` response to the HTTP request.
 
-The +org.eclipse.jetty.security.SecurityHandler+ will be configured to request Basic Authentication and will use the +org.eclipse.jetty.jaas.JAASLoginService+ class to authenticate
-the user using as realm name +myrealm+ and as jaas login module +propsFileModule+.
+. Configure Jetty using the `org.eclipse.jetty.security.SecurityHandler` Jetty class to authenticate a user HTTP request using basic authentication and Base64.
 
-Create the +org/jboss/fuse/security/basic/myrealm-jaas.cfg+ file and define the module +propsFileModule+ with the following values :
+. Use the `org.eclipse.jetty.jaas.JAASLoginService` class to authenticate the user using `myrealm` as the realm and `propsFileModule` as the JAAS login module.
 
-[source]
+. Create the `org/jboss/fuse/security/basic/myrealm-jaas.cfg` file.
+. Define the `propsFileModule` module with the following values:
++
+[source,text]
 ----
 org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
 file="src/test/resources/org/jboss/fuse/security/basic/myrealm.props";
 ----
 
-Next, configure, using Java System Property, the key "java.security.auth.login.config" with the value of the JAAS Config file +org/jboss/fuse/security/basic/myrealm-jaas.cfg+
+. Configure the `java.security.auth.login.config` key using a Java `System.Property` with the value of the `org/jboss/fuse/security/basic/myrealm-jaas.cfg` JAAS configuration file.
 
-Finally, create 2 java methods +UsernameWrongPasswordTest()+ and +UsernameTest()+ within the class +org.jboss.fuse.security.camel.jaas.BasicAuthRESTCamelDSLJettyJaasTest+ to test the credentials of a user having either a correct or wrong password.
-Use the method HTTPClient to issue the HTTP request against the RESTFull Endpoint started by Apache Camel with the help of this method +callRestEndpoint()+.
+. Create `UsernameWrongPasswordTest()` and `UsernameTest()` Java methods in the `org.jboss.fuse.security.camel.jaas.BasicAuthRESTCamelDSLJettyJaasTest` class to test the credentials of a user presenting an invalid or valid password, respectively.
 
-Verify that you get a HTTP Code 200 when the user has been authenticated correctly and that the REST Service replies with this response +"Hello World " + user+ that you will validate with Assert methods.
-A code 401 should be returned for a not allowed user.
+. Use the `HttpClient` method to issue the HTTP request against the RESTful endpoint started by Apache Camel using the `callRestEndpoint()` method.
+
+. Verify that a `200` (OK) HTTP status code is returned when the user is authenticated.
+. Using `Assert` method calls, verify that the REST service replies with a `"Hello World " + user` when the user is authenticated.
+. Verify that a `401` (Unauthorized) HTTP status code is returned when invalid credentials are supplied.
 
 [[usecase2]]
-=== CXF JAXRS with Jetty Server & JAAS
+== Explore CXF JAX-RS Using Jetty Server and JAAS
 
-The goal of this use case is to use the Java Api for Authentication and Authorization Service with a Module using users defined in a property file. This JAAS Module will check the user credential passed by the HTTP client
-performing the Basic Authentication
+In this use case, you use JAAS with a module that gets its list of users from a properties file. This JAAS module checks the user credentials supplied by the HTTP client, which uses basic authentication.
 
-So, like the previous use case, you will reuse the use case developed with CXFRS within the Lab 1 but you will use the +org.eclipse.jetty.jaas.JAASLoginService+ instead of the +org.eclipse.jetty.security.HashLoginService+
-class.
+Similar to the previous use case in this lab, you reuse the code developed with CXFRS from the _REST Security with Basic Authentication and Role Lab_. You leverage the `org.eclipse.jetty.jaas.JAASLoginService` class, instead of the `org.eclipse.jetty.security.HashLoginService` class.
 
-In order to develop this project, you will develop a new Java Class +JaasCxfRSTest+ based on the code of the class +BasicAuthCxfRSRoleTest+ and perform the following modifications :
-
-- Create a new file "ServerJAASConfig.xml" where you will use the +org.eclipse.jetty.jaas.JAASLoginService+ bean with the login Module name "propsFileModule" and realm "myrealm"
-- Configure the Spring Bus to use this config file
-- Adapt the +JAXRSServerFactoryBean+ to use +CustomerService+ and +CustomerServiceImpl+
-- Remove the +SecureAnnotationsInterceptor+
-- Setup the System property Key +java.security.auth.login.config+
+. Develop a `JaasCxfRSTest` Java class based on the `BasicAuthCxfRSRoleTest` class source code.
+. Create a `ServerJAASConfig.xml` file  using the `org.eclipse.jetty.jaas.JAASLoginService` bean with the `propsFileModule` JAAS login module and `myrealm` realm.
+. Configure the Spring bus to use this configuration file.
+. Adapt the `JAXRSServerFactoryBean` bean to use `CustomerService` and `CustomerServiceImpl`.
+. Remove the `SecureAnnotationsInterceptor`.
+. Set up the `java.security.auth.login.config` system property key.
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
 
-* How to evaluate the solution of the student :
+== Teacher Information
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* Time estimated: 2d
+
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
+
 
 endif::showscript[]

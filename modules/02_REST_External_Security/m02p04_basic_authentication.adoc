@@ -1,48 +1,43 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#basic_auth]
-== Basic Authentication
+== Basic HTTP Authentication
 
-* HTTP user agent provides : user & password
-* Base64 Encoded String
-* Included within a HTTP Authorization Header
+* HTTP user agent provides username and password
+* Base64-encoded string
+* Included within a HTTP `Authorization` header:
 +
-[source]
+[source,text]
 ----
 Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
 ----
 +
-* Server can request an agent to be authenticated
+* Server can request that an agent be authenticated:
 +
-[source]
+[source,text]
 ----
 WWW-Authenticate: Basic realm="myrealm"
 ----
-* Error code returned : 401 - Unauthorized
+* Error code returned: `401 - Unauthorized`
 * Combined preferably with TLS (HTTPS, SSL)
-* Full access to the resources !
+* Full access to the resources
 
-.References
+.Reference
 
-- https://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01#AA[W3C Http Basic Authentication spec]
+* link:https://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01#AA["W3C HTTP Access Authentication specification^"]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Basic Authentication
+Transcript:
 
-The World Wide Web or W3C consortium, responsible to manage and develop the HTTP Protocol specification has described within the HTTP 1.0 and a HTTP 1.1 specifications an Access Authentication
-mechanism which relies on a simple challenge-response request and response. The "basic" authentication scheme is based on the model that the user agent must authenticate itself with a user-ID and a password for each realm.
+The World Wide Web Consortium, or W3C, is responsible for managing and developing the HTTP protocol specification. Within the HTTP 1.0 and HTTP 1.1 specifications, the W3C specified an access authentication mechanism that relies on a simple challenge/response request and response. In this basic authentication scheme, the user agent must authenticate itself with a user ID and a password for each realm.
 
-The server will service the request only if it can validate the user-ID and password for the protection space of the Request-URI. To be authenticated and authorized, the HTTP client or agent will issue a HTTP request containing a HTTP header
-with the name "Authorization" followed by a column, the token "Basic" and the user-ID and password within a base64 encoded string.
+The server services the request only if it can validate the user ID and password for the protection space of the request URI. To be authenticated and authorized, the HTTP client or agent issues an HTTP request containing a HTTP header with the name `Authorization`, followed by a colon, followed by the token `Basic`, followed finally by the user ID and password within a base64-encoded string.
 
-Upon receipt of an unauthorized request for a URI within the protection space, the server should respond with a challenge containing as HTTP Header "WWW-Authenticate", a colon character, the token "Basic" followed by the realm
-which protects the URI space that the server will verify.
+If the server receives an unauthorized request for a URI within the protection space, the server responds with a challenge containing the HTTP header `WWW-Authenticate`, followed by a colon, the token `Basic`, and the realm that protects the URI space that the server is verifying. This returns an error code `401 - Unauthorized`.
 
-This solution is simple and very basic but is not really secure as the user id/password can be easily decoded and the user id, password retrieved. This is the reason why, the Digest Authentication should be preferered or combined
-with the HTTPS which implements the Transport Layer Secure protocol (TLS or SSLv3).
+This solution is simple and very basic, but also not very secure. The user ID and password can be easily decoded and retrieved. For this reason, the recommended approach is to use digest authentication, preferably combined with HTTPS, which implements the transport layer secure protocol (TLS or SSLv3).
 
-****
 endif::showscript[]

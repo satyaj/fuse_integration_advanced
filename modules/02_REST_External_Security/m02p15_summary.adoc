@@ -1,0 +1,27 @@
+:scrollbar:
+:data-uri:
+:noaudio:
+
+== Summary
+
+* Preparation
+* Basic HTTP Authentication
+* Resource Access Restriction
+* JAAS
+* JAX-RS `@RolesAllowed`
+* Camel Policy
+* JAX-RS Filter
+* Mutual TLS
+* Security Reinforcement
+
+ifdef::showscript[]
+
+Transcript:
+
+This module discussed security concerns related to authenticating an application sending HTTP requests using basic authentication with or without JAAS. It investigated how you can use user roles to restrict access to certain RESTful paths using Jetty/Netty security constraints or the JAX-RS annotation `@RolesAllowed`.
+
+The module also looked at ways to secure the communication between a client and a server using the TLS protocol and mutual authentication. The module described how instead of using a security mechanism managed by the HTTP web container or Netty TCP server, you can use the concept of an interceptor based on the Apache Camel policy and a JAX-RS container filter.
+
+The module concluded by explaining how to secure an endpoint using an API management platform, an approach where you delegate security responsibility by using API plug-ins to authenticate the incoming HTTP request either with basic authentication or OpenID Connect/OAuth2.
+
+endif::showscript[]

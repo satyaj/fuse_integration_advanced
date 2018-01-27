@@ -1,13 +1,16 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#jaxrsintercept]
-== JAXRS - Filter
+== JAX-RS Filter
 
-- Goal : Intercept the HTTP Request and extract the required info to authenticate the user
-- How : Using the ContainerRequestFilter JAXRS Interface implemented as CXF Intercept
+- Goal: Intercept HTTP request and extract information required to authenticate user
+- How: Use `ContainerRequestFilter` JAX-RS interface implemented as CXF intercept
 
-.Example
-[source]
+* Example:
++
+[source,text]
 ----
 @Provider
 @PreMatching
@@ -19,25 +22,22 @@ public class SecurityRequestFilter implements ContainerRequestFilter {
 ...
 ----
 
-.References
+.Reference
 
-- http://blog.dejavu.sk/2014/02/04/filtering-jax-rs-entities-with-standard-security-annotations/[Filtering JAX RS entities]
+* link:http://blog.dejavu.sk/2014/02/04/filtering-jax-rs-entities-with-standard-security-annotations/["Filtering JAX-RS Entities with Standard Security Annotations^"]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== JAXRS - Filter
+Transcript:
 
-The JAXRS specification proposes since the version 2.0 of the specification a Filter which is also an Interceptor executed at the container side and will be of course used to extract the content of the HTTP Request.
-This filter is available by implementing the Java Interface ContainerRequestFilter and contains one method to override "filter". This method will get the ContainerRequestContext object from where you can access the
-HTTP headers or parameters and call your Java Class responsible to authenticate the user.
+Starting with version 2.0, the JAX-RS specification proposes in the specification a filter that is an interceptor executed on the container side and used to extract the content of the HTTP request.
 
-This filter can be bind globally to all the resources or assigned to a specific resource if the annotation @NameBinding is declared. In case the filter should be applied at the pre-match extension point, i.e. before any request matching has been performed by JAX-RS runtime, the filter MUST be annotated with a @PreMatching annotation.
+To make this filter available, you implement the Java interface `ContainerRequestFilter` containing one method to override `filter`. This method gets the `ContainerRequestContext` object, from which you can access the HTTP headers or parameters and call the Java class responsible for authenticating the user.
 
-To inform the framework that the filter must be discovered at runtime and loaded, use the annotation @Provider or register the class on by example, the JAXRSServerFactoryBean.
+You can bind the filter globally to all resources, or assign it to a specific resource by declaring the `@NameBinding` annotation. To apply the filter at a prematch extension point--that is, before any matching request has been performed by the JAX-RS runtime--you must annotate the filter with a `@PreMatching` annotation.
 
-In case of failure, you can use ContainerRequestContext object to specify the HTTP Return code to return like also the customized message.
+To inform the framework that the filter must be discovered at runtime and loaded, either use the `@Provider` annotation or, for example, register the class on the `JAXRSServerFactoryBean`.
 
-****
+In case of failure, use the `ContainerRequestContext` object to specify the HTTP return code to return a customized message.
+
 endif::showscript[]

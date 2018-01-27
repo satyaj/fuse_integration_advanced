@@ -1,33 +1,36 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#reenforce-security-role]
-== Re-enforce Security - Role based
+== Security Reinforcement
 
-- Goal : Restrict/allow access to an application based on an Authorization Rule
-- Should be combined with Keycloak Plugin
-- How : Define a collection of Authorization rules as such
+.Role-Based Security
 
+- Goal: Restrict/allow access to application based on authorization rule
+- Should be combined with Keycloak plug-in
+- How: Define collection of authorization rules
+- Example:
++
+[cols="3",width="70%"]
 |===
-|Path |Verb |Role required
-|.* |PUT |Writer
-|.* |GET |Reader
+|Path |Verb |Role Required
+|.* |`PUT` |Writer
+|.* |`GET` |Reader
 |===
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Re-enforce Security - Role based
+Transcript:
 
-One of the key benefit to use Keycloak in combination with Apiman is that you can define roles to a realm within the Keycloak Management console and next map the roles with a HTTP Action (= aka a verb)
-using the Authorization Rule Plugin of Apiman.
+A key benefit to using Keycloak in combination with apiman is that you can restrict or allow access to an application based on an authorization rule. To do so, you define roles to a realm within the Keycloak management console and map the roles with an HTTP action using the Apiman authorization rule plug-in.
 
-To achieve this goal, when you will configure the Authorization Rule Plugin, you will describe as a list a collection of rules in order to specify for a Web Resource or PATH, the Verb or Action allowed and the role
-assigned. When the HTTP client will call the gateway, ths Keycloak plugin will extract the JWT Token, verify if the token is still valid and if this is still the case, it will extract from the token, the role assigned to the user.
-Based on this role, it will check the authorization policy rule and will deny/allow the access to the resource.
+When you configure the authorization rule plug-in, you describe for each web resource or path the action allowed and the role assigned as a list or collection of rules. Some examples are shown here.
 
-This approach offers the advantage to externalize the authentication of the HTTP Client outside of Apiman according to a Realm defined, to use the token passed by the client when it will call the RESTFull Service to deny/allow the access
-to the service without having to manage locally the security aspects excepted the Security Constraints which are the Authorization rules.
+When the HTTP client calls the gateway, the Keycloak plug-in extracts the JSON web token, checks to see if the token is still valid, and if it is, extracts the role assigned to the user from the token.
 
-****
+Based on this role, the plug-in checks the authorization policy rule and allows or denies access to the resource accordingly.
+
+This approach lets you externalize the authentication of the HTTP client outside of Apiman according to a defined realm and use the token passed by the client when it calls the RESTFul service to allow or deny access to the service. You can do this without needing to locally manage the security aspects except for the security constraints, which are the authorization rules.
+
+
 endif::showscript[]

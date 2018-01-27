@@ -1,60 +1,64 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= REST Security with Interceptors
 
-In this lab you resolve the following use cases:
+== REST Security with Interceptors Lab
 
-<<usecase1>>
-
-<<usecase2>>
-
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Apache Camel Intercept/Policy and REST Filter
-* Design RESTfull Service project and secure it
-* Expose the RESTfull services using a Camel route or CXF RS
-* Configure the Jetty Endpoint to authenticate the HTTP User request using the Intercept/Policy created
+.Goals
+* Configure your local environment to develop and explore use cases
+* Gain experience using Apache Camel Intercept/Policy and REST Filter
+* Develop a RESTful service project and secure it
+* Expose RESTful services using a Camel route and CXF RS
+* Configure a Jetty endpoint to authenticate the HTTP user request using the Intercept/Policy created
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with RESTfull & HTTP Basic Authentication
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, Maven
+* Familiarity with RESTful services and HTTP basic authentication
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you examine two use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Prepare Lab Environment
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-|===
+=== Install Lab Assets
 
-=== Install the lab project
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://sourceforge.net/projects/soapui/files/[SoapUI^] | Latest version | Optional
+|====
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+=== Install Lab Project
 
-== Use case exercise
+Download and install locally the latest release of the project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project. 
 
 [[usecase1]]
-=== Authenticate the user using JAXRS ContainerRequestFilter
+== Authenticate User with JAX-RS Request Filter
 
-The goal of this use case is to develop the strategy performing the authentication of the incoming HTTP request using the JAXRS ContainerRequestFilter. This filter will be registered as a CXFRS Provider
-in order to extract from the HTTP Request, the HTTP Authorization header to decode the Base64 user and password.
+In this use case, you authenticate an incoming HTTP request using the `ContainerRequestFilter` JAX-RS class. This filter is registered as a CXFRS provider. It extracts the HTTP `Authorization` header from the HTTP request and decodes the Base64-encoded username and password.
 
-Create a new Java class +org.jboss.fuse.security.cxf.intercept.JAXRSContainerFilterTest+ which extend the class +AbstractBusClientServerTestBase+. Add a static public Server class extending the +AbstractBusTestServerBase+
-and develop within the +run()+ method the code required to create the +JAXRSServerFactoryBean+ bean.
-
-Use the following parameters :
-
-[source]
+. Create an `org.jboss.fuse.security.cxf.intercept.JAXRSContainerFilterTest` Java class that extends the `AbstractBusClientServerTestBase` class.
+. Add a static public server class that extends  `AbstractBusTestServerBase`.
+. In the `run()` method, write the code required to create the `JAXRSServerFactoryBean` bean.
+. Use these parameters:
++
+[source,json]
 ----
  setAddress("http://localhost:" + PORT + "/");
  setResourceClasses(CustomerServiceImpl.class);
@@ -62,46 +66,55 @@ Use the following parameters :
  setAddress("http://localhost:" + PORT + "/");
 ----
 
-Add a new Provider +setProvider(new SimpleAuthenticationFilter());+ to the JAXRSServerFactoryBean and register the +SimpleAuthenticationFilter+ class.
+. Add a provider to the `JAXRSServerFactoryBean` instance using `setProvider(new SimpleAuthenticationFilter());`.
+. Register the `SimpleAuthenticationFilter` class.
 
-This inner java class implements the interface +javax.ws.rs.container.ContainerRequestFilter+.
+* This inner Java class implements the `javax.ws.rs.container.ContainerRequestFilter` interface.
 
-Within the method +public void filter(ContainerRequestContext requestContext)+, add the code required to extract the HTTP Authorization header, decode the Base64 String and check if the user
-and password passed are equal respectively to "mickey" and "mouse". If this is the case, then print or log that the user is authenticated. Otherwise, create a +javax.ws.rs.core.Response+ with the message +<message>Authentication failed</message>+
-and the response code +UNAUTHORIZED+.
+. In the `public void filter(ContainerRequestContext requestContext)` method, add the code required to extract the HTTP `Authorization` header, decode the Base64 string, and check if the supplied user and password are "mickey" and "mouse", respectively.
+. If the user and password are correct, print or log that the user is authenticated.
+. If the user and password are not correct, create a `javax.ws.rs.core.Response` with the `<message>Authentication failed</message>` message and the `UNAUTHORIZED` (`401`) response code.
 
-Within the Test class, add 2 methods +testBasicAuth+ and +testFailAuth+ where you will issue a HTTP Request using the method +getAndCompare(String address, String acceptType, String auth, int expectedStatus, String response)+
+. In the test class, add the `testBasicAuth` and `testFailAuth` methods in which you issue an HTTP request using the `getAndCompare(String address, String acceptType, String auth, int expectedStatus, String response)` method.
 
-Call the endpoint at the address +http://localhost:PORT/customerservices/customers/123+ with the HTTP Accept type +application/xml+ and pass the HTTP Authorization String under the form "Basic xxxxxxx" where xxxx is the base64 string of the user and password.
-The response code expected for +testBasicAuth+ is +200+ while it should be +401+ for the second. Assert that you will receive as response +<message>Authentication failed</message>+ in case of failure and +<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Customer><id>123</id><name>John</name></Customer>+
-in case of success.
+. Call the endpoint at `http://localhost:PORT/customerservices/customers/123`.
+* Include an `Accept` header with the value `application/xml`.
+* Include an `Authorization` header, using HTTP basic authentication.
+* The value `Authorization` header should be a string of the form "Basic xxxxxxx" where xxxx is the Base64-encoded string of the user and password separated by a colon.
+. Check the following:
+* The response code for `testBasicAuth` is `200` (OK) and the response body is `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Customer><id>123</id><name>John</name></Customer>`.
+* The response code for `testFailAuth` is `401` (Unauthorized) and the response body is `<message>Authentication failed</message>`.
 
 [[usecase2]]
-=== Authenticate the user using Apache Camel Interceptor/Policy
+== Authenticate User with Apache Camel Interceptor/Policy
 
-The goal of this use case is to develop an Apache Camel Policy acting as an interceptor to accept/refuse the HTTP Request if the authentication process succeeds/fails. We will design an Apache Camel project using the REST DSL
-syntax and the component Netty4 HTTP to expose the following RESTfull service +/say/hello/{id}+.
+In this use case, you develop an Apache Camel policy acting as an interceptor to accept or refuse the HTTP request, depending on whether authentication is successful or not. You develop the Apache Camel project using REST DSL syntax and Netty4 HTTP to expose the `/say/hello/{id}` RESTful service.
 
-The REST endpoint will redirect the Camel Exchange created to a +direct:hello+ endpoint where you will apply your Policy strategy to intercept the HTTP Request.
+The REST endpoint redirects the Camel Exchange to a `direct:hello` endpoint where you apply the policy strategy to intercept the HTTP request.
 
-Use the Java class +org.jboss.fuse.security.camel.policy.SimpleAutPolicyTest+ to design your Camel Route exposing the Rest Netty4 HTTP Endpoint and test case.
+=== Develop Project
 
-Configure a route exposing the from("direct:hello") endpoint and calling next a policy processor created using the class +org.jboss.fuse.security.camel.policy.SimpleAuthenticationPolicy+. Return as response this
-simple message +Hello World ${header.id}+.
+. Use the `org.jboss.fuse.security.camel.policy.SimpleAutPolicyTest` Java class to develop a Camel route exposing a REST Netty4 HTTP endpoint and test case.
 
-Your policy java class +SimpleAuthenticationPolicy+ must implement the interface +org.apache.camel.spi.AuthorizationPolicy;+. Override the wrap method +public Processor wrap(RouteContext routeContext, Processor processor) {+ and
-return this object new +SimpleAuthenticationProcessor(processor, this);+
+. Configure a route exposing the `from("direct:hello")` endpoint.
+. Call a policy processor created using the `org.jboss.fuse.security.camel.policy.SimpleAuthenticationPolicy` class.
+. Return the simple message `Hello World ${header.id}` as a response.
 
-The +org.jboss.fuse.security.camel.policy.SimpleAuthenticationProcessor+ java class which extends the +DelegateAsyncProcessor+ class of Camel will get the Camel Exchange within the method +process(Exchange exchange, AsyncCallback callback) {+
+* Your Java class `SimpleAuthenticationPolicy` policy must implement the `org.apache.camel.spi.AuthorizationPolicy;` interface.
 
-Develop the strategy to extract the HTTP Authorization header within the +applySecurityPolicy(Exchange exchange)+ method and authenticate the user/password extracted from the Base64 encoded string as done within the
- previous use case.
+. Override the `public Processor wrap(RouteContext routeContext, Processor processor)` wrap method.
+. Return the `SimpleAuthenticationProcessor(processor, this);` object.
 
-Use the +login(String user, String password)+ method to verify the user, password extracted.
+* The `org.jboss.fuse.security.camel.policy.SimpleAuthenticationProcessor` Java class, which extends the `DelegateAsyncProcessor` Camel class, retrieves the Camel `Exchange` instance in the `process(Exchange exchange, AsyncCallback callback)` method.
 
-Add different catch blocks within the +applySecurityPolicy(Exchange exchange) {+ method to collect the following exceptions and messages
+. Develop the strategy to extract the HTTP `Authorization` header in the `applySecurityPolicy(Exchange exchange)` method.
+. Authenticate the user and password extracted from the Base64-encoded string, as in the previous use case.
 
-[source]
+. Use the `login(String user, String password)` method to verify the extracted user and password.
+
+. Add different catch blocks in the `applySecurityPolicy(Exchange exchange)` method to collect these exceptions and messages:
++
+[source,javascript]
 ----
 } catch (NullPointerException ne) {
     throw new AuthenticationException("Authorization Header is not present or can't be decoded");
@@ -112,47 +125,48 @@ Add different catch blocks within the +applySecurityPolicy(Exchange exchange) {+
 }
 ----
 
-Add a onException processor within the Camel DSL Route definition to catch these exception +AuthenticationException.class+. Set the Body of the Camel Exchange with a +javax.rs.core.Response+ object that you will
-configure with the HTTP Error code 404 and the message extracted from the Exception caught.
+. Add an `onException` processor in the Camel DSL route definition to catch these `AuthenticationException.class` exceptions.
+. Set the `Body` of the Camel `Exchange` object to a `javax.rs.core.Response` object that you configure with the  HTTP `404` (Not Found) error code and the message extracted from the caught exception.
 
+=== Develop Test Case
 
-Within the Test Class, add this method +testBasicAuth+ and develop the code to perform 2 requests; one unauthorized and the other authorized.
-You will use the +ProducerTemplate.requestBodyAndHeader()+ method to send using the Netty4 HTTP endpoint, the HTTP Request. Don't forget to pass the HTTP Method as parameter to the HTTP header and Authorization header when required
-
-Send 2 HTTP Requests and assert the response message or HTTP code returned for; request without HTTP Authorization header and request with HTTP Authorization header
-
-[cols="2*", options="header"]
+. In the test class, add a `testBasicAuth` method.
+. In this method, write code to perform two requests--one authorized and the other unauthorized.
+. Use the `ProducerTemplate.requestBodyAndHeader()` method to send the HTTP request using Netty4 HTTP.
+* Remember to pass the HTTP method as a parameter as well as any HTTP headers, including an `Authorization` header, when required.
+. Send two HTTP requests--one without an HTTP `Authorization` header and a second with the header.
+. Verify that the response message and HTTP status code returned are as shown in this table:
++
+[cols="2",options="header"]
 |===
 |Request
 |Description
+|`netty4-http://http://localhost:" + PORT + "/say/hello/noauthheader`
+a|HTTP code: `500`
 
-|netty4-http://http://localhost:" + PORT + "/say/hello/noauthheader
-a|HTTP code: 500
+Response message returned: `Netty HTTP operation failed invoking http://localhost:23000/say/hello/noauthheader with statusCode: 500`
+|`netty4-http://http://localhost:" + PORT + "/say/hello/Donald`
+a|HTTP code: `200`
 
-Response message asserted: Netty HTTP operation failed invoking http://localhost:23000/say/hello/noauthheader with statusCode: 500
-
-| netty4-http://http://localhost:" + PORT + "/say/hello/Donald
-a|HTTP code: 200
-
-Response message asserted: "Hello World Donald"
-
+Response message returned: `Hello World Donald`
 |===
 
-NOTE: You can use as user/password one of the value of the Map of the passwords
+* You can use any username and password from the password map.
 
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Teacher Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
 
 endif::showscript[]

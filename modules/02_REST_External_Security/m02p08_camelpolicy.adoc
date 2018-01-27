@@ -1,15 +1,18 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#camelpolicy]
 == Camel Policy
 
-* Goal : Extract from the HTTP request the info needed to authenticate a user
-* How : Use a Camel Policy to wrap the Route / Pipeline with a new processor
-* Camel Authorization Policy extends the Policy Interface
-* Free to design/develop as you want the Security Authentication solution
+* Goal: Extract from HTTP request information needed to authenticate user
+* How: Use Camel policy to wrap route/pipeline with new processor
+* Camel authorization policy extends the policy interface
+* Free to design/develop security authentication solution as desired
 
-.Example
-[source]
+* Example:
++
+[source,text]
 ----
 public class ShiroSecurityPolicy implements AuthorizationPolicy {
 
@@ -23,24 +26,19 @@ public class ShiroSecurityPolicy implements AuthorizationPolicy {
             applySecurityPolicy(exchange);
 ----
 
-.References
-- http://camel.apache.org/security.html[See - Camel Route Security]
+.Reference
+* link:http://camel.apache.org/security.html[Apache Camel Security^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Camel Policy
+Transcript:
 
-When we have to secure a CXF or RESTfull endpoint, we can also use the concept of an Interceptor. IT exists different implementations but we will investigate 2 of them; one base on Apache Camel Framework
-and the other on JAX RS Filter. You can also, if you want, develop your won strategy top of Apache CXF with a InInterceptor and also with Apache ActiveMQ using the Plugin Concept.
+Another option for securing a CXF or RESTful endpoint is to extract the information needed to authenticate a user from the HTTP request. To do so, you use a Camel policy to wrap the route and pipeline with a new processor.
 
-To use the Interceptor pattern with Apache Camel, we will implement the Java Interface AuthorizationPolicy. This Interface contains 2 methods; beforeWrap and wrap(). The Method to be overriden is wrap(). The wrap method
-will be called during the setup of the Apache Camel Route and the framework will add within the list of the pipeline your Authentication/Authorization processor used to authenticate the incoming
-HTTP Request/Agent.
+This approach uses the concept of an interceptor. Different implementations of an interceptor exist, two of which are discussed in this module: one based on the Apache Camel framework and the other based on a JAX-RS filter. If you want, you can develop your own strategy on top of Apache CXF with an interceptor combined with Apache ActiveMQ via the plug-in model.
 
-To support this approach, you will have to create an Authentication Processor implementing the AuthorizationPolicy, register it within the Java / XML DSL Route and create a Java Security Class containing the code required to ectract
-from the Camel Exchange the HTTP Headers and/or Body to authenticate the request.
+To use an interceptor pattern with Apache Camel, you implement the Java interface `AuthorizationPolicy`. This interface contains two methods, `beforeWrap` and `wrap()`. The method to be overridden is `wrap()`. The `wrap()` method is called during setup of the Apache Camel route. Within the list of the pipeline, the framework adds the authentication/authorization processor used to authenticate the incoming HTTP request or agent.
 
-****
+To support this approach, you need to create an authentication processor implementing the `AuthorizationPolicy`, register it within the Java/XML DSL route, and create a Java security class. The class contains the code required to extract the HTTP headers and/or body from the Camel Exchange to authenticate the request.
+
 endif::showscript[]

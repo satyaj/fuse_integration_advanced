@@ -1,25 +1,30 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#mutualtls]
 == Mutual TLS
 
 * Goal: Two parties authenticating each other
 * TLS offers client-to-server authentication using client-side *X.509 authentication*
-* How : server requests a certificate from the client using a *CertificateRequest* message
+* How: Server uses `CertificateRequest` message to request certificate from client
 
-.Example
-[source]
+* Server-side example:
++
+[source,text]
 ----
-Server side
-
 <http:destination id="{Namespace}PortName.http-destination">
   <http:tlsServerParameters secureSocketProtocol="TLSv1">
     ...
     <sec:clientAuthentication want="true" required="true"/>
   </http:tlsServerParameters>
 </http:destination>
+----
 
-Client Side
+* Client-side example:
++
+[source,text]
+----
 
 <http:conduit id="{Namespace}PortName.http-conduit">
   <http:tlsClientParameters>
@@ -33,26 +38,21 @@ Client Side
 
 .References
 
-- https://en.wikipedia.org/wiki/Transport_Layer_Security[TLS Description]
-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html-single/Apache_CXF_Security_Guide/index.html#i305901[Mutual TLS config]
+* link:https://en.wikipedia.org/wiki/Transport_Layer_Security[Transport Layer Security^]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html-single/Apache_CXF_Security_Guide/index.html#i305901[Mutual Authentication Overview^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Mutual TLS
+Transcript:
 
-Many Web Applications rely on HTTPS protocol to re enforce the security communication between the Server and the Client but they only setup the communication in one direction, from the server to the client.
-That means that the SSL Server Certificate will be only presented to the client in order for the client to verify/validate that it is well connected to the Server where it should be. This control mechanism is very important as it
-guarantees the integrity of the message transmitted (= no alterations of the message took place), that the server is authenticated (= as its X509 Certificate has been verified by the client and its CA Authority) and
-that the communication is secyred between both parties as encrypted using the Public key, part of the certificate that the client can use.
+Many web applications rely on the HTTPS protocol to reinforce the security communication between the server and the client. In many cases, these applications set up the communication in only one direction, from server to client.
 
-Mutual TLS means that the client will also send to the server its own certificate, that the server will control in order to authenticate the client. This process which is called Mutual TLS will take place as the Server
-will send to the Client within the TCP Communication a CertificateRequest in order to get this certificate.
+That means that the SSL server certificate is only presented to the client for the client to verify or validate that it is properly connected to the server. This control mechanism is very important, because it guarantees the integrity of the message transmitted--that is, no alterations of the message took place. It also guarantees that the server is authenticated, because its X509 certificate has been verified by the client and its CA authority. Finally, it guarantees that the communication is secured between both parties as encrypted using the public key, the part of the certificate that the client can use.
 
-Of course, to use the Mutual TLS mechanism, both parties should generate their X509 Certificates, cross-sign it in order for the Client to accept the SSL Server Certificate and vice versa. If you use Apache CXF or one of the
-Apache Camel Components supporting TLS, then it will be required that you configure the SSL Parameters to configure the Keystore, TrustStore and KeyManagers used by both parties.
+In mutual TLS, the client also sends its own certificate to the server, which the server controls to authenticate the client. This process is called mutual TLS because the server sends the client a `CertificateRequest` within the TCP communication to get the client's certificate.
 
-Remark : The SSLengine needs to be configure at the server to specify that Client authentication is required, wanted
-****
+To use the mutual TLS mechanism, both parties must generate their X509 certificates and cross-sign them for the client to accept the SSL server certificate and vice versa. If you use Apache CXF or one of the Apache Camel components supporting TLS, you must configure the SSL parameters to configure the `Keystore`, `TrustStore`, and `KeyManagers` used by both parties.
+
+Note that the `SSLengine` needs to be configured at the server to specify whether client authentication is required or optional but preferred.
+
 endif::showscript[]
