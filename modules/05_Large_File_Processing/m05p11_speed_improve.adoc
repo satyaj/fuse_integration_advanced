@@ -1,28 +1,28 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#improve-speed]
-== Improve speed
+== Performance Optimization Strategies
 
-* Reduce number of write operations to the output file
-* Aggregation could be used to batch/group result before to write to output file
-* Result could be send to an async component (seda, jms)
-* Prefer to use StringBuilder within the StringBodyAggregator
+* Reduce number of write operations to output file
+* Use aggregation to group results before writing to output file
+** Result can be sent to asynchronous component (SEDA, JMS)
+* Prefer `StringBuilder` within `StringBodyAggregator`
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Improve write speed
+Transcript:
 
-The last topic of this module covers the different strategies that you should be aware in order to improve the performance of your application when you must process a huge volume of records.
-Some have already been presented before and some are new but we will nevertheless recap the points to take care here.
-To avoid to process all the objects created as a list after the split of the content in memory, use the stream option in order to iterate through the list. That means that you should verify that the object used supports
-the Iterable interface of the JDK. Next, evaluate with the customers if processing the workload in parallel is an option. Adopting parallel processing will required like also the other approaches that you design a benchmark to stress
-test the project using dummies files/data that you evaluate the threads to be used like also the policy to be configured to release the threads from the pool.
-When possible, use the group option to process the group of the objects created and added within the body of the child exchange created by the splitter processor as a batch unit of work.
-To reduce the number of write operations needed when we create a file on the file system, use the aggregation EIP pattern in order to bufferize the result processed by the child processor called by the splitter processor.
-Don't manipulate the old and new Camel Exchanges within the Aggregator processor using a Java String object but instead a StringBuilder/StringBuffer that finally you will convert to a String.
-Instead of sending the String object created to the file producer, you can also use an asynchronous component (JMS, Seda) to rebuild the file in a separate route but using a different non blocking thread.
+A variety of strategies are available to improve the performance of your application when you must process a large volume of records.
 
-****
+As mentioned previously, you can use the `stream` option to avoid processing all of the objects created as a list after the split of the content in memory. This option lets you iterate through the list. To use this option, verify that the object being used supports the Iterable JDK interface. Then evaluate if processing the workload in parallel is an option. Like the other approaches described here, adopting parallel processing requires designing a benchmark against which you can perform a stress test for the project using dummy files and data. The test lets you evaluate the threads to use and the policy to configure to release the threads from the pool.
+
+Whenever possible, use the `group` option. This option lets you process as a batch unit, or group, of work, the objects created and added within the body of the child exchange created by the Splitter processor.
+
+To reduce the number of write operations needed when you create a file on the file system, use the Aggregation EIP. This buffers the result processed by the child processor called by the Splitter processor.
+
+Do not use a Java string object to manipulate the old and new Camel Exchanges within the Aggregator processor. Instead, use `StringBuilder` or `StringBuffer` that you ultimately convert to a string.
+
+Instead of sending the string object created to the file producer, use an asynchronous component such as JMS or SEDA to rebuild the file in a separate route using a different nonblocking thread.
+
 endif::showscript[]

@@ -1,21 +1,23 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#iterable]
-== Iterable
+== `SplitterIterable` Class
 
-* Default : Collection, Array & List
+* Default: Collection, array, and list
+
+* Example:
 +
-.Example
-
 [source,java]
 ----
 from("direct:splitUsingBody").split(body()).to("mock:result");
 ----
 +
 * Can be extended to support your own strategy
-* Benefit : iterate over the collection of objects, without exposing implementation details !
+* Benefit: Iterates over collection of objects without exposing implementation details
+
+* Example:
 +
-.Example
 
 [source,java]
 ----
@@ -38,16 +40,17 @@ public class GameCollection implements Iterable<Game> {
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Iterable
+Transcript:
 
-Whenever the Splitter processor will get an object from the Body or Header using the simple, body, header, ognl or mvel language which is a Java Collection, Array,
-List, Array of Java Primitives or a String with values separated by the given delimiter then the processor will automatically split its content using the SplitterIterable class.
+Whenever the Splitter processor gets an object from the body or header using any of the following languages, the processor automatically splits the object's content using the `SplitterIterable` class. The languages are:
 
-As a Java developer, this is also up to you to decide when you can use or create your own Collection. One of the benefit of the Collection is that you will mask the implementation details
-and that you can change it without having to update the existing Apache Camel route. If you look to the example included within this slide, it contains a Vector where we add new Games
-object and the Iterator method will return an Iterator object that the Splitter processor can use to iterate through the list of the items included.
-****
+* Simple, body, or header language
+* Object-Graph Navigation Language, or OGNL
+* MVFLEX Expression Language, or MVEL
+
+MVEL can be a Java collection, an array, a list, an array of Java primitives, or a string with values separated by the specified delimiter.
+
+As a Java developer, you need to decide when you can use or create your own collection. A collection lets you mask the implementation details. You can change it without needing to update the existing Apache Camel route. The example shown here contains a `Vector` in which you add a `Games` object. The `Iterator` method returns an `Iterator` object that the Splitter processor can use to iterate through the list of included items.
+
 endif::showscript[]

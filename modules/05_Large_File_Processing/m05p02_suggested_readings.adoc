@@ -1,27 +1,26 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#suggested-readings]
-== Suggested Readings & work
+== Preparation
 
-.Exercise yourself
-* Design a Camel project using the File component and the Splitter Pattern
-* Review the Apache Camel Splitter & Aggregator pattern
+.Recommended Reading
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Splitter.html[Splitter^]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Aggregator.html[Aggregator^]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/Intro.html#Intro-Overview[Overview of the Languages^]
 
-.Readings
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Splitter.html[Splitter Pattern]
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Aggregator.html[Aggregator]
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/Intro.html#Intro-Overview[Languages & Expression]
+.Recommended Tasks
+* Create Camel routes using file, FTP, and JMS components
+* Review Splitter and Aggregator patterns
 
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Suggested Readings & work
+Transcript:
 
-In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about the EIP Patterns within the Camel Development with JBoss Fuse course.
-As we will investigate the strategies available to process Large Files but also Messages containing Big String, XML files, it is important that you create some Camel Routes using the
-file, ftp or JMS components to collect such big volumes of information to be processed and you review how to use the EIP Splitter & Aggregator patterns.
+To prepare for this module, Red Hat recommends that you review the information on the web pages shown here.
 
-****
+In addition, before investigating the strategies available for processing both large files and messages containing big strings and XML files, you should create some Camel routes using the file, FTP, or JMS components to collect large volumes of information to be processed. You should also review how to use the Apache Camel Splitter and Aggregator patterns.
+
 endif::showscript[]

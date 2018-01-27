@@ -2,7 +2,7 @@
 :data-uri:
 :noaudio:
 
-== Module Topics
+== Summary
 
 * Preparation
 * Splitter
@@ -17,8 +17,9 @@ ifdef::showscript[]
 
 Transcript:
 
-This module covers different strategies that you can implement within your project to process large files and messages containing huge volumes of data.
+This module covered different strategies that you can implement within your project to process large files and messages containing huge volumes of data.
 
 The basic approach is to split the stream file into a collection of small items that the Apache Camel processors can handle quickly without creating unmanageably large objects in memory. Different languages exist to split CSV records and XML strings, including the Tokenize, XTokenize, and XMLTokenize expression languages. They all use an iteration method in which a pointer accesses the record of the CSV list or XML or CSV record without the performance drawback of holding all of the data in memory. To make this process even more powerful, Red Hat recommends that you parallelize the work and aggregate the result of the transformation to save the incoming files into the resulting files.
+
 
 endif::showscript[]

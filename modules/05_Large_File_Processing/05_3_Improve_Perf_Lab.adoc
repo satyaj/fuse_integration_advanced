@@ -1,84 +1,106 @@
-:noaudio:
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
 
-= Improve performance of the Splitted items Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Split Items Performance Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Iterate through the list of the items to be splitted to boost the performance
-* Use a different XML Api to parse its content (Stax, DOM)
-* Aggregate the result to reduce the number of write to the file system
+* Configure your local environment to develop and explore use cases
+* Iterate through a list of split items to improve performance
+* Use a different XML API to parse its contents (StAX, DOM)
+* Aggregate the result to reduce the number of writes to the file system
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Experience with Camel development using Red Hat JBoss Fuse
+
+.Use Cases
+In this lab, you examine three use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-== Use case exercise
+=== Install Lab Project
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
+
 
 [[usecase1]]
-=== Stream CSV records
+== Stream CSV Records
 
-The goal of this use case is to demonstrate that we can improve the splitting processing of files containing many records using the streaming option of the Splitter EIP Pattern.
-So, you will use the Java Test class +org.jboss.fuse.largefile.performance.StreamCsvTest+ to develop 2 Junit methods +testWithoutStream+ and +testWithStream+ where you will demonstrate
-that the streaming option is faster compare to the scenatio where you don't use it.
+In this use case, you demonstrate that you can improve file split processing for files containing many records.
 
-For that purpose, you will measure the elapsed time required by the Apache Camel route to split and process 10 files containing each 10.000 records. The files, which contain
-CSV records, can be generated using the maven profile +gen-csv+. The files generated will be available under the folder +target/data+.
+=== Evaluate Streaming Options
 
-Then, you will consume them, split the content in a route using as delimiter the carriage return character and send the result to the LOG EIP processor where the logging level is defined DEBUG.
+. Implement `testWithoutStream` and `testWithStream` JUnit methods using the `org.jboss.fuse.largefile.performance.StreamCsvTest` Java test class.
+. Use the streaming option of the Splitter EIP.
+. Demonstrate that using the streaming option is faster than not using it.
 
-NOTE: The files should not be deleted by the Camel File consumer.
-IMPORTANT: Instead of using the mock endpoint to get all the exchanges processed, you can build an Expression using the http://camel.apache.org/notifybuilder.html[NotificationBuilder] to be notified about the exchanged processed.
+=== Compare Elapsed Time
+
+. Measure the elapsed time required by the Apache Camel route to split and process ten files, each containing 10,000 records.
+. Generate the files containing the CSV records using the `gen-csv` Maven profile.
+. Make the generated files available under the `target/data` folder.
+. Consume the files.
+. Split the contents in a route using a carriage return as the delimiter.
+. Send the result to the LogEIP processor.
+. Define the logging level as `DEBUG`.
+* The files should not be deleted by the Camel file consumer.
+. Build an expression using the link:http://camel.apache.org/notifybuilder.html[NotificationBuilder^] so that you are notified of each exchange processed.
+* This is in contrast to using the Mock endpoint for processing the exchanges.
+
 
 [[usecase2]]
-=== Compare Stax vs DOM splitting
+== Compare StAX Versus DOM Splitting
 
-Within this use case, we will compare the Stax Api against a DOM Api to process large XML files. The project that you will design will be build around the java class +org.jboss.fuse.largefile.performance.StaxDomTest+.
-This class will include 2 Junit Methods +testWithXPath+ and +testWithXTokenizer+. Like the previous use case, the Apache Camel Routes to be created will consume the files generated by the maven profile +gen-xml+
-under the directory +target/data+. The 10 files processed containing each 100000 XML records will be either splitted using the Stax Api or a DOM Api.
+In this use case, you compare the StAX API against a DOM API in processing large XML files.
 
-Measure the elapsed time to processed the splitted items like also the Memory consumed to run each Camel route and get the splitted items
+. Build the project using the `org.jboss.fuse.largefile.performance.StaxDomTest` Java class.
+. Implement two JUnit methods called `testWithXPath` and `testWithXTokenizer`.
+. As in the previous use case, create Apache Camel routes that consume the files generated by the `gen-xml` Maven profile under the `target/data` directory.
+. Use both the StAX API and the DOM API to split and process ten files, each containing 10,0000 XML records.
+. Measure the elapsed time to process the split items.
+. Measure the memory consumed to run each Camel route and get the split items.
+* The files should not be deleted by the Camel file consumer.
+. Build an expression that provides notification when each exchange is processed using the link:http://camel.apache.org/notifybuilder.html[NotificationBuilder^].
 
-NOTE: The files should not be deleted by the Camel File consumer.
-IMPORTANT: Instead of using the mock endpoint to get all the exchanges processed, you can build an Expression using the http://camel.apache.org/notifybuilder.html[NotificationBuilder] to be notified about the exchanged processed.
 
 [[usecase3]]
-=== Speed write process
+== Improve Write Performance
 
-The goal of this use case is to experiment the tricks presented within the course to speed the process to write the splitted content within a result file. To design this project, you will use the Java class +org.jboss.fuse.largefile.performance.SpeedWriteProcessTest+.
+In this use case, you explore improving the performance of writing split contents to a file. You leverage the techniques presented in this lab, using a maximum of three strategies in your implementation.
 
-No matter which strategies you will implement, they should be developed using a dedicated Apache Camel Route and tested under the corresponding Junit Method. You will again consume the CSV files generated from the maven profile +gen-csv+.
-The files should not be deleted. You will split the content using the carriage return as delimiter and the result processed will be saved within the folder +target/data/out+ under the name +bigfile.txt+.
-A maximum of 3 strategies should be designed for that use case. We will check the elapsed time to process the Apache Camel Route and save the result to the +bigfile.txt+ file as criteria to evaluate your solution.
+. Use the `org.jboss.fuse.largefile.performance.SpeedWriteProcessTest` Java class to implement the project.
+. Implement the project using a dedicated Apache Camel route, independent of the strategy you use.
+. Create JUnit test methods for each strategy.
+. Consume the CSV files generated from the `gen-csv` Maven profile without deleting them.
+. Split the contents using the carriage return as the delimiter.
+. Save the processed results in the `target/data/out` folder with a filename of `bigfile.txt`.
+. Check the elapsed time to process the Apache Camel route.
+. Save the elapsed time to the `bigfile.txt` file.
+. Evaluate your solution by comparing the elapsed times for each strategy.
 
 ifdef::showScript[]
 
-
 endif::showScript[]
+

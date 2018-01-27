@@ -1,26 +1,29 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#tokenize]
 == Tokenize
 
-* Built-in language of camel-core
-* Goal : tokenize text documents using :
-** A specified delimiter pattern ("\n",",") or
+* Built-in language of `camel-core`
+* Goal: Tokenize text documents using:
+** Specified delimiter pattern (for example,`\n`)
 ** Regex
 * Can tokenize XML content using the XMLTokenize/xtoken language
-* Use `streaming` attribute to +iterate+ through the result
+* Use `streaming` attribute to iterate through result
 +
-.Example
+* Example:
++
 [source,xml]
 ----
 <split streaming="true">
     <tokenize token="\n"/>
     <tokenize token="order" xml="true"/>
 ----
-* To process the content as one atomic - unit, use the option +shareUnitOfWork+
-* Control the exception error propagation using the option +stopOnException+
+* To process content as one atomic unit, use option +shareUnitOfWork+
+* Control exception error propagation with option +stopOnException+
+
+* Example:
 +
-.Example
 [source,xml]
 ----
 <route>
@@ -37,20 +40,19 @@
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Tokenize
+Transcript:
 
-When the incoming object to be splitted is not a list, an array list or an iterable object, then another Apache Camel language will be required to create the list of the items to be processed. This is the purpose
-of the Tokenize language provided by the framework which exists under different variants (tokenize, tokenizePair, tokenizeXML, xtoken) to process XML, CSV records or any stream of data that we can split according to a token which is delimiter
-or a regular expression. As the splitter will generate a list of items and for each of them a new exchange, if the stream of data t o be processed is huge/important, then you should use the option streaming.
-this option is responsible to tell to the Splitter processor that we will iterate through the list of the items instead of loading all the Java objects in memory. The rule of thum is that the object that you will use to split
-the content supports the Java Iterable interface like the Java Scanner, ArrayList class, ...
-To use one of the Tokenize language, you will define the XML tag within the Apache Camel route or its corresponding Java Fluent method and will pass as parameter the token to be used. By example, to split all the CSV records defined
-in a String, then you will use the carriage return delimiter.
-When a stream of data is splitted into collection of items, they will be processed independently from each other. If, for a logic point of view, the content must be processed as one atomic unit by Camel during the routing,
-then the option shareUnitOfWork must be defined at the level of the spliut pattern as you can see within the second example.
+When the incoming object to be split is not a list, an array list, or an iterable object, a different Apache Camel language is required to create the list of items to be processed.
 
-****
+For this purpose, the framework provides the Tokenize language. This language is built into `camel-core`. Different variants of Tokenize exist, including TokenizePair, TokenizeXML, and XTokenize to process XML files, CSV records, or any stream of data that can be split according to a token. The token is a specified delimiter pattern such as `\n` or a comma or a regular expression.
+
+To use one of the Tokenize languages, define the XML tag within the Apache Camel route or its corresponding Java fluent method and pass the token to be used as a parameter. For example, to split all of the CSV records defined in a string, use the carriage return delimiter.
+
+Using Tokenize, the Splitter generates a list of items and a new exchange for each item. If the stream of data to be processed is very large or important, use the streaming option. This option tells the Splitter processor that instead of loading all of the Java objects in memory, you want to iterate through the list of items. As a general rule, the object that you use to split the content must support a Java-iterable interface like the `Scanner` class and `ArrayList` class.
+
+When a stream of data is split into a collection of items, the items are processed independently from one another. If the logic requires Camel to process the content as one atomic unit during routing, define the `shareUnitOfWork` option at the level of the `split` pattern, as shown in the second example.
+
+To control exception error propagation, use the `stopOnException` option.
+
 endif::showscript[]
