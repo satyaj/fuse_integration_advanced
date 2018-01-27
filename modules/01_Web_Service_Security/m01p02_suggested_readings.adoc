@@ -1,27 +1,37 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#suggested-readings]
-== Suggested Readings & work
+== Preparation
 
-.Exercise yourself
-* Read Camel & CXF chapter within the Camel Development with JBoss Fuse course
-* Develop some Camel & CXF Camel Routes
-* Use the CXF Maven plugin to generate the Java code from the WSDL or WSDL from Java Annotated classes
+.Recommended Reading
 
-.Readings
-* http://www.javaworld.com/article/2073287/soa/secure-web-services.html[Secure Web Service]
-* https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores[Keytool & Keystore]
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Security_Guide/CreateCerts.html[Manage your certificates]
+* link:http://www.javaworld.com/article/2073287/soa/secure-web-services.html[Secure Web Services^]
+* link:https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores["Java Keytool Essentials: Working with Java Keystores^"]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Security_Guide/CreateCerts.html[Creating Your Own Certificates^]
+
+
+.Recommended Tasks
+
+* Create projects using Web Service Definition Language (WSDL) file
+* Expose web service from Camel route
+** Consume from another Camel route playing client role
+* Use CXF Maven plug-in to generate:
+** Java-annotated classes from WSDL file
+** WSDL file from Java-annotated classes
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Suggested Readings & work
+Transcript:
 
-In order to prepare this module, we suggest that you review the links provided but also that you read the chapter about Camel & CXF within the Camel Development with JBoss Fuse course, that you create some projects
-using your WSDL file and expose a Web Service from a Camel Route that you will consume from another Camel Route playing the role of a client. Exercise tyourself to also use the CXF Maven Plugins reponsioble to generate the Java
-classes from the WSDL file of the WSDL file from the Java Annotated Classes.
+To prepare yourself for this module, Red Hat recommends that you review the information on the web pages shown here.
 
-****
+As another part of the preparation process, test yourself to make sure you can do the following:
+
+* Create projects using a Web Service Definition Language file
+* Expose a web service from a Camel route that you consume from another Camel route playing the role of client
+* Use the CXF Maven plug-in to generate the Java-annotated classes from the WSDL file, or to generate the WSDL file from the Java-annotated classes
+
 endif::showscript[]

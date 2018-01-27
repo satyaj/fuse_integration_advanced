@@ -1,165 +1,187 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= Web Service Security Lab
 
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
-
-<<usecase4>>
+== Web Service Security Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about WS-Security specification
-* Design Web Service project and secure it
-* Send and receive messages using the CXF Factory Beans class
+* Configure your local environment to develop and explore use cases
+* Become more familiar with WS-Security specification
+* Design a web service project and secure it
+* Send and receive messages using CXF factory beans class
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with Web Service Technology & SOAP Messages
-* PKI & encryption/decryption background
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with web service technology and SOAP messaging
+* Understanding of PKI and message encryption and signatures
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you explore four use cases:
+
+* <<usecase1>>
+
+* <<usecase2>>
+
+* <<usecase3>>
+
+* <<usecase4>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module part of the skeleton project.
+
+Refer to the relevant Apache CXF documentation:
+
+* link:http://cxf.apache.org/docs/ws-security.html["WS-Security^"]
+* link:http://cxf.apache.org/docs/a-simple-jax-ws-service.html["A simple JAX-WS service^"]
+
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Install Lab Assets
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-|===
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://sourceforge.net/projects/soapui/files/[SoapUI^] | Latest version | Optional
+|====
 
-=== Install the lab project
+=== Install Lab Project
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+Download and install locally the latest release of the project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-=== Keys and certificates
+=== Create Keys and Certificates
 
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates. For this usecase, the keys have been generated so you do not have to run this command.
+For this lab, the keys are generated for you. Outside the lab environment, use the `keytool` command to create the private and public keys and corresponding certificates for your users:
 
-[source]
+[source,text]
 ----
 keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security-ws/src/test/resources/integrationstore.jks
 ----
 
-Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
-Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
+* When prompted for the first and last names, enter `localhost`.
+* Specify any values for the other prompts.
+* Answer `yes` to confirm the value of the Common Name (CN).
+* Expect the resulting Common Name to look similar to this: `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`.
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project. 
-
-Refer to the following URL's for the relevant Apache CXF documentation: 
-- http://cxf.apache.org/docs/ws-security.html
-- http://cxf.apache.org/docs/a-simple-jax-ws-service.html
 
 [[usecase1]]
-=== Generate SOAP Header with WSSE : username, timestamp & wrong password
+== Generate WSSE SOAP Header with Invalid Password
 
-CXF uses WSS4J to implement WS-Security. WS-Security can be activated either:
-- by using WS-SecurityPolicy, which provides a comprehensive and sophisticated validation of the security properties of a received message; or
-- by way of CXF interceptors added to your service and/or client.
+CXF uses WSS4J to implement WS-Security. WS-Security can be activated in two ways:
 
-The goal of this use case is to design a Junit Test case where the class +org.jboss.fuse.security.WSSecurityTest+ will include a @Test Junit method responsible to issue a SOAP Message where the SOAP Header generated by the WSS4J Interceptor of the client
-will include a SOAP WSSE header section with a username and a timestamp to authenticate the JAXWS Client request.
+* WS-SecurityPolicy, which provides a comprehensive and sophisticated validation of the security properties of a received message
 
-This use case should issue a message containing a SOAP header with a user and a wrong password and the test must validate that the exception message reported during the fail process contains this message "Security processing failed."
+* CXF interceptors added to your service and/or client
 
-To enable WS-Security within CXF for a server or a client, you'll need to set up the WSS4J interceptors. This can be done via the API for standalone web services or via Spring XML configuration for servlet-hosted ones. In this usecase, we will use the former approach.
+In this use case, you design a JUnit test case where the `org.jboss.fuse.security.WSSecurityTest` class includes an `@Test` JUnit method. This test case issues a SOAP message where the SOAP `Header` element is generated by the WSS4J interceptor of the client. It includes a SOAP WSSE `Header` section with a username, password, and timestamp to authenticate the JAXWS client request.
 
-The CXF web service must be created using the +JaxWsServerFactoryBean+ class while the JAXWS client responsible to consume the echo service will be developed using the +JaxWsProxyFactoryBean+ class.
-No HTTP Transport must be used to configure the client but only the CXF Local transport. Both classes should be developed using the CXF interceptor pattern in order to generate the SOAP WSSE Section header
-and process this section at the server site. The framework Apache WSS4J must be used and configured with the the CXF In/Out Interceptors.
+This use case issues a message containing a SOAP `Header` with an incorrect password. The test must validate that the exception message reported during the failed process contains a "Security processing failed" message.
 
-No wsdl file will be used for this project but instead Java classes annotated with the JAX-WS @WebService annotation. The Echo interface and EchoImpl java class implementing the interface have been provided within the project.
+. Use the API to set up the WSS4J interceptors to enable WS-Security within CXF for a server or a client.
+* Outside the lab environment, the API is normally used for standalone web services, while Spring XML configuration is used for servlet-hosted web services.
 
-WS-Security supports many ways of specifying tokens including UsernameToken header. A username and password or password digest can be communicated to another endpoint. The password callback class allows you to retrieve the password for a given user so that WS-Security can determine if they're authorized.
+. Create the CXF web service using the `JaxWsServerFactoryBean` class.
+* For the the JAXWS client, which is responsible for consuming the echo service, use the `JaxWsProxyFactoryBean` class.
+* Use the CXF local transport to configure the client rather than an HTTP transport.
 
-For this use case, you will use as parameters to configure the WSS4J class the following properties :
+. Develop both classes using the CXF interceptor pattern to generate the SOAP WSSE section header and process this section at the server site.
+* Use and configure the Apache WSS4J framework with the CXF In/Out interceptors.
 
-- Actions : UsernameToken and Timestamp
-- User : your user name as defined within the +org.jboss.fuse.security.service.PwdCallback+ class
-- Password : a password which is incorrect
-- Password Type : text
-
+. Annotate the Java classes with `JAX-WS @WebService`, rather than a WSDL file.
+* The `Echo` interface and `EchoImpl` Java class implementing this interface are provided within the project.
++
 [NOTE]
-====
-* You can define the WSS4J parameters using the `setProperty` method of the class +AbstractWSS4JInterceptor+
-* The JaxWsServerFactoryBean (server side) and JaxWsProxyFactoryBean (client side) must be configured to use the Crypto configuration files insecurity.properties and outsecurity.properties to sign/decrypt the messages using the parameters +signatureVerificationPropFile+ and +decryptionPropFile+. The properties files should be created within the resources directory +org/jboss/fuse/security/common+
-* Both Crypto config files will use the same keystore file +integrationstore.jks+
-====
+WS-Security supports many ways of specifying tokens including a `UsernameToken` header. A username and either a password or password digest can be used to authenticate to a remote endpoint. You can use a password callback class to retrieve or prompt for a password so that WS-Security can determine if the user is authorized.
+
+. Configure the WSS4J class using these parameters:
+
+* Actions: `UsernameToken` and `Timestamp`
+* User: Your user name, as defined within the `org.jboss.fuse.security.service.PwdCallback` class
+* Password: An incorrect password
+* Password Type: Text
+
+. Define the WSS4J parameters using the `setProperty` method of the `AbstractWSS4JInterceptor` class.
+
+. Configure the server-side `JaxWsServerFactoryBean` and client-side `JaxWsProxyFactoryBean` to use the `insecurity.properties` and `outsecurity.properties` crypto configuration files.
+
+* This configuration enables message signing and decryption using the `signatureVerificationPropFile` and `decryptionPropFile` parameters.
+
+. Place the properties files in the `org/jboss/fuse/security/common` resource directory.
+
+* Both of the crypto configuration files use the same `integrationstore.jks` keystore file.
+
 
 //[source,java]
 //----
 //include::{sourcedir}/org/jboss/fuse/security/wssecurity/WSSecurityTest.java[lines=90..107]
 //----
 
+
 [[usecase2]]
-=== Generate SOAP Header with WSSE : username, timestamp & password
+== Generate WSSE SOAP Header with Valid Password
 
-This usecase extends the previous but instead of sending a wrong password, you will send the correct password assigned to your username within the WSSE Section of the SOAP Header. Please use the `passwordCallbackClass` as WSS4J parameter
-to let the Interceptor to get the password from the `PwdCallback` implementing the `CallbackHandler` interface. Within the handle method, loop within the list of the users till you find the user and assign the password
-to the `WSPasswordCallback` object using the `setPassword` property.
+This use case expands on the previous one, but instead of sending an incorrect password, you specify the correct password assigned to your username within the WSSE section of the SOAP `Header`.
 
-Use the same Actions as defined for the Usecase 1 in order to generate a header containing the user credential and the timestamp.
+. Use the `passwordCallbackClass` as the WSS4J parameter to let the interceptor retrieve the password from the `PwdCallback` class, which implements the `CallbackHandler` interface.
+. In the handle method, iterate over the list of users until you find the user.
+. Set the corresponding password to the `WSPasswordCallback` object using the `setPassword` method.
+. Use the same actions as defined for the previous use case in order to generate a header containing the user credentials and timestamp.
+
 
 [[usecase3]]
-=== Generate a SOAP Message & sign its content
+== Generate SOAP Message and Sign Content
 
-The goal of this use case is to sign the body of the message and its timestamp. The algorithms to be used to digest the signed content is +http://www.w3.org/2001/04/xmlenc#sha256+ while the algorithm to be used to sign the content is +http://www.w3.org/2000/09/xmldsig#rsa-sha1+.
-You will need to set the Signature and TimeStamp actions (username token does not need to be set).
+In this use case, you sign the body of a message and its timestamp. The algorithm used to digest the signed content is `http://www.w3.org/2001/04/xmlenc#sha256`, and the algorithm used to sign the content is `http://www.w3.org/2000/09/xmldsig#rsa-sha1`. You must set the `Signature` and `Timestamp` actions. The `UsernameToken` does not need to be set.
 
-Signing a message validates to the receiver that the message was not altered in transit and could only have come from a certain sender. The sender encrypts a digest (hash) of the message with its private key, and the recipient decrypts the hash with the sender's public key.  It checks that the digest values calculated by both the sender and recipient are the same. The student  must ensure that the Client's public key has been imported into the server's keystore using keytool.
+Signing a message allows the receiver to verify that the message was not altered in transit and that it originated from the correct sender. The sender encrypts a digest, or hash, of the message with its private key, and the recipient decrypts the hash with the sender's public key. The recipient checks that the digest values calculated by both the sender and recipient are the same.
 
-Please use these parameters to configure the WSS4J class :
+. Use `keytool` to ensure that the client's public key is imported into the server's keystore.
 
-- Actions : Timestamp and Signature
-- Parts to be signed : signatureParts
-- Parts : body and timestamp
-- Sign Algorithm : signatureAlgorithm
-- Digest Sign Algorithm : signatureDigestAlgorithm
+. Configure the WSS4J class using these parameters:
 
-[WARNING]
-====
-* Take care to configure accordingly the Server and/or client classes and the In/Out interceptors
-* Use the appropriate user to sign the message based on the key associated to its certificate
-====
+* Actions: `Timestamp` and `Signature`
+* Parts to be signed: `signatureParts`
+* Parts: `Body` and `Timestamp`
+* Sign algorithm: `signatureAlgorithm`
+* Digest sign algorithm: `signatureDigestAlgorithm`
+
+. Configure the server and/or client classes appropriately, as well as the In/Out interceptors.
+. Use the appropriate user's key and certificate to sign the message.
+
 
 [[usecase4]]
-=== Generate a SOAP Message & sign/encrypt the content
+== Generate SOAP Message, and Sign and Encrypt Content
 
-For this last use case, you will encrypt and sign the content of the message.
+For this last use case, you encrypt and sign the content of the message.
 
-Encryption involves the sender encrypting the message with the recipient's public key to ensure that only the recipient can read the message (only the recipient has its own private key, necessary for decrypting the message.) This requires the sender to have the recipient's public key in its keystore. The process for encrypting is  similar to the signature process detailed in the previous usecase.
+Encryption involves the sender encrypting a message with the recipient's public key to ensure that only that recipient can read the message. Only the corresponding private key can decrypt the message and that private key is held only by the recipient and not shared with other users. In order to encrypt a message with the recipient's public key, that key must be available in the sender's keystore.
 
-Please use these parameters to configure the WSS4J class :
+. Follow similar steps to those in the previous signing exercise to encrypt and sign the SOAP message.
 
-- Actions : Encrypt and Signature
+. Configure the WSS4J class using this parameter:
 
+* Actions: `Encrypt` and `Signature`
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Instructor Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find within the `output/ws-*` corresponding folder.
 
 endif::showscript[]

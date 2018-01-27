@@ -1,83 +1,102 @@
-:noaudio:
+:scrollbar:
+:data-uri:
+:linkattrs:
 :toc2:
 
-= Web Service Security Policy Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
-
-<<usecase4>>
+== Web Service Security Policy Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about WS-SecurityPolicy specification
-* Design Web Service project and secure it
-* Send and receive SOAP messages using the CXF Bus & SpringBusFactory classes with XML Config Files
+* Configure your local environment to develop and explore use cases
+* Become more familiar with WS-Security specification
+* Design a web service project and secure it
+* Send and receive SOAP messages using the CXF bus and `SpringBusFactory` classes with XML configuration files
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with Web Service Technology & SOAP Messages
-* PKI & encryption/decryption background
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with web service technology and SOAP messaging
+* Understanding of PKI and message encryption and signatures
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you explore four use cases:
+
+* <<usecase1>>
+
+* <<usecase2>>
+
+* <<usecase3>>
+
+* <<usecase4>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module part of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Install Lab Assets
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-|===
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://sourceforge.net/projects/soapui/files/[SoapUI^] | Latest version | Optional
+|====
 
-=== Install the lab project
+=== Install Lab Project
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+Download and install locally the latest release of the project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-=== Keys and certificates
+=== Create Keys and Certificates
 
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates
+For this lab, the keys are generated for you. Outside the lab environment, use the `keytool` command to create the private and public keys and corresponding certificates for your users:
 
-[source]
+[source,text]
 ----
-keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security/src/test/resources/integrationstore.jks
+keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security-ws/src/test/resources/integrationstore.jks
 ----
 
-Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
-Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
+* When prompted for the first and last names, enter `localhost`.
+* Specify any values for the other prompts.
+* Answer `yes` to confirm the value of the Common Name (CN).
+* Expect the resulting Common Name to look similar to this: `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`.
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Create a WSDL File with a Web Service Policy to authenticate the user name token
+== Issue SOAP Request with Valid User Authentication
 
-The goal of this use case is to design a Junit Test case to start a CXF Bus Server and to use the CXF JAWS client endpoint in order to issue a SOAP Message using +WS-SecurityPolicy+ as security specification.
+In this use case, you design a JUnit test case to start a CXF bus server and use the CXF JAWS client endpoint to issue a SOAP message using `WS-SecurityPolicy` as the security specification.
 
-The binding and/or operation in the wsdl references a WS-Policy fragment that describes the basic security requirements for interacting with that service. The WS-SecurityPolicy specification allows for specifying things like asymmetric/symmetric keys, using transports (https) for encryption, which parts/headers to encrypt or sign, whether to sign then encrypt or encrypt then sign, whether to include timestamps, whether to use derived keys. The actions necessary to securely interact with the service are described in the WSDL. However, the user still needs to describe things such as locations of key stores, user names and passwords. 
+You create the WSDL file whose binding and operation references a WS-Policy fragment that describes the basic security requirements for interacting with the service. The WS-SecurityPolicy specification allows specifying:
 
-So, the challenge of this use case will be to configure appropriately the Policy, part of the WSDL file, to generate the SOAP Message & WSSE section with the information required to authenticate, sign or encrypt the content of the message.
+* Required asymmetric/symmetric keys
+* Transports (for example, HTTPS) to use for encryption
+* Parts or headers to encrypt or sign
+* Whether to sign then encrypt or encrypt then sign
+* Whether to include timestamps
+* Whether to use derived keys
 
-The Java class +org.jboss.fuse.security.WSSecurityPolicyTest+ which extend the +AbstractBusClientServerTestBase+ class will include @Test Junit methods responsible to issue the SOAP Messages where the SOAP Header is not longer generated
-by the WSS4J interceptors of CXF but using some Web Service Policy that you will define within the WSDL contract of the Web Service.
+While the actions necessary to securely interact with the service are described in the WSDL, the user must specify the locations of keystores, usernames, and passwords.
 
-Contrary to the use case implemented with the +WSSecurityTest+ test class, you will here use a Server class to launch the CXF Bus and to expose the Web Service endpoint. This CXF Bus will be created using the SpringBusFactory class and will use as parameter the Spring XML config file containing
-the Beans defined to configure the CXF Server.
+The challenges of this use case are to:
 
-The +Server+ class is created with the help of the +launchServer+ utility class with the method +startServers+ which is annotated with the annotation @BeforeClass.
-Define using the String Array object the path to access the resource of the Spring Beans XML file to launch the Server.
+* Appropriately configure the `Policy` portion of the WSDL file.
+* Generate the SOAP message and WSSE section with information required for authentication, signing, and encrypting the message content.
 
-[source]
+The `org.jboss.fuse.security.WSSecurityPolicyTest` Java class, which extends the `AbstractBusClientServerTestBase` class, includes `@Test` JUnit methods to issue the SOAP messages. You must implement these `@Test` JUnit methods.
+
+The SOAP header is not generated by the WSS4J interceptors of CXF, but by using a web service policy that you define in the WSDL contract of the web service.
+
+Contrary to the use case implemented with the `WSSecurityTest` test class, you use the `Server` class to launch the CXF bus and expose the web service endpoint.This CXF bus is created using the `createBus` method of the `SpringBusFactory` class', which takes as its parameter, the Spring XML configuration file containing the beans defined to configure the CXF server.
+
+The `Server` class is created with the help of the `launchServer` utility method in the `startServers` method, which is annotated with the `@BeforeClass` annotation.
+
+=== Set Up Project
+
+. Define the path to the Spring beans XML file resource to launch the server using a String Array object:
++
+[source,json]
 ----
 @BeforeClass
 public static void startServers() throws Exception {
@@ -88,30 +107,39 @@ public static void startServers() throws Exception {
 }
 ----
 
-Similarly, the client issuing the SOAP request and waiting for the SOAP response from the Web Service will be created using a SpringBusFactory class of the Apache CXF Framework. This class and the CXF Bus to be created
-contains a method +setDefault(Bus bus)+ that you will use to configure the Bus with its Spring Beans XML config file. Like the Server, you must define the XML file with the appropriate CXF beans.
+* The client issuing the SOAP request and waiting for the SOAP response from the web service is created using the Apache CXF framework's `SpringBusFactory` class.
 
-To setup the project, you must create the Spring Beans XML file for the server and the client within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+ as such
+* The `SpringBusFactory` class and the CXF bus to be created contain a `setDefault(Bus bus)` method that you use to configure the bus with its Spring Beans XML configuration file.
 
-.Server
-* Add the <cxf:bus> containing the <cxf:features> and the logging Feature
-* Setup the <jaxws:endpoint/> bean to use the the WSDL location file +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl+
-* Use the +org.jboss.fuse.security.service.GreeterImpl+ service
-* Expose the service at this address +https://localhost:9001/ws/Hello+
-* Configure the <httpj:engine-factory/> and its <httpj:engine port="9001"> bean to setup the TLS layer with the +src/test/resources/integrationstore.jks+ keystore file
-* Authenticate the client by configuring the property <sec:clientAuthentication/>
+. Create the Spring beans XML file for the server and the client in the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy` folder.
 
-.Client
-* Add the <cxf:bus> containing the <cxf:features> and the logging Feature
-* Add the <jaxws:client/> bean to configure the CXF HTTP Client
-* Pass as parameters the required +ws-security.*+ attributes to specify the user to be used for Basic HTTP authentication and the +callback-handler+ attribute pointing to the Password Call Back class +org.jboss.fuse.security.service.PwdCallback+
-* Use the <http:conduit/> bean to setup the TLS layer of the HTTP Client
 
-.Common method
-* Create within the Junit Test class the method +runandValidate+ responsible to configure the SpringFactoryBus of the Client for each Junit Test,
-* Instantiate the +SpringBusFactory+ and set the Bus with the location of the XML file as such
+=== Set Up Server
 
-[source]
+In this section, you use the server Spring beans XML file you created in the previous step.
+
+. Add a `<cxf:bus>` element containing a `<cxf:features>` element, and in that element, configure the logging feature.
+. Set up the `<jaxws:endpoint/>` bean to use the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy/hello_world.wsdl` WSDL file.
+. Use the `org.jboss.fuse.security.service.GreeterImpl` service.
+. Expose the `https://localhost:9001/ws/Hello` service.
+. Configure `<httpj:engine-factory/>` and its `<httpj:engine port="9001">` bean to set up the TLS layer with the `src/test/resources/integrationstore.jks` keystore file.
+. Authenticate the client by configuring the `<sec:clientAuthentication/>` property.
+
+=== Set Up Client
+
+In this section, you use the client Spring beans XML file you created earlier.
+
+. Add the `<cxf:bus>` element containing a `<cxf:features>` element, and in that element, configure the logging feature.
+. Add the `<jaxws:client/>` bean to configure the CXF HTTP client.
+. Pass as parameters the required `ws-security.*` attributes to specify the user to be used for Basic HTTP authentication and the `callback-handler` attribute pointing to the Password callback class `org.jboss.fuse.security.service.PwdCallback`.
+. Use the `<http:conduit/>` bean to set up the TLS layer of the HTTP client.
+
+=== Create Common Method
+
+. In the JUnit test class, create the `runandValidate` method to configure the client's `SpringFactoryBus` for each JUnit test.
+. Instantiate the `SpringBusFactory` object, create a bus with the location of the XML file as a parameter, and set this bus as the default.
++
+[source,java]
 ----
 SpringBusFactory bf = new SpringBusFactory();
 
@@ -120,11 +148,11 @@ SpringBusFactory.setDefaultBus(bus);
 SpringBusFactory.setThreadDefaultBus(bus);
 ----
 
-* Setup the +javax.xml.ws.Service+ class to configure the Web Service Client as such
-
-[source]
+. Set up the `javax.xml.ws.Service` class to configure the web service client:
++
+[source,java]
 ----
-URL wsdl = WSSecurityPolicyEncryptTest.class.getResource("/" + wsdlFile);
+URL wsdl = WSSecurityPolicyEncryptTest.class.getResource("/" ` wsdlFile);
 Service service = Service.create(wsdl, SERVICE_QNAME);
 QName portQName = new QName(NAMESPACE, portName);
 Greeter greeter =
@@ -134,56 +162,63 @@ String response = greeter.greetMe("Charles");
 assertEquals(response,assertString);
 ----
 
-* Pass the following parameters +URL busFile, String portName, String assertString, String wsdlFile+ to the method +runandValidate+ as they will be used to respectively:
-** Create the Spring Bus +SpringBusFactory.createBus(URL Bus)+
-** Create the +javax.xml.namespace.QName+ with the namespace and the Qport of the Web Service to call +QName portQName = new QName(NAMESPACE, portName);+
-** The AssertString to be checked against the response returned by the SOAP Response message
-** The location of the SDL file that is needed to create the Service +Service.create(wsdl, SERVICE_QNAME)+
+. Pass the `URL busFile`, `String portName`, `String assertString`, `String wsdlFile` parameters to the `runandValidate` method.
 
-.Unit Test
+* The `URL busFile` parameter is used to create the `SpringBusFactory.createBus(URL bus)` Spring bus.
+* The `String portName` parameter is used to create the `javax.xml.namespace.QName` object. The other parameter to the `QName` constructor is the namespace, specified by the `NAMESPACE` constant.
+* The `String assertString` parameter is used to check the response from the SOAP response message.
+* The `String wsdlFile` parameter specifies the location of the WSDL file that is used to create the service.
 
-* Create a Junit Test with the +testUsernameToken()+ method where you will issue a SOAP request with the following parameters
+=== Create JUnit Test
 
-[source]
+. Create a JUnit test with the `testUsernameToken()` method and issue the SOAP request in this method:
++
+[source, java]
 ----
 URL busFile = WSSecurityPolicyTest.class.getResource("client.xml");
 runandValidate(busFile, "GreeterPort", "Hello Charles", "org/jboss/fuse/security/common/hello_world.wsdl");
 ----
 
-[NOTE]
-====
-* The client.xml file defined within the snippet code corresponds to the Spring XML Beans config of the CXF Client
-* The wsdl +Hello World+ will contain the WebService Policy to authenticate the user name and issue a TimeStamp
-====
+* The `client.xml` file defined in the snippet code corresponds to the Spring XML beans configuration of the CXF client.
+* The WSDL `Hello World` contains the WebService Policy to authenticate the username and issue a timestamp.
 
-.WSDL and Policy
 
-WS SecurityPolicy uses WS Policy assertions within the WSDL file to define the secure exchange to messages. Some of the policy assertions that are interesting to this use case are:
-- `TransportBinding` which sets the TLS security attributes
-- `SupportingToken` which deal with user sign-on (username,password)
+=== Set WSDL and Policy
 
-* Create within the HelloWorld WSDL file a policy with this id +<wsp:Policy wsu:Id="GreetMeAuthenticationPolicy"+
-* Configure the Port section to use this Security Policy +<wsdl:port binding="tns:GreeterBinding" name="GreeterPort">+
-* Design this Policy to include the User Name token +<sp:UsernameToken/> + with a hashed password and a TimeStamp +<sp:IncludeTimestamp/>+
+WS-SecurityPolicy uses WS Policy assertions in the WSDL file to define a secure message exchange. For example, the following assertions are relevant to this use case:
 
-Check that the AssertString +Hello Charles+ corresponds to the String returned by the method called +String response = greeter.greetMe("Charles");+
+* `TransportBinding` sets the TLS security attributes
+* `SupportingToken` specifies the username and password for user authentication
+
+. In the `HelloWorld` WSDL file, create the `<wsp:Policy wsu:Id="GreetMeAuthenticationPolicy">` policy.
+
+. Configure the port section to use the `<wsdl:port binding="tns:GreeterBinding" name="GreeterPort">` Security Policy.
+
+. Design this policy to include a `<sp:UsernameToken/>` element with a hashed password and the `<sp:IncludeTimestamp/>` element.
+
+. Verify that the `AssertString` "Hello Charles" corresponds to the string returned by the `String response = greeter.greetMe("Charles");` method.
+
 
 [[usecase2]]
-=== Issue a SOAP request with a wrong password
+== Issue SOAP Request with Invalid Password
 
-This usecase extends the previous but we will issue a SOAP message where the password used for the user is wrong. Some modifications are required within your project to design this use case.
-Here are the steps to follow :
+In this use case, you expand on the previous example. You issue a SOAP message where the user's password is incorrect. Some modifications are required in your project to design this use case.
 
-.Spring XML Client File
-* Create a new +client-wrongpassword.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+ using the content of the file that you have created within the previous use case
-* Configure the +ws-security.password+ key passed as parameter to the +<jaxws:properties>+ of the JAXWS Bean endpoint with a dummy password
+=== Create Spring XML Client File
 
-.Junit Method
-* Add a new method +testUsernameTokenWrongPassword+ within the Java +WSSecurityPolicyTest+ Test class
-* Change the URL of the Bus file to point to your +client-password.xml+ config file
-* Include a try/catch block section to get the SOAP Fault Message returned and verify that it fails
-* Add a +assertEquals+ method to control that you get this error message from the Java Stack Trace +"A security error was encountered when verifying the message"+
+. Create a new `client-wrongpassword.xml` file in the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy` folder using the file's contents from the previous use case.
 
+. Configure the `ws-security.password` key passed as parameter to the `<jaxws:properties>` of the JAXWS bean endpoint with a dummy password.
+
+=== Add JUnit Method
+
+. Add a new `testUsernameTokenWrongPassword` method in the `WSSecurityPolicyTest` Java test class.
+. Change the URL of the bus file to point to your `client-password.xml` configuration file.
+. Include a try/catch block section to get the SOAP fault message returned and verify that it fails.
+. Add a `assertEquals` method to check that you get a `"A security error was encountered when verifying the message"` error message from a Java stack trace.
+
+* Expect your source to look similar to this:
++
 [source,xml]
 ----
 try {
@@ -194,70 +229,78 @@ try {
 }
 ----
 
+
 [[usecase3]]
-=== Generate a SOAP Message & sign its content
+== Generate SOAP Message and Sign Content
 
-The goal of this use case is to sign the body and the TimeStamp of the SOAP message using a new Web Security Policy +GreetMeSignedPolicy+ that you will create as a separate file and not within the wsdl file.
-Like the first use case, the username token must be added to the SOAP Header secured section with a hashed password.
+In this use case, you sign the `Body` and `Timestamp` of the SOAP message using the `GreetMeSignedPolicy` web security policy. You create this as a separate file and not in the WSDL file. As in the first use case, the `UsernameToken` must be added to the SOAP header and must include a hashed password.
 
-Here are some indications that we provide you to develop the project
+=== Create Spring XML Server File
 
-.Spring XML Server file
-* Create a new +server-signed.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
-* Add the key +ws-security.signature.properties+ to the +<jaxws:properties/>+ bean to point to the properties file containing the keystore used to digest/sign the SOAP content
-* Configure the +<jaxws:endpoint/>+ endpoint with a +<jaxws:features>+ bean to pass the location of the +signed-body-policy.xml+ file containing the Policy designed
+. Create a new `server-signed.xml` file in the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy` folder.
 
-.Spring XML Client File
-* Create a new +client-signed.xml+ file within the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
-* Reuse the code created for the first use case and change the WSDL Port of the HTTPConduit & JAXS Bean to use the +GreeterSignedPort+
-* Add the key +ws-security.signature.properties+ to the +<jaxws:properties/>+ bean to point to the properties file containing the keystore used to digest/sign the SOAP content
-* Configure the +<jaxws:endpoint/>+ endpoint with a +<jaxws:features>+ bean to pass the location of the +signed-body-policy.xml+ file containing the Policy designed
+.  Add the `ws-security.signature.properties` key to the `<jaxws:properties/>` bean to point to the properties file containing the keystore used to digest and sign the SOAP content.
 
-.Sign Body and TimeStamp Policy
-* Create the +signed-body-policy.xml+ file under the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
-* Develop the policy to sign the Body and the TimeStamp Header
-* Generate the Username Token within the SOAP Header with a hashed password
-* Include a +TimeStamp+ within the SOAP WSSE Header
-* The algorithm to sign the parts of the messahe is +Basic128+
-* Use +AsymmetricBinding+ and the +WssX509V3Token10+ to sign/decrypt the SOAP signed parts for the +InitiatorSignatureToken+ and the +RecipientSignatureToken+
+.  Configure the `<jaxws:endpoint/>` endpoint with a `<jaxws:features>` bean to pass the location of the `signed-body-policy.xml` file containing the designed policy.
 
-.New Test class
-* Add a new Java Test class with the name +WSSecurityPolicySignTest+ and include an annotated method +testSignature+
-* Launch the server using the Spring XML file +org/jboss/fuse/security/wssecuritypolicy/server-signed.xml+
-* Use as Bus URL, the +client-signed.xml+ file to configure the CXF Spring Bus
-* Configure the +runAndValidate+ method to use the +hello_world.wsdl+ file packaged under the folder +src/test/resources/org/jboss/fuse/security/wssecuritypolicy+
+=== Create Spring XML Client File
+
+. Create a new `client-signed.xml` file in the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy` folder.
+
+. Reuse the code created for the first use case and change the WSDL port of the HTTPConduit and JAXS bean to use `GreeterSignedPort`.
+
+. Add the `ws-security.signature.properties` key to the `<jaxws:properties/>` bean to point to the properties file containing the keystore used to digest and sign the SOAP content.
+
+. Configure the `<jaxws:endpoint/>` endpoint with a `<jaxws:features>` bean to pass the location of the `signed-body-policy.xml` file containing the policy you designed.
+
+=== Sign Body and Timestamp Policy
+
+. Create the `signed-body-policy.xml` file under the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy` folder.
+. Develop a policy to sign the `Body` and the `Timestamp` header.
+. Generate the `UsernameToken` in the SOAP header with a hashed password.
+. Include a `Timestamp` in the SOAP WSSE `Security` element within the SOAP `Header`.
+* The algorithm to sign the parts of the message is `Basic128`.
+. Use `AsymmetricBinding` and the `WssX509V3Token10` to sign/decrypt the SOAP signed parts for the `InitiatorSignatureToken` and `RecipientSignatureToken`.
+
+=== Add Test Class
+
+. Add a new Java test class with the `WSSecurityPolicySignTest` name and include an annotated `testSignature` method.
+. Launch the server using the `org/jboss/fuse/security/wssecuritypolicy/server-signed.xml` Spring XML file.
+. Use as the bus URL the `client-signed.xml` file to configure the CXF Spring bus.
+. Configure the `runAndValidate` method to use the `hello_world.wsdl` file packaged under the `src/test/resources/org/jboss/fuse/security/wssecuritypolicy` folder.
+
 
 [[usecase4]]
-=== Generate a SOAP Message & sign/encrypt the content
+== Generate SOAP Message and Sign/Encrypt Content
 
-For this last use case, you will encrypt and sign the content of the message (header and Body). Like the previous use case, you will create a new Java Test class, new Spring XML config files for the client/server
-and the WS-Security policy file containing the policies according to the following convention
+In this use case, you encrypt and sign the content of the message (header and body). You follow an approach similar to the previous use case.
 
-Java class : +org/jboss/fuse/security/wssecuritypolicy/WSSecurityPolicyEncryptTest.java+
-Spring Server Beans file : +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/server-sign-encrypt.xml+
-Spring Client Beans file : +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/client-signencrypt.xml.xml+
-WS-Security Policy file : +src/test/resources/org/jboss/fuse/security/wssecuritypolicy/signencrypt-policy.xml+
+. Create a new Java test class:  `org/jboss/fuse/security/wssecuritypolicy/WSSecurityPolicyEncryptTest.java`
+. Create a new Spring XML configuration file for the client:  `src/test/resources/org/jboss/fuse/security/wssecuritypolicy/client-signencrypt.xml.xml`
+. Create a new Spring XML configuration files for the server:  `src/test/resources/org/jboss/fuse/security/wssecuritypolicy/server-sign-encrypt.xml`
+. Create a WS-Security policy file containing the policies:  `src/test/resources/org/jboss/fuse/security/wssecuritypolicy/signencrypt-policy.xml`
 
-Here are some inputs to configure the WS-Security Policy file
+=== Sign and Encrypt Body and Headers
 
-.Sign/Encrypt the Body and Headers
-* Develop the policy to sign/encrypt the Body and the Headers
-* Include a +TimeStamp+ within the SOAP WSSE Header
-* The algorithm to sign the parts of the messahe is +Basic128+
-* Use +SymmetricBinding+ and a +ProtectionToken+ with the +X509+ token
+. Configure the WS-Security policy file.
+. Develop a policy to sign and encrypt the `Body` and the headers.
+. Include a `Timestamp` in the SOAP WSSE `Security` element of the SOAP `Header`.
+* The algorithm to sign the parts of the message is `Basic128`.
+. Use `SymmetricBinding` and a `ProtectionToken` with the `X509` token.
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Teacher Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
 
 endif::showscript[]

@@ -1,15 +1,18 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#xmlsecurity-encrypt-decrypt]
-== Encrypt/Decrypt Payload
+== Payload Encryption/Decryption
 
-* SOAP Body, Element or Element Content Level can be Encrypted/Decrypted
-* XML Encryption capability provided by the Apache Santuario project
-* Symmetric encryption/decryption is currently supported using Triple-DES and AES (128, 192, and 256)
-* Encryption is done using the Apache Camel +Marshall+ processor
-* Decryption is performed using the Apache Camel +Unmarshall+ processor
+* SOAP body, element, element content level can be encrypted/decrypted
+* XML encryption capability provided by Apache Santuario project
+* Symmetric encryption/decryption currently supported using Triple-DES and AES (128, 192, and 256)
+* Encryption uses Apache Camel `marshall` processor
+* Decryption uses Apache Camel `unmarshall` processor
 
-.Camel Route Example
+* Camel route example:
++
 [source,xml]
 ----
 from("direct:start")
@@ -19,27 +22,27 @@ from("direct:start")
 ----
 
 .References
-* http://camel.apache.org/xmlsecurity-dataformat.html[Camel XMLSecurity encryption]
-* http://santuario.apache.org/[XML Encrypt/Sign API]
+* link:http://camel.apache.org/xmlsecurity-dataformat.html[XMLSecurity Data Format^]
+* link:http://santuario.apache.org/[Apache Santuario^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Encrypt Payload
+Transcript:
 
-Instead of using the WS Security, WS Security Policy as we did within the previous chapters, it is possible to encrypt/decrypt or to sign/digest the content of the SOAP Message Elements (body, header, attachment)
-using the Apache Camel XML Security Component and Dataformat. In this case, the CXF Web Service Provider Endpoint must be encapsulated using the Apache Camel CXF component to let the Apache Camel Route to collect/process
-the HTTP Request containing the SOAP Message and call the processor in charge to encrypt/decrypt the content.
+Instead of using WS-Security or WS-SecurityPolicy, you can use the Apache Camel XML security component and data format to encrypt/decrypt or sign/digest the content of the SOAP message elements: body, header, and attachment. In this case, the CXF web service provider endpoint must be encapsulated using the Apache Camel CXF component to let the Apache Camel route collect and process the HTTP request containing the SOAP message and then call the processor in charge to encrypt or decrypt the content.
 
-The API responsible to encrypt/sign the XML Elements is provided by the Apache Santuario Project which is used by the Apache Camel XML Security component/dataformat. This project includes the standard JSR-105 (Java XML Digital Signature) API,
-a mature DOM-based implementation of both XML Signature and XML Encryption, as well as a more recent StAX-based (streaming) XML Signature and XML Encryption implementation.
+The API responsible for encrypting/signing the XML elements is provided by the Apache Santuario project, which is used by the Apache Camel XML security component and data format. This project includes the standard Java XML Digital Signature, or JSR-105, API, which is a mature DOM-based implementation of XML signature and XML encryption. The project also includes a more recent StAX-based streaming XML signature and XML encryption implementation.
 
-To encrypt the content of the XML content, you will include within your Apache Camel Route a marshaller and to decrypt the content, then you will setup a unmarshaller.
+Symmetric encryption and decryption is currently supported using Triple-DES and AES (128, 192, and 256).
 
-Different parameters exist to configure the +org.apache.camel.model.dataformat.XMLSecurityDataFormat+ like the secureTag property which allows to define the XPath to access the XML Elements within the XML content.
-If this parameter is not defiend, then all the XML content will be encrypted/decrypted. The secureTagContents is a boolean value used to specify if we want to include the XML Element or only the child elements. The xmlCipherAlgorithm
-allows to specify the algorithm to be used and the keyOrTrustStoreParameters parameter will be used to configure using another Camel Bean the location of the keystores.
+To encrypt the content of the XML element, include a marshaller within your Apache Camel route. To decrypt the content, set up an unmarshaller.
 
-****
+Different parameters exist for configuring `org.apache.camel.model.dataformat.XMLSecurityDataFormat`. Here are some examples:
+
+* The `secureTag` property allows you to define the XPath to access the XML elements within the XML content. If this parameter is not defined, then all XML content is encrypted or decrypted.
+* The `secureTagContents` property is a Boolean value used to specify if you want to include the XML element or only the child elements.
+* The `xmlCipherAlgorithm` property allows you to specify the algorithm to be used.
+* The `keyOrTrustStoreParameters` parameter lets you configure the location of the keystores using another Camel bean.
+
+
 endif::showscript[]

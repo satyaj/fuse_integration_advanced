@@ -1,38 +1,39 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#ws-security]
-== WS Security
+== WS-Security
 
-* WS Security extends SOAP specification
-* To secure the SOAP Message :
-** Pass Username token with digested, base64 password
+* Extends SOAP specification
+* To secure SOAP message :
+** Pass username token with digested base64 password
 ** Encrypt messages or parts of messages
 ** Sign messages
 ** Timestamp messages
 
-* Implemented mainly using Apache WSS4J with interceptor (IN/OUT)
+* Implemented mainly using Apache WSS4J with interceptor (`IN/OUT`)
 
 .References
-* https://www.oasis-open.org/committees/download.php/16790/wss-v1.1-spec-os-SOAPMessageSecurity.pdf[WS-Security Spec 1.1]
-
-* http://cxf.apache.org/docs/ws-security.html[CXF & WS-Security]
-* http://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf[Username Token Profile], http://www.oasis-open.org/committees/download.php/16785/wss-v1.1-spec-os-x509TokenProfile.pdf[X.509 Token Profile]
+* link:https://www.oasis-open.org/committees/download.php/16790/wss-v1.1-spec-os-SOAPMessageSecurity.pdf["SOAP Message Security 1.1^"]
+* link:http://cxf.apache.org/docs/ws-security.html["WS-Security^"]
+* link:http://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf["Username Token Profile 1.1^"]
+* link:http://www.oasis-open.org/committees/download.php/16785/wss-v1.1-spec-os-x509TokenProfile.pdf["X.509 Certificate Token Profile 1.1^"]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== WS Security
+Transcript:
 
-The goal of the Web Service Security Spec is to provide SOAP extensions that can be used when building secure Web services to implement message content integrity and confidentiality. The security can be designed using different
-security models including PKI, Kerberos or SSL or security token formats, encryption technologies or signature formats.
+The Web Service Security, or WS-Security, specification provides SOAP extensions that you can use when building secure web services to implement message content integrity and confidentiality. The security can be designed using a variety of security models, including PKI, Kerberos, and SSL, as well as a variety of security token formats, encryption technologies, and signature formats.
 
-The WS Security specification provides three main mechanisms; the ability to send a security token (aka a user name token with a digested or base 64 password) associated or not with a TimeStamp and a time to live value;
-message integrity where the messages will be signed and digested and message confidentiality using an encryption algorithm.
+The WS-Security specification is mainly implemented within the Apache CXF framework using the Apache WSS4J project and WSS4J interceptors. These are placed in the chain of the CXF interceptors into the incoming or outgoing flow.
 
-The WS Security specification is mainly implemented within the Apache CXF framework using the Apache WSS4J Project and WSS4J Interceptors which are placed in the chain of the CXF interceptors into the Incoming or Outgoing flow.
+The WS-Security specification provides three main security mechanisms:
 
-When a Kerberos or X509 Token is required instead of the UserName token which is defined as clear text within the XML SOAP Header, then a Binary Format with a specific encoding and decoding will be used.
+* The ability to send a security token, also known as a username token, with a digested or base64 password. The token can be associated with a timestamp and a time-to-live value.
+* Message integrity, where messages are signed and digested.
+* Message confidentiality using an encryption algorithm.
 
-****
+The username token is defined as clear text within the XML SOAP header. If you require a Kerberos or X509 token instead, use a binary format with a specific encoding and decoding.
+
 endif::showscript[]
