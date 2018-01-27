@@ -10,10 +10,10 @@
 - Should be combined with Keycloak plug-in
 - How: Define collection of authorization rules
 - Example:
-+
+
 [cols="3",width="70%"]
 |===
-|Path |Verb |Role Required
+|Path |Verb|Role Required
 |.* |`PUT` |Writer
 |.* |`GET` |Reader
 |===
