@@ -1,14 +1,17 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#jolokiajmx]
-== JMX & Jolokia
 
-* Jolokia is a JMX-HTTP bridge
-* Integrate with Jolokia using @JsonMbean
-* Work also with JMX support libraries which use ModelMBeans under the hood
-* Serialisation of complex Java Beans is more powerful with JsonMBeans
+== Jolokia and JMX
+
+* Jolokia is JMX-HTTP bridge
+* Use `@JsonMbean` to integrate with Jolokia
+* Works also with JMX support libraries that use ModelMBeans under hood
+* Serialization of complex Java Beans is more powerful with JSON MBeans
+
+* Jolokia example:
 +
-.Jolokia example
 [source,java]
 ----
 private List<ObjectName> registeredMBeans;
@@ -33,13 +36,13 @@ public void start() {
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Extend JMX
-JMX 1.4 introduced MXBeans which allows for nearly arbitrary data to be translated into so called OpenData which are accessible via JMX. For example, arbitrary Java Beans are translated into a CompositeData structure with property names as keys and their values in OpenData values.
+Transcript:
 
-Jolokia provides an annotation @JsonMBean for marking an MBean as a JSON MBean. Such an MBean, if registered at the Jolokia MBeanServer creates a proxy on the PlatformMBeanServer where every complex value gets translated into plain strings in JSON format. This is true for attributes, operation return values and arguments. That way, a JSR-160 based console (like jconsole) can easily access complex data type exposed by custom MBeans. Json MBeans work for Java 6 and newer.
 
-****
+JMX 1.4 introduced MXBeans, which allow for arbitrary data to be translated into so-called OpenData that is accessible via JMX. For example, arbitrary JavaBeans are translated into a CompositeData structure with property names as keys and OpenData values.
+
+Jolokia provides the `@JsonMBean` annotation for marking an MBean as a JSON MBean. Such an MBean, if registered at the Jolokia MBeanServer, creates a proxy on the PlatformMBeanServer where every complex value gets translated into plain strings in JSON format. This is true for attributes, operation return values, and arguments. That way, a JSR-160-based console (like JConsole) can easily access complex data types exposed by custom MBeans. JSON MBeans work for Java 6 and newer.
+
+
 endif::showscript[]

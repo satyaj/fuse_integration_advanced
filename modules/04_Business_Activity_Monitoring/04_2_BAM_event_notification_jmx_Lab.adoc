@@ -1,62 +1,65 @@
-:noaudio:
+:scrollbar:
+:data-uri:
+:sourcedir: ../code/security-ws/src/test/java
 :toc2:
+:linkattrs:
 
-= Business Activities Monitoring Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
+== Business Activities Monitoring Notification Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Implement an Event Notification to collect Camel Route information
-* Register a MBean to monitor an endpoint
+* Configure your local environment to develop and explore use cases related to business monitoring notifications
+* Implement an event notification to collect Camel route information
+* Register an MBean to monitor an endpoint
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Experience with Camel development using Red Hat JBoss Fuse
+
+.Use Cases
+In this lab, you examine two use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Prepare Lab Environment
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+=== Install Lab Assets
 
-=== Install the lab project
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+=== Install Lab Project
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+. Download and install locally the latest release of the lab project published in the {course_git_repo} GitHub repository. 
+. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
 
 [[usecase1]]
-=== Implement an Event Notification to collect Camel Route information
+== Implement Event Notification to Collect Camel Route Information
 
-- The goal of this use case is to create a class which extends the EventNotifierSupport class and where you will generate a message that you will publish within the log file when a Camel
-  Exchange is created and when it is also completed. The message must include the Camel ExchangeId, a header with the routeId and a customized message
+In this use case, you create a class that extends the `EventNotifierSupport` class.
 
-- Using the previous example, use the ExchangeSentEvent to calculate how much time it takes to call an HTTP endpoint exposed by another Camel route. Use a delayer with the Camel route to slow dow the process
-  generating the response.
+. Generate a message that you publish within the log file when a Camel Exchange is created and completed.
+. In the message, include a Camel `ExchangeId`, a header with the `routeId`, and a customized message.
+. Using the previous example, use `ExchangeSentEvent` to calculate how much time it takes to call an HTTP endpoint exposed by another Camel route.
+. Use a delayer in the Camel route to delay the response.
 
 
 [[usecase2]]
-=== Register a MBean to monitor an endpoint
+== Register MBean to Monitor Endpoint
 
-- The goal of this use case is to create a new custom endpoint where you register the endpoint as a MBean using Spring JMX. The custom endpoint must provide an attribute to return a dummy value and
-  an operation showing the URL of the endpoint. The test case must verify that the customer endpoint like also the MBean are used in a Camel Route and that you can query using the JMX Server
-  the JMS object registered (attribute and operation).
+In this use case, you create a custom endpoint and register the endpoint as an MBean using Spring JMX. The use should meet the following criteria:
 
-ifdef::showScript[]
+* The custom endpoint must provide an attribute to return a dummy value and an operation showing the URL of the endpoint.
+* The test case must verify that the customer endpoint as well as the MBean are used in a Camel route.
+* The test case must also verify that you can query the attribute and the operation of the registered JMS object using the JMX Server.
 
-
-endif::showScript[]

@@ -1,26 +1,24 @@
-:noaudio:
+:scrollbar:
+:data-uri:
+:scrollbar:
 
-[#topics]
 == Module Topics
 
-In this module you will learn about the following topics which cover the Business Activities Monitoring concepts :
-
-* Use EIP patterns to collect the Business information
-* Intercept Camel Exchanges using the consumer, producer or a condition
-* Collect information using Event notification mechanism
-* Integrate your Camel project with ELK
-* Extend the JMX Layer to expose your own MBeans
-* Setup some controls with Health Check
-* Integrate your Camel Routes with SNMP Traps or Nagios Management Platform
+* Preparation
+* Detour Wiretap
+* Intercept
+* Event Notification
+* ElasticSearch + Fluentd + Kibana
+* Extend JMX
+* Jolokia and JMX
+* Health Check
+* History Metrics
+* Nagios Management Platform
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Module Topics
+Transcript:
 
-This module covers different service monitoring techniques in JBoss Fuse. Information in the message, body or headers  transported through the different Camel Routes can be inspected. The techniques used range from less invasive to more invasive depending on whether you use a EIP pattern, interceptor or a code extension via Event Notifications. 
+In this module, you learn about monitoring business activity with Red Hat JBoss Fuse. The module covers different service techniques for monitoring and inspecting the message, body, and header information that is transported through Camel routes. The techniques range from less invasive to more invasive, depending on whether you use an EIP, interceptor, or a code extension via event notifications. The module also covers health checks and collecting history metrics. The module concludes with using the Nagios management platform to collect and send Camel route information.
 
-
-****
 endif::showscript[]

@@ -1,13 +1,15 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#integration]
-== Integrate with Management Platform
 
-* Goal : Collect camel routes info and send the information using a Management Platform
-* Using Nagios
+== Nagios Management Platform
+
+* Goal: Collect and send Camel route information using Nagios management platform
+
+* Example:
 +
-.Nagios Example
-[source]
+[source,text]
 ----
 Map headers = new HashMap();
 headers.put(NagiosConstants.LEVEL, "CRITICAL");
@@ -18,11 +20,10 @@ from("direct:start").to("nagios:127.0.0.1:5667?password=secret").to("mock:result
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Integrate with Mngt Platform
-Using the camel nagios component, you can send passive checks or event notifications to the Nagios platform using the Nagios endpoint. In the example shown here, a message of critical severity is being reported. Additional examples of use of this component can be found within the Apache Camel suite of tests in Github.
+Transcript:
 
-****
+Using the Camel Nagios component, you can send passive checks or event notifications to the Nagios platform using the Nagios endpoint. In the example, a message of critical severity is being reported. Examples of using this component can be found in GitHub in the Apache Camel suite of tests.
+
+
 endif::showscript[]

@@ -1,13 +1,17 @@
 :course_git_repo: https://github.com/gpe-mw-training/advanced-integration-labs.git
 
 include::m04p01_cover.adoc[]
-include::m04p02_suggested_readings.adoc[]
 include::m04p03_topics.adoc[]
+include::m04p02_suggested_readings.adoc[]
 include::m04p04_detour_wiretap.adoc[]
 include::m04p05_intercept.adoc[]
 include::m04p06_event_notification.adoc[]
+include::m04p07_elk.adoc[]
 include::m04p08_extend_jmx.adoc[]
 include::m04p09_jolokia.adoc[]
 include::m04p10_health_check.adoc[]
 include::m04p11_history_metrics.adoc[]
+include::m04p11_history_metrics_1.adoc[]
+include::m04p11_history_metrics_2.adoc[]
 include::m04p12_nagios.adoc[]
+include::m04p13_summary.adoc[]

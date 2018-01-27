@@ -1,21 +1,23 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#suggested-readings]
-== Suggested Readings & work
 
-.Self Exercise
+== Preparation
+
+
+.Suggested Tasks
+
 * Design some Camel projects
-* Review EIP Patterns
-* Read Camel Course chapters about JMX & Interceptor
+* Review EIP patterns
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Suggested Readings & work
 
-In order to work with this module, you should be ready to use the Apache Camel EIP Technology and have a good knowledge of the EIP patterns. We suggest that you build some Camel
-projects and that you review the chapters about JMX, Interceptor which have been introduced within the Camel Integration Course.
+Transcript:
 
-****
+To work with this module, you should be able to use the Apache Camel EIP technology and have a good knowledge of the EIP patterns. Red Hat suggests that you build some Camel projects and review the chapters about JMX and Interceptor that were introduced in the Camel Integration course.
+
+
 endif::showscript[]

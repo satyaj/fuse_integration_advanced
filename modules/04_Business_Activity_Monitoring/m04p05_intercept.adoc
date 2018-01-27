@@ -1,15 +1,18 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#intercept]
+
 == Intercept
 
-* Goal : Intercept information at a producer, consumer endpoint
-* Predicate can be triggered according to condition
-* Information can be routed to other processors
-* Processed synchronously
+* Goal: Intercept information at producer/consumer endpoint
+* Trigger predicate according to condition
+* Route information to other processors
+* Process synchronously
 +
-.Intercept Example
-[source]
+* Intercept example:
++
+[source,text]
 ----
 intercept().to("log:hello");
 
@@ -23,22 +26,21 @@ interceptFrom()
 // and here is our route
 from("direct:start").to("seda:bar").to("mock:result");
 ----
-* Wildcard based
+* Wildcard-based example:
 +
-.Wildcard Example
-[source]
+[source,text]
 ----
 intercept("jms:*").to("log:fromjms");
 intercept("jms:queue:(gold|silver)").to("seda:handleFast");
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Intercept
+Transcript:
 
-The Camel intercept feature is used to intercept exchanges much like AOP; the interception can be done in multiple modes. The 1st example shown invokes the log function before each step in the camel route. The interceptFrom feature in contrast intercepts each incoming exchange. In addition, a predicate may be applied to selectively intercept exchanges, based on certain conditions. An advanced feature available is the ability to intercept exchanges based on wildcards, URI and regular expressions. In addition, the interceptSendToEndpoint feature allows for a detour functionality to be implemented when an exchange is being sent to an endpoint. As we know, the detour can be used to encode any kind of processing logic.
+The Camel intercept feature can be used to intercept exchanges much like aspect-oriented programming, or AOP; the interception can be done in multiple modes. The intercept example invokes the log function before each step in the Camel route. The `interceptFrom` feature, in contrast, intercepts each incoming exchange. In addition, a predicate may be applied to selectively intercept exchanges, based on certain conditions.
 
-****
+An advanced feature available is the ability to intercept exchanges based on wildcards--shown in the second example--URI, and regular expressions. In addition, the `interceptSendToEndpoint` feature allows detour functionality to be implemented when an exchange is being sent to an endpoint. The detour can be used to encode any kind of processing logic.
+
+
 endif::showscript[]

@@ -1,71 +1,90 @@
-:noaudio:
+:scrollbar:
+:data-uri:
+:sourcedir: ../code/security-ws/src/test/java
 :toc2:
+:linkattrs:
 
-= Business Activities Monitoring Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Business Activities Monitoring Intercept Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented using Detour, WireTap Pattern
-* Add your own Intercept strategy
-* Use wildcard & regexp to filter the endpoints to be intercepted
+* Configure your local environment to develop a number of use cases related to business monitoring with intercepts
+* Gain experience using Detour and Wire Tap patterns
+* Add your own intercept strategy
+* Use a wildcard and a regular expression to filter the endpoints to be intercepted
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Experience with Camel development using Red Hat JBoss Fuse
+
+.Use Cases
+In this lab, you examine the following use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
+== Prepare Lab Environment
+===  Install Lab Assets
+
+[cols="2,1,1",options="header"]
 |===
-| Software | Version & URL | Notes |
+| Software | Version | Notes
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
 |===
 
-=== Install the lab project
+=== Install Lab Project
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+. Download and install locally the latest release of the project published in the {course_git_repo} GitHub repository. 
+. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Use Detour & WireTap pattern
+== Use Detour and Wire Tap Patterns
 
-- Develop a Junit Test case covering the Detour. As Detour does not correspond to a DSL word, it should be implemented using content based routing on a condition which is evaluated when a message
-  is received to forward or detour the content to a producer or group of processors. The condition could be defined as a boolean value defined in a class
-- Develop a Junit Test case covering the WireTap Pattern. Design 2 methods where you will check that the students have implemented a wiretap using a copy of the original exchange but also where
-  they have created a new exchange.
+In this use case, you develop two JUnit test cases--one using the Detour pattern and the other using the Wire Tap pattern.
 
-Remarks: For the 2 classes to be developed, use as target endpoint where the information to be collected should be send a topic. Create a common Camel Route which is used to grab the messages
-  published within the topic and validate the number of messages received like also their content
+. Develop a JUnit test case using the Detour pattern.
+* Because Detour does not correspond to a DSL word, implement your test case using content-based routing.
+* Use a condition that is evaluated when a message is received to forward or detour the content to a producer or group of processors.
+* The condition can be defined as a boolean value defined in a class.
+
+. Develop a JUnit test case using the Wire Tap pattern, consisting of two methods:
+* For the first method, employ a wiretap using a copy of the original exchange.
+* For the second method, employ a wiretap using a new exchange.
+
+[TIP]
+====
+* For the two classes you develop, use a target endpoint where the information to be collected is sent to a topic.
+* Create a common Camel route that is used to extract the messages published to the topic.
+* In the Camel route, validate that the correct number of messages is received and the content is accurate.
+====
 
 [[usecase2]]
-=== Add some interceptors
+== Add Interceptors
 
-- Develop 2 Camel routes where all the messages are intercepted and publishes in a topic. The interceptor will create a new message containing an id to identify the message, a property referring to the application
-  processing the message, the content of the body collected and the breadCrumbId which is a global application identifier.
+In this use case, you develop two Camel routes where all of the messages are intercepted and published to a topic.
+
+. Make sure that the interceptor creates the following:
+** A message containing an ID to identify the message
+** A property referring to the application processing the message
+** The content of the body collected
+** The `breadCrumbId`, which is a global application identifier
+
 
 [[usecase3]]
-=== Use wildcard & regexp to filter the endpoints to be intercepted
+== Use Wildcard and Regular Expression to Filter Intercepted Endpoints
 
-- Base on the previous use case, develop an interceptor where you will intercept only the messages coming from some consumer endpoints using a wildcard.
-- Idem but now using a regular expression and where the interceptor is applied to the producer where the message is send.
+In this use case, you use wildcard and regular expression patterns to filter the endpoints to be intercepted.
 
-ifdef::showScript[]
+. Develop an interceptor that intercepts only the messages coming from select endpoints, using wildcards for the filtering.
 
+* This exercise is identical to the previous one, except that you use a regular expression instead of a wildcard and you apply the interceptor to the producer that sent the message.
 
-endif::showScript[]

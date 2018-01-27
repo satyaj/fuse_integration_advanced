@@ -1,0 +1,29 @@
+:scrollbar:
+:data-uri:
+:noaudio:
+
+
+== History Metrics
+
+
+.History Example
+
+[source,text]
+----
+context.addRoutePolicyFactory(new MetricsRoutePolicyFactory());
+
+<!-- use camel-metrics route policy to gather metrics for all routes -->
+<bean id="metricsRoutePolicyFactory" class="org.apache.camel.component.metrics.routepolicy.MetricsRoutePolicyFactory"/>
+
+MetricsMessageHistoryService service = context.hasService(MetricsMessageHistoryService.class);
+String json = service.dumpStatisticsAsJson();
+----
+
+ifdef::showscript[]
+
+Transcript:
+
+The Camel metrics component allows collection of metrics data such as counter, meter, and timer from Camel routes. In the example, the metrics history service is used to return the statistics as a JSON document.
+
+
+endif::showscript[]
