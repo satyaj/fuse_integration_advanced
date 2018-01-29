@@ -1,19 +1,22 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#reenforce-security-basic]
-== Re-enforce Security - Basic Auth
+== Security Reinforcement
 
-* Goal : Setup an Api using the Basic Auth Plugin
-* How :
-- Create a versioned Api for an Organisation
-- Define the target endpoint using REST or SOAP
-- Associate a Policy using the Basic Auth Plugin
+.Basic Authentication
 
-* Supports http(s) connection with
-- User/password, LDAP, JDBC
+* Goal: Set up API using basic authentication plug-in
+* How:
+- Create versioned API for organization
+- Define target endpoint using REST or SOAP
+- Associate policy using basic authentication plug-in
 
-.Example
-[source]
+* Supports HTTP(S) connection with user/password, LDAP, JDBC
+
+* Example:
++
+[source,text]
 ----
   "contracts" : [
     {
@@ -31,22 +34,15 @@
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Re-enforce Security - Basic Auth
+Transcript:
 
-To use the Apiman platform and secure an endpoint using HTTP Basic Authentication Plugin, it will be required to perform differet steps; first we will define an organization, next register an Api for a specific version
-and assign it to the Basic Auth Policy and publish it.
+To use the Apiman platform to secure an endpoint using the HTTP basic authentication plug-in, you define an organization, register an API for a specific version, assign it to the basic authorization policy, and publish it.
 
-By creating an organization, we define a project/namespace that Apiman will use to group all the related Web Resources or Apis together. This organization will represent within a project a group of related Endpoints part of an
-application or part of several applications related.
+When you create an organization, you define a project and namespace that Apiman uses to group all of the related web resources or APIs together. Within a project, this organization represents a group of related endpoints, part of an application, or part of several related applications.
 
-The Api that will will register corresponds to our target endpoint that we want to secure. It is encoded and can be documented with its corresponding Swagger JSON/Yaml file. When the Api has been encoded to a specifc
-version, we will add a Policy and will select the BasicAuthenticationPolicy. This policy provides different options to use the HTTPS scheme, define the realm to be used for the communication between the Server and the
- client like also how to match the extracted user-id and password against a static list of users, a LDAP repo or a JDBC database.
+The API that you register corresponds to the target endpoint that you want to secure. It is encoded and can be documented with its corresponding Swagger JSON/YAML file. When the API is encoded to a specific version, you add a policy and select the `BasicAuthenticationPolicy`. This policy provides different options for using the HTTPS scheme, defining the realm to be used for communication between the server and the client, and defining whether to match the extracted user ID and password against a static list of users, an LDAP repository, or a JDBC database.
 
- When you have finished to register the versioned APi, then you will publish the Api and Apiman will create the Gateway endpoint that the HTTP Client/Agent will now use to access the service.
+After you finish registering the versioned API, you publish it. Apiman creates the gateway endpoint that the HTTP client or agent uses to access the service.
 
-****
 endif::showscript[]

@@ -6,10 +6,10 @@ ifdef::revealjs_slideshow[]
 == &nbsp;
 
 [#cover-h1,width="600px",left="0px",top="200px"]
-Advanced Camel Development using Red Hat JBoss Fuse 6
+Advanced Camel Development with Red Hat JBoss Fuse
 
 [#cover-h2,width="800px",left="0px",top="450px"]
-RESTfull Security and External Enforcement
+RESTful Security and External Enforcement
 
 [#block,width="200px",left="70px",top="0px"]
 image::{revealjs_cover_image}[]

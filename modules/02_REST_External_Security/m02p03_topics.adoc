@@ -1,28 +1,27 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#topics]
 == Module Topics
 
-By completing this module you will learn about the following key Web Service Security topics:
-
-* Basic HTTP Authentication & Path Security Constraints
-* JAAS Secured Applications (RESTful, ...)
+* Preparation
+* Basic HTTP Authentication
+* Resource Access Restriction
+* JAAS
+* JAX-RS `@RolesAllowed`
+* Camel Policy
+* JAX-RS Filter
 * Mutual TLS
-* Role based Secure applications (@RolesAllowed)
-* Intercept HTTP call and authenticate the user
-* Use Api to secure your endpoints
+* Security Reinforcement
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Module Topics
+Transcript:
 
-This module covers the different security concerns to authenticate the application sending HTTP requests using Basic Authentication with or without Java Api for Authentication and Authorization Service. Next we will investigate
-how we could use user's role to restrict access to certain RESTfull paths using Jetty/Netty Security Constraints or the JAX-RS annotation @RolesAllowed. The Security Constraint mechanism checks if the path of the resource
-accessed matches a rule and the role associated. We will also have a look to secure the communication between the client and the server using the TLS protocol and a mutual authentication.
-Instead of using a security mechanism managed by the HTTP Web Container or Netty TCP Server, an approach based on the concept of an interceptor will be presented base on the Apache Camel Policy and a JAXRS Container Filter.
-Finally, we will see how we can secure the endpoint using an API Management platform where we delegate the responsibility using some API plugins to Authenticate the incoming HTTP request using Basic authentication or OpenID connect / OAuth2.
+This module discusses security concerns related to authenticating an application sending HTTP requests using basic authentication with or without the Java Authentication and Authorization Service, or JAAS. It investigates how you can use user roles to restrict access to certain RESTful paths by using Jetty/Netty security constraints or the Java API for the RESTful web services, or JAX-RS, annotation `@RolesAllowed`. The security constraint mechanism checks if the path of a resource being accessed matches a rule and its associated role.
 
-****
+The module also looks at ways to secure the communication between a client and a server using the Transport Layer Security (TLS) protocol and mutual authentication. Instead of using a security mechanism managed by the HTTP web container or Netty TCP server, the module describes the concept of an interceptor based on the Apache Camel policy and a JAX-RS container filter.
+
+The module concludes by explaining how to secure an endpoint with an API management platform. With this approach, you delegate security responsibility by using API plug-ins to authenticate the incoming HTTP request with either basic authentication or OpenID Connect/OAuth2.
+
 endif::showscript[]

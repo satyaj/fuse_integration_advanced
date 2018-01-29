@@ -1,14 +1,18 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#jaas]
+
 == JAAS
 
-* Basic Authentication can be performed using JAAS Api (Java Standard)
-* Well Supported by many Web Containers or Camel Components
-* Rely on a Config File containing Login modules definition and Realms
+* Basic authentication can be performed using Java Authentication and Authorization Service (JAAS) API (Java Standard)
+* Well supported by many web containers or Camel components
+* Relies on configuration file containing login modules definition and realms
 
-.Example
-[source]
+* Example:
++
+[source,text]
 ----
 <entry name> {
     <LoginModule> <flag> <LoginModule options>;
@@ -22,25 +26,26 @@ xyz {
 };
 ----
 
-* Control also the access to the Web Resources based on Role assigned
-* Different JAAS Implementations exist to support : LDAP, JDBC queries
+* Control access to web resources based on role assigned
+* Different JAAS implementations exist to support LDAP and JDBC queries
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== JAAS
+Transcript:
 
-The Java Authentication and Authorization Service (JAAS) which is part of the JDK since the version 1.4 can be used for 2 purposes: to authenticate the users and to verify that they have the access control rights (permissions) required to do the actions performed.
-JAAS is supported by the JBoss Fuse and JBoss EAP platforms in combination with Apache Camel, Apache CXF & Apache ActiveMQ. Different JAAS Login classes have created to authenticate the user using a properties file, a file containing user id with encrypted passwords, a JDBC or LDAP backend
-server.
+JAAS has been part of the Java SE Development Kit since version 1.4. You can use JAAS to authenticate users and verify that they have the access control rights, or permissions, required to do the actions they want to perform. JAAS thus gives you another method for performing basic authentication.
 
-To use JAAS, it is required to create a JAAS config file containing a collection of entries (which corresponds to the realms to be protected) and the Login Modules that we will associate to an Entry or Realm. An entry can contain several Login Modules having a priority level different.
-That offers the possibility to configure a fallback mechanism if the first Login Module, defined within the list doesn't reply. For each module, we can define additional parameters that the Module, which is a Java Class, will use to by example configure
-the JDBC/LDAP connection or simply to retrieve the Users Properties File. As you can see from the example, the different modules are declared between the brackets characters and separate with a semicolon. After the name of the Login Module, the flag indicating the
-ranking of the Module for the entry is defined.
+JAAS is well supported by many web containers and Camel components, including the JBoss Fuse and JBoss EAP platforms and Apache Camel, Apache CXF, and Apache ActiveMQ. Different JAAS login classes have been created to authenticate the user using either a properties file, a file containing the user ID with encrypted passwords, or a Java Database Connectivity (JDBC) or Lightweight Directory Access Protocol (LDAP) back-end server.
 
-Remark : As the JAAS config is read one time and discovered at the launch of the JVM, it is not possible within a Java Application to use several JAAS config files.
+To use JAAS, you need to create a JAAS configuration file containing a collection of entries. These entries correspond to the realms to be protected and the login modules to associate with an entry or realm.
 
-****
+An entry can contain several login modules, each having a different priority level. This lets you configure a fallback mechanism if the first login module defined in the list does not reply.
+
+For each module, you can define additional parameters that the module, which is a Java class, uses to, for example, configure the JDBC or LDAP connection or retrieve a user's properties file. Different modules are declared between brackets and separated by semicolons. After the name of the login module, you define a flag indicating the module's priority rank.
+
+You can also control access to web resources based on the role assigned.
+
+Note that the JAAS configuration file is discovered and read one time when launching the Java VM. Therefore, it is not possible to use several JAAS configuration files within a Java application.
+
 endif::showscript[]

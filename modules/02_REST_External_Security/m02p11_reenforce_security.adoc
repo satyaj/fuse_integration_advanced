@@ -1,31 +1,29 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#reenforce-security]
-== Re-enforce Security
+== Security Reinforcement
 
-* Goal : Externalize/Delegate security endpoint to an Api
-* How : Api acts as a Proxy/Gateway matching :
-- Incoming request against 1toMany policies
-- Deliver request to a target endpoint if validation succeeds
+.Delegate Endpoint Security
+
+* Goal: Externalize/delegate security endpoint to an API
+* How: API acts as proxy/gateway matching:
+- Incoming request against one-to-many policies
+- Delivery request to target endpoint if validation succeeds
 * Advantages:
 - Tracking of APIs and consumers of those APIs
-- Centralized governance policy configuration
+- Centralized governance-policy configuration
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Re-enforce Security
+Transcript:
 
-The security of an Apache Camel or CXF endpoint can be delegated and managed using an Api Management Platform. This Api will act as a proxy/gateway to intercept an incoming HTTP Request, match
-the Web Resource accessed with one of rules defined, apply the rules and if the matching succeeds, then will issue a request to the target endpoint.
+You can delegate and manage the security of an Apache Camel or CXF endpoint using an API management platform that acts as a proxy or gateway to intercept an incoming HTTP request, match the web resource accessed with one of the rules defined, apply the rule, and, if the matching succeeds, issue a request to the target endpoint.
 
-The rules, Apis to be managed and the organisation holding the apis are managed using the Api Management Server while the Proxy is handled by a Api Manager Gateway. The Server can manage several Gateways
-and the statistics/usage of the Apis are reported within an ElasticSearch Backend repository.
+The rules, the APIs to be managed, and the organization holding the APIs are all managed using the API management server, while the proxy is handled by an API manager gateway. The server can manage several gateways. The statistics and usage of the APIs are reported within an `ElasticSearch` back-end repository.
 
-The advantage to use an Api Management platform is that we can manage centrally the governance about the policies, assign them to a plan and different APis and track your clients like also who is doing what with thr Apis
+The advantage to using an API management platform is that it lets you centrally manage the governance of policies, assign policies to a plan and different APIs, and track your clients to determine who is doing what with the APIs.
 
-The current Apiman project is only supported on JBoss EAP but could for the next release also packaged on JBoss Fuse.
+The current apiman project is supported only on JBoss EAP. The next release may also be packaged on JBoss Fuse.
 
-****
 endif::showscript[]

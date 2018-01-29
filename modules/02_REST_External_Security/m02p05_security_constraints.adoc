@@ -1,16 +1,19 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#restrict_access_resources]
-== Restrict Access to Resources
+== Resource Access Restriction
 
-* Concept : Combine User role(s) with Resource Access Paths
-* Goal : restrict or allow access to resources
-* Implementation : web container or component specific
-* Operations are supported (GET, POST, PUT)
-* How: URL requested matched with one the rule(s)
+* Concept: Combine user roles with resource access paths
+* Goal: Restrict or allow access to resources
+* Implementation: Web container or component-specific
+* Operations are supported (`GET`, `POST`, `PUT`)
+* How: URL requested matched with rules
 
-.Example
-[source]
+* Example:
++
+[source,text]
 ----
 Constraint constraint = new Constraint();
 constraint.setRoles(new String[] { "user", "admin" });
@@ -22,18 +25,15 @@ mapping.setConstraint(constraint);
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Restrict Access to Resources
+Transcript:
 
-When a RESTFul Application is developed, several web resources will be defined and identified by Uniform Resource Identifiers or URIs. Those URIs will be accessed via one of the verbs supported by the HTTP Agent and the server (GET, POST, PUT, DELETE). To deny or allow the access to these Web Resources, it is possible to define a collection of authorization rules describing which resources are accessible and how they could be reached using a role.
-Such rule or Constraint are supported by many Web Containers (Jetty, Netty HTTP) and can be described according to the mechanism that they provide. For example, with the Jetty container to declare a constraint for enabling the HTTP Basic Authentication mode. You can specify the authorized roles declare a ConstraintMapping containing the path to the Web Resource and the Verb.
+When you develop a RESTFul application, you define several web resources and identify them by their Uniform Resource Identifiers, or URIs. Those URIs are acted upon through one of the commands supported by the HTTP agent and the server: `GET`, `POST`, `PUT`, `DELETE`, and so on. To deny or allow access to these web resources, you can define a collection of authorization rules describing which resources are accessible and how they can be reached using a role.
 
-By combining the HTTP Authentication Basic mechanism with SSL/TLS transport and such constraints, you will have the possibility to secure your RESTful Services. Nevertheless, the disadvantage of this approach is that the Authorization to deny/allow the access to the Web Resources
-is defined at the level of the Web Container, is project dependent as the support / implementation is different between Jetty/Netty HTTP and will require restarting the Web server if new Security Constraints need to be supported.
+These rules, also known as constraints, are supported by many web containers such as Jetty and Netty HTTP. You can describe them according to the mechanism that they provide. For example, with Jetty, you can declare a constraint to enable the HTTP basic authentication mode, to assign the authorized roles, and to declare a `ConstraintMapping` containing the path to the web resource and the command to use to access the resource.
 
-Remark : The Java class used to authenticate the user id sending its credentials using Basic Authentication must be able to retrieve the user's role from the properties file containing this information.
+By combining the HTTP basic authentication mechanism with SSL/TLS transport and constraints, you can secure your RESTful services. The disadvantages of this approach are that the authorization to deny or allow access to the web resources is defined at the level of the web container and is project-dependent, because the support and implementation are different for Jetty and Netty HTTP. This requires you to stop and restart the web server to support new security constraints.
 
-****
+Note that the Java class used to authenticate the user ID sending its credentials using basic authentication must be able to retrieve the user's role from the properties file containing this information.
+
 endif::showscript[]

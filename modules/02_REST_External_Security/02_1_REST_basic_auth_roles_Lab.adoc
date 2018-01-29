@@ -1,143 +1,158 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= REST Security with Basic Authentication and Role Lab
 
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== REST Security with Basic Authentication and Role Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Basic Authentication Jetty Server
-* Restrict the access to certain paths based on the role of the user
-* Design RESTfull Service project and secure it
-* Expose the RESTfull services using a Camel route
-* Play with @RolesAllowed JAXRS annotation
-* Configure the Jetty Endpoint to authenticate the HTTP User request using the HashLoginService
-* Send the HTTP Request using Apache Commons HttpClient
+* Configure your local environment to develop and explore use cases
+* Gain experience using basic authentication for a Jetty server
+* Restrict access to specific paths based on the user's role
+* Develop a RESTful service project and secure it
+* Expose RESTful services using a Camel route
+* Experiment with `@RolesAllowed` JAX-RS annotation
+* Configure a Jetty endpoint to authenticate an HTTP user request using `HashLoginService`
+* Send a HTTP request using an Apache Commons HttpClient
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with RESTfull & HTTP Basic Authentication
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with RESTful services and HTTP basic authentication
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you examine three use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Prepare Lab Environment
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+=== Install Lab Assets
 
-=== Install the lab project
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+=== Install Lab Project
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
 [[usecase1]]
-=== Camel REST DSL with Jetty Component & Basic Authentication
+== Explore Camel REST DSL Using Jetty and Basic Authentication
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java+ which extend the class +BaseJettyTest+ class.
+In this use case, you develop a JUnit test case using the `org.jboss.fuse.security.camel.basic.BasicAuthRESTCamelDSLJettyHashLoginTest.java` class that extends the `BaseJettyTest` class.
 
-Within this project, you will setup an Apache Camel Route, use the REST DSL syntax to expose a RESTfull service according to this path +/say/hello/{id}+ where {id} represents the user for which you would like to say hello
-. Next, you will configure the Jetty Component using the Jetty SecurityHandler class to authenticate the user HTTP request using Basic Authentication & Base64.
+. Set up an Apache Camel route.
+. Use the REST DSL syntax to expose a RESTful service for the `/say/hello/{id}` path.
+* `{id}` represents the ID of the user. It is used in the `hello` response to the HTTP request.
 
-The +org.eclipse.jetty.security.SecurityHandler+ will be configured to request Basic Authentication and will use the +org.eclipse.jetty.security.HashLoginService+ class to authenticate
-the user using a properties file called +src/test/resources/org/jboss/fuse/security/basic/myrealm.props+. This property file will contain a list of users defined as such :
-user: password, role.
+. Configure the Jetty component using the `SecurityHandler` Jetty class to authenticate the user HTTP request using basic authentication and Base64.
 
-For this use case, you must create 2 java methods +UsernameWrongPasswordTest()+ and +UsernameTest()+ to test the credentials of a user having either a correct or wrong password.
-Use the method HTTPClient to issue the HTTP request against the RESTFull Endpoint started by Apache Camel with the help of this method +callRestEndpoint()+.
-Verify that you get a HTTP Code 200 when the user has been authenticated correctly and that the REST Service replies with this response +"Hello World " + user+ that you will validate with Assert methods.
-A code 401 should be returned for a not allowed user.
+* The `org.eclipse.jetty.security.SecurityHandler` is configured to request basic authentication and use the `org.eclipse.jetty.security.HashLoginService` class to authenticate the user.
 
-NOTE: The +BaseJettyTest+ class extends the +CamelTestSupport+ class
+. Use the `src/test/resources/org/jboss/fuse/security/basic/myrealm.props` properties file to define the users.
+* This properties file contains a list of users defined in this format:
++
+[source,text]
+----
+user: password, role
+----
+
+. Create `UsernameWrongPasswordTest()` and `UsernameTest()` Java methods to test the credentials of a user presenting an invalid or valid password, respectively.
+. Use the `HttpClient` method  to issue the HTTP request against the RESTful endpoint started by Apache Camel using the `callRestEndpoint()` method.
+. Verify that a `200` (OK) HTTP status code is returned when the user is authenticated.
+. Using `Assert` method calls, verify that the REST service replies with a `"Hello World " + user` when the user is authenticated.
+. Verify that a `401` (Unauthorized) HTTP status code is returned when invalid credentials are supplied.
+
+NOTE: The `BaseJettyTest` class extends the `CamelTestSupport` class.
 
 [[usecase2]]
-=== Camel REST DSL with Jetty Component, Basic Authentication & Role Access Restriction
+== Explore Camel REST DSL Using Jetty, Basic Authentication, and Role Access Restrictions
 
-This usecase extends the previous but will be designed using the java class +org.jboss.fuse.security.camel.basic.role.BasicAuthRESTCamelDSLJettyRoleConstraintTest+. We will expose two RESTFull Services:
+This use case expands on the previous use case. You develop it using the `org.jboss.fuse.security.camel.basic.role.BasicAuthRESTCamelDSLJettyRoleConstraintTest` Java class.
 
-- +/say/hello/{id}+
-- +/say/bye/{id}+
+. Expose two RESTful services:
 
-and restrict (or constraint) the access to the paths as such
+* `/say/hello/{id}`
+* `/say/bye/{id}`
 
-- +/say/hello/*+ for users having the role user or admin
-- +/say/bye/*+ for users having the role admin only
+. Restrict, or constrain, access to the paths:
 
-To achieve this goal, you will define a List of ConstraintMapping that you will pass as parameter to the Jetty +ConstraintSecurityHandler+ class when you will design the +SecurityHandler+.
+* `/say/hello/*` should be accessible to users having either or both of the `user` or `admin` roles
+* `/say/bye/*` should be accessible only to users having the `admin` role
 
-There are 3 methods to be developed for this usecase based on the following information :
+. Define a `ConstraintMapping` list and pass it as a parameter to the `ConstraintSecurityHandler` Jetty class when you develop the `SecurityHandler`.
 
-[cols="2*", options="header"]
-|===
+. Develop three methods for the use case based on this information:
++
+[cols="2",options="header"]
+|====
 |Method
 |Description
+|`shouldSayHelloTest()`
+a|HTTP code: `200`
 
-|shouldSayHelloTest()
-a|HTTP code: 200
+Response message asserted: `"Hello World " + user`
 
-Response message asserted: "Hello World" + user
+user: donald, password: duck, role: user
+|`sayByeNotAllowedForUserRoleTest()`
+a|HTTP code: `403`
 
 user: donald, password: duck, role: user
 
-|sayByeNotAllowedForUserRoleTest()
-a|HTTP code: 403
+|`sayByeAllowedForAdminRoleTest()`
+a|HTTP code: `200`
 
-user: donald, password: duck, role: user
-
-|sayByeAllowedForAdminRoleTest()
-a|HTTP code: 200
-
-Response message asserted: "Bye" + user
+Response message asserted: `"Bye" + user`
 
 user: mickey, password: mouse, role: admin
-
-|===
+|====
 
 [[usecase3]]
-=== CXF JAXRS Service with @RolesAllowed & Basic Authentication
+== Explore CXF JAX-RS Service Using `@RolesAllowed` and Basic Authentication
 
-Instead of using Jetty Path Constraints with a Role like we did for the previous use case, we will use the JAXRS +@RolesAllowed+ annotation to define the REST path that we would like to restrict the access
-base on the user role.
+In this use case, instead of employing role-constrained Jetty paths, you leverage the `@RolesAllowed` JAX-RS annotation. You restrict access on a REST path to a specified role with a Java API for RESTful Web Services (JAX-RS) annotation. You develop this project using the Apache CXF Framework.
 
-This project will be designed using Apache CXF Framework. You will create the +org.jboss.fuse.security.cxf.role.BasicAuthCxfRSRoleTest+ class which extend the parent class +BaseCXF+.
+. Create the `org.jboss.fuse.security.cxf.role.BasicAuthCxfRSRoleTest` class that extends the `BaseCXF` class.
 
-Within this class, you will create a static Server class as such : +public static class Server extends AbstractBusTestServerBase {+ responsible to create and start the CXF Server and expose the RESTfull Service.
+. In this class, create a static `Server` class using `public static class Server extends AbstractBusTestServerBase`.
+* This `Server` class is responsible for creating and starting the CXF server and exposes the RESTful service.
 
-This class will contain a +Static{+ method where you will setup the Bus using the Spring XML +serverConfig.xml+ file that you will package within this directory +src/test/resources/org/jboss/fuse/security/basic/config+.
+. Add a `Static` block of this class and have it set up the bus using the Spring XML `serverConfig.xml` file that you package in the `src/test/resources/org/jboss/fuse/security/basic/config` directory.
 
-This Spring Beans file contain the definition of the beans required to instantiate a Jetty Instance with a Security Handler. The skeleton of the project already contains the declaration of such beans without the beans
-to be defined to configure the +org.eclipse.jetty.security.HashLoginService+, the +org.eclipse.jetty.util.security.Constraint+ and +org.eclipse.jetty.security.ConstraintMapping++.
+* The Spring beans file contains the definition of the beans required to instantiate a Jetty instance with a security handler. 
+* The skeleton of the project already contains the declaration of the beans. 
+* Because the file already contains the definition of the beans, you do not need to define them to configure the `org.eclipse.jetty.security.HashLoginService`, `org.eclipse.jetty.util.security.Constraint`, and `org.eclipse.jetty.security.ConstraintMapping` objects.
 
-NOTE: Such beans should be declared as you did for the use case 1.
+. Declare the beans, as you did for the first use case.
 
-To configure the JAXRS Service, you will use the method +run()+, part of the static class where you will instantiate the +JAXRSServerFactoryBean+ and setup the Provider and Resources for the class exposing the RESTfull service.
+. In the `run()` method of a static `Server` class, configure the JAX-RS Service:
+.. Instantiate the `JAXRSServerFactoryBean`.
+.. Set up the provider and resources for the class exposing the RESTful service:
 
-- setResourceClasses : CustomerServiceWithRole.class
-- setResourceProvider : CustomerServiceWithRole.class, new SingletonResourceProvider(new CustomerServiceWithRoleImpl())
-- setAddress : http://localhost:PORT/
+* `setResourceClasses`: `CustomerServiceWithRole.class`
+* `setResourceProvider`: `CustomerServiceWithRole.class`, `new SingletonResourceProvider(new CustomerServiceWithRoleImpl())`
+* `setAddress`: `http://localhost:PORT/`
 
-Register the +org.apache.cxf.interceptor.security.SecureAnnotationsInterceptor+ class as InInterceptor with a securedObject to scan the class containing the +@RolesAllowed+ annotations.
+. Register the `org.apache.cxf.interceptor.security.SecureAnnotationsInterceptor` class as an `inInterceptor` with a `securedObject` property.
+* This interceptor scans classes containing the `@RolesAllowed` annotation.
 
-Create the Interface +org.jboss.fuse.security.cxf.service.CustomerServiceWithRole+ with the JAXRS annotations
-
-[source]
+. Create the `org.jboss.fuse.security.cxf.service.CustomerServiceWithRole` interface with these JAX-RS annotations:
++
+[source,json]
 ----
 @Path("/customerservice/")
 public interface CustomerServiceWithRole {
@@ -162,28 +177,25 @@ public interface CustomerServiceWithRole {
 }
 ----
 
-And add the +@RolesAllowed+ annotation for the role +user+ to the method getCustomer
+. Add the `@RolesAllowed` annotation for the `user` role  to the `getCustomer` method.
 
-NOTE: The code implementing the service is available here : +org.jboss.fuse.security.cxf.service.CustomerServiceWithRoleImpl.java+
+* The code implementing the service is available at `org.jboss.fuse.security.cxf.service.CustomerServiceWithRoleImpl.java`.
 
-Next, create 2 methods to test a user having the user role to access the REST endpoint +/customerservice/customers/123+ and another having another role which is not allowed
-
-[cols="2*", options="header"]
+. Create two methods--the first to test a user with the `user` role to access the `/customerservice/customers/123` REST endpoint and the second with a role that is not allowed.
++
+[cols="2",options="header"]
 |===
-|Method
-|Description
+|Method |Description
+|`allowForDonaldUserCorrectRoleTest()`
+a|HTTP code: `200`
 
-|allowForDonalUserCorrectRoleTest()
-a|HTTP code: 200
-
-Response message asserted: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><Customer><id>123</id><name>John</name></Customer>
+Response message asserted: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Customer><id>123</id><name>John</name></Customer>`
 
 user: donald, password: duck, role: user, realm: myrealm
+|`deniedForUmperioNotCorrectRole()`
+a|HTTP code: `500`
 
-|deniedForUmperioNotCorrectRole()
-a|HTTP code: 500
-
-Response message asserted: "Unauthorized"
+Response message asserted: `Unauthorized`
 
 user: umperio, password: bogarto, role: author
 |===
@@ -192,15 +204,16 @@ user: umperio, password: bogarto, role: author
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Teacher Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
 
 endif::showscript[]

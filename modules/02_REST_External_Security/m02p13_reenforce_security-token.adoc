@@ -1,17 +1,21 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#reenforce-security-token]
-== Re-enforce Security - OpenId - Token
+== Security Reinforcement
 
-* Goal : Authenticate a user using a Identity provider to get a token used for SSO purposes
-* Authentication between Client and Identity Provider: public, secret or PKI
-* JSon Web Token :
-- Compact token format,
-- Encode claims to be transmitted,
+.OpenID and Token
+
+* Goal: Authenticate user using identity provider to get a token used for single sign-on purposes
+* Authentication between client and identity provider: public, secret, or public key infrastructure (PKI)
+* JSON web token:
+- Compact token format
+- Encode claims to be transmitted
 - Base64url encoded and digitally signed and/or encrypted
 
-Example
-[source]
+* Example:
++
+[source,text]
 ----
 {
   "jti": "af68fac6-fd50-4b73-bd37-5c555a8e561e",
@@ -41,25 +45,21 @@ Example
 
 .References
 
-- http://www.softwaresecured.com/2013/07/16/federated-identities-openid-vs-saml-vs-oauth/[SAML vs Oauth vs OpenID Connect]
-- https://openid.net/specs/draft-jones-json-web-token-07.html[JWT Spec]
+* link:https://www.softwaresecured.com/federated-identities-openid-vs-saml-vs-oauth/["Federated Identities: OpenID vs SAML vs OAuth^"]
+* link:https://openid.net/specs/draft-jones-json-web-token-07.html["JSON Web Token (JWT)^"]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Re-enforce Security - OpenId - Token
+Transcript:
 
-When the process to authenticate the HTTP Agent/Client connected to your application must be managed by an Identity Provider as Google, Twitter, Facebook, Gitlab, Keycloak, then it will be required to secure the
-Api as we did for the HTTP Basic Authentication but using now a different Plugin.
+When you need an identity provider such as Google, Twitter, Facebook, Gitlab, or Keycloak to manage the process of authenticating the HTTP agent or client connected to your application, then you secure the API in the same way that you did for HTTP basic authentication. The only change is that you use a different plug-in.
 
-To achieve this goal, it will required to use the KeyClok OAuth2 Policy and also to configure Keycloak to act as an OAuth2 Broker between your application and the Identity Provider; Google, Facebook, Twitter, ...
+For this type of authentication, you obtain a token to use for single sign-on purposes. Authentication between the client and the identity provider can take the form of a public key, secret, or public key infrastructure (PKI). The JSON web token offers a compact token format that lets you encode the claims to be transmitted. The token is base64url-encoded and digitally signed and/or encrypted.
 
-Remark : If you don't want to use one of the Identity Provider supported by Keycloak, you can simply use Keycloak to authenticate your user according to a realm and next return to this user a token. Keycloak uses the OpenID Connect spec and Json
-Web Token to return your token when you will issue a request to be authenticated.
+To secure the API, you use the Keycloak OAuth2 policy and configure Keycloak to act as an OAuth2 broker between your application and the identity provider.
 
-The process to configure a new Keycloak realm, a client (which is in our case the Apiman Client) and the user that the client will use to be authenticated is described within the MicroServices in Action project available
-within the Github Fuse By Example Repo. This is also the case for the Keycloak Plugin that you will use to secure your Api.
+Note that if you do not want to use one of the identity providers supported by Keycloak, you can simply use Keycloak to authenticate your user according to a realm and return a token to this user. Keycloak uses the OpenID Connect specification and a JSON web token to return your token when you issue an authentication.
 
-****
+To configure a new Keycloak realm, describe a client--in this case, the Apiman client--and the user that the client will use to be authenticated within the MicroServices in Action project available in the `Fuse By Example` GitHub repository. Also define the Keycloak plug-in that you want to use to secure your API.
+
 endif::showscript[]

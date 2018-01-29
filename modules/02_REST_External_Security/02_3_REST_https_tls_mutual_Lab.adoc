@@ -1,53 +1,65 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= TLS with Mutual Authentication
 
-In this lab you resolve the following use cases:
+== TLS with Mutual Authentication Lab
 
-<<usecase1>>
-
-<<usecase2>>
-
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about TLS & mutual authentication
-* Design RESTfull Service project and secure it
-* Expose the RESTfull Service using Camel Rest DSL & Netty4 HTTP component
-* Setup Mutual TLS using Apache CXF Rest framework with Jetty
+.Goals
+* Configure your local environment to develop and explore use cases
+* Gain experience using TLS and mutual authentication
+* Develop a RESTful service project and secure it
+* Expose a RESTful service using Camel REST DSL and Netty4 HTTP component
+* Set up TLS mutual authentication using Apache CXF REST framework with Jetty
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with RESTfull & HTTP Basic Authentication
-* Basic knowledge about https://docs.oracle.com/cd/B10501_01/network.920/a96582/pki.htm[PKI], encryption with TLS/SSL
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with RESTful services and HTTP basic authentication
+* Understanding of link:https://docs.oracle.com/cd/B10501_01/network.920/a96582/pki.htm[PKI^] and encryption with TLS/SSL
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you examine two use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://sourceforge.net/projects/soapui/files/[SoapUI^] | Latest version | Optional
+|====
 
-=== Keys and certificates
+=== Install Lab Project
 
-Follow these instructions in order to create the Private/Public keys of the user and the server, their corresponding certificate and trust them (Client with the Server and Server with the Client).
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-[source]
+=== Create Keys and Certificates
+
+In this section, you create the user and server private and public keys and their corresponding certificates, and mark them as trusted. This means the client trusts the server certificate and the server trusts the client certificate.
+
+* For the first use case (Camel), execute the following command in the `src/test/resources/org/jboss/fuse/security/camel/tls` folder.
+
+* For the second use case (CXF), execute the following command in the `src/test/resources/org/jboss/fuse/security/cxf/mutualtls` folder.
++
+[source,text]
 ----
 # Create the keystore for the client and Server
-
 keytool -genkeypair -validity 730 -alias myservicekey -keystore serviceKeystore.jks -dname "cn=localhost" -keypass skpass -storepass sspass
 keytool -genkeypair -validity 730 -alias myclientkey -keystore clientKeystore.jks -keypass cspass -storepass cspass
 
@@ -60,109 +72,99 @@ keytool -export -rfc -keystore clientKeystore.jks -alias myclientkey -file MyCli
 keytool -import -noprompt -trustcacerts -file MyClient.cer -alias myclientkey -keystore serviceKeystore.jks -storepass sspass
 ----
 
-NOTE: The command should be executed within this folder used for the Camel use case +src/test/resources/org/jboss/fuse/security/camel/tls+ and this for the CXF case +src/test/resources/org/jboss/fuse/security/cxf/mutualtls+
-
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project. 
 
 [[usecase1]]
-=== Mutual TLS with Netty4 HTTP & Camel REST DSL
+== Explore TLS Mutual Authentication Using Netty4 HTTP and Camel REST DSL
 
-The goal of this use case is to develop a JUnit Test class +org.jboss.fuse.security.camel.tls.TLSRestDSLNetty4HttpTest+ to authenticate the HTTP request using Basic Authentication/JAAS but also
-using Mutual TLS. That means that the Client and the Server will exchange their certificates and will verify that the client or server are trusted to communicate to each other.
+In this use case, you develop a `org.jboss.fuse.security.camel.tls.TLSRestDSLNetty4HttpTest` JUnit test class to authenticate the HTTP request using basic authentication, JAAS, and TLS mutual authentication. The client and the server exchange their certificates and verify that the client and server are trusted to communicate with each other.
 
-As mentioned during the installation step of this lab, the certificates and keys to be used should be generated and available under the folder +src/test/resources/org/jboss/fuse/security/camel/tls+.
+As mentioned during the installation step of this lab, the certificates and keys must be generated and available under the `src/test/resources/org/jboss/fuse/security/camel/tls` folder.
 
-Next you will have to configure the following topics :
+=== Configure Camel REST DSL Route
 
-1) Camel REST DSL Route
+. Expose a REST service using REST DSL syntax and the Netty4 HTTP component at the `say/hello/{id}` path.
+. Return a `Hello World ${header.id}` message.
+. Configure the Netty4 HTTP component to support JAAS and TLS.
 
-- Expose using REST DSL syntax a REST Service using the Netty4 HTTP component at the address +say/hello/{id}+ and returning this message +Hello World ${header.id}+
-- Configure the Netty4 HTTP component to support JAAS & TLS
+=== Configure JAAS and Security Constraint
 
-2) JAAS & Security Constraint
+. Use the `org.apache.camel.component.netty4.http.JAASSecurityAuthenticator` Netty4 HTTP JAAS class to authenticate the client user and password at the server side.
+. Configure the realm name as `myrealm` and the JAAS configuration file in the `/org/jboss/fuse/security/basic/myrealm-jaas.cfg` file.
+. Include a security constraint for the Netty4 HTTP component to restrict access to the `/say/hello/*` path to users with the `admin` role.
 
-- JAAS Realm to authenticate the client user/password at the server side. The Netty4 HTTP JAAS class to be used is +org.apache.camel.component.netty4.http.JAASSecurityAuthenticator+, the realm name is +myrealm+ and
-  the JAAS config file must be defined within the file +/org/jboss/fuse/security/basic/myrealm-jaas.cfg+
+=== Configure Server-Side SSL
 
-- Include for the Netty4 HTTP Component a Security constraint to restrict access to the /say/hello/* path for admin role users
+. Set up the SSL parameters at the server side to enable TLS communication with the client and to require TLS client authentication.
+. Configure the keystore and truststore.
 
-3) Server Side SSL
+=== Configure Client-Side SSL
 
-- Setup the SSL Parameters at the server side to enable the TLS communication with the client and to require Client TLS Authentication
-- The Keystore and TrustStore should be configured
+. Set up the SSL parameters at the client side to enable TLS communication with the server and to require TLS server authentication.
+. Configure the keystore and truststore.
 
-4) Client Side SSL
+=== Develop JUnit Tests
 
-- Setup the SSL Parameters at the Client side to enable the TLS communication with the Server and to require Server TLS Authentication
-- The Keystore and TrustStore should be configured
-
-Finally, develop 4 Unit Tests to check the following scenario
-
-[cols="3*", options="header"]
-|===
+. Develop four unit tests to check these scenarios:
++
+[cols="3",options="header"]
+|====
 |Method
 |Request
 |Description
+|`testFailAuth()`: No HTTP basic authentication is included within the HTTP header
+|"netty4-http://https://localhost:" + PORT + "/say/hello/noauthheader"
+a|HTTP code: `401`
+|`testBasicAuth()`: HTTP request generated with HTTP basic authentication and user is allowed to access the path
+|"netty4-http://https://localhost:" + PORT + "/say/hello/Mickey"
+a|HTTP code: `200`
 
-|testFailAuth() - No HTTP Basic Authentication is included within the HTTP Header
-|netty4-http://https://localhost:" + PORT + "/say/hello/noauthheader
-a|HTTP code: 401
-
-|testBasicAuth() - HTTP request generated with Basic HTTP authentication and user is allowed to access the path
-|netty4-http://https://localhost:" + PORT + "/say/hello/Mickey"
-a|HTTP code: 200
-
-Response message asserted: "Hello World Mickey"
-
-|testBasicAuthSecConstraintWithoutAdminRole() - HTTP request generated with Basic HTTP authentication and user is NOT allowed to access the path
-|netty4-http://https://localhost:" + PORT + "/say/hello/Donald"
-a|HTTP code : 401
-
-|testHttpRequest - test HTTP request without TLS
-|netty4-http://http://localhost:" + PORT + "/say/hello/Mickey
-a| Response message asserted: "No response received from remote server"
-
-|===
+Response message asserted: `"Hello World Mickey"`
+|`testBasicAuthSecConstraintWithoutAdminRole()`: HTTP request generated with HTTP basic authentication and user is not allowed to access the path
+|"netty4-http://https://localhost:" + PORT + "/say/hello/Donald"
+a|HTTP code : `401`
+|`testHttpRequest`: Test HTTP request without TLS
+|"netty4-http://http://localhost:" + PORT + "/say/hello/Mickey"
+a| Response message asserted: `"No response received from remote server"`
+|====
 
 [[usecase2]]
-=== Mutual TLS using Apache CXF REST framework & Jetty
+== Explore TLS Mutual Authentication Using Apache CXF REST Framework and Jetty
 
-the goal of this use case is to develop a Apache CXF REST project where mutual TLS will be implemented. The CXF Server side part will be configured usin the Jetty Component and the Spring CXF Bean +httpj:engine-factory+
-while the client will be configured using the Spring Bean +http:conduit+.
+In this use case, you develop an Apache CXF REST project implementing TLS mutual authentication. The CXF server side is configured using the Jetty component and the CFX Spring `httpj:engine-factory` bean. The client is configured using the Spring `http:conduit` bean.
 
-Like the previous use case, the SSL Parameters should be configured at the Server and Client side using the Keystore/Trustore generated according to the instructions of the lab installation
+=== Configure Application
 
-Next, design for the Server and Client Side their Spring CXF XML files using the names +ClientConfig.xml+ and +Serverconfig.xml+ under the folder +src/test/resources/org/jboss/fuse/security/cxf/mutualtls+
-and setup the SSL Parameters
+. Configure the SSL parameters at the server and client side using the keystore and truststore generated in the _Create Keys and Certificates_ section.
+. Create Sprint CXF XML files named `ClientConfig.xml` and `Serverconfig.xml` for client and server configuration, respectively.
+. Place these configuration files in the `src/test/resources/org/jboss/fuse/security/cxf/mutualtls` folder.
+. Set up the SSL parameters ensuring that you require client SSL authentication.
 
-NOTE: Don't forget to request the Client SSL authentication
+=== Develop Unit Test
 
-Develop the JUnit Test class +org.jboss.fuse.security.cxf.mutualtls.MutualTLSCxfRSTest+ to setup the Spring CXF Bus responsible to instantiate the Jetty Component configured to support SSL and Client Authentication.
-Next, using the class JAXRSServerFactoryBean, configure CXF to expose the REST service using the +CustomerService+ annotated class.
-
-Design this Unit test
-
-- Method : testMutualTLS() {
-- Response expected : CustomerResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Customer><id>123</id><name>John</name></Customer>";
-- URL of the HTTP request :  "https://localhost:" + PORT + "/customerservice/customers/123";
-- Use the +callRestEndpoint("localhost", BASE_SERVICE_URL)+ method to send your HTTP Request
-- Assert that the "Response status is 200"
-- Assert that the response received corresponds to the response expected
+. Develop the `org.jboss.fuse.security.cxf.mutualtls.MutualTLSCxfRSTest` JUnit test class to set up the Spring CXF bus.
+* The bus is responsible for instantiating the Jetty component configured to support SSL and client authentication.
+. Configure CXF, using the `JAXRSServerFactoryBean` class, to expose the REST service that uses the annotated `CustomerService` class.
+. Implement the `testMutualTLS()` method:
+* Use `CustomerResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Customer><id>123</id><name>John</name></Customer>";` for the HTTP response returned.
+* Use `"https://localhost:" + PORT + "/customerservice/customers/123"` for the URL of the HTTP request.
+* Use the `callRestEndpoint("localhost", BASE_SERVICE_URL)` method to send the HTTP request.
+* Assert that the HTTP response status code is `200`.
+* Assert that the received response corresponds to the expected response.
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
 
-* How to evaluate the solution of the student :
+== Teacher Information
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* Time estimated: 2d
+
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests are passing successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
 
 endif::showscript[]
