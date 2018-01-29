@@ -1,72 +1,87 @@
-:noaudio:
+:scrollbar:
+:data-uri:
+:sourcedir: ../code/security-ws/src/test/java
 :toc2:
+:linkattrs:
 
-= Business Activities Monitoring Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Business Activities Monitoring Metrics and Health Checks Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Use your MBeans with Jolokia
-* Setup a health Check to control the consumers
-* Collect History Metrics
+* Configure your local environment to develop and explore use cases involving metrics and health checks
+* Use MBeans with Jolokia
+* Set up a health check to control consumers
+* Collect history metrics
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Experience with Camel development using Red Hat JBoss Fuse
+
+.Use Cases
+In this lab, you explore three use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
+== Prepare Lab Environment
+===  Install Lab Assets
+
+[cols="2,1,1",options="header"]
 |===
-| Software | Version & URL | Notes |
+| Software | Version | Notes
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
 |===
 
-=== Install the lab project
+=== Install Lab Project
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+. Download and install locally the latest release of the project published in the {course_git_repo} GitHub repository. 
+. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
 
 [[usecase1]]
-=== Use your MBean with Jolokia
+== Use MBean with Jolokia
 
-- The goal of this use case is to reuse the code developed within the last exercise of the lab 2 but where Jolokia MBean Server is used to register the MBean. To query it, perform a HTTP request
-  and verify the JSON response returned
+In this use case, you reuse the code developed in the last exercise of the _Business Activities Monitoring Notification Lab_.
 
-  Remarks:
-  - https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/HttpRequestHandlerTest.java,
-  - http://grepcode.com/file/repo1.maven.org/maven2/org.jolokia/jolokia-core/1.0.2/org/jolokia/backend/BackendManager.java,
-  - https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/AgentServletTest.java
+. Use the Jolokia MBean server to register the MBean.
+. Query the Jolokia MBean server using an HTTP request.
+. Verify that the JSON response returned is correct.
+
+.Additional Resources
+
+  * link:https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/HttpRequestHandlerTest.java["HttpRequestHandlerTest.java^"]
+
+  * link:http://grepcode.com/file/repo1.maven.org/maven2/org.jolokia/jolokia-core/1.0.2/org/jolokia/backend/BackendManager.java["org.jolokia.backend.BackendManager^"]
+
+  * link:https://github.com/rhuss/jolokia/blob/master/agent/core/src/test/java/org/jolokia/http/AgentServletTest.java["AgentServletTest.java^"]
+
 
 [[usecase2]]
-=== Setup a health Check to control the consumers
+== Set Up Health Check to Control Consumers
 
-- Develop a use case for a Health Check that ascertains if the consumers are still alive. This class should inspire you to design the code (https://github.com/commercehub-oss/dropwizard-camel/blob/master/dropwizard-camel-core/src/main/java/com/commercehub/dropwizard/camel/health/CamelHealthCheck.java)
-  Use the camel-metrics component to do this health check.
+. Develop a use case for a health check that ascertains whether the consumers are still alive:
+
+* Use the `camel-metrics` component to perform this health check.
+* You may find this code helpful in designing your implementation: link:https://github.com/commercehub-oss/dropwizard-camel/blob/master/dropwizard-camel-core/src/main/java/com/commercehub/dropwizard/camel/health/CamelHealthCheck.java[CamelHealthCheck.java^]
+
 
 [[usecase3]]
-=== Collect History Metrics
+== Collect History Metrics
 
-- Develop a usecase where you will query the history of the messages created by another camel route and collect the history and the metrics of the message processed within the processor.
-  Example : https://github.com/apache/camel/blob/camel-2.17.0/components/camel-metrics/src/test/java/org/apache/camel/component/metrics/messagehistory/ManagedMessageHistoryTest.java
+. Query the history of the messages created by another Camel route.
+. Collect the history and the metrics of the message processed within the processor.
+
+.Example Reference
+
+* link:https://github.com/apache/camel/blob/camel-2.17.0/components/camel-metrics/src/test/java/org/apache/camel/component/metrics/messagehistory/ManagedMessageHistoryTest.java[https://github.com/apache/camel/blob/camel-2.17.0/components/camel-metrics/src/test/java/org/apache/camel/component/metrics/messagehistory/ManagedMessageHistoryTest.java^]
 
 
-ifdef::showScript[]
 
-
-endif::showScript[]

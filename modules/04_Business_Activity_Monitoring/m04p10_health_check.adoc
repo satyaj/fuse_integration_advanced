@@ -1,14 +1,17 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#healthcheck]
+
 == Health Check
 
-* Goal : Control/check if endpoints (producer/consumer) are still healthy
-* Require camel-metrics component and/or Dropwizard Metrics API
-* Allow to register some beans controlling the status of the endpoints, route or context
+* Goal: Control/check if producer and consumer endpoints are healthy
+* Requires Camel metrics component or Dropwizard Metrics API
+* Allows registering beans to control status of endpoints, route, and context
+
+* CamelContext health example:
 +
-.Camel Context Health Example
-[source]
+[source,text]
 ----
 public class CamelHealthCheck extends HealthCheck {
 
@@ -30,12 +33,11 @@ public class CamelHealthCheck extends HealthCheck {
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Health Check
 
-The goal of health checks is to ensure that the camel context has started and the Camel endpoints are healthy. Apache Camel comes with health check integrated with Spring Boot if you are using actuators. The health check does a coarse grained check to ensure that Camel started up properly. As show in the example, you can write your own check by implementing the HealthCheck interface or by extending AbstractHealthCheck which provides some useful methods.
+Transcript:
 
-****
+The goal of health checks is to ensure that the CamelContext has started and the Camel endpoints are healthy. If you are using actuators, Apache Camel comes with health checks integrated with Spring Boot. A health check does a coarse-grained check to ensure that Camel started properly. As shown in the example, you can write your own health check by implementing the HealthCheck interface or by extending AbstractHealthCheck, which provides some useful methods.
+
+
 endif::showscript[]

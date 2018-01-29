@@ -1,12 +1,15 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#eventnotification]
+
 == Event Notification
 
-* Goal : Being notified about an event, change done to a Camel Exchange
-* Support : exchange send, complete, fail, create, redeliver, Route added, started
+* Goal: Be notified about event or change done to a Camel Exchange
+* Support: Exchange send, complete, fail, create, redeliver, route added, started
+
+* Notification event example:
 +
-.Notification event example
 [source,java]
 ----
 MyEventNotifier extends EventNotifierSupport {
@@ -33,11 +36,10 @@ MyEventNotifier extends EventNotifierSupport {
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Event Notification
-To be notified when an event occurs in reference to a Camel exchange, use the EventNotifierSupport class. You can be informed about events relating to an exchange sunch as route start and stops as well as when an exchange gets sent. To enable this, create a class that extends EventNotifierSupport and override its notify method so you can be notified when events of interest occur. This feature can be used to calculate how long it takes to send and receive replies when sending to an external endpoint. This would allow the programmer to isolate bottlenecks in the code or determine which services have the highest latency.
+Transcript:
 
-****
+To be notified when an event occurs to a Camel Exchange, use the `EventNotifierSupport` class. You can be informed about events relating to an exchange such as route start and stops as well as when an exchange gets sent. To enable this, create a class that extends `EventNotifierSupport` and override its notify method so you can be notified when events of interest occur. This feature can be used to calculate how long it takes to send and receive replies when sending to an external endpoint. This would allow you to isolate bottlenecks in the code or determine which services have the highest latency.
+
+
 endif::showscript[]

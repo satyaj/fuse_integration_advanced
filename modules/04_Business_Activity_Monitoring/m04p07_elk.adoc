@@ -1,20 +1,19 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#efk]
-== ElasticSearch Fluentd Kibana
 
-* Goal : Store and manage the info collected
-* How To : Store the data as json indexed document within ElasticSearch
-* Consult and search information using Kibana Dashboard
-* Combine different sources of info using Fluentd
+== ElasticSearch + Fluentd + Kibana
+
+* Goal: Store and manage the information collected
+* Technique: Store data as JSON-indexed document in ElasticSearch
+* Consult and search information using Kibana dashboard
+* Combine different sources of information using Fluentd
 
 ifdef::showscript[]
-[.notes]
-****
 
-== ElasticSearch Fluentd Kibana
-Given the amount of data created in an enterprise application, it is necessary to use tools like EFK to make sense of it. ElasticSearch is used to store and index the data, Fluentd is used to aggregate data from multiple sources and Kibana is used for visualization.
+Transcript:
 
+Given the amount of data created in an enterprise application, it is necessary to use tools like ElasticSearch, Fluentd, and Kibana (EFK) to make sense of it. ElasticSearch is used to store and index the data, Fluentd is used to aggregate data from multiple sources, and Kibana is used for visualization.
 
-****
 endif::showscript[]

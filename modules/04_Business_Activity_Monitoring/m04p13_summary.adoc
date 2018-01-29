@@ -1,0 +1,24 @@
+:scrollbar:
+:data-uri:
+:scrollbar:
+
+== Summary
+
+* Preparation
+* Detour Wiretap
+* Intercept
+* Event Notification
+* ElasticSearch + Fluentd + Kibana
+* Extend JMX
+* Jolokia and JMX
+* Health Check
+* History Metrics
+* Nagios Management Platform
+
+ifdef::showscript[]
+
+Transcript:
+
+In this module, you learned about monitoring business activity with Red Hat JBoss Fuse. The module covered different service techniques for monitoring and inspecting the message, body, and header information that is transported through Camel routes. The techniques ranged from less invasive to more invasive, depending on whether you used an EIP, interceptor, or a code extension via event notifications. The module also covered health checks and collecting history metrics. The module concluded with using the Nagios management platform to collect and send Camel route information.
+
+endif::showscript[]

@@ -1,12 +1,14 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#extendjmx]
 == Extend JMX
 
-* Goal : Register MBeans to collect info or expose operations
-* Use Spring to register them using: @ManagedResource, @ManagedOperation, @ManagedAttribute annotations
+* Goal: Register MBeans to collect information or expose operations
+* Use Spring to register MBeans using `@ManagedResource`, `@ManagedOperation`, `@ManagedAttribute` annotations
+
+* JMX example:
 +
-.JMX Example
 [source,java]
 ----
 @ManagedResource(objectName = "mbeans:name=myJmxDemoBean", description = "My managed Bean.")
@@ -26,12 +28,11 @@ public List<String> showWaitingApplications() {
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Extend JMX
-Camel supports monitoring and controlling Camel objects by supporting JMX. Camel registers many MBeans that expose statistics and operations for management. Those MBeans are divided into eleven categories. Most MBeans expose a set of standard information and operations, concerning things such as lifecycle. In order to monitor your application, you can use the JConsole UI to connect to local or remote hosts.
+Transcript:
+
+Camel supports monitoring and controlling Camel objects with JMX. Camel registers many MBeans that expose statistics and operations for management. MBeans are divided into eleven categories. Most MBeans expose standard information and operations that relate to things such as life cycle. To monitor your application, use the JConsole UI to connect to local or remote hosts.
 
 
-****
+
 endif::showscript[]

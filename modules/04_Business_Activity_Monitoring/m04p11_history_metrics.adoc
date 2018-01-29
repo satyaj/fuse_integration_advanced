@@ -1,38 +1,24 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#historymetrics]
+
 == History Metrics
 
-* Goal : Collect stats/metrics of Camel route
-* Can be retrieved using JMX attributes/operations
-+
-.JMX Stats Attributes
+* Goal: Collect statistics and metrics of Camel route
+* Retrieve using JMX attributes and operations
+
+.*JMX Statistics Attributes*
+
 image:images/attributes.png[]
-+
-.JMX Stats Operation
-image:images/operations.png[]
-+
-* Or Using camel-metrics component
-* At runtime the metrics can be accessed from Java API/JMX which allows to gather the data as JSON output.
-+
-.History Example
-[source]
-----
-context.addRoutePolicyFactory(new MetricsRoutePolicyFactory());
 
-<!-- use camel-metrics route policy to gather metrics for all routes -->
-<bean id="metricsRoutePolicyFactory" class="org.apache.camel.component.metrics.routepolicy.MetricsRoutePolicyFactory"/>
-
-MetricsMessageHistoryService service = context.hasService(MetricsMessageHistoryService.class);
-String json = service.dumpStatisticsAsJson();
-----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== History Metrics
-Statistics and metrics about a Camel route can be obtained in a couple of different ways. Camel metrics are exposed via JMX attributes and operations and can be inspected via the JConsole UI. Alternately, the camel-metrics component can be used at run-time to gather statistics. The camel-metrics component allows collection of metrics data such as counter, meter and timer from Camel routes. In the example above, the metrics history service is used to return the statistics as a JSON document.
+Transcript:
 
-****
+Statistics and metrics about a Camel route can be obtained in several different ways. Camel metrics are exposed via JMX attributes and operations and can be inspected via the JConsole UI. 
+
+
+
 endif::showscript[]

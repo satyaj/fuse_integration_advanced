@@ -1,14 +1,17 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#detour-wiretap]
+
 == Detour Wiretap
 
-* Goal of the Detour/Wiretap : route information to another destination
-* Can be implemented using WireTap EIP Pattern in FireForget mode
+* Goal: Route information to another destination
+* Implement using Wiretap EIP pattern in FireForget mode
 * Message copied or created
+
+* Wiretap example:
 +
-.WireTap Example
-[source]
+[source,text]
 ----
  from("direct:start")
      .to("log:foo")
@@ -19,10 +22,11 @@
  from("seda:tap")
      .to("mock:tap");
 ----
-* Using a Condition to detour the traffic
+* Use condition to detour traffic
 +
-.Detour Example
-[source]
+* Detour example:
++
+[source,text]
 ----
 from("direct:start")
 .choice()
@@ -32,11 +36,10 @@ from("direct:start")
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Detour Wiretap
-We discuss the wiretap EIP and the detour logic to explain how messages may be re-routed to another destination. The wiretap EIP that is provided with Camel can be sent, as shown in the example above, to another route. This route can send this exchange to a mock endpoint, which can be part of a unit test. Using a wiretap EIP, you can either send a copy of the exchange or create a new exchange populated with different values.  There is no built-in detour EIP, so the functionality can be implemented with a choice function (as shown above) to send the exchange to a detour route under certain conditions.. 
+Transcript:
 
-****
+By using the Wiretap EIP and the Detour logic you can reroute messages to another destination. The Wiretap EIP that is provided with Camel can be sent to another route, as shown in the example. This route can send the exchange to a mock endpoint that can be part of a unit test. Using the Wiretap EIP, you can either send a copy of the exchange or create a new exchange populated with different values. There is no built-in detour EIP, but under certain conditions the functionality can be implemented as shown with a choice function to send the exchange to a detour route. 
+
+
 endif::showscript[]
