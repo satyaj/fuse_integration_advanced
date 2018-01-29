@@ -1,29 +1,27 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#persistence-jpa]
-== Persistence JPA
+== JPA Component
 
-* JPA Component supported on JBoss Fuse & on EAP as a module
-* Propose a SharedEntityManager and EntityManager
-* Component can be used as Tx Client or as part of an Tx Route
-* Consumer supports: query, nativeQuery, namedQuery or Parameters
+* Supported on JBoss Fuse, JBoss EAP as module
+* Propose SharedEntityManager and EntityManager
+* Can be used as transaction client or as part of transacted route
+* Consumer supports: `query`, `nativeQuery`, `namedQuery`, and `Parameters`
 
 .References
 
-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-JPA.html[Apache Camel on Fuse]
-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-JPA.html[Apache Camel JPA on EAP]
-- https://wildflyext.gitbooks.io/wildfly-camel/content/javaee/jpa.html[JPA Persistence with Apache Camel]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Component_Reference/IDU-JPA.html[JPA Component^]
 
+* link:http://wildfly-extras.github.io/wildfly-camel/#_jpa[JPA persistence with Apache Camel^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Persistence JPA
+Transcript:
 
-The Apache JPA component is offers a variety  of features like the consumer, producer and idempotent repository pattern.
-It can also be used in combination with a Transaction Manager to be used as Transaction Client or part of a Transacted Route. One of the key benefits of this component is the flexibility offered through the different modes : query, nativeQuery, namedQuery or parameterized query. The latter will use a Java Util Map object to map the information saved within the registry with the query to be parameterized.
+Supported on both JBoss Fuse and JBoss EAP as a module, the Apache JPA component is one of the most robust components. It offers an array of features from the consumer to the producer or the Idempotent repository pattern. It can be used in combination with a transaction manager as a transaction client or as part of a transacted route.
 
+A key benefit of this component is that it provides great flexibility in managing queries. As a consumer, it supports various modes, including `query`, `nativeQuery`, `namedQuery`, and `Parameters`. The `Parameters` mode uses a `java.util.Map` object to map the information saved within the registry to the query being parameterized.
 
-****
 endif::showscript[]

@@ -1,22 +1,30 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-== Suggested Readings & work
+== Preparation
 
-.Self exercise
-* Read the Persistence and Transactional chapters part of the Camel Development with JBoss Fuse course
-* Develop some examples based on JPA spec or Java JDBC
-* Review Java Transactions, JTA
+.Recommended Reading
+* link:http://docs.oracle.com/javaee/5/tutorial/doc/bnbpy.html["The Java EE 5 Tutorial, Persistence^"]
+* link:http://www.mkyong.com/jdbc/jdbc-transaction-example/[JDBC Transaction example^]
+* link:http://docs.oracle.com/javaee/5/tutorial/doc/bncii.html["The Java EE 5 Tutorial, What Is a Transaction^"]
 
-.Readings
-* http://docs.oracle.com/javaee/5/tutorial/doc/bnbpy.html[Java & JPA]
-* http://www.mkyong.com/jdbc/jdbc-transaction-example/[Java & JDBC]
-* http://docs.oracle.com/javaee/5/tutorial/doc/bncii.html[Java Transaction]
+
+.Recommended Tasks
+* Develop examples based on JPA or JDBC
+* Review Java Transaction API (JTA)
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Prerequisites
+Transcript:
 
-****
+To prepare for this module, Red Hat recommends that you review the information on the web pages shown here.
+
+Also, test yourself to make sure you can do the following:
+
+* Develop some examples based on the JPA spec
+* Develop some examples based on JDBC
+* Review the Java Transaction API, or JTA
+
 endif::showscript[]

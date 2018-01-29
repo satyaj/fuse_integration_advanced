@@ -1,30 +1,42 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#persistence]
 == Persistence
 
-* Apache Camel supports different SQL components :
+* Apache Camel supports different SQL components:
 
-** JDBC - Java Spec based
-** SQL - Spring SQL Component (Template base)
-** JPA - Java JPA Spec
-** Hibernate, iBatis, MyBatis (support ?)
+** JDBC - Java-specification based
+** SQL - Spring SQL component (template-based)
+** JPA - Java JPA specification
+** Hibernate, iBatis, MyBatis
 ** NoSQL
-* Supports the Guaranteed Delivery EIP Pattern
-* Some components acts only as Producers and not Consumers
+* Supports Guaranteed Delivery Enterprise Integration Pattern (EIP)
+* Some components act only as producers and not consumers
 
-.References
+.Reference
 
-- http://camel.apache.org/guaranteed-delivery.html[Guarantee Delivery]
+* link:http://camel.apache.org/guaranteed-delivery.html[Guaranteed Delivery^]
+
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Persistence
+Transcript:
 
-The Apache Camel framework supports the Guaranteed Delivery EIP Pattern. Different components with Camel support this pattern such as SQL, JDBC, JPA components. Before choosing a component for a project, it is important to review if the component includes a consumer and producer or just a producer and also if the component fully supported from the Red Hat Subscription point of view and Apache community. As, some components like Hibernate don't use the Apache License 2, the code is not maintained actively under the Apache Camel project. Ibatis is not longer an Apache project even if the new project MyBatis is still released using an Apache License. For some projects, the JDBC projects could be enough as the complexity of the data model, queries does not justify to use an ORM.
-Some components like JPA, SQL, Hibernate & MyBatis support Transactions while others do not.
+The Apache Camel framework supports the Guaranteed Delivery EIP pattern. Various Camel components, including Spring SQL, JDBC, and JPA, support this pattern.
 
-****
+Before you choose a component for a project, ask yourself these questions:
+
+* Does the component include both a consumer and a producer, or just a producer?
+* Is the component fully supported by both a Red Hat subscription and the Apache community?
+
+For components such as Hibernate that do not use Apache License 2, the code is not maintained actively under the Apache Camel project. Ibatis is no longer an Apache project, even though the new project MyBatis is released using an Apache license.
+
+For some projects, the JDBC components may be enough--for example, if the complexity of the data model and queries do not require use of object-relational mapping.
+
+Some components, such as JPA, SQL, Hibernate, and MyBatis, support transactions, while others do not.
+
+
 endif::showscript[]

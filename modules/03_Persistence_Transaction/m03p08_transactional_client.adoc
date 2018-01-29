@@ -1,29 +1,29 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#transactional-client]
 == Transactional Client
 
-* Concept : Make the client’s session transactional so that the client can specify transaction boundaries
-* Producer or Consumer can be Tx
-* Not Equal to a Tx Route
+* Concept: Make the client’s session transactional so that client can specify transaction boundaries
+* Producer or consumer can be transaction
+* Not equal to transaction route
 * Not all Apache Camel endpoints support transactions
-* Tx Client : File, JMS, ActiveMQ, JPA, ...
+* Transactional client: File, JMS, ActiveMQ, JPA, others
 
-.References
+.Reference
 
-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgEnd-Transactional.html[Transactional Client]
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgEnd-Transactional.html[Transactional Client^]
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Transactional Client
+Transcript:
 
-The Transactional Client pattern is supported by the Apache Camel Framework and it allows a client to specify the Transaction Boundaries. For a JMS client, that means that the JMS session will become transactional
-instead of the Client or Auto Acknowledge and that the client will use behind the scene a Transaction Manager to commit/rollback the JMS session. The Transactional client behavior can be enable for an endpoint
-which is a producer or consumer. When we setup this behavior for the endpoint, that does not mean at all that the Apache Camel Route will become transactional like we can do with the Transacted policy that we will present hereafter.
-In order to use a Transactional Client, you must first identify which Tx Client you will use as some of them aren't Tx aware. The existing Tx Client are : File, JPA, JMS, ActiveMQ and next select the Transaction Manager that you will use. OF coourse, this choice will depend
-where the project will be hosted, in JBoss EAP or JBoss Fuse. Arjuna Tx Manager will be the default choice for the EAP platform and Apache Aries Tx Manager the one used for the Fuse platform.
+The transactional client pattern is supported by the Apache Camel framework and allows a client to specify transaction boundaries. For a JMS client, this means that the JMS session, not the client or auto-acknowledge, becomes transactional. It also means that the client uses a behind-the-scenes transaction manager to commit or roll back the JMS session.
 
-****
+You can enable the transactional client behavior for an endpoint that is either a producer or a consumer. Setting up this behavior for the endpoint does not mean that the Apache Camel routes become transactional. For that, you use a transacted policy, discussed later in this course.
+
+To use a transactional client, you must identify which client you want to use, because some clients are not transaction-aware. The existing transactional clients are a file, JPA, JMS, and ActiveMQ. You then select the transaction manager to use. This choice depends on where the project is being hosted--in JBoss EAP or JBoss Fuse. Arjuna transaction manager is the default choice for the JBoss EAP platform, and the Apache Aries transaction manager is the default for the JBoss Fuse platform.
+
 endif::showscript[]

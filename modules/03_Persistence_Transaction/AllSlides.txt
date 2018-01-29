@@ -1,11 +1,12 @@
 :course_git_repo: https://github.com/gpe-mw-training/advanced-integration-labs.git
 
 include::m03p01_cover.adoc[]
-include::m03p02_suggested_readings.adoc[]
 include::m03p03_topics.adoc[]
+include::m03p02_suggested_readings.adoc[]
 include::m03p04_persistence.adoc[]
 include::m03p05_persistence_jpa.adoc[]
 include::m03p06_persistence_nosql.adoc[]
 include::m03p07_idempotent.adoc[]
 include::m03p08_transactional_client.adoc[]
 include::m03p09_transactional_route.adoc[]
+include::m03p10_summary.adoc[]
