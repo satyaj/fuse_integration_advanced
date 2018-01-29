@@ -1,9 +1,13 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#ws-security-config]
-== WS Security
+== WS-Security
 
-* WSS4j can be configured using the Java API
+* WSS4j can be configured using Java API or Spring XML beans:
+
+** Java API:
 +
 [source,java]
 ----
@@ -26,9 +30,9 @@ WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
 cxfEndpoint.getOutInterceptors().add(wssOut);
 ----
 
-or
 
-* Spring XML Beans
+
+** Spring XML beans:
 +
 [source,xml]
 ----
@@ -56,29 +60,36 @@ or
    </jaxws:inInterceptors>
 ----
 
+
+.Reference
+
+* link:http://cxf.apache.org/docs/interceptors.html[Interceptors and Phases^]
+
 ifdef::showscript[]
-[.notes]
-****
 
-.References
 
-* http://cxf.apache.org/docs/interceptors.html[CXF Phases]
+Transcript:
 
-== WS Security
+To configure the WSS4J interceptors, you can use the `org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor` and `org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor` Java classes, as shown here.
 
-The configuration of the WS Security will be done using the +org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor+ or the org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor+ java classes. They can be configured as you can see within this slide using the Java API.
-With the CXF Endpoint object, you can get the list of the In or OutInterceptors and add a new interceptor. These interceptors will be handled during the PRE_PROTOCOL Phase by the CXF Framework. Likewise the WSS4J Interceptor can be instantiated using a <jaxws:Interceptors> or
-<jaxws:outInterceptors/> list of beans.
+You use the CXF endpoint object to get the list of the in or out interceptors, and then add a new interceptor. The CXF framework handles these interceptors during the `PRE_PROTOCOL` phase. Alternatively, you can instantiate the WSS4J interceptors using a `<jaxws:Interceptors>` or `<jaxws:outInterceptors/>` list of beans, as shown in the second example.
 
-The WSS4J Interceptor is configured with a Map that we pass as constructor argument. The key and entries (action, signaturePropFile, etc.) map to the text strings in WSS4J's WSHandlerConstants and WSConstants classes for the corresponding WSHandlerConstants.XXXXX and WSConstants.XXXX constants
-When you would like to setup some Actions, then you will create the key "Action" with by the values "UsernameToken TimeStamp" and CXF will generate a USernameToken with a TimeStamp within the WSSEC SOAP Header Section.
+You configure the WSS4J interceptor with a map that you pass as a constructor argument. The key and entries, such as `action`, `signaturePropFile`, and so on, map to the text strings in WSS4J's `WSHandlerConstants` and `WSConstants` classes for the corresponding `WSHandlerConstants.XXXXX` and `WSConstants.XXXX` constants.
 
-You can get a list of all the actions available by looking within the +org.apache.wss4j.dom.handler.WSHandlerConstants+ java class.
+When you want to set up some actions, create the `Action` key with the values `UsernameToken` and `Timestamp`. CXF then generates a `UsernameToken` with a `Timestamp` within the WS-Security SOAP header section.
 
-To specify the Class to be used to control the password using a CallBack mechanism, then you will add the key "passwordCallbackClass". To specify the file to be used to sign/digest or encrypt/decrypt the elements of the SOAP messages, you will use
-respectively the keys; signaturePropFile and encryptPropFile. These keys pojnt the location of the properties files that WSS4J will use to configure the Crypto provider. The key +org.apache.ws.security.crypto.provider+ and its value +org.apache.ws.security.components.crypto.Merlin+
-will tell to WSS4J which class it will use to instantiate the Java Crypto Provider which is here by default +Merlin+.
-As the TLS Client/Server parameters, you will also define within these properties files the location of the keystore, password to be used, etc ....
+To see a list of all the actions available, look in the `org.apache.wss4j.dom.handler.WSHandlerConstants` Java class.
 
-****
+To specify the class to be used to control the password using a `CallBack` mechanism, add the `passwordCallbackClass` key.
+
+To specify the file to be used to sign/digest or encrypt/decrypt the elements of the SOAP messages, use the `signaturePropFile` and `encryptPropFile` keys, respectively. These keys point to the location of the properties files that WSS4J uses to configure the crypto provider.
+
+The `org.apache.ws.security.crypto.provider` key and its value, `org.apache.ws.security.components.crypto.Merlin`, tell WSS4J which class to use to instantiate the Java crypto provider. By default, the provider is `Merlin`.
+
+Similar to TLS client and server parameters, you also define in these properties files the location of the keystore, the password to be used, and so on.
+
+
+
+
+
 endif::showscript[]

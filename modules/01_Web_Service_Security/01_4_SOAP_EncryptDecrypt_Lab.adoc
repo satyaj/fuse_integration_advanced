@@ -1,84 +1,86 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= Encrypt / Decrypt SOAP Body Message Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Encrypt and Decrypt SOAP Body Message Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about Encryption/Decryption process
-* Encrypt and decrypt SOAP Message using Camel XML Security Data Format
-* Design Web Service project and secure it
-* Use the Apache HTTP Client to post SOAP Message
+* Configure your local environment to develop and explore use cases
+* Become more experienced with the encryption/decryption process
+* Encrypt and decrypt SOAP messages using Camel XMLSecurity DataFormat
+* Design a web service project and secure it
+* Use the Apache HTTPClient to post a SOAP message
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with Web Service Technology & SOAP Messages
-* Design Apache Camel routes and marshall/unmarshall data payload
-* PKI & encryption/decryption background
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with web service technology and SOAP messaging
+* Understanding of PKI and message encryption and signatures
+* Experience with Camel development using JBoss Fuse
+
+.Use Cases
+In this lab, you explore three use cases:
+
+* <<usecase1>>
+
+* <<usecase2>>
+
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module part of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
+== Install Lab Assets
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-| Java Crypto Unlimited | http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java 8] | Required |
-|===
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java Crypto Unlimited^] | Java 8 | Required |
+|====
 
-=== Install the lab project
+=== Install Lab Project
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+Download and install locally the latest release of the project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-=== Keys and certificates
+=== Create Keys and Certificates
 
-Follow these instructions in order to create the Private/Public keys of the users to be used and their corresponding certificates
+For this lab, the keys are generated for you. Outside the lab environment, use the `keytool -genkey` command to create the private and public keys and corresponding certificates for your users:
 
-[source]
+[source,text]
 ----
-keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security/src/test/resources/integrationstore.jks
+keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security-ws/src/test/resources/integrationstore.jks
 ----
 
-Add `localhost` as name for the first and last name field. You can define the value for the other fields as you want.
-Here is an example `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`
+* When prompted for the first and last names, enter `localhost`.
+* Specify any values for the other prompts.
+* Answer `yes` to confirm the value of the Common Name (CN).
+* Expect the resulting Common Name to look similar to this: `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`.
 
-== Use case exercise
-
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
 
 [[usecase1]]
-=== Design an Apache Camel route to encrypt a SOAP Message
+== Encrypt SOAP Message
 
-The goal of this use case is to design an Apache Camel Route to encrypt the content of a SOAP message that we will send to a Direct endpoint exposed by the route.
+In this use case, you design an Apache Camel route to encrypt the contents of a SOAP message that you send to a `direct` endpoint exposed by the route.
 
-This project will use the following technologies : Apache Camel and Apache Camel XMLSecurity Dataformat.
+This project uses Apache Camel and the Apache Camel XMLSecurity DataFormat.
 
-You will create a Junit Test class extending the +CamelSpringTestSupport+ java to load the Spring XML Beans file +EncryptDecryptPayloadTest-context.xml+ packaged under the folder +org/jboss/fuse/security/encryption+ containing the declaration of the
-the Apache Camel Route & XMLSecurity Data Format required to marshall the paylaod.
+You create a JUnit test class extending the `CamelSpringTestSupport` Java class to load the `EncryptDecryptPayloadTest-context.xml` Spring XML beans file packaged under the `org/jboss/fuse/security/encryption` folder. This XML file contains the declaration of the Apache Camel route and XMLSecurity DataFormat required to marshal the payload.
 
-.Route Direct - Encrypt
-* Design a route using the Direct component with the URI +direct://encrypt+
-* Marshall the content of the body using the reference of the Bean +encryptXML+
-* Send the result to the +mock:encrypted+ endpoint
-* Configure a Spring Bean using as Java class +org.apache.camel.model.dataformat.XMLSecurityDataFormat+ and set the id with the word +encryptXML+
-* Set the fields of this bean using these key/value pairs
+=== Encrypt Route Direct
 
-[source]
+. Design a route using the `direct` component with the `direct://encrypt` URI.
+. Marshall the contents of the `Body` element using the `encryptXML` reference of the bean.
+. Send the result to the `mock:encrypted` endpoint.
+. Configure a Spring bean using as the `org.apache.camel.model.dataformat.XMLSecurityDataFormat` Java class and set the ID to `encryptXML`.
+. Set the fields of this bean using these key/value pairs:
++
+[source,xml]
 ----
 <property name="secureTagContents" value="true"/>
 <property name="xmlCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
@@ -88,39 +90,41 @@ the Apache Camel Route & XMLSecurity Data Format required to marshall the paylao
 <property name="namespaces">TODO</property>
 ----
 
-.Camel Key Store Parameters
-* Configure a Camel Key Store with the id +keyStoreParams+ to point to the Keystore file of the +recipient.ks+
-* Configure a Camel Key Store with the id +trustStoreParams+ to point to the Keystore file of the +sender.ks+
+=== Congigure Camel Key Store Parameters
 
-.Design the Test Class
-* Add a new test class with the name +EncryptDecryptPayloadTest+ under the folder +src/test/java/org/jboss/fuse/security/encryption+
-* Extends the Camel class +CamelSpringTestSupport+
-* Override the method to use your Spring Camel Beans XML file +src/test/resources/org/jboss/fuse/security/encryption/EncryptDecryptPayloadTest-context.xml+
-* Add the Junit method: +testXMLPayloadEncryption+
-* Using a Camel ProducerTemplate, send a Message to the +direct://encrypt+ using as Body Message the String defined here +org.jboss.fuse.security.encryption.Helper.XML_REQUEST+
+. Configure a Camel `keyStore` with the `keyStoreParams` ID pointing to the `recipient.ks` keystore file.
+. Configure a Camel `keyStore` with the `trustStoreParams` ID pointing to the `sender.ks` keystore file.
 
-NOTE: You can create within the Helper class a method +void sendText(final String URI, final Object msg, CamelContext context)+ that you will reuse from other use cases.
+=== Develop Test Class
 
-* Verify that the Mock Endpoint +mock:encrypted+ will receive a Body from the Exchange which is encrypted using an Assert.assertTrue() expression
+. Add a test class named `EncryptDecryptPayloadTest` under the `src/test/java/org/jboss/fuse/security/encryption` folder.
+* Use the `CamelSpringTestSupport` Camel class as the base class.
+. Override the method to use your `src/test/resources/org/jboss/fuse/security/encryption/EncryptDecryptPayloadTest-context.xml` Spring Camel beans XML file.
+. Add a `testXMLPayloadEncryption` JUnit method.
+. Using a Camel `ProducerTemplate`, send a message to the `direct://encrypt` endpoint using the `org.jboss.fuse.security.encryption.Helper.XML_REQUEST` string as the message body.
++
+[NOTE]
+In the `Helper` class, you can create a `void sendText(final String URI, final Object msg, CamelContext context)` method  that you can reuse from other use cases.
 
-NOTE: Use the method +public boolean hasEncryptedData(Document doc)+ of the helper class to check if your Body is encrypted or not
+. Verify that the `mock:encrypted` mock endpoint receives a response with an encrypted body.
+* Use an `Assert.assertTrue()` expression for this.
+* Use the `public boolean hasEncryptedData(Document doc)` method of the `Helper` class to check whether your body is encrypted.
 
 [[usecase2]]
-=== Design an Apache Camel route to decrypt a SOAP Body encrypted Message
+== Decrypt SOAP Message
 
-For this use case, we will extend what has been created within the use case 1 in order to decrypt the content an encrypted SOAP Message.
+For this use case, you expand on the previous use case to design an Apache Camel route to decrypt the contents of an encrypted SOAP message. This project uses Apache Camel and Apache Camel XMLSecurity DataFormat.
 
-This project will use the following technologies : Apache Camel, Apache Camel XMLSecurity Dataformat.
+=== Decrypt Route Direct
 
-.Route Direct - Decrypt
-* Open the +EncryptDecryptPayloadTest-context.xml+ file and add a new Apache Camel Route
-* Design a route using the Direct component with the URI +direct://decrypt+
-* Unmarshall the content of the body using the reference of the Bean +decryptXML+
-* Send the result to the +mock:decrypted+ endpoint
-* Configure a Spring Bean using as Java class +org.apache.camel.model.dataformat.XMLSecurityDataFormat+ and set the id with the word +decryptXML+
-* Set the fields of this bean using these key/value pairs
-
-[source]
+. Open the `EncryptDecryptPayloadTest-context.xml` file and add an Apache Camel route.
+. Design a route using the `direct` component with the `direct://decrypt` URI.
+. Unmarshal the contents of the `Body` element using the `decryptXML` reference of the bean.
+. Send the result to the `mock:decrypted` endpoint.
+. Configure a Spring bean using `org.apache.camel.model.dataformat.XMLSecurityDataFormat` as the Java class and set the ID to `decryptXML`.
+. Set the fields of this bean using these key/value pairs:
++
+[source,xml]
 ----
 <property name="secureTag" value=""/>
 <property name="secureTagContents" value="true"/>
@@ -128,54 +132,49 @@ This project will use the following technologies : Apache Camel, Apache Camel XM
 <property name="keyCipherAlgorithm" value="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
 <property name="recipientKeyAlias" value="recipient"/>
 <property name="keyOrTrustStoreParametersId" value="keyStoreParams"/>
-<property name="namespaces">TODO</property
+<property name="namespaces">TODO</property>
 ----
 
-.Add a new method
-* Open the +EncryptDecryptPayloadTest+ class and add a new Junit Method +testXMLPayloadDecryption+
-* Send the same message used for the use case 1 to the +direct://encrypt+ endpoint
-* Use the response returned as input to call the +direct://decrypt+ endpoint
-* Assert using the +mock:decrypted+ endpoint that the message received is not encrypted +Assert.assertFalse+
-* Use the Exchange received by the +mock:decrypted+ endpoint to match that the result received is equivalent to what we have send
+=== Add Test Method
 
-NOTE: Use +Diff xmlDiff = XMLUnit.compareXML(Original, Result)+ method to compare both the +org.w3c.dom.Document+ objects
+. Open the `EncryptDecryptPayloadTest` class and add a `testXMLPayloadDecryption` JUnit test method.
+. Send the same message used for the first use case to the `direct://encrypt` endpoint.
+. Use the response returned as input to call the `direct://decrypt` endpoint.
+. Use the `mock:decrypted` endpoint to assert (with `Assert.assertFalse`) that the  message received is not encrypted.
+. Use the response received by the `mock:decrypted` endpoint to verify that the response received is equivalent to the message sent.
 
-* Add an assert method +Assert.assertTrue()+ to check that xmlDiff is identical +xmlDiff.identical()+
+* Use `Diff xmlDiff = XMLUnit.compareXML(Original, Result)` method to compare the two `org.w3c.dom.Document` objects.
+
+* Add an `Assert.assertTrue()` assert method  to check that `xmlDiff.identical()` xmlDiff is identical.
 
 [[usecase3]]
-=== Expose a Camel CXF endpoint to consume a SOAP Request message and reply with an encrypted SOAP Body message
+== Reply to SOAP Message with Encrypted Response
 
-The goal of this use case is to design a third Apache Camel route to expose a Camel CXF Endpoint that a HTTP Client will use to send
-a SOAP Request Message and will wait about a SOAP Message response containing the encrypted body. The Camel route will consume the SOAP MEssage, extract using xpath
-the content of the SOAP Body, call a bean to generate the response & marshall the result as an encrypted message.
+In this use case, you design a third Apache Camel route that exposes a Camel CXF endpoint. This endpoint consumes a SOAP request message, and replies with an encrypted SOAP response. You use an Apache HTTPClient to send a SOAP request message and wait for a SOAP response message containing an encrypted body. The Camel route consumes the SOAP message, extracts the contents of the SOAP `Body` element using xPath, calls a bean to generate the response, and marshals the result as an encrypted message.
 
-This project will use the following technologies : Apache Camel, Apache Camel XMLSecurity Dataformat and Apache HTTP Client.
+This project uses Apache Camel, Apache Camel XMLSecurity DataFormat, and Apache HTTPClient.
 
-.Route CXF endpoint - Encrypt
-* Open the +EncryptDecryptPayloadTest-context.xml+ file and add a new Apache Camel Route
-* Define the +<cxf:cxfEndpoint id="cheeseServiceBean"> bean using these parameters
-** address: `http://localhost:9001/camel/CheeseService`
-** wsdlURL: `src/test/resources/org/jboss/fuse/security/encryption/CheeseProcess.wsdl`
-** serviceClass: `org.jboss.fuse.security.encryption.CheeseProcess`
-** DataFormat: `MESSAGE`
-* Add a Camel route exposing the CXF Bean endpoint
-* Set a header with the name `arg` and a xpath expression to extract from the Body the text of the SOAP Message
+=== Encrypt Route CXF Endpoint
 
-[NOTE]
-====
-* Xpath expression to be used `/soap:Envelope/soap:Body/ns4:processCheese/arg0/text()`
-* Verify that the namespaces to be used by Xpath are well registered within the CamelContext !
-====
-
-* Set the body of the Exchange with the value returned by the Xpath expression
-* Call the Bean `org.jboss.fuse.security.encryption.CheeseProcessImpl`, method `processCheese` to get the response which is a `org.jboss.fuse.security.encryption.Country` object
-* Marshall the Java Country object to a XML Stream using JAXB
-* Marshall the result using the Camel XML Security Dataformat.
+. Open the `EncryptDecryptPayloadTest-context.xml` file and add an Apache Camel route.
+. Define the `<cxf:cxfEndpoint id="cheeseServiceBean">` bean using these parameters:
+* `address`: `http://localhost:9001/camel/CheeseService`
+* `wsdlURL`: `src/test/resources/org/jboss/fuse/security/encryption/CheeseProcess.wsdl`
+* `serviceClass`: `org.jboss.fuse.security.encryption.CheeseProcess`
+* `DataFormat`: `MESSAGE`
+. Add a Camel route exposing the CXF bean endpoint.
+. Set a header with the `arg` name and an xPath expression to extract the text of the SOAP message from the body.
+* Use the `/soap:Envelope/soap:Body/ns4:processCheese/arg0/text()` xPath expression.
+. Verify that the namespaces to be used by xPath are registered in the `CamelContext`.
+. Set the `Body` of the response with the value returned by the xPath expression.
+. Call the `org.jboss.fuse.security.encryption.CheeseProcessImpl` bean and the  `processCheese` method  to get a `org.jboss.fuse.security.encryption.Country` object response.
+. Marshall the Java `Country` object to an XML stream using JAXB.
+. Marshall the result using Camel XMLSecurity DataFormat.
 * A new Spring bean is required for this marshalling.
-** Create it using the id `encryptSOAPBody`
-** Pass these parameters
-
-[source]
+* Create it using the `encryptSOAPBody` ID.
+. Pass these parameters:
++
+[source,xml]
 ----
 <bean id="encryptSOAPBody" class="org.apache.camel.model.dataformat.XMLSecurityDataFormat">
 <property name="secureTag" value=""/>
@@ -187,35 +186,33 @@ This project will use the following technologies : Apache Camel, Apache Camel XM
 <property name="namespaces">
 ----
 
-* Call the method `populateSoapResponse` of the bean service `CheeseProcessImpl` in order to wrap the body with a SAOP HEADER message
-* Return this message to the Camel CXF endpoint
+. Call the `populateSoapResponse` method of the `CheeseProcessImpl` bean service to wrap the body with a SOAP header message.
+. Return this message to the Camel CXF endpoint.
 
-.Add a new method to test the WebService
-* Open the +EncryptDecryptPayloadTest+ class and add a new Junit Method +testXMLPayloadDecryption+
-* Add a new Junit Method +testEncryptedSOAPBody+
-* Use the Apache HTTPclient project to post a HTTP request using the method +org.apache.commons.httpclient.methods.PostMethod(String URL)+ where the URL corresponds to the WS Endpoint to call +http://localhost:9001/camel/CheeseService+
-* Create a +org.apache.commons.httpclient.methods.StringRequestEntity(String content, String contentType, String charset)+ to send the +Helper.XML_REQUEST+ XML String
-* Add a +SOAPAction+ as +setRequestHeader()+ to the post object
-* Create a +HttpClient+ object and execute the post
-* Assert that you get a response where the value is +200+
-* Extract from the SOAP Message the SOAP Body String
+=== Add Method to Test Web Service
 
-NOTE: You can use xpath to navigate to the SOAP Body XML Tag and extract it
-
-* Call this helper method to decrypt its content +helper.decryptXMLPayload(String xmlBodyEncrypted, CamelContext);+ and verify it.
+. Open the `EncryptDecryptPayloadTest` class and add a `testXMLPayloadDecryption` JUnit test method.
+. Add a `testEncryptedSOAPBody` JUnit method.
+. Use the Apache HTTPClient project to post an HTTP request using the `org.apache.commons.httpclient.methods.PostMethod(String URL)` method  where the URL corresponds to the `http://localhost:9001/camel/CheeseService` web service endpoint to call.
+. Create an `org.apache.commons.httpclient.methods.StringRequestEntity(String content, String contentType, String charset)` to send the `Helper.XML_REQUEST` XML String.
+. Add a `SOAPAction` with `setRequestHeader()` to the post object.
+. Create a `HttpClient` object and execute the post.
+. Assert that you get a response with the HTTP response code of `200`.
+. Extract from the SOAP message the SOAP `Body` element as a string.
+. Use xPath to navigate to the SOAP `Body` XML element and extract the content.
+* Call the `helper.decryptXMLPayload(String xmlBodyEncrypted, CamelContext);` helper method to decrypt its content and verify it.
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Teacher Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
 
-endif::showscript[]
+** Verify that the JUnit Tests pass successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.

@@ -1,0 +1,22 @@
+:scrollbar:
+:data-uri:
+:noaudio:
+
+== Summary
+
+* Preparation
+* Endpoint Security
+* WS-Security
+* WS-SecurityPolicy
+* Transport Layer Security
+* WS-SecurityPolicy - SOAP Message
+* WS-Trust
+* Payload Encryption/Decryption
+
+ifdef::showscript[]
+
+Transcript:
+
+This module covered key web service security concepts such as securing a web service using the WS-Security specification, implementing the security using a policy, using a security token service with the WS-Trust specification to generate a security token that the web service asserts using validation rules, and encrypting and decrypting the content of the web service body.
+
+endif::showscript[]

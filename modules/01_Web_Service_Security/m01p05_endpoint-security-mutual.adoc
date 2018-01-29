@@ -1,12 +1,14 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#endpoint-security-mutual]
 == Endpoint Security
 
 .TLS with Mutual Authentication
-* Configure the Server with the +<sec:ClientAuthentication/>+
+* Configure server with `<sec:ClientAuthentication/>`
 * TrustManager is required by both client and server
-* KeyManager is only required at client side for Mutual Authentication
+* KeyManager is required only on client side for mutual authentication
 +
 [source,xml]
 ----
@@ -18,23 +20,19 @@
 </http:destination>
 ----
 
-.References
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/ConfigTLS.html#i305901[Mutual Authentication]
+.Reference
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/ConfigTLS.html#i305901[Mutual Authentication^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Endpoint Security
+Transcript:
 
-When the mutual TLS authentication is needed between the client and the server and that the server expects to get the certificate of the client and its public key to sign/encrypt/decrypt or digest the content
-of the SOAP Message, then we will use the Java class +org.apache.cxf.configuration.security.ClientAuthentication+ or its corresponding XML Tag + <sec:clientAuthentication/>. To configure that the mutual authentication is required, we
-will use the boolean values required or want to specify if the authentication is required or defined as optional.
+When you need mutual TLS authentication between the client and the server, and the server expects to get the client's certificate and public key to sign, encrypt, decrypt, or digest the content of a SOAP message, use either the `org.apache.cxf.configuration.security.ClientAuthentication` Java class or its corresponding XML tag, `<sec:clientAuthentication/>`.
 
-The Client Authentication feature doesn't refer to the fact that a username with a password must be provided by the client but means that the Client must provide its certificate containing its public key that the Server
-will verify using its TrustManager.
+Use the appropriate Boolean values to specify if mutual authentication is required or optional.
 
-The Server TLS Parameters will be configured in this case with a Trust and KeyManagers like also the client. Remark that KeyManager is only required at client side for Mutual Authentication
+The client authentication feature does not indicate that the client must provide a username and password. Instead, it indicates that the client must provide its certificate containing its public key, which the server verifies using TrustManager.
 
-****
+For mutual authentication, you must configure both the TLS server parameters and the TLS client parameters with a TrustManager. However, a KeyManager is required only on the client side.
+
 endif::showscript[]

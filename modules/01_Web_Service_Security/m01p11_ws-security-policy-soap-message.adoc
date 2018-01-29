@@ -1,13 +1,15 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#ws-security-policy-soap-message]
-== WS Security Policy - SOAP Message
+== WS-SecurityPolicy - SOAP Message
 
 * SOAP message-level security offers more granularity
-* Support for symmetric (Kerberos Token) & asymmetric (Public Key) key protocols
-* Can sign and/or encrypt specific parts of the message (Body, Headers)
+* Support for symmetric (Kerberos token) and asymmetric (public key) key protocols
+* Can sign and/or encrypt specific parts of message (body, headers)
 
-.Asymmetric Example
+* Asymmetric example:
++
 [source,xml]
 ----
 <sp:AsymmetricBinding xmlns:sp="..." ... >
@@ -35,25 +37,21 @@
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== WS Security Policy
+Transcript:
 
-By applying message protection at the SOAP encoding layer, instead of at the transport layer, you have access to a more flexible range of protection policies.
-In particular, because the SOAP layer is aware of the message structure, you can apply protection at a finer level of granularity—for example, by encrypting and signing only those headers that actually require protection.
+Applying message protection at the SOAP encoding layer, instead of at the transport layer, provides a more flexible range of protection policies.
 
-The protection will be configured using a Security Binding which is either the AsymmetricBinding for public key cryptography or SymmetricBinding when private cryptography will used with Kerberos Token by example.
+In particular, because the SOAP layer is aware of the message structure, you can apply protection at a finer level of granularity--for example, by encrypting and signing only those headers that actually require protection.
 
-In asymmetric binding scenario, keys used for signature and encrypting should be clearly specified. An Asymmetric binding usually contains two main elements, InitiatorToken and RecipientToken.
-These tokens provides room for specifying the tokens used in the signing/encrypting operations by the sender(initiator) and recipient respectively.
-According to the specification, each of these two elements should contain tokens used for signing and encrypting. Most of the a X509 Token will be defined
+To configure the protection, use a security binding. This can be either `AsymmetricBinding` for public key cryptography or `SymmetricBinding` when using, for example, private cryptography with a Kerberos token.
 
-In addition to those two elements, other properties like Algorithmic Suite, IncludeTimeStamp can also be specified in the Asymmetric Binding element similar to other security binding assertions
-as explained within the previous slide
+In an asymmetric-binding scenario, you specify the keys used for signing and encrypting. An asymmetric binding usually contains two elements, `InitiatorToken` and `RecipientToken`.
 
-To Sign or Encrypt specific parts of the SOAP Message, the SignedPart or EncryptedPart XML tag will be sued and the childs elements included will define if the Body, a Header with its name or an attachment
-should be signed or encrypted.
+Based on the specification, each of these elements should contain tokens for signing and encrypting operations by the sender (initiator) and recipient, respectively. You generally define these as X509 tokens.
 
-****
+In addition to those two elements, you can specify other properties such as `AlgorithmicSuite` and `IncludeTimestamp` in the asymmetric binding element, similar to the way you define other security binding assertions.
+
+To sign or encrypt specific parts of the SOAP message, use the `SignedPart` or `EncryptedPart` XML tag. Include the correct child elements to define whether the body, a header with its name, or an attachment is to be signed or encrypted.
+
 endif::showscript[]

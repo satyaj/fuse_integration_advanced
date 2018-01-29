@@ -1,75 +1,96 @@
-:noaudio:
-:sourcedir: ../code/security-ws/src/test/java
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
+:sourcedir: ../code/security-ws/src/test/java
 
-= WS Trust Lab
 
-In this lab you resolve the following use cases:
-
-<<usecase1>>
+== Web Services Trust Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented about WS-Trust specification
-* Design Web Service project and secure it
-* Send and receive messages using the CXF Bus and XML Config Files
+* Configure your local environment to develop and explore use cases
+* Become more familiar with WS-Trust specification
+* Design a web service project and secure it
+* Send and receive messages using the CXF bus and XML configuration files
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Expertise with Web Service Technology & SOAP Messages
-* PKI & encryption/decryption background
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Maven
+* Familiarity with web service technology and SOAP messaging
+* Understanding of PKI and message encryption and signatures
+* Experience with Camel development using JBoss Fuse
+
+.Use Case
+In this lab, you explore one use case:
+
+* <<usecase1>>
+
+This use case is developed as a collection of Java JUnit test classes in the corresponding Maven module part of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-| SoapUI | http://sourceforge.net/projects/soapui/files/[latest version] | Optional |
-| Java Crypto Unlimited | http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java 8] | Required |
-| Java Cyptography Extension Unlimited Edition | http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[JCE] | Required |
-|===
+== Install Lab Assets
 
-=== Install the lab project
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+| link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[Java Crypto Unlimited^] | Java 8 | Required |
+| link:http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[Java Cyptography Extension Unlimited Edition^] | JCE | Required |
+|====
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+=== Install Lab Project
 
-== Use case exercise
+Download and install locally the latest release of the project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to explore the use cases, import the project into a new JBoss Developer Studio workspace.
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project
+
+=== Create Keys and Certificates
+
+For this lab, the keys are generated for you. Outside the lab environment, use the `keytool -genkey` command to create the private and public keys and corresponding certificates for your users:
+
+[source,text]
+----
+keytool -genkey -alias integration  -keyalg RSA  -keypass secUr1t8 -storepass secUr1t8 -keystore security-ws/src/test/resources/integrationstore.jks
+----
+
+* When prompted for the first and last names, enter `localhost`.
+* Specify any values for the other prompts.
+* Answer `yes` to confirm the value of the Common Name (CN).
+* Expect the resulting Common Name to look similar to this: `CN=localhost, OU=integration, O=enablement, L=fuse, ST=Unknown, C=US`.
+
 
 [[usecase1]]
-=== Use a Security Token Service to issue a token used by the Client
+== Use Security Token Service to Issue Token
 
-The goal of this use case is to use a Security Token Service to issue a SAML token v2.0 that the SOAP Client will use to send its SOAP Request message to the Web Service which will control the
-SAML token received and will return a response if the issued request is authenticated.
+In this use case, you use a security token service to issue a SAML v2.0 token. The SOAP client uses this token to send a SOAP request message to the web service, which validates the SAML token received. If the token request is authenticated, the service returns a valid response. If not, it returns an error response.
 
-The skeleton of the project is similar to what we done with the previous use cases. Nevertheless, there are some differences as a Security Token Service (= Web Service Endpoint) must be exposed to the client
-in order to request/renew or cancel a Security Token, the WSDL file of the client must include a WS-Security Policy containing an Initiator Token
+The project's skeleton code is similar to that of the previous use cases. In this lab, a security token service (the web service endpoint) must be exposed to the client in order to allow the client to request, renew, or cancel a security token. The client's WSDL file must include a WS-Security policy containing an initiator token.
 
-Remark : To simplify your work, the STS Server (Spring XML config file, WSDL file, STS Keystore) is already configured like the Hello World Endpoint (the the Spring Config file, Server Keystore)
+To simplify your work, the STS Server (Spring XML configuration file, WSDL file, and STS keystore) is already configured in a similar way as the `Hello World` endpoint.
 
+=== Create Spring XML Client File
 
-.Spring XML Client File
-* Create a new +wssec-client.xml+ file within the folder +src/test/resources/org/jboss/fuse/wstrust/wssecuritypolicy+
-* Create the <jaxws:client/> bean to use the +SoapPort+ port binding as defined within the Hello World wsdl file
-* Add the +ws-security+ parameters required to configure the :
-** The Crypto/Encrypt property configuration file(s) to use for signature
-** The username(s) of the key/Certificate to be used to sign/encrypt
-** The CallBackHandler pointing to the java class +ClientCallbackHandler+
-* Create a +org.apache.cxf.ws.security.trust.STSClient+ bean and assign it to the ws-security STS Client parameter
-* Configure this bean with the following parameters :
-** wsdl location : `http://localhost:8080/SecurityTokenService/UT?wsdl`
-** Service name : `{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService`
-** Endpoint name : `{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port`
-** Use these properties to configure the Security Module of this bean
-[source]
+. Create a new `wssec-client.xml` file within the `src/test/resources/org/jboss/fuse/wstrust/wssecuritypolicy` folder.
+
+.  Create the `<jaxws:client/>` bean to use the `SoapPort` port binding as defined in the Hello World WSDL file.
+. Add the required `ws-security` parameters:
+* Crypto/Encrypt property configuration file(s) to use for the signature
+* Username(s) of the key/certificate to be used to sign and encrypt
+* Callback handler pointing to the `ClientCallbackHandler` Java class
+
+. Create an `org.apache.cxf.ws.security.trust.STSClient` bean.
+. Assign it to the WS-Security STS Client parameter.
+. Configure this bean with these parameters:
+* WSDL location: `http://localhost:8080/SecurityTokenService/UT?wsdl`
+* Service name: `{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService`
+* Endpoint name: `{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port`
+
+. Use these properties to configure the security module of this bean:
++
+[source,xml]
 ----
 <entry key="ws-security.username" value="alice"/>
 <entry key="ws-security.callback-handler" value="org.jboss.fuse.security.wstrust.ClientCallbackHandler"/>
@@ -80,35 +101,37 @@ Remark : To simplify your work, the STS Server (Spring XML config file, WSDL fil
 <entry key="ws-security.sts.token.usecert" value="true"/>
 ----
 
-.Add a policy within the WSDL file
-* Add a policy reference +AsymmetricSAML2Policy+ to the +<wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">+ tag
-* Create the + <wsp:Policy wsu:Id="AsymmetricSAML2Policy">+ policy
-* Add a policy for the +<wsam:Addressing+ to include within the SOAP Header of the Request the MessageId, ReplyTo, Action and To xml tags
-* Configure the +AsymmetricBinding+ to include a policy the +InitiatorToken+ where the +RequestSecurityTokenTemplate+ part of the +IssuedToken+
-  will include a SAML2 Token Type (+http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0+) and a Public Key as Key Type (+http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey+)
-* The issuer of the token is +<wsaw:Address>http://localhost:8080/SecurityTokenService/</wsaw:Address>+
-* Include a TimeStamp and +Basic256+ as algorithm to sign/encrypt
-* Add a +Wss11+ and +Trust13+ assertion
+=== Add Policy to WSDL File
 
-.New Test class
-* Add a new Java Test class with the name +WSTrustTest+ and include an annotated method +testGreetMeClientWithSTS+
-* Launch the server containing the Hello World Endpoint using the Spring XML file +org/jboss/fuse/security/wstrust/wssec-server.xml+
-* Launch also the STS Server using the Spring XML file +org/jboss/fuse/security/wstrust/wssec-sts.xml+
-* Use as Bus URL, the +wssec-client.xml+ file to configure the CXF Spring Bus
-* Configure the +runAndValidate+ method to use the +hello_world.wsdl+ file packaged under the folder +src/test/resources/org/jboss/fuse/security/wstrust+
+. Add a `AsymmetricSAML2Policy` policy reference to the `<wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">` tag.
+. Create the `<wsp:Policy wsu:Id="AsymmetricSAML2Policy">` policy.
+. In the SOAP request's `Header`, add a policy for `<wsam:Addressing>` to include the `MessageId`, `ReplyTo`, `Action` and `To` XML tags.
+. Configure the `AsymmetricBinding` to include a `InitiatorToken` policy where the `RequestSecurityTokenTemplate` part of the `IssuedToken` includes a SAML v2.0 token type (`http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0`) and a public key as key type (`http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey`).
+* The issuer of the token is `<wsaw:Address>http://localhost:8080/SecurityTokenService/</wsaw:Address>`.
+. Include a `Timestamp` element and use the `Basic256` algorithm to sign and encrypt.
+. Add the `Wss11` and `Trust13` assertion.
+
+=== Add Test Class
+
+. Add a new Java test class with the name `WSTrustTest` and include an annotated `testGreetMeClientWithSTS` method.
+. Launch the server containing the Hello World endpoint using the `org/jboss/fuse/security/wstrust/wssec-server.xml` Spring XML file.
+. Launch the STS server using the `org/jboss/fuse/security/wstrust/wssec-sts.xml` Spring XML file.
+. Use the `wssec-client.xml` file as the bus URL to configure the CXF Spring bus.
+. Configure the `runAndValidate` method to use the `hello_world.wsdl` file packaged under the `src/test/resources/org/jboss/fuse/security/wstrust` folder.
 
 ifdef::showscript[]
 
 :numbered!:
-= Teacher info
 
-* Time estimated : 2d
+== Teacher Information
 
-* How to evaluate the solution of the student :
+* Time estimated: 2d
 
-** Check if the Junit Tests are passing successfully
-** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, ...)
-** Review the solutions proposed by the student to resolve the different use cases
-** For each use case, verify the SOAP Request and response populated. They should be comparable to what you can find within the +output/ws-*+ corresponding folder
+* How to evaluate the student's solution:
+
+** Verify that the JUnit tests pass successfully.
+** Review the code submitted by the student, Java classes and frameworks technology used (Spring, Blueprint, CDI, etc.)
+** Review the solutions proposed by the student to resolve the different use cases.
+** For each use case, verify that the SOAP request and response populated. They should be comparable to what you can find in the `output/ws-*` corresponding folder.
 
 endif::showscript[]

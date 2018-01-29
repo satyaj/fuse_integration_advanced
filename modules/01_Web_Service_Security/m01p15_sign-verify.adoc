@@ -1,14 +1,17 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#xmlsecurity-sign-verify]
-== Encrypt/Decrypt Payload
+== Payload Encryption/Decryption
 
-* Camel XML Security Component supports to sign & verify SOAP Body message for
-** Enveloped XML Signature
-** Enveloping XML Signature
-** Detached XML Signature
+* Camel XML security component supports signing and verifying SOAP body message for:
+** Enveloped XML signature
+** Enveloping XML signature
+** Detached XML signature
 
-.Camel Route Example
+* Camel route example:
++
 [source,xml]
 ----
 <from uri="direct:enveloping" />
@@ -17,8 +20,9 @@
 <to uri="mock:result" />
 ----
 
-.XML Example
-[source]
+* XML example:
++
+[source,xml]
 ----
 <[parent element]>
    ... <!-- Signature element is added as last child of the parent element-->
@@ -45,25 +49,25 @@
 ----
 
 .References
-* http://docs.oracle.com/javase/6/docs/technotes/guides/security/xmldsig/overview.html[JSR 105]
-* https://www.w3.org/TR/xmldsig-core1/[XML Signature Syntax]
-* http://camel.apache.org/xml-security-component.html[Camel XML Security - sign/verify]
+* link:http://docs.oracle.com/javase/6/docs/technotes/guides/security/xmldsig/overview.html["JSR 105^"]
+* link:https://www.w3.org/TR/xmldsig-core1/["XML Signature Syntax and Processing Version 1.1^"]
+* link:http://camel.apache.org/xml-security-component.html[XML Security component^]
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Encrypt Payload
+Transcript:
 
-When we have to verify the signature of a XML message signed or to digest its content, we will use the Apache Camel XML Security Component. This component supports 2 options; sign or verify and is configured through many parameters.
+When you need to verify the signature of an XML message or digest its content, you use the Apache Camel XML security component. This component supports two options, sign and verify, and is configured using many parameters.
 
-XML Signature differs between enveloped, enveloping, and detached XML signature. In the enveloped XML signature case, the XML Signature is wrapped by the signed XML Document;
-which means that the XML signature element is a child element of a parent element, which belongs to the signed XML Document.
-In the enveloping XML signature case, the XML Signature contains the signed content. All other cases are called detached XML signatures.
+The XML signature option can verify enveloped, enveloping, and detached XML signatures. An enveloped XML signature means that the XML signature is wrapped by the signed XML document--in other words, the XML signature element is a child element of a parent element that belongs to the signed XML document. An enveloping XML signature means that the XML signature contains the signed content. All other cases are called detached XML signatures.
 
-For the signing process, a private key is necessary. You specify a key accessor bean which provides this private key. For the validation, the corresponding public key is necessary; you specify a key selector bean which provides this public key.
-The key accessor bean must implement the KeyAccessor interface. The package org.apache.camel.component.xmlsecurity.api contains the default implementation class DefaultKeyAccessor which reads the private key from a Java keystore.
-The key selector bean must implement the javax.xml.crypto.KeySelector interface. The package org.apache.camel.component.xmlsecurity.api contains the default implementation class DefaultKeySelector which reads the public key from a keystore.
+For the signing process, a private key is necessary. You specify a key accessor bean that provides this private key. For validation, the corresponding public key is necessary. You specify a key selector bean that provides this public key.
 
-****
+The key accessor bean must implement the `KeyAccessor` interface. The `org.apache.camel.component.xmlsecurity.api` package contains the default implementation class `DefaultKeyAccessor`, which reads the private key from a Java keystore.
+
+The key selector bean must implement the `javax.xml.crypto.KeySelector` interface. The `org.apache.camel.component.xmlsecurity.api` package contains the default implementation class `DefaultKeySelector`, which reads the public key from a keystore.
+
+Here you see an example of creating the keys necessary for signing and validating.
+
 endif::showscript[]

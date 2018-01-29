@@ -1,11 +1,13 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#endpoint-security]
 == Endpoint Security
 
-* CXF Endpoint security relies on SSL/TLS for HTTPS Transport
-* Keystore/Trust stores configured using TLS Parameters
-* Server side secured using `Jetty Engine Factory` & `Jetty Engine Instance`
+* CXF endpoint security relies on SSL/TLS for HTTPS transport
+* Keystores and truststores configured using TLS parameters
+* Server side secured using Jetty Engine Factory and Jetty Engine Instance:
 +
 [source,xml]
 ----
@@ -22,7 +24,7 @@
           </http:tlsServerParameters>
 ----
 +
-* At the Client side using the `<http:conduit/>`
+* Client side secured using `<http:conduit/>`:
 +
 [source,xml]
 ----
@@ -39,29 +41,26 @@
 </http:conduit>
 ----
 
-.References
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/ConfigTLS.html[Config TLS with CXF]
+.Reference
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_CXF_Security_Guide/ConfigTLS.html[Configuring HTTPS^]
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Endpoint Security
+Transcript:
 
-The CXF Endpoint which is a Web Service is exposed to the clients using a transport connector. The Transport connector that the Apache CXF framework supports are : local, HTTP, HTTPS, TCP, UDP, JMS or WebSocket. We will not cover all the transports connectors within this Security Module
-but the HTTP Transport connector which is the most relevant. Of course, most of the aspects that we will introduce here could be applied also for the Netty, JMS or WebSocket Transport connectors as they rely on the same technology to secure the endpoint.
+The CXF endpoint is a web service that is exposed to clients using a transport connector. The transport connectors that the Apache CXF framework supports include local, HTTP, HTTPS, TCP, UDP, JMS, and WebSocket. This module discusses only the HTTP transport connector, which is the most common. Most of the information discussed in this module can also be applied to other transport connectors that use the same technology to secure an endpoint, such as JMS and WebSpot.
 
-The HTTP transport connector can be used within a JBoss Fuse project if the corresponding jar file is included within the Java classpath of the application, deployed as a bundle into a JBoss Fuse container or as a module on JBoss EAP.
-To use the Jetty Web Component serving a HTTP Connector for the clients sending their SOAP XML Messages, we will use the following maven artifact "cxf-rt-transports-http-jetty".
+You can use the HTTP transport connector within a JBoss Fuse project if the corresponding JAR file is included within the Java classpath of the application, deployed as a bundle into a JBoss Fuse container, or deployed as a module on Red Hat JBoss Enterprise Application Platform (JBoss EAP).
 
-To secure the HTTP endpoint using the SSL/TLS Protocol, then we will use a Jetty Engine Factory bean to instantiate a Jetty Server and pass as parameter the bean defining the TLS Server parameters. The TLS parameters
-include the Key Managers properties to point to the Java Keystore of the Server and password to be used to access to the Keys or Certificates packaged within the KeyManager Store. If a TrustManager is required, then you will also
-configure it within the TLS Server Parameters.
+To use the Jetty web component serving an HTTP connector for clients sending Simple Object Access Protocol, or SOAP, XML messages, you use the Maven artifact `cxf-rt-transports-http-jetty`.
 
-This Secured HTTP Transport connector is configured at the Server Side using the Java class +org.apache.cxf.configuration.jsse.TLSServerParameters+ or as a Spring Bean as showed on this slide with the XML tag +<http:tlsServerParameters>+. Likewise, the TLS Client Parameters
-will be defined at the client side within the HTTP Conduit using also a Spring Bean with the xml tag +<http:tlsClientParameters>+
+To secure the HTTP endpoint using the SSL/TLS Protocol, you use a Jetty engine factory bean to instantiate a Jetty server and pass the bean as a parameter that defines the TLS server parameters. The TLS server parameters include the key manager properties to point to the Java keystore of the server as well as the password to use to access the keys or certificates packaged within the KeyManager store. If a TrustManager is required, you also use the TLS server parameters to configure it.
 
-NOTE: The Cipher Suites which are the Java Crypto Algorithm used to encrypt/decrypt or sign/digest messages can also be defined as property like also the type of the TLS/SSL version of the protocol to be used
+To configure this secured HTTP transport connector on the server side, use the Java class `org.apache.cxf.configuration.jsse.TLSServerParameters`. Alternatively, configure the transport connector as a Spring bean with the XML tag `<http:tlsServerParameters>`, as shown here.
 
-****
+You configure the TLS client parameters on the client side within the HTTP conduit using a Spring bean with the XML tag `<http:tlsClientParameters>`.
+
+Note that you can also define the cipher suites, which are a Java crypto-algorithm used to encrypt and decrypt or sign and digest messages, as a property such as which version of TLS/SSL protocol to use.
+
 endif::showscript[]

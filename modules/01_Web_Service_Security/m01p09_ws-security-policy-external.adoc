@@ -1,9 +1,12 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#ws-security-policy-external]
-== WS Security Policy
+== WS-SecurityPolicy
 
-* Externalized in a XML file and passed as parameter to a +<jaxws:endpoint/>+ using a +<feature/>+
+* Externalized in XML file and passed as parameter to 
+`<jaxws:endpoint/>` using `<feature/>`:
 +
 [source,xml]
 ----
@@ -15,23 +18,19 @@
 ----
 
 .References
-* http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/errata01/ws-securitypolicy-1.3-errata01.html[WS Security Spec]
-* http://cxf.apache.org/docs/ws-securitypolicy.html[CXF & WS Security Policy]
+* link:http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/errata01/ws-securitypolicy-1.3-errata01.html["WS-SecurityPolicy 1.3 Errata 01^"]
+* link:http://cxf.apache.org/docs/ws-securitypolicy.html["WS-SecurityPolicy^"]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== WS Security Policy
+Transcript:
 
-The second approach that Apache CXF supports consist to define the policies within a separate file. The reference (file, classpath) of the file will be passed as a CXF Policies features as you can see within the snippet code
-example of this slide.
+Another approach that Apache CXF supports is to define the policies in a separate XML file. The reference to the file, which includes the filename and classpath, is passed to a `<jaxws:endpoint/>` as a CXF `policies` feature, as shown here.
 
-The policies feature enables and configures the CXF Policy Framework. It can have any number of Policy or PolicyReference child elements.
+The advantage of this approach is that you can maintain and manage the WSDL contract file separately from the security policies within your project's team.
 
-You can assign such policies globally by attaching them to the CXF Bus. Then, they will be applied to all the client and server endpoints created on that bus.
+The `policies` feature enables and configures the CXF policy framework. It can have any number of `Policy` or `PolicyReference` child elements.
 
-The advantage of this approach is that you can maintain and manage the WSDL contract file separately from the Security Policies within your project's team.
+You can assign such policies globally by attaching them to the CXF bus. They are then applied to all client and server endpoints created on that bus.
 
-****
 endif::showscript[]

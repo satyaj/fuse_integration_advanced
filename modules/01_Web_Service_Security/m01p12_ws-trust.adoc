@@ -1,33 +1,32 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
 :noaudio:
 
-[#ws-security-trust]
-== WS Trust
+== WS-Trust
 
-* Security Provider hands out tokens
-* Client contacts the STS to get/renew a token based on SAMLv2 rules
-* Token is included within the SOAP Header client request and sent to the Web Service
-* Web Service asserts the token and the SAML (v1, v2) rules
+.Overview
 
-* http://cxf.apache.org/docs/ws-trust.html[Cxf & WS-Trust]
+* Security provider hands out tokens
+* Client contacts security tokens service (STS) to get/renew a token based on SAML v2 rules
+* Token is included within SOAP header client request and sent to web service
+* Web service asserts the token and the SAML rules (v1, v2)
+
+.Reference
+* link:http://cxf.apache.org/docs/ws-trust.html["WS-Trust^"]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== WS Trust
+Transcript:
 
-According to the specification, WS-Trust is based on a process in which a Web service can require that an incoming message prove a set of claims (e.g., name, key, permission, capability, etc.).
-If a message arrives without having the required proof of claims, the service SHOULD ignore or reject the message.  A service can indicate its required claims and related information in its policy as described by
-the WS-Security Policy.
+The WS-Trust specification is an extension of the WS-SecurityPolicy specification to enable applications to construct trusted SOAP message exchanges.
 
-The WS-Trust specification is an extension of the WS-Security Policy specification aiming to enable applications to construct trusted SOAP message exchanges.
-This trust is represented through the exchange and brokering of security tokens. Such security tokens will be issued by a Security Tokens Service which is designed as a Web Service
-endpoint able to issue, renew, and validate these security tokens. The token issued is used next by the Web Service client to issue the SOAP Request to the target Service
-which will control if the token is valid, user authenticated and if the client is asserted/authorized to access the service.
+According to the specification, WS-Trust is based on a process in which a web service can require an incoming message to prove a set of claims--for example, name, key, permission, and capability.
 
-Most of the times, such security claims will be described using SAML Assertions rules.
+If a message arrives without the required proof of claims, the service is supposed to ignore or reject the message. A service can indicate the required claims and related information in its policy as described by WS-SecurityPolicy. These security claims are usually described using v1 or v2 SAML assertion rules.
 
-The STS Server acts as a Central Security Proxy Server managing globally the Certificates, Keys of the Applications client and integrated within the design of the solution
+This trust is represented through the exchange and brokering of security tokens. The tokens are issued by a security tokens service, or STS, which is a web service endpoint that can issue, renew, and validate security tokens. The STS server acts as a central security proxy server, globally managing the certificates and keys of the application's client.
 
-****
+The client contacts the STS to get or renew a token based on SAML v2 rules. The issued token is then used by the web service client to issue the SOAP header request to the target service. The service determines whether the token is valid, the user is authenticated, and the client is asserted or authorized to access the service.
+
 endif::showscript[]
