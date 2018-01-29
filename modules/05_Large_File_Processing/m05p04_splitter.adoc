@@ -1,14 +1,17 @@
+:scrollbar:
+:data-uri:
 :noaudio:
+:linkattrs:
 
-[#splitter]
 == Splitter
 
-* EIP Pattern
-* Goal : Split a message into a number of pieces and process them individually
-* A new Exchange is created for every piece/item created
+* EIP pattern
+* Goal: Split message into number of pieces and process them individually
+* New exchange is created for every piece/item created
 * Reduce memory footprint for large files consumed
 +
-.Example
+.Example:
++
 [source,xml]
 ----
 <split>
@@ -17,19 +20,17 @@
 </split>
 ----
 
-.References
-* https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Splitter.html[Splitter]
+.Reference
+* link:https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.2.1/html/Apache_Camel_Development_Guide/MsgRout-Splitter.html[Splitter^]
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Splitter
+Transcript:
 
-The EIP Pattern Splitter is currently implemented by the Apache Camel Integration framework and offers the possibility to split a message into a number of pieces which are next processed individually.
-That means that the framework will create a new Exchange containing within its Body object the content of the item/piece created. For each exchange created, a header/property will be attached to the exchange
-to indicate the size of the string splitted, a counter which increases for each new sub-exchange created and finally a property containing the info that this is the last exchange splitted.
-By default, the splitter pattern can process a List, an array of Java objects if they are attached to the Body object of the exchange. By using the simple expression language you can extract the Body object of the exchange
-that you will pass to the splitter processor to split the content as presented within the example of this slide.
-****
+The Splitter EIP is currently implemented by the Apache Camel integration framework. It lets you split a message into multiple smaller parts that are then processed individually. This reduces the memory footprint when consuming large files.
+
+With this pattern, the framework creates a new exchange containing the content of the item or piece created within its `body` object. A header or property is attached to each created Exchange that includes the size of the split string, a counter that increases for each subexchange created, and a property indicating that this is the last exchange split.
+
+By default, the Splitter pattern can process a list or array of Java objects if they are attached to the `body` object of the exchange. Using simple expression language, you can extract the `body` object of the exchange that you pass to the Splitter processor to split the content. An example is shown here.
+
 endif::showscript[]

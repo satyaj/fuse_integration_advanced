@@ -1,8 +1,8 @@
 :course_git_repo: https://github.com/gpe-mw-training/advanced-integration-labs.git
 
 include::m05p01_cover.adoc[]
-include::m05p02_suggested_readings.adoc[]
 include::m05p03_topics.adoc[]
+include::m05p02_suggested_readings.adoc[]
 include::m05p04_splitter.adoc[]
 include::m05p05_tokenize.adoc[]
 include::m05p06_tokenize_group.adoc[]
@@ -11,3 +11,4 @@ include::m05p08_xpath.adoc[]
 include::m05p09_iterable.adoc[]
 include::m05p10_parralel.adoc[]
 include::m05p11_speed_improve.adoc[]
+include::m05p12_summary.adoc[]

@@ -1,12 +1,14 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#tokenizexml]
-== Tokenize XML
+== TokenizeXML
 
-* Goal: Split XML content
-* Available using TokenizeXML & XTokenize languages
+* Goal: split XML content
+* Available using TokenizeXML and XTokenize languages
+
+* Example:
 +
-.Example
 [source,xml]
 ----
 <from uri="file:inbox"/>
@@ -15,10 +17,11 @@
     <to uri="activemq:queue:order"/>
   </split>
 ----
-* XTokenize uses Stax Parser
-* Best suited for complex XML Processing
+* XTokenize uses StAX parser
+* Best suited for complex XML processing
+
+* Example:
 +
-.Example
 [source,xml]
 ----
 <from uri="file:target/xtokenizer"/>
@@ -29,25 +32,23 @@
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Tokenize XML
+Transcript:
 
-In order to process XML Streams and split them, the expression languages tokenizeXML and xtokenize are available. Even if they both support the same philosophy which is to split the XML content based on a
-XML tag, they uses a different Api under the hood. The tokenizeXML expression language will use a regular expression to parse and extract the tag from the XML stream while xtoken relies on the Stax Api.
+The TokenizeXML and XTokenize expression languages let you process XML and split streams. Although they provide the same functionality--splitting XML content based on an XML tag--each uses a different API in the background. The TokenizeXML expression language uses a regular expression to parse and extract the tag from the XML stream, while XTokenize relies on the StAX API.
 
-So, by example, if the XML to be parsed contains a list of <order> tags defined under the <orders> parent tag, then by using the token attribute "order", the content splitted will contain each <order>
-and closing <order> tag with its content. You can also inherit a namespace defined in a parent tag by setting the attribute inheritNamespaceTagName within the XML tag or by passing a second parameter to the
-fluent DSL method with the name of the tag containing the namespace to be included within the response.
+Here is an example of TokenizeXML: If the XML to be parsed contains a list of `<order>` tags defined under the `<orders>` parent tag, by using the `order` token attribute, the split content will contain each `<order>` and closing `<order>` tag with its content.
 
-To build more complex XML expression to split the content, we recommend to use the xtokenize language. This tokenizer recognizes XML namespaces and also handles simple and complex XML structures more naturally and efficiently.
-Two arguments control the behavior of the tokenizer. The first argument specifies the element using a path notation. This path notation uses a subset of xpath with wildcard support. The second argument represents the extraction mode.
-The available extraction modes are: i which is the default behavior and injects the contextual namespace bindings into the extracted token, w wrapps the extracted token in its ancestor context, u	unwraps the extracted token to its child content
-and t extracts the text content of the specified element.
+To inherit a namespace defined in a parent tag, you can either set the `inheritNamespaceTagName` attribute within the XML tag or pass a second parameter to the fluent DSL method with the name of the tag that contains the namespace to be included in the response.
 
-Note that this StAX based tokenizer's uses StAX Location API and requires a StAX Reader implementation (e.g., woodstox) that correctly returns the offset position pointing to the beginning of each event triggering segment (e.g., the offset position of '<' at each start and end element event).
-If you use a StAX Reader which does not implement that API correctly it results in invalid xml snippets after the split
+To build more a complex XML expression to split content, Red Hat recommends using the XTokenize language. This language recognizes XML namespaces and handles simple and complex XML structures naturally and efficiently.
 
-****
+Two arguments control the behavior of the tokenizer. The first argument specifies the element using a path notation. This path notation uses a subset of XPath with wildcard support. The second argument represents the extraction mode.
+
+The available extraction modes include `i`, which is the default behavior and injects the contextual namespace bindings into the extracted token; `w`, which wraps the extracted token in its ancestor context; `u`, which unwraps the extracted token to its child context; and `t`, which extracts the text content of the specified element.
+
+Because XTokenize is based on StAX, it uses the StAX location API. It also requires a StAX reader implementation such as Woodstox that correctly returns the offset position pointing to the beginning of each event-triggering segment--for example, the offset position of `<` at each start and end element event.
+
+Using a StAX reader that does not implement the API correctly results in invalid XML snippets after the content is split.
+
 endif::showscript[]

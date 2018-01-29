@@ -1,22 +1,20 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#xml-parser]
-== XML Parser / Api
+== XML Parser and API
 
-* Choose accordingly your Expression Language / XML Parser as :
-** XPathBuilder will load XML in memory using DOM !
-** Some Stax Api doesn't support offset & location
+* Choose expression language/XML parser carefully because:
+** XPathBuilder loads XML in memory using Document Object Model (DOM)
+** Some StAX APIs do not support offset and location
+
 
 ifdef::showscript[]
-[.notes]
-****
 
-== XML Parser / Api
+Transcript:
 
-When you will select the Apache Camel Expression language and/or the Tokenizer to be used to parse and split the content, it is important that you review the XML Parser/APi which is used
-behind the scene when you will design the project for the customer. By example, the XpathBuilder expression, part of the xpath language, will use the DOM api to load the objects in memory in order to find the tag to be extracted,
-And the Xerces Api, packaged within the Java Developer Kit, doesn't implement the location / offset feature like the woodstock Api to iterate through the list of the items.
-Nevertheless, if the number of objects to be created into memoty is not so big, you can still continue to use Xpath as it supports to iterate through the list of the nodes discovered.
+When you select the Apache Camel expression language or tokenizer to use for parsing and splitting the content, it is important that you review the XML parser and API that is used in the background when you design the project for the customer. For example, the `XPathBuilder` expression, which is part of the XPath language, uses the Document Object Model, or DOM, API to load the objects in memory to find the tag to be extracted.
 
-****
+As another example, the StAX Xerces API, which is packaged with the JDK, does not implement the location and offset features that the Woodstox API supports for iterating through a list of items. However, if the number of objects to be created into memory is not large, you can use XPath, because it supports iterating through the list of discovered nodes.
+
 endif::showscript[]

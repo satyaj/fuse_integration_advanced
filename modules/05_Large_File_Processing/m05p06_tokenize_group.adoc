@@ -1,13 +1,18 @@
+:scrollbar:
+:data-uri:
 :noaudio:
 
-[#tokenize-group]
-== Tokenize Group
+== Tokenize
 
-* Goal of tokenize group option : number of lines that should be grouped into a single chunk
-* Must be a positive number that dictates how many groups to combine together
-* The streaming option directs the splitter not to read the whole file at once (resulting in much better performance if the file is large)
+.Groups
+
+* Goal: Group number of lines into single chunk
+* Number that dictates how many groups to combine, must be positive
+* Streaming option directs splitter not to read whole file at once
+** Results in improved performance if file is large
+
+* Example:
 +
-.Example
 [source,xml]
 ----
 <route>
@@ -20,15 +25,11 @@
 ----
 
 ifdef::showscript[]
-[.notes]
-****
 
-== Tokenize Group
+Transcript:
 
-Another benefit of the tokenize language is that it offers the possibility to group items splitted. This feature that we could compare to a batch mechanism allows to generate a group of items
-that the Camel processor will add within the new Exchange created. The benefit of this approach is that again like the stream option, you will reduce the memory footprint by adding the group of items
-as an object withing the new exchange created. To use this option, simply define the group XML attribute within the XML tag or pass tge group integer value within the method tokenize.
-Of course, the grouping value must a valid integer not null and not negative.
+Another benefit of the Tokenize language is that it lets you group split items. Similar to a batch mechanism, this feature lets you generate a group of items that the Camel processor adds within the newly created exchange. Similar to the `stream` option, this option helps reduce the memory footprint by adding the group of items as an object within the exchange. To use this option, you define the group XML attribute in the XML tag or pass the group integer value in the `tokenize` method.
 
-****
+The grouping value must be a valid integer. It cannot be null or negative.
+
 endif::showscript[]

@@ -1,81 +1,95 @@
-:noaudio:
+:scrollbar:
+:data-uri:
 :toc2:
+:linkattrs:
 
-= Split records, process them in parallel & aggregate Lab
-
-In this lab you resolve the following use cases:
-
-<<usecase1>>
-
-<<usecase2>>
-
-<<usecase3>>
+== Split, Process, and Aggregate Lab
 
 .Goals
-* Configure your local environment to develop and resolve use cases
-* Become more experimented using Splitter EIP Pattern
-* Process Camel exchanges in parallel
-* Aggregate splitted messages to rebuild the original string, stream
+* Configure your local environment to develop and implement use cases
+* Gain experience using Splitter EIP
+* Process Camel Exchanges in parallel
+* Aggregate split messages to rebuild the original string and stream
 
 .Prerequisites
-* Experience with Java, Spring & Apache Maven
-* Complete Red Hat OPEN course: Camel Development with Red Hat JBoss Fuse
+* Experience with Java, Spring, and Apache Maven
+* Experience with Camel development using Red Hat JBoss Fuse
+
+.Use Cases
+In this lab, you explore three use cases:
+
+* <<usecase1>>
+* <<usecase2>>
+* <<usecase3>>
+
+Each use case is developed as a collection of Java JUnit test classes in the corresponding Maven module of the skeleton project.
 
 :numbered:
-== Install Lab assets
 
-|===
-| Software | Version & URL | Notes |
 
-| Java SE | http://www.oracle.com/technetwork/java/javase/downloads/index.html[1.8 or higher] | Required |
-| Apache Maven | http://maven.apache.org[3.0.5 or higher] | Required |
-| JBoss Developer Studio | http://www.jboss.org/products/devstudio/overview/[9.0.GA] | Required |
-| Integration Stack | https://devstudio.jboss.com/9.0/stable/updates/[9.0] | Required |
-|===
+== Prepare Lab Environment
 
-=== Install the lab project
+=== Install Lab Assets
 
-Download the latest release of the project published on the following GitHub repository: {course_git_repo} and install it locally. As this project contains the skeleton of the code
-that you will use to resolve the use cases, we suggest that you next import it in a new Workspace of JBoss Developer Studio.
+[cols="2,1,1",options="header"]
+|====
+| Software | Version | Notes
+| link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Java SE^] | 1.8 or higher | Required
+| link:http://maven.apache.org[Apache Maven^] | 3.0.5 or higher | Required
+| link:http://www.jboss.org/products/devstudio/overview/[Red Hat JBoss Developer Studio^] | 9.0.GA | Required
+| link:https://devstudio.jboss.com/9.0/stable/updates/[JBoss Developer Studio Integration Stack^] | 9.0 | Required
+|====
 
-== Use case exercise
+=== Install Lab Project
 
-The different use cases should be developed as a collection of Java JUnit Test class within the corresponding Maven module part of the skeleton project.
+Download and install locally the latest release of the lab project published on the {course_git_repo} GitHub repository. Because this project contains the skeleton code that you use to implement the use cases, import the project into a new JBoss Developer Studio workspace.
+
 
 [[usecase1]]
-=== Process splitted items in parallel
+== Process Split Items in Parallel
 
-The goal of this use case is to design a Junit Test case using the class +org.jboss.fuse.largefile.parallel.ParallelAggregateXMLSplitTest.java+ and to resolve following problem :
+In this use case, you design a JUnit test case using the `org.jboss.fuse.largefile.parallel.ParallelAggregateXMLSplitTest.java` class.
 
-Split the content of a string containing the alphabet letters starting from letter +a+ and finishing with the letter +j+. Separate them with a comma. The String must be
-send to the +direct:start-parallel+ endpoint and splitted. Execute this process in parallel and set the property +threadNumber+ with the value of the Thread allocated by the pool.
-Use this value to define the name of the file +result-${threadNumber}.txt+ where you will append the letter splitted. Count the number of the files created within the +target/split/parallel+ folder and verify that it corresponds to 10.
-The Java method to be used to develop the code and unit test is +testParallel+.
-
-IMPORTANT: You can use the Utility Class part of the project to retrieve the Thread Number allocated.
+. Create the `testParallel` Java method to develop the code and unit test.
+. Split the contents of a string containing the letters of the alphabet beginning with `a` and ending with `j`, separated by commas.
+. Send the String to the `direct:start-parallel` endpoint.
+. Split the String.
+. Execute this process in parallel and set the `threadNumber` property to the value of the number of threads allocated by the pool.
+. Use this value to form the name of the `result-${threadNumber}.txt` file  where you append the split letters.
+. Count the number of the files created in the `target/split/parallel` folder and verify that it corresponds to ten.
+* You can use the Utility class part of the project to retrieve the number of threads allocated.
 
 
 [[usecase2]]
-=== Process in parallel using your own ThreadPool
+== Process in Parallel Using Your Own ThreadPool
 
-The second use case to be resolved is a variation of the previous. Instead of using the ThreadPool created by Apache Camel when the route is created, you will define your own ThreadPool with 5 threads
-and assign it to the Parallel Processor. Like the previous use case, verify that the number of files created within the folder +target/split/parallel-threadpool+ is equal to 5.
-The direct endpoint to be used is +direct:start-parallel-threadpool+.
+This use case is a variation on the first.
 
-The Java method to be used to develop the code and unit test is +testParallelThreadPool+.
+. Create the `testParallelThreadPool` Java method to implement the code and unit test.
+. Instead of using the thread pool created by Apache Camel when the route is created, define your own `ThreadPool` with five threads.
+. Assign the `ThreadPool` to the parallel processor.
+. Verify that the number of files created in the `target/split/parallel-threadpool` folder is equal to five, as in the previous use case.
+. Use the `direct:start-parallel-threadpool` endpoint.
 
 
 [[usecase3]]
-=== Aggregate items splitted
+== Aggregate Split Items
 
-For this last use case, we will use the Aggregation EIP pattern in order aggregate the items splitted to generate the response. Like the previous examples, we will start with our String containing the alphabet letters
-separated with the comma separator. This string will be splitted into a collection of items through the Camel route starting from the direct endpoint +start-aggregate"+
-Include the aggregator within your route to rebuild the alphabet string but include an integer after each letter. So, the result to be tested should be equivalent to this list
- +a1,b2,c3,d4,e5,f6+
+In this use case, you use the Aggregation EIP to aggregate the split items and generate the response.
 
-The Java method to be used to develop the code and unit test is +testAggregate+.
+. Create a `testAggregate` Java method to implement the code and unit test.
+. Start with a String containing the letters of the alphabet separated by commas.
+. Split this string into a collection of items through a Camel route, starting from the `start-aggregate` Direct endpoint.
+. Include the aggregator in your route to rebuild the original string.
+. Include an integer after each letter.
+* Expect the results to look similar to this list:
++
+[source,text]
+----
+a1,b2,c3,d4,e5,f6
+----
 
 ifdef::showScript[]
 
-
 endif::showScript[]
+
