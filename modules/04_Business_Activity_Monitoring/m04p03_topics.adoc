@@ -1,6 +1,7 @@
 :scrollbar:
 :data-uri:
 :scrollbar:
+:noaudio:
 
 == Module Topics
 
