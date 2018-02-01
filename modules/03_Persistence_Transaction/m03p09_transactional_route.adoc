@@ -55,6 +55,6 @@ You add this processor using the DSL word `transacted`, which corresponds to the
 
 According to the Apache Camel framework, an interceptor, which is an interface, is used to wrap a process before or after. In this case, you wrap the processor after. This interceptor instantiates a `TransactionErrorHandler` object that contains the logic to execute a begin, commit, or rollback of a transaction. An example is shown.
 
-The `ErrorHandler` uses a behind-the-scenes Spring transaction template and therefore can be configured with a Spring transaction manager, as shown here, or a platform transaction manager. The transaction behavior--`New`, and so on--can be configured in the same way.
+The `ErrorHandler` uses a behind-the-scenes Spring transaction template and therefore can be configured with a Spring transaction manager, as shown here, or a platform transaction manager. The transaction behavior&#8212;`New`, and so on--can be configured in the same way.
 
 endif::showscript[]
