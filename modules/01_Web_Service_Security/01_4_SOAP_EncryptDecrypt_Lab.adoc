@@ -4,7 +4,7 @@
 :linkattrs:
 :sourcedir: ../code/security-ws/src/test/java
 
-== Encrypt and Decrypt SOAP Body Message Lab
+== SOAP Body Message Encryption and Decryption Lab
 
 .Goals
 * Configure your local environment to develop and explore use cases
