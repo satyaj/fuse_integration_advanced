@@ -1,7 +1,7 @@
 :scrollbar:
 :data-uri:
 :linkattrs:
-:noaudio:
+
 
 == Payload Encryption/Decryption
 
