@@ -13,7 +13,7 @@
     <artifactId>transaction</artifactId>
 
     <properties>
-        <version.hibernate>4.2.16.Final</version.hibernate>
+        <version.hibernate>5.4.24.Final</version.hibernate>
         <version.narayana>5.3.2.Final</version.narayana>
     </properties>
 
