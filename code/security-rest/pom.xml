@@ -248,7 +248,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <version.cxf>3.1.5.redhat-630055</version.cxf>
+                <version.cxf>3.1.14</version.cxf>
             </properties>
             <dependencies>
                 <dependency>
