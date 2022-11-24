@@ -15,7 +15,7 @@
         <version.commons-dbcp2>2.1.1</version.commons-dbcp2>
         <version.h2>1.4.190</version.h2>
 
-        <hibernate.version>4.2.16.Final</hibernate.version>
+        <hibernate.version>5.3.20.Final-redhat-00001</hibernate.version>
         <wildfly-camel.version>3.3.0</wildfly-camel.version>
 
         <!-- WildFly versions -->
